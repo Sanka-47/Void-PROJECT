@@ -274,7 +274,7 @@ public class AdminDashboard extends javax.swing.JFrame {
         });
 
         jButton13.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
-        jButton13.setText("All Subjects");
+        jButton13.setText("Subject Management");
         jButton13.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton13ActionPerformed(evt);
@@ -333,6 +333,11 @@ public class AdminDashboard extends javax.swing.JFrame {
 
         jButton18.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
         jButton18.setText("All Courses");
+        jButton18.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton18ActionPerformed(evt);
+            }
+        });
 
         jButton19.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
         jButton19.setText("Edit Course");
@@ -579,7 +584,7 @@ public class AdminDashboard extends javax.swing.JFrame {
         jPanel4.removeAll();
         UpdateStudent us = new UpdateStudent();
         jPanel4.add(us, BorderLayout.CENTER);
-        jButton8.setBackground(Color.decode("#09121c")); 
+        jButton8.setBackground(Color.decode("#09121c"));
 
         SwingUtilities.updateComponentTreeUI(jPanel4);
     }//GEN-LAST:event_jButton8ActionPerformed
@@ -618,19 +623,19 @@ public class AdminDashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton12ActionPerformed
 
     private void jButton13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton13ActionPerformed
-//        jPanel4.removeAll();
-//        AllSubjects as1 = new AllSubjects();
-//        jPanel4.add(as1, BorderLayout.CENTER);
-//
-//        SwingUtilities.updateComponentTreeUI(jPanel4);
+        jPanel4.removeAll();
+        SubjectManagement as1 = new SubjectManagement();
+        jPanel4.add(as1, BorderLayout.CENTER);
+
+        SwingUtilities.updateComponentTreeUI(jPanel4);
     }//GEN-LAST:event_jButton13ActionPerformed
 
     private void jButton14ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton14ActionPerformed
-//        jPanel4.removeAll();
-//        EM em = new EM();
-//        jPanel4.add(as, BorderLayout.CENTER);
+        jPanel4.removeAll();
+        EmployeeRegistration em = new EmployeeRegistration();
+        jPanel4.add(em, BorderLayout.CENTER);
 //
-//        SwingUtilities.updateComponentTreeUI(jPanel4);
+        SwingUtilities.updateComponentTreeUI(jPanel4);
     }//GEN-LAST:event_jButton14ActionPerformed
 
     private void jButton15ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton15ActionPerformed
@@ -666,6 +671,10 @@ public class AdminDashboard extends javax.swing.JFrame {
          AdminReportDashboard adminReportDashboard = new AdminReportDashboard("bhanu","bandara");
         adminReportDashboard .setVisible(true);
     }//GEN-LAST:event_jButton22ActionPerformed
+
+    private void jButton18ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton18ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton18ActionPerformed
 
     public static void main(String args[]) throws UnsupportedLookAndFeelException {
 //        FlatMacDarkLaf.setup();
