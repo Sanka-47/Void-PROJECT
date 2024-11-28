@@ -5,18 +5,65 @@ import com.formdev.flatlaf.FlatLightLaf;
 import com.formdev.flatlaf.themes.FlatMacDarkLaf;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.sql.ResultSet;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Vector;
+import javax.swing.ButtonGroup;
+import javax.swing.JOptionPane;
+import javax.swing.JRadioButton;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.table.DefaultTableModel;
+import model.MySQL2;
 
 public class StudentProgressAndPerfomanceTracking extends javax.swing.JFrame {
+
+    private JRadioButton maleRadioButton;
+    private JRadioButton femaleRadioButton;
+    private ButtonGroup genderGroup;
 
     public StudentProgressAndPerfomanceTracking(String fName, String lName) {
         initComponents();
         loadDate();
+        loadAssignmentDetails();
+        maleRadioButton = new JRadioButton("Male");
+        femaleRadioButton = new JRadioButton("Female");
+
+        genderGroup = new ButtonGroup();
+        genderGroup.add(maleRadioButton);
+        genderGroup.add(femaleRadioButton);
+    }
+
+    private void loadAssignmentDetails() {
+
+        try {
+            ResultSet resultSet = MySQL2.executeSearch("SELECT * FROM `grades` "
+                    + "INNER JOIN `student` ON `grades`.`student_nic` = `student`.`nic`"
+                    + "INNER JOIN `assignment` ON  `grades`.`assignment_id` = `assignment`.`id` "
+                    + "INNER JOIN `gender` ON `student`.`gender_id`=`gender`.`id`");
+
+            DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+            model.setRowCount(0);
+
+            while (resultSet.next()) {
+
+                Vector<String> vector = new Vector<>();
+                vector.add(resultSet.getString("student.nic"));
+                vector.add(resultSet.getString("student.first_name") + " " + resultSet.getString("student.last_name"));
+                vector.add(resultSet.getString("gender.name"));
+                vector.add(resultSet.getString("assignment.id"));
+                vector.add(resultSet.getString("assignment.title"));
+                vector.add(resultSet.getString("grades.grade"));
+
+                model.addRow(vector);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void loadDate() {
@@ -51,6 +98,7 @@ public class StudentProgressAndPerfomanceTracking extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        buttonGroup1 = new javax.swing.ButtonGroup();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -89,7 +137,7 @@ public class StudentProgressAndPerfomanceTracking extends javax.swing.JFrame {
         jPanel1.setPreferredSize(new java.awt.Dimension(1250, 120));
 
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resource/VOID.png"))); // NOI18N
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/VOID.png"))); // NOI18N
         jLabel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(51, 51, 255)));
 
         jLabel2.setFont(new java.awt.Font("Century Gothic", 1, 24)); // NOI18N
@@ -181,9 +229,11 @@ public class StudentProgressAndPerfomanceTracking extends javax.swing.JFrame {
         jLabel9.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
         jLabel9.setText("Gender");
 
+        buttonGroup1.add(jRadioButton1);
         jRadioButton1.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
         jRadioButton1.setText("Male");
 
+        buttonGroup1.add(jRadioButton2);
         jRadioButton2.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
         jRadioButton2.setText("Female");
 
@@ -290,6 +340,11 @@ public class StudentProgressAndPerfomanceTracking extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable1MouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(jTable1);
 
         jPanel4.add(jScrollPane1, java.awt.BorderLayout.CENTER);
@@ -352,12 +407,140 @@ public class StudentProgressAndPerfomanceTracking extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
-        // TODO add your handling code here:
+
+        try {
+            int selectedRow = jTable1.getSelectedRow();
+
+            if (selectedRow == -1) {
+                JOptionPane.showMessageDialog(this, "Please select an Assignment to edit.", "Warning", JOptionPane.WARNING_MESSAGE);
+            } else {
+                String nic = jTextField1.getText();
+                String name = jTextField2.getText();
+                String gender = "";
+
+                if (maleRadioButton.isSelected()) {
+                    gender = "Male";
+                } else if (femaleRadioButton.isSelected()) {
+                    gender = "Female";
+                }
+
+                String assignmentId = jTextField3.getText();
+                String assignmentTitle = jTextField4.getText();
+                String marks = jTextField5.getText();
+
+                if (nic.isEmpty()) {
+                    JOptionPane.showMessageDialog(this, "Please enter NIC", "Warning", JOptionPane.WARNING_MESSAGE);
+                } else if (assignmentId.isEmpty()) {
+                    JOptionPane.showMessageDialog(this, "Please enter Assignment ID", "Warning", JOptionPane.WARNING_MESSAGE);
+                } else if (assignmentTitle.isEmpty()) {
+                    JOptionPane.showMessageDialog(this, "Please enter Assignment Title", "Warning", JOptionPane.WARNING_MESSAGE);
+                } else if (marks.isEmpty()) {
+                    JOptionPane.showMessageDialog(this, "Please enter Marks", "Warning", JOptionPane.WARNING_MESSAGE);
+                } else {
+                    String updateAssignmentQuery = "UPDATE `grades` SET `assignment_id` = '" + assignmentId
+                            + "', `grade` = '" + marks + "' WHERE `assignment_id` = '" + assignmentId + "' AND `student_nic` = '" + nic + "'";
+                    MySQL2.executeIUD(updateAssignmentQuery);
+
+                    loadAssignmentDetails();
+                    reset();
+
+                    JOptionPane.showMessageDialog(this, "Assignment updated successfully!");
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Failed to update assignment.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+
+
     }//GEN-LAST:event_jButton9ActionPerformed
 
     private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
-        // TODO add your handling code here:
+
+        try {
+            String nic = jTextField1.getText();
+            String name = jTextField2.getText();
+            String gender = "";
+
+            
+            if (maleRadioButton.isSelected()) {
+                gender = "Male";
+            } else if (femaleRadioButton.isSelected()) {
+                gender = "Female";
+            }
+
+            String assignmentId = jTextField3.getText();
+            String assignmentTitle = jTextField4.getText();
+            String marks = jTextField5.getText();
+
+            
+            if (nic.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Please enter NIC", "Warning", JOptionPane.WARNING_MESSAGE);
+            } else if (assignmentId.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Please enter Assignment ID", "Warning", JOptionPane.WARNING_MESSAGE);
+            } else if (assignmentTitle.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Please enter Assignment Title", "Warning", JOptionPane.WARNING_MESSAGE);
+            } else if (marks.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Please enter Marks", "Warning", JOptionPane.WARNING_MESSAGE);
+            } else {
+                
+                String insertAssignmentQuery = "INSERT INTO `grades` (`student_nic`, `assignment_id`, `grade`) "
+                        + "VALUES ('" + nic + "', '" + assignmentId + "', '" + marks + "')";
+                MySQL2.executeIUD(insertAssignmentQuery);
+
+                
+                loadAssignmentDetails();
+                reset();
+
+                JOptionPane.showMessageDialog(this, "Assignment added successfully!");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Failed to add assignment.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+
+
     }//GEN-LAST:event_jButton10ActionPerformed
+
+    private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
+
+        int selectedRow = jTable1.getSelectedRow();
+
+        if (selectedRow != -1) {
+            String gender = String.valueOf(jTable1.getValueAt(selectedRow, 2));
+            
+            if (gender.equalsIgnoreCase("Male")) {
+                maleRadioButton.setSelected(true);
+            } else if (gender.equalsIgnoreCase("Female")) {
+                femaleRadioButton.setSelected(true);
+            }
+        }
+
+        if (selectedRow != -1) {
+            
+            String nic = String.valueOf(jTable1.getValueAt(selectedRow, 0));
+            String name = String.valueOf(jTable1.getValueAt(selectedRow, 1));
+            String gender = String.valueOf(jTable1.getValueAt(selectedRow, 2));
+            String assignmentId = String.valueOf(jTable1.getValueAt(selectedRow, 3));
+            String assignmentTitle = String.valueOf(jTable1.getValueAt(selectedRow, 4));
+            String marks = String.valueOf(jTable1.getValueAt(selectedRow, 5));
+
+            
+            jTextField1.setText(nic);
+            jTextField2.setText(name);
+            jTextField3.setText(assignmentId);
+            jTextField4.setText(assignmentTitle);
+            jTextField5.setText(marks);
+
+            
+            if (gender.equalsIgnoreCase("Male")) {
+                maleRadioButton.setSelected(true);
+            } else if (gender.equalsIgnoreCase("Female")) {
+                femaleRadioButton.setSelected(true);
+            }
+        }
+
+    }//GEN-LAST:event_jTable1MouseClicked
 
     public static void main(String args[]) throws UnsupportedLookAndFeelException {
 //        FlatMacDarkLaf.setup();
@@ -382,6 +565,7 @@ public class StudentProgressAndPerfomanceTracking extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JButton jButton10;
     private javax.swing.JButton jButton11;
     private javax.swing.JButton jButton12;
@@ -412,4 +596,14 @@ public class StudentProgressAndPerfomanceTracking extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField4;
     private javax.swing.JTextField jTextField5;
     // End of variables declaration//GEN-END:variables
+
+    private void reset() {
+        jTextField1.setText("");
+        jTextField2.setText("");
+        jTextField3.setText("");
+        jTextField4.setText("");
+        jTextField5.setText("");
+        maleRadioButton.setSelected(false);
+        femaleRadioButton.setSelected(false);
+    }
 }
