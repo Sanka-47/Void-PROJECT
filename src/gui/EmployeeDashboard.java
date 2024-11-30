@@ -77,7 +77,7 @@ public class EmployeeDashboard extends javax.swing.JFrame {
         jPanel1.setPreferredSize(new java.awt.Dimension(1250, 120));
 
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resource/VOID.png"))); // NOI18N
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/VOID.png"))); // NOI18N
         jLabel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(51, 51, 255)));
 
         jLabel2.setFont(new java.awt.Font("Century Gothic", 1, 24)); // NOI18N
@@ -105,13 +105,13 @@ public class EmployeeDashboard extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(23, 23, 23)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 139, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel5)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 139, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 122, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 245, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 264, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -190,7 +190,7 @@ public class EmployeeDashboard extends javax.swing.JFrame {
         });
 
         jButton7.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
-        jButton7.setText("Course Payments");
+        jButton7.setText("Session Payments");
         jButton7.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton7ActionPerformed(evt);
@@ -245,16 +245,17 @@ public class EmployeeDashboard extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, 0, Short.MAX_VALUE)
+                .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, 984, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 382, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 369, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 8, Short.MAX_VALUE))
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 382, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 129, Short.MAX_VALUE))
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, 0, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -277,61 +278,61 @@ public class EmployeeDashboard extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        jPanel4.removeAll();
-//        AddSession addSession = new AddSession();
-//        jPanel4.add(addSession, BorderLayout.CENTER);
-
-        SwingUtilities.updateComponentTreeUI(jPanel4);
+//        jPanel4.removeAll();
+//        AddTutor at = new AddTutor();
+//        jPanel4.add(at, BorderLayout.CENTER);
+//
+//        SwingUtilities.updateComponentTreeUI(jPanel4);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        jPanel4.removeAll();
-//        AllSession allSession = new AllSession();
-//        jPanel4.add(allSession, BorderLayout.CENTER);
-
-        SwingUtilities.updateComponentTreeUI(jPanel4);
+//        jPanel4.removeAll();
+//        StudentRegistration SR = new StudentRegistration();
+//        jPanel4.add(SR, BorderLayout.CENTER);
+//
+//        SwingUtilities.updateComponentTreeUI(jPanel4);
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        jPanel4.removeAll();
-//        AllCompletedSessions acs = new AllCompletedSessions();
-//        jPanel4.add(acs, BorderLayout.CENTER);
-
-        SwingUtilities.updateComponentTreeUI(jPanel4);
+//        jPanel4.removeAll();
+//        AddSession addSession = new AddSession();
+//        jPanel4.add(addSession, BorderLayout.CENTER);
+//
+//        SwingUtilities.updateComponentTreeUI(jPanel4);
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton4jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4jButton4ActionPerformed
-        jPanel4.removeAll();
-//        CancelledSessions cancelSessions = new CancelledSessions();
-//        jPanel4.add(cancelSessions, BorderLayout.CENTER);
-
-        SwingUtilities.updateComponentTreeUI(jPanel4);
+//        jPanel4.removeAll();
+//        AllTutors ats = new AllTutors();
+//        jPanel4.add(ats, BorderLayout.CENTER);
+//
+//        SwingUtilities.updateComponentTreeUI(jPanel4);
     }//GEN-LAST:event_jButton4jButton4ActionPerformed
 
     private void jButton5jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5jButton5ActionPerformed
-        jPanel4.removeAll();
-//        RescheduleSessions rescheduleSessions = new RescheduleSessions();
-//        jPanel4.add(rescheduleSessions, BorderLayout.CENTER);
-
-        SwingUtilities.updateComponentTreeUI(jPanel4);
+//        jPanel4.removeAll();
+//        AllStudents as = new AllStudents();
+//        jPanel4.add(as, BorderLayout.CENTER);
+//
+//
+//        SwingUtilities.updateComponentTreeUI(jPanel4);
     }//GEN-LAST:event_jButton5jButton5ActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
-        jPanel4.removeAll();
-//        StudentRegistration SR = new StudentRegistration();
-//        jPanel4.add(SR, BorderLayout.CENTER);
-
-        SwingUtilities.updateComponentTreeUI(jPanel4);
+//        jPanel4.removeAll();
+//         AllSession allSession = new AllSession();
+//        jPanel4.add(allSession, BorderLayout.CENTER);
+//
+//
+//        SwingUtilities.updateComponentTreeUI(jPanel4);
     }//GEN-LAST:event_jButton6ActionPerformed
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
-        jPanel4.removeAll();
-//        AllStudents as = new AllStudents();
-//        jPanel4.add(as, BorderLayout.CENTER);
-
-StudentPayment studentPayment = new StudentPayment();
-studentPayment.setVisible(true);
-        SwingUtilities.updateComponentTreeUI(jPanel4);
+//        jPanel4.removeAll();
+//        StudentInvoiceHistory esh= new StudentInvoiceHistory();
+//        jPanel4.add(esh, BorderLayout.CENTER);
+//
+//        SwingUtilities.updateComponentTreeUI(jPanel4);
     }//GEN-LAST:event_jButton7ActionPerformed
 
     public static void main(String args[]) throws UnsupportedLookAndFeelException {
