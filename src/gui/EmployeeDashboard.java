@@ -278,61 +278,61 @@ public class EmployeeDashboard extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-//        jPanel4.removeAll();
-//        AddTutor at = new AddTutor();
-//        jPanel4.add(at, BorderLayout.CENTER);
-//
-//        SwingUtilities.updateComponentTreeUI(jPanel4);
+        jPanel4.removeAll();
+        AddTutor at = new AddTutor();
+        jPanel4.add(at, BorderLayout.CENTER);
+
+        SwingUtilities.updateComponentTreeUI(jPanel4);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-//        jPanel4.removeAll();
-//        StudentRegistration SR = new StudentRegistration();
-//        jPanel4.add(SR, BorderLayout.CENTER);
-//
-//        SwingUtilities.updateComponentTreeUI(jPanel4);
+        jPanel4.removeAll();
+        StudentRegistration SR = new StudentRegistration();
+        jPanel4.add(SR, BorderLayout.CENTER);
+
+        SwingUtilities.updateComponentTreeUI(jPanel4);
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-//        jPanel4.removeAll();
-//        AddSession addSession = new AddSession();
-//        jPanel4.add(addSession, BorderLayout.CENTER);
-//
-//        SwingUtilities.updateComponentTreeUI(jPanel4);
+        jPanel4.removeAll();
+        AddSession addSession = new AddSession();
+        jPanel4.add(addSession, BorderLayout.CENTER);
+
+        SwingUtilities.updateComponentTreeUI(jPanel4);
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton4jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4jButton4ActionPerformed
-//        jPanel4.removeAll();
-//        AllTutors ats = new AllTutors();
-//        jPanel4.add(ats, BorderLayout.CENTER);
-//
-//        SwingUtilities.updateComponentTreeUI(jPanel4);
+        jPanel4.removeAll();
+        AllTutors ats = new AllTutors();
+        jPanel4.add(ats, BorderLayout.CENTER);
+
+        SwingUtilities.updateComponentTreeUI(jPanel4);
     }//GEN-LAST:event_jButton4jButton4ActionPerformed
 
     private void jButton5jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5jButton5ActionPerformed
-//        jPanel4.removeAll();
-//        AllStudents as = new AllStudents();
-//        jPanel4.add(as, BorderLayout.CENTER);
-//
-//
-//        SwingUtilities.updateComponentTreeUI(jPanel4);
+        jPanel4.removeAll();
+        AllStudents as = new AllStudents();
+        jPanel4.add(as, BorderLayout.CENTER);
+
+
+        SwingUtilities.updateComponentTreeUI(jPanel4);
     }//GEN-LAST:event_jButton5jButton5ActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
-//        jPanel4.removeAll();
-//         AllSession allSession = new AllSession();
-//        jPanel4.add(allSession, BorderLayout.CENTER);
-//
-//
-//        SwingUtilities.updateComponentTreeUI(jPanel4);
+        jPanel4.removeAll();
+         AllSession allSession = new AllSession();
+        jPanel4.add(allSession, BorderLayout.CENTER);
+
+
+        SwingUtilities.updateComponentTreeUI(jPanel4);
     }//GEN-LAST:event_jButton6ActionPerformed
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
-//        jPanel4.removeAll();
-//        StudentInvoiceHistory esh= new StudentInvoiceHistory();
-//        jPanel4.add(esh, BorderLayout.CENTER);
-//
-//        SwingUtilities.updateComponentTreeUI(jPanel4);
+        jPanel4.removeAll();
+        StudentInvoiceHistory esh= new StudentInvoiceHistory();
+        jPanel4.add(esh, BorderLayout.CENTER);
+
+        SwingUtilities.updateComponentTreeUI(jPanel4);
     }//GEN-LAST:event_jButton7ActionPerformed
 
     public static void main(String args[]) throws UnsupportedLookAndFeelException {
