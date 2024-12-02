@@ -251,10 +251,11 @@ public class EmployeeDashboard extends javax.swing.JFrame {
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 382, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 369, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 8, Short.MAX_VALUE))
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 382, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 256, Short.MAX_VALUE))
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -278,60 +279,66 @@ public class EmployeeDashboard extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         jPanel4.removeAll();
-//        AddSession addSession = new AddSession();
-//        jPanel4.add(addSession, BorderLayout.CENTER);
+        AddTutor at = new AddTutor();
+        jPanel4.add(at, BorderLayout.CENTER);
 
         SwingUtilities.updateComponentTreeUI(jPanel4);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         jPanel4.removeAll();
-//        AllSession allSession = new AllSession();
-//        jPanel4.add(allSession, BorderLayout.CENTER);
+        StudentRegistration SR = new StudentRegistration();
+        jPanel4.add(SR, BorderLayout.CENTER);
 
         SwingUtilities.updateComponentTreeUI(jPanel4);
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         jPanel4.removeAll();
-//        AllCompletedSessions acs = new AllCompletedSessions();
-//        jPanel4.add(acs, BorderLayout.CENTER);
+        AddSession addSession = new AddSession();
+        jPanel4.add(addSession, BorderLayout.CENTER);
 
         SwingUtilities.updateComponentTreeUI(jPanel4);
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton4jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4jButton4ActionPerformed
         jPanel4.removeAll();
-//        CancelledSessions cancelSessions = new CancelledSessions();
-//        jPanel4.add(cancelSessions, BorderLayout.CENTER);
+        AllTutors ats = new AllTutors();
+        jPanel4.add(ats, BorderLayout.CENTER);
 
         SwingUtilities.updateComponentTreeUI(jPanel4);
     }//GEN-LAST:event_jButton4jButton4ActionPerformed
 
     private void jButton5jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5jButton5ActionPerformed
-        jPanel4.removeAll();
-//        RescheduleSessions rescheduleSessions = new RescheduleSessions();
-//        jPanel4.add(rescheduleSessions, BorderLayout.CENTER);
+//        jPanel4.removeAll();
+//        AllStudents as = new AllStudents();
+//        jPanel4.add(as, BorderLayout.CENTER);
+//        
+//        SwingUtilities.updateComponentTreeUI(jPanel4);
 
-        SwingUtilities.updateComponentTreeUI(jPanel4);
+        AllStudents allstudents = new AllStudents();
+        allstudents.setVisible(true);
     }//GEN-LAST:event_jButton5jButton5ActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
         jPanel4.removeAll();
-//        StudentRegistration SR = new StudentRegistration();
-//        jPanel4.add(SR, BorderLayout.CENTER);
+        AllSession allSession = new AllSession();
+        jPanel4.add(allSession, BorderLayout.CENTER);
 
         SwingUtilities.updateComponentTreeUI(jPanel4);
     }//GEN-LAST:event_jButton6ActionPerformed
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
-        jPanel4.removeAll();
-//        AllStudents as = new AllStudents();
-//        jPanel4.add(as, BorderLayout.CENTER);
+//        jPanel4.removeAll();
+////        AllStudents as = new AllStudents();
+////        jPanel4.add(as, BorderLayout.CENTER);
+//
+//StudentPayment studentPayment = new StudentPayment();
+//studentPayment.setVisible(true);
+//        SwingUtilities.updateComponentTreeUI(jPanel4);
 
-StudentPayment studentPayment = new StudentPayment();
-studentPayment.setVisible(true);
-        SwingUtilities.updateComponentTreeUI(jPanel4);
+        StudentInvoiceHistory sih = new StudentInvoiceHistory();
+        sih.setVisible(true);
     }//GEN-LAST:event_jButton7ActionPerformed
 
     public static void main(String args[]) throws UnsupportedLookAndFeelException {
