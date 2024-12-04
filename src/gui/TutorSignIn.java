@@ -183,7 +183,7 @@ public class TutorSignIn extends javax.swing.JFrame {
                     String fName = resultSet.getString("first_name");
                     String lName = resultSet.getString("last_name");
                     
-                    TutorDashboard tutorDashboard = new TutorDashboard(fName, lName);
+                    TutorDashboard tutorDashboard = new TutorDashboard(1);
                     tutorDashboard.setVisible(true);
                     this.dispose();  
 
