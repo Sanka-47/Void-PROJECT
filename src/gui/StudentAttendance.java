@@ -8,6 +8,8 @@ import java.sql.ResultSet;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Vector;
+import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import model.MySQL2;
 
@@ -20,6 +22,11 @@ public class StudentAttendance extends javax.swing.JPanel {
         initComponents();
         loadTable();
         this.updateAttendance = new UpdateStudentAttendance();
+        
+        DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
+        renderer.setHorizontalAlignment(SwingConstants.CENTER);
+        
+        jTable1.setDefaultRenderer(Object.class, renderer);
     }
 
     private void loadTable() {
