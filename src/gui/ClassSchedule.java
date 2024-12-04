@@ -5,6 +5,10 @@
  */
 package gui;
 
+import java.sql.ResultSet;
+import javax.swing.table.DefaultTableModel;
+import model.MySQL2;
+
 /**
  *
  * @author Rushma
@@ -16,8 +20,41 @@ public class ClassSchedule extends javax.swing.JPanel {
      */
     public ClassSchedule() {
         initComponents();
+         loadAllClasses();
     }
 
+    public void loadAllClasses() {
+    DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+    model.setRowCount(0); // Clear the table
+
+    try {
+        String query = "SELECT c.date AS class_date, " +
+                       "CONCAT(t.first_name, ' ', t.last_name) AS tutor_name, " +
+                       "c.location, " +
+                       "CONCAT(c.start_time, ' - ', c.end_time) AS class_time, " +
+                       "c.amount, " +
+                       "cs.name AS course_name " +
+                       "FROM class c " +
+                       "JOIN tutor t ON c.tutor_id = t.id " +
+                       "JOIN courses cs ON c.courses_id = cs.id";
+
+        ResultSet rs = MySQL2.executeSearch(query);
+
+        while (rs.next()) {
+            String classDate = rs.getString("class_date");
+            String tutorName = rs.getString("tutor_name");
+            String location = rs.getString("location");
+            String classTime = rs.getString("class_time");
+            double amount = rs.getDouble("amount");
+            String courseName = rs.getString("course_name");
+
+            // Add a row to the table
+            model.addRow(new Object[]{classDate, tutorName, location, classTime, amount, courseName});
+        }
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+}
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -41,11 +78,11 @@ public class ClassSchedule extends javax.swing.JPanel {
 
             },
             new String [] {
-                "Class date", "Tutor name", "Student Name", "Location", "Time", "Amount", "Course Name"
+                "Class date", "Tutor name", "Location", "Time", "Amount", "Course Name"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false
+                false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
