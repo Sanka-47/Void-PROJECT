@@ -16,6 +16,7 @@ public class EmployeeDashboard extends javax.swing.JFrame {
 
     public EmployeeDashboard(String fName, String lName) {
         initComponents();
+        jLabel5.setText(fName +" "+ lName);
         loadDate();
     }
 
@@ -341,27 +342,27 @@ public class EmployeeDashboard extends javax.swing.JFrame {
         sih.setVisible(true);
     }//GEN-LAST:event_jButton7ActionPerformed
 
-    public static void main(String args[]) throws UnsupportedLookAndFeelException {
-//        FlatMacDarkLaf.setup();
-
-//        FlatLaf.registerCustomDefaultsSource("src/Themes/NewTheme.properties");
-        UIManager.setLookAndFeel(new FlatLightLaf());
-        UIManager.put("Button.background", Color.decode("#607D8B"));
-        UIManager.put("Button.foreground", Color.decode("#ffffff"));
-        UIManager.put("TextField.background", Color.decode("#f0f0f0"));
-        UIManager.put("TextField.foreground", Color.decode("#000000"));
-        UIManager.put("Panel.background", Color.decode("#E0E0E0"));
-        UIManager.put("Label.foreground", Color.decode("#000000"));
-        UIManager.put("Table.background", Color.decode("#ffffff"));
-        UIManager.put("Table.foreground", Color.decode("#000000"));
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new EmployeeDashboard("", "").setVisible(true);
-            }
-        });
-    }
+//    public static void main(String args[]) throws UnsupportedLookAndFeelException {
+////        FlatMacDarkLaf.setup();
+//
+////        FlatLaf.registerCustomDefaultsSource("src/Themes/NewTheme.properties");
+//        UIManager.setLookAndFeel(new FlatLightLaf());
+//        UIManager.put("Button.background", Color.decode("#607D8B"));
+//        UIManager.put("Button.foreground", Color.decode("#ffffff"));
+//        UIManager.put("TextField.background", Color.decode("#f0f0f0"));
+//        UIManager.put("TextField.foreground", Color.decode("#000000"));
+//        UIManager.put("Panel.background", Color.decode("#E0E0E0"));
+//        UIManager.put("Label.foreground", Color.decode("#000000"));
+//        UIManager.put("Table.background", Color.decode("#ffffff"));
+//        UIManager.put("Table.foreground", Color.decode("#000000"));
+//
+//        /* Create and display the form */
+//        java.awt.EventQueue.invokeLater(new Runnable() {
+//            public void run() {
+//                new EmployeeDashboard("", "").setVisible(true);
+//            }
+//        });
+//    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;

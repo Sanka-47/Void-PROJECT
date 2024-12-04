@@ -6,15 +6,15 @@ import java.sql.ResultSet;
 import javax.swing.JOptionPane;
 import model.MySQL2;
 
-public class TutorSignIn extends javax.swing.JFrame {
+public class EmployeeSignIn extends javax.swing.JFrame {
 
 //    private static String Nic;
-//    
+    
 //    public static String getNic() {
 //        return Nic;
 //    }
     
-    public TutorSignIn() {
+    public EmployeeSignIn() {
         initComponents();
     }
 
@@ -174,18 +174,23 @@ public class TutorSignIn extends javax.swing.JFrame {
 
             try {
                 
-                ResultSet resultSet = MySQL2.executeSearch("SELECT * FROM `tutor` WHERE `nic` = '" + nic + "' AND `password`='" + password + "'");
+                ResultSet resultSet = MySQL2.executeSearch("SELECT * FROM `employee` WHERE `nic` = '" + nic + "' AND `password`='" + password + "'");
 
                 if (resultSet.next()) {
                     
-//                    this.Nic = nic;
+                    
 
                     String fName = resultSet.getString("first_name");
                     String lName = resultSet.getString("last_name");
+//                    JOptionPane.showMessageDialog(this, "Success", "Success", JOptionPane.INFORMATION_MESSAGE);
+
+                    EmployeeDashboard ed = new EmployeeDashboard(fName, lName);
+                    ed.setVisible(true);
+                    this.dispose();
                     
-                    TutorDashboard tutorDashboard = new TutorDashboard(fName, lName);
-                    tutorDashboard.setVisible(true);
-                    this.dispose();  
+//                    this.Nic = nic;
+                    
+                    
 
                 } else {
 
@@ -208,7 +213,7 @@ public class TutorSignIn extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new TutorSignIn().setVisible(true);
+                new EmployeeSignIn().setVisible(true);
             }
         });
     }

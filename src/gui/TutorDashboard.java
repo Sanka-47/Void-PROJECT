@@ -20,8 +20,9 @@ public class TutorDashboard extends javax.swing.JFrame {
     /**
      * Creates new form TutorDashboard
      */
-    public TutorDashboard() {
+    public TutorDashboard(String fName, String lName) {
         initComponents();
+        jLabel5.setText(fName +" "+ lName);
     }
 
     /**
@@ -351,17 +352,17 @@ public class TutorDashboard extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        FlatArcIJTheme.setup();
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new TutorDashboard().setVisible(true);
-            }
-        });
-    }
+//    public static void main(String args[]) {
+//        /* Set the Nimbus look and feel */
+//        FlatArcIJTheme.setup();
+//
+//        /* Create and display the form */
+//        java.awt.EventQueue.invokeLater(new Runnable() {
+//            public void run() {
+//                new TutorDashboard().setVisible(true);
+//            }
+//        });
+//    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton10;
