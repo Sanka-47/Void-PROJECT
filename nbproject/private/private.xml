@@ -3,23 +3,14 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/RUSHMA/DOWNLOADS_1/PROJECTS/Void-PROJECT-/src/gui/StudentDetails.java</file>
-            <file>file:/D:/RUSHMA/DOWNLOADS_1/PROJECTS/Void-PROJECT-/src/gui/StudentInvoiceHistory.java</file>
-            <file>file:/D:/RUSHMA/DOWNLOADS_1/PROJECTS/Void-PROJECT-/src/gui/TutorWallet.java</file>
-            <file>file:/D:/RUSHMA/DOWNLOADS_1/PROJECTS/Void-PROJECT-/src/gui/EmployeeSaleryHistory.java</file>
+            <file>file:/D:/RUSHMA/DOWNLOADS_1/PROJECTS/Void-PROJECT-/src/gui/StudentProgressAndPerfomanceTracking.java</file>
             <file>file:/D:/RUSHMA/DOWNLOADS_1/PROJECTS/Void-PROJECT-/src/gui/TodoList.java</file>
-            <file>file:/D:/RUSHMA/DOWNLOADS_1/PROJECTS/Void-PROJECT-/src/gui/TutorWithdrawalHistory.java</file>
-            <file>file:/D:/RUSHMA/DOWNLOADS_1/PROJECTS/Void-PROJECT-/src/gui/AllTutorsWithdrawHistory.java</file>
-            <file>file:/D:/RUSHMA/DOWNLOADS_1/PROJECTS/Void-PROJECT-/src/gui/EmployeeDetails.java</file>
+            <file>file:/D:/RUSHMA/DOWNLOADS_1/PROJECTS/Void-PROJECT-/src/model/MySQL2.java</file>
+            <file>file:/D:/RUSHMA/DOWNLOADS_1/PROJECTS/Void-PROJECT-/src/gui/AllCourses.java</file>
+            <file>file:/D:/RUSHMA/DOWNLOADS_1/PROJECTS/Void-PROJECT-/src/gui/ClassSchedule.java</file>
             <file>file:/D:/RUSHMA/DOWNLOADS_1/PROJECTS/Void-PROJECT-/src/gui/TutorDashboard.java</file>
             <file>file:/D:/RUSHMA/DOWNLOADS_1/PROJECTS/Void-PROJECT-/src/gui/AdminDashboard.java</file>
-            <file>file:/D:/RUSHMA/DOWNLOADS_1/PROJECTS/Void-PROJECT-/src/gui/NotificationDetails.java</file>
-            <file>file:/D:/RUSHMA/DOWNLOADS_1/PROJECTS/Void-PROJECT-/src/gui/ClassSchedule.java</file>
-            <file>file:/D:/RUSHMA/DOWNLOADS_1/PROJECTS/Void-PROJECT-/src/gui/TutorDetails.java</file>
-            <file>file:/D:/RUSHMA/DOWNLOADS_1/PROJECTS/Void-PROJECT-/src/model/Task.java</file>
             <file>file:/D:/RUSHMA/DOWNLOADS_1/PROJECTS/Void-PROJECT-/src/gui/Notifications.java</file>
-            <file>file:/D:/RUSHMA/DOWNLOADS_1/PROJECTS/Void-PROJECT-/src/model/NotificationManager.java</file>
-            <file>file:/D:/RUSHMA/DOWNLOADS_1/PROJECTS/Void-PROJECT-/src/gui/EmployeePaymentHistory.java</file>
         </group>
     </open-files>
 </project-private>
