@@ -10,8 +10,11 @@ import com.formdev.flatlaf.intellijthemes.FlatArcOrangeIJTheme;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.sql.ResultSet;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import model.MySQL2;
 
@@ -26,13 +29,44 @@ public class TutorDashboard extends javax.swing.JFrame {
      */
     public TutorDashboard() {
         initComponents();
+        loadDate();
     }
 
     public TutorDashboard(int tutorId) {
         initComponents();
-        updateDashboard(1); // Update the wallet amount when the dashboard opens
+        updateDashboard(1);
+        loadDate();
+// Update the wallet amount when the dashboard opens
     }
-    
+
+    private void loadDate() {
+
+        jLabel6.setHorizontalAlignment(SwingConstants.CENTER);
+
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                while (true) {
+                    Date date = new Date();
+                    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd     hh:mm:ss");
+                    String fdate = dateFormat.format(date);
+                    jLabel6.setText(fdate);
+
+                    try {
+                        Thread.sleep(1000);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+                }
+
+            }
+        };
+        Thread thread = new Thread(runnable);
+        thread.start();
+
+    }
+
     public void switchPanel(JPanel panel) {
         jPanel9.removeAll();
         jPanel9.add(panel, BorderLayout.CENTER);
@@ -105,10 +139,12 @@ public class TutorDashboard extends javax.swing.JFrame {
         jButton11 = new javax.swing.JButton();
         jButton12 = new javax.swing.JButton();
         jButton13 = new javax.swing.JButton();
-        jButton43 = new javax.swing.JButton();
         jButton44 = new javax.swing.JButton();
         jButton45 = new javax.swing.JButton();
         jButton46 = new javax.swing.JButton();
+        jLabel8 = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
         jPanel9 = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -140,6 +176,7 @@ public class TutorDashboard extends javax.swing.JFrame {
         amountLabel.setFont(new java.awt.Font("Century Gothic", 1, 16)); // NOI18N
         amountLabel.setText("0");
 
+        withdrawBtn.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
         withdrawBtn.setText("Withdraw");
         withdrawBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -177,17 +214,17 @@ public class TutorDashboard extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel4)
                             .addComponent(jLabel5)
                             .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGap(24, 24, 24)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel7)
                             .addComponent(amountLabel)
-                            .addComponent(withdrawBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addComponent(withdrawBtn, javax.swing.GroupLayout.DEFAULT_SIZE, 32, Short.MAX_VALUE)))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -259,14 +296,6 @@ public class TutorDashboard extends javax.swing.JFrame {
             }
         });
 
-        jButton43.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
-        jButton43.setText("Tutor Withdraw History");
-        jButton43.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton43ActionPerformed(evt);
-            }
-        });
-
         jButton44.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
         jButton44.setText("Wallet");
         jButton44.addActionListener(new java.awt.event.ActionListener() {
@@ -291,6 +320,15 @@ public class TutorDashboard extends javax.swing.JFrame {
             }
         });
 
+        jLabel8.setFont(new java.awt.Font("Century Gothic", 1, 16)); // NOI18N
+        jLabel8.setText("My Classes");
+
+        jLabel9.setFont(new java.awt.Font("Century Gothic", 1, 16)); // NOI18N
+        jLabel9.setText("My Tools");
+
+        jLabel10.setFont(new java.awt.Font("Century Gothic", 1, 16)); // NOI18N
+        jLabel10.setText("My Students");
+
         javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
         jPanel8.setLayout(jPanel8Layout);
         jPanel8Layout.setHorizontalGroup(
@@ -298,7 +336,6 @@ public class TutorDashboard extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel8Layout.createSequentialGroup()
                 .addGap(35, 35, 35)
                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jButton43, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButton8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButton10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButton11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -309,34 +346,50 @@ public class TutorDashboard extends javax.swing.JFrame {
                     .addComponent(jButton44, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButton45, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButton46, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(45, 45, 45))
+                .addGap(39, 39, 39))
+            .addGroup(jPanel8Layout.createSequentialGroup()
+                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel8Layout.createSequentialGroup()
+                        .addGap(101, 101, 101)
+                        .addComponent(jLabel8))
+                    .addGroup(jPanel8Layout.createSequentialGroup()
+                        .addGap(96, 96, 96)
+                        .addComponent(jLabel10))
+                    .addGroup(jPanel8Layout.createSequentialGroup()
+                        .addGap(97, 97, 97)
+                        .addComponent(jLabel9)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel8Layout.setVerticalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel8Layout.createSequentialGroup()
-                .addGap(12, 12, 12)
+                .addGap(28, 28, 28)
+                .addComponent(jLabel8)
+                .addGap(25, 25, 25)
                 .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jButton10, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton11, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jButton12, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jButton13, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(21, 21, 21)
-                .addComponent(jButton43, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(21, 21, 21)
-                .addComponent(jButton44, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(27, 27, 27)
+                .addComponent(jLabel10)
                 .addGap(18, 18, 18)
                 .addComponent(jButton46, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton45, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(585, 585, 585))
+                .addGap(12, 12, 12)
+                .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(30, 30, 30)
+                .addComponent(jLabel9)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jButton12, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jButton13, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jButton44, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(447, 447, 447))
         );
 
         jScrollPane4.setViewportView(jPanel8);
@@ -362,8 +415,8 @@ public class TutorDashboard extends javax.swing.JFrame {
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 694, Short.MAX_VALUE)
-                    .addComponent(jPanel9, javax.swing.GroupLayout.DEFAULT_SIZE, 694, Short.MAX_VALUE))
+                    .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 668, Short.MAX_VALUE)
+                    .addComponent(jPanel9, javax.swing.GroupLayout.DEFAULT_SIZE, 668, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
@@ -388,7 +441,7 @@ public class TutorDashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton12ActionPerformed
 
     private void jButton11jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11jButton5ActionPerformed
-       jPanel9.removeAll();
+        jPanel9.removeAll();
         RescheduleSessions addSession = new RescheduleSessions();
         jPanel9.add(addSession, BorderLayout.CENTER);
 
@@ -396,7 +449,7 @@ public class TutorDashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton11jButton5ActionPerformed
 
     private void jButton10jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10jButton4ActionPerformed
-         jPanel9.removeAll();
+        jPanel9.removeAll();
         ClassSchedule addSession = new ClassSchedule();
         jPanel9.add(addSession, BorderLayout.CENTER);
 
@@ -405,7 +458,7 @@ public class TutorDashboard extends javax.swing.JFrame {
 
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
 //            jPanel9.removeAll();
-        StudentProgressAndPerfomanceTracking addSession = new StudentProgressAndPerfomanceTracking("send","real name");
+        StudentProgressAndPerfomanceTracking addSession = new StudentProgressAndPerfomanceTracking("send", "real name");
         addSession.setVisible(true);
 //        jPanel9.add(addSession, BorderLayout.CENTER);
 
@@ -413,7 +466,7 @@ public class TutorDashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton9ActionPerformed
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
-         jPanel9.removeAll();
+        jPanel9.removeAll();
         AssignmentManagement addSession = new AssignmentManagement();
         jPanel9.add(addSession, BorderLayout.CENTER);
 
@@ -421,7 +474,7 @@ public class TutorDashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton8ActionPerformed
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
-      jPanel9.removeAll();
+        jPanel9.removeAll();
         TutorClassList tutorClassList = new TutorClassList(this);
         jPanel9.add(tutorClassList, BorderLayout.CENTER);
         jButton9.setBackground(Color.decode("#09121c"));
@@ -451,27 +504,19 @@ public class TutorDashboard extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_withdrawBtnActionPerformed
 
-    private void jButton43ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton43ActionPerformed
-        jPanel9.removeAll();
-        AllTutorsWithdrawHistory addSession = new AllTutorsWithdrawHistory();
-        jPanel9.add(addSession, BorderLayout.CENTER);
-
-        SwingUtilities.updateComponentTreeUI(jPanel9);
-    }//GEN-LAST:event_jButton43ActionPerformed
-
     private void jButton44ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton44ActionPerformed
-       TutorWallet tw = new TutorWallet();
-       tw.setVisible(true);
+        TutorWallet tw = new TutorWallet();
+        tw.setVisible(true);
     }//GEN-LAST:event_jButton44ActionPerformed
 
     private void jButton45ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton45ActionPerformed
-           
-         jPanel9.removeAll();
+
+        jPanel9.removeAll();
         StudentAttendance addSession = new StudentAttendance();
         jPanel9.add(addSession, BorderLayout.CENTER);
 
         SwingUtilities.updateComponentTreeUI(jPanel9);
-        
+
     }//GEN-LAST:event_jButton45ActionPerformed
 
     private void jButton46ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton46ActionPerformed
@@ -480,8 +525,8 @@ public class TutorDashboard extends javax.swing.JFrame {
         StudentPerformanceReport addSession = new StudentPerformanceReport();
         jPanel9.add(addSession, BorderLayout.CENTER);
 
-        SwingUtilities.updateComponentTreeUI(jPanel9); 
-       
+        SwingUtilities.updateComponentTreeUI(jPanel9);
+
     }//GEN-LAST:event_jButton46ActionPerformed
 
     /**
@@ -501,19 +546,21 @@ public class TutorDashboard extends javax.swing.JFrame {
     private javax.swing.JButton jButton11;
     private javax.swing.JButton jButton12;
     private javax.swing.JButton jButton13;
-    private javax.swing.JButton jButton43;
     private javax.swing.JButton jButton44;
     private javax.swing.JButton jButton45;
     private javax.swing.JButton jButton46;
     private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton8;
     private javax.swing.JButton jButton9;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;

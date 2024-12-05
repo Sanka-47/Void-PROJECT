@@ -23,7 +23,7 @@ public class NotificationDetails extends javax.swing.JFrame {
     private void loadClassDetails(int classId) {
         try {
             // SQL Query to fetch class details
-            String query = "SELECT c.date, c.start_time, c.end_time, c.location, c.amount, " +
+            String query = "SELECT c.date, c.start_time, c.end_time, c.hallnumber, c.amount, " +
                            "co.name AS course_name, co.fee AS course_fee, co.grade_level, " +
                            "cs.name AS class_status " +
                            "FROM class c " +
@@ -36,7 +36,7 @@ public class NotificationDetails extends javax.swing.JFrame {
                 // Populate labels with class details
                 dateLabel.setText(rs.getString("date"));
                 timeLabel.setText(rs.getString("start_time") + " - " + rs.getString("end_time"));
-                locationLabel.setText(rs.getString("location"));
+                locationLabel.setText(rs.getString("hallnumber"));
                 amountLabel.setText(String.valueOf(rs.getDouble("amount")));
                 courseLabel.setText(rs.getString("course_name"));
                 feeLabel.setText(String.valueOf(rs.getDouble("course_fee")));
@@ -78,7 +78,7 @@ public class NotificationDetails extends javax.swing.JFrame {
         statusLabel = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
@@ -86,7 +86,7 @@ public class NotificationDetails extends javax.swing.JFrame {
 
         jLabel3.setText("Time :");
 
-        jLabel4.setText("Location :");
+        jLabel4.setText("Hall Number :");
 
         jLabel5.setText("Amount :");
 
