@@ -31,6 +31,8 @@ public class CourseRegistration extends javax.swing.JFrame {
         loadCourseDetails();
         loadGrades();
         loadTutors();
+        jLabel5.setText(fName + " " + lName);
+
     }
 
     private void loadCourseDetails() {
@@ -505,7 +507,6 @@ public class CourseRegistration extends javax.swing.JFrame {
         UIManager.put("Table.background", Color.decode("#ffffff"));
         UIManager.put("Table.foreground", Color.decode("#000000"));
 
-        
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new CourseRegistration("", "").setVisible(true);
