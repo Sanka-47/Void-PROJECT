@@ -17,10 +17,10 @@ public class EmployeeDetails extends javax.swing.JFrame {
     /**
      * Creates new form EmployeeDetails
      */
-    public EmployeeDetails(int employeeID) {
+    public EmployeeDetails(String employeeID) {
         initComponents();
-        String nic = String.valueOf(employeeID);
-        loadEmployeeDetails(nic);
+//        String nic = String.valueOf(employeeID);
+        loadEmployeeDetails(employeeID);
     }
 
     public EmployeeDetails() {

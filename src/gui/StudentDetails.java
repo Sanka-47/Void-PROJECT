@@ -14,9 +14,9 @@ import model.MySQL2;
  */
 public class StudentDetails extends javax.swing.JFrame {
 
-    public StudentDetails(int employeeID) {
+    public StudentDetails(String nic) {
         initComponents();
-        String nic = String.valueOf(employeeID);
+//        String nic = String.valueOf(employeeID);
         loadStudentDetails(nic);
     }
 
