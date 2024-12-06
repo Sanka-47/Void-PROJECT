@@ -1,57 +1,55 @@
+//author KAVISHKA
 
 package gui;
 
 import model.MySQL2;
 import java.sql.ResultSet;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.Vector;
 import javax.swing.table.DefaultTableModel;
 
-/**
- *
- * @author CHAMA COMPUTERS
- */
 public class AllTutors extends javax.swing.JPanel {
+    
+    private static HashMap <String, String> passwordMap = new HashMap<>();
+    
+    private AdminDashboard parent;
+    
+    private AddTutor updateTutor;
 
-    public AllTutors() {
+    public AllTutors(AdminDashboard parent) {
+        this.parent = parent;
+        this.updateTutor = new AddTutor();
         initComponents();
+        loadTable();
     }
     
-    private void loadSessions() {
-        
+    private void switchToRegistration() {
+        parent.switchPanel(updateTutor);
+    }
+    
+    private void loadTable() {
         try {
-            
-            String sort = String.valueOf(jComboBox1.getSelectedItem());
-            
-            String query = "SELECT * FROM `teacher` INNER JOIN `teacher`.`gender_id` = `gender`.`name`";
-            
-            if (sort.equals("Student Name ASC")) {
-                query += "ORDER BY `teacher`.`id` ASC";
-            } else if (sort.equals("Student Name DESC")) {
-                query += "ORDER BY `teacher`.`id` DESC";
-            } else if (sort.equals("Tutor Name ASC")) {
-                query += "ORDER BY `teacher`.`first_name` ASC";
-            } else if (sort.equals("Tutor Name DESC")) {
-                query += "ORDER BY `teacher`.`last_name` DESC";
-            }
-//            else if (sort.equals("Subject ASC")) {
-//                query += "ORDER BY `subject.name` ASC";
-//            } else if (sort.equals("Subject DESC")) {
-//                query += "ORDER BY `subject.name` DESC";
-//            }
 
-            ResultSet resultSet = MySQL2.executeSearch(query);
+            ResultSet resultSet = MySQL2.executeSearch("SELECT * FROM `tutor` "
+                    + "INNER JOIN `gender` ON `tutor`.`gender_id` = `gender`.`id` "
+                    + "INNER JOIN `courses` ON `tutor`.`courses_id` = `courses`.`id`");
 
             DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
             model.setRowCount(0);
 
             while (resultSet.next()) {
                 Vector<String> vector = new Vector<>();
-                vector.add(resultSet.getString("teacher.id"));
-                vector.add(resultSet.getString("first_name") + " " + resultSet.getString("last_name"));
-                vector.add(resultSet.getString("email"));
-                vector.add(resultSet.getString("mobile"));
-                vector.add(resultSet.getString("wallet"));
+                vector.add(resultSet.getString("tutor.id"));
+                vector.add(resultSet.getString("first_name"));
+                vector.add(resultSet.getString("last_name"));
+                vector.add(resultSet.getString("qualification"));
+                vector.add(resultSet.getString("contact_info"));
                 vector.add(resultSet.getString("gender.name"));
+                vector.add(resultSet.getString("courses.name"));
+                vector.add(resultSet.getString("nic"));
+                passwordMap.put(resultSet.getString("password"), resultSet.getString("tutor.id"));
 
                 model.addRow(vector);
             }
@@ -76,21 +74,26 @@ public class AllTutors extends javax.swing.JPanel {
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null}
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "Tutor ID", "Tutor Name", "Tutor Email", "Mobile", "Wallet", "Gender", "Status"
+                "Tutor ID", "First Name", "Last Name", "Qualification", "Mobile", "Gender", "Course", "NIC"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false
+                false, false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
+            }
+        });
+        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable1MouseClicked(evt);
             }
         });
         jScrollPane1.setViewportView(jTable1);
@@ -140,8 +143,53 @@ public class AllTutors extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
-        loadSessions();
+        loadTable();
     }//GEN-LAST:event_jComboBox1ActionPerformed
+
+    private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
+        int row = jTable1.getSelectedRow(); // Selected row
+        int col = jTable1.getSelectedColumn(); // Selected column
+
+// Validate indices
+        if (row >= 0 && col >= 0 && col < jTable1.getColumnCount()) {
+            Object value = jTable1.getValueAt(row, col);
+            System.out.println("Value: " + value);
+        } else {
+            System.out.println("Invalid row/column selected.");
+        }
+
+        String TutorID = String.valueOf(jTable1.getValueAt(row, 0));
+        String FirstName = String.valueOf(jTable1.getValueAt(row, 1));
+        String LastName = String.valueOf(jTable1.getValueAt(row, 2));
+        String Qualification = String.valueOf(jTable1.getValueAt(row, 3));
+        String Mobile = String.valueOf(jTable1.getValueAt(row, 4));
+        String Gender = String.valueOf(jTable1.getValueAt(row, 5));
+        System.out.println(Gender);
+        String Course = String.valueOf(jTable1.getValueAt(row, 6));
+        System.out.println(Course);
+        String NIC = String.valueOf(jTable1.getValueAt(row, 7));
+
+        if (evt.getClickCount() == 2) {
+//            switchToRegistration();
+
+            updateTutor.getjTextField1().setText(FirstName);
+            updateTutor.getjTextField2().setText(LastName);
+            updateTutor.getjTextField3().setText(NIC);
+            updateTutor.getjTextField4().setText(Qualification);
+            updateTutor.getjComboBox1().setSelectedItem(Course);
+            updateTutor.getjComboBox2().setSelectedItem(Gender);
+            updateTutor.getjTextField5().setText(Mobile);
+            updateTutor.getjPasswordField1().setText(passwordMap.get(TutorID));
+            System.out.println(passwordMap.get(TutorID));
+            
+            updateTutor.getjButton1().setEnabled(false);
+            updateTutor.getjButton2().setEnabled(true);
+            updateTutor.getjButton3().setEnabled(true);
+            updateTutor.getjButton4().setEnabled(true);
+            
+            switchToRegistration();
+        }
+    }//GEN-LAST:event_jTable1MouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

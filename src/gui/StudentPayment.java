@@ -46,9 +46,9 @@ public class StudentPayment extends javax.swing.JFrame {
 //    private static final Logger logger = Logger.getLogger(Signin.class.getName());
     private static DefaultTableModel model;
 
-    public void setCustomerName(String name) {
-        customerName.setText(name);
-    }
+//    public void setCustomerName(String name) {
+//        customerName.setText(name);
+//    }
     
     
 
@@ -116,21 +116,28 @@ public class StudentPayment extends javax.swing.JFrame {
         calculate();
     }
 
-    public JTextField getjTextField2() {
-        return StudentNameFields;
-    }
+//    //Student Name
+//    public JTextField getjTextField2() {
+//        return StudentNameFields;
+//    }
+//
+//    //Student NIC
+//    public JLabel getjLabel6() {
+//        return customerName;
+//    }
 
-    public JLabel getjLabel6() {
-        return customerName;
-    }
-
+    //Course Name
     public JTextField getSubjectNameField() {
         return SubjectNameField;
     }
+    
+    //Student Name
     public JTextField getStudentNameField() {
         return StudentNameFields;
     }
-    public JLabel getNicLable() {
+    
+    //Student NIC
+    public JLabel getNICLabel() {
         return customerName;
     }
 
@@ -830,9 +837,9 @@ public class StudentPayment extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        AllStudents allStudents = new AllStudents();
+        AllStudentsJFrame allStudents = new AllStudentsJFrame(this);
         allStudents.setVisible(true);
-        allStudents.setInvoice(this);
+//        allStudents.setInvoice(this);
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed

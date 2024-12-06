@@ -1,3 +1,5 @@
+//Author KAVISHKA
+
 package gui;
 
 import com.formdev.flatlaf.FlatLaf;
@@ -7,20 +9,25 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
 public class AdminDashboard extends javax.swing.JFrame {
-    
- 
+
     public AdminDashboard(String fName, String lName) {
         initComponents();
         loadDate();
+        jLabel5.setText(fName + " " + lName);
     }
-    
-    
+
+    public void switchPanel(JPanel panel) {
+        jPanel4.removeAll();
+        jPanel4.add(panel, BorderLayout.CENTER);
+        SwingUtilities.updateComponentTreeUI(jPanel4);
+    }
 
     private void loadDate() {
 
@@ -470,7 +477,7 @@ public class AdminDashboard extends javax.swing.JFrame {
                 .addComponent(jButton12, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton13, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(29, 29, 29)
+                .addGap(47, 47, 47)
                 .addComponent(jLabel11)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton14, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -534,16 +541,14 @@ public class AdminDashboard extends javax.swing.JFrame {
         jPanel4.removeAll();
         AddSession addSession = new AddSession();
         jPanel4.add(addSession, BorderLayout.CENTER);
-        jButton1.setBackground(Color.decode("#09121c")); 
 
         SwingUtilities.updateComponentTreeUI(jPanel4);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         jPanel4.removeAll();
-        AllSession allSession = new AllSession();
+        AllSession allSession = new AllSession(this);
         jPanel4.add(allSession, BorderLayout.CENTER);
-        jButton2.setBackground(Color.decode("#09121c")); 
 
         SwingUtilities.updateComponentTreeUI(jPanel4);
     }//GEN-LAST:event_jButton2ActionPerformed
@@ -552,7 +557,6 @@ public class AdminDashboard extends javax.swing.JFrame {
         jPanel4.removeAll();
         AllCompletedSessions acs = new AllCompletedSessions();
         jPanel4.add(acs, BorderLayout.CENTER);
-        jButton3.setBackground(Color.decode("#09121c")); 
 
         SwingUtilities.updateComponentTreeUI(jPanel4);
     }//GEN-LAST:event_jButton3ActionPerformed
@@ -561,7 +565,6 @@ public class AdminDashboard extends javax.swing.JFrame {
         jPanel4.removeAll();
         CancelledSessions cancelSessions = new CancelledSessions();
         jPanel4.add(cancelSessions, BorderLayout.CENTER);
-        jButton4.setBackground(Color.decode("#09121c")); 
 
         SwingUtilities.updateComponentTreeUI(jPanel4);
     }//GEN-LAST:event_jButton4jButton4ActionPerformed
@@ -570,7 +573,7 @@ public class AdminDashboard extends javax.swing.JFrame {
         jPanel4.removeAll();
         RescheduleSessions rescheduleSessions = new RescheduleSessions();
         jPanel4.add(rescheduleSessions, BorderLayout.CENTER);
-        jButton5.setBackground(Color.decode("#09121c")); 
+        jButton5.setBackground(Color.decode("#09121c"));
 
         SwingUtilities.updateComponentTreeUI(jPanel4);
     }//GEN-LAST:event_jButton5jButton5ActionPerformed
@@ -579,16 +582,14 @@ public class AdminDashboard extends javax.swing.JFrame {
         jPanel4.removeAll();
         StudentRegistration SR = new StudentRegistration();
         jPanel4.add(SR, BorderLayout.CENTER);
-        jButton6.setBackground(Color.decode("#09121c")); 
 
         SwingUtilities.updateComponentTreeUI(jPanel4);
     }//GEN-LAST:event_jButton6ActionPerformed
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
         jPanel4.removeAll();
-        StudentManagement as = new StudentManagement();
+        AllStudents as = new AllStudents(this);
         jPanel4.add(as, BorderLayout.CENTER);
-        jButton7.setBackground(Color.decode("#09121c")); 
 
         SwingUtilities.updateComponentTreeUI(jPanel4);
     }//GEN-LAST:event_jButton7ActionPerformed
@@ -597,7 +598,6 @@ public class AdminDashboard extends javax.swing.JFrame {
         jPanel4.removeAll();
         UpdateStudent us = new UpdateStudent();
         jPanel4.add(us, BorderLayout.CENTER);
-        jButton8.setBackground(Color.decode("#09121c"));
 
         SwingUtilities.updateComponentTreeUI(jPanel4);
     }//GEN-LAST:event_jButton8ActionPerformed
@@ -606,14 +606,13 @@ public class AdminDashboard extends javax.swing.JFrame {
         jPanel4.removeAll();
         AddTutor at = new AddTutor();
         jPanel4.add(at, BorderLayout.CENTER);
-        jButton1.setBackground(Color.decode("#09121c")); 
 
         SwingUtilities.updateComponentTreeUI(jPanel4);
     }//GEN-LAST:event_jButton9ActionPerformed
 
     private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
         jPanel4.removeAll();
-        AllTutors ats = new AllTutors();
+        AllTutors ats = new AllTutors(this);
         jPanel4.add(ats, BorderLayout.CENTER);
 
         SwingUtilities.updateComponentTreeUI(jPanel4);
@@ -653,7 +652,7 @@ public class AdminDashboard extends javax.swing.JFrame {
 
     private void jButton15ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton15ActionPerformed
         jPanel4.removeAll();
-        AllEmployees al = new AllEmployees();
+        AllEmployees al = new AllEmployees(this);
         jPanel4.add(al, BorderLayout.CENTER);
 
         SwingUtilities.updateComponentTreeUI(jPanel4);
@@ -676,7 +675,7 @@ public class AdminDashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton17ActionPerformed
 
     private void jButton21ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton21ActionPerformed
-       jPanel4.removeAll();
+        jPanel4.removeAll();
         EmployeePaymentHistory twh = new EmployeePaymentHistory();
         jPanel4.add(twh, BorderLayout.CENTER);
 
@@ -684,8 +683,9 @@ public class AdminDashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton21ActionPerformed
 
     private void jButton22ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton22ActionPerformed
-         AdminReportDashboard adminReportDashboard = new AdminReportDashboard("bhanu","bandara");
-        adminReportDashboard .setVisible(true);
+        AdminReportDashboard adminReportDashboard = new AdminReportDashboard("bhanu", "bandara");
+        adminReportDashboard.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_jButton22ActionPerformed
 
     private void jButton18ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton18ActionPerformed
@@ -693,7 +693,7 @@ public class AdminDashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton18ActionPerformed
 
     private void jButton20ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton20ActionPerformed
-    jPanel4.removeAll();
+        jPanel4.removeAll();
         StudentInvoiceHistory twh = new StudentInvoiceHistory();
         jPanel4.add(twh, BorderLayout.CENTER);
 
@@ -701,13 +701,10 @@ public class AdminDashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton20ActionPerformed
 
     public static void main(String args[]) throws UnsupportedLookAndFeelException {
-//        FlatMacDarkLaf.setup();
-
-//        FlatLaf.registerCustomDefaultsSource("src/Themes/NewTheme.properties");
         UIManager.setLookAndFeel(new FlatLightLaf());
-        UIManager.put("Button.background", Color.decode("#3d6383"));
-        UIManager.put("Button.select", Color.decode("#000000"));
-        UIManager.put("Button.foreground", Color.decode("#eeeeee"));
+        UIManager.put("Button.background", Color.decode("#607D8B"));
+        UIManager.put("Button.focusedBackground", Color.decode("#607D8B"));
+        UIManager.put("Button.foreground", Color.decode("#ffffff"));
         UIManager.put("TextField.background", Color.decode("#f0f0f0"));
         UIManager.put("TextField.foreground", Color.decode("#000000"));
         UIManager.put("Panel.background", Color.decode("#E0E0E0"));
