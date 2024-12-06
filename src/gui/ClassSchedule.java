@@ -43,7 +43,7 @@ public class ClassSchedule extends javax.swing.JPanel {
         while (rs.next()) {
             String classDate = rs.getString("class_date");
             String tutorName = rs.getString("tutor_name");
-            String location = rs.getString("location");
+            String location = rs.getString("hallnumber");
             String classTime = rs.getString("class_time");
             double amount = rs.getDouble("amount");
             String courseName = rs.getString("course_name");
