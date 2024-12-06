@@ -134,7 +134,7 @@ public class CourseRegistration extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("VOID Admin Dashboard");
 
         jPanel1.setMaximumSize(new java.awt.Dimension(1250, 120));
