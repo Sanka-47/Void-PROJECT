@@ -1,4 +1,4 @@
-//author Sanka
+//author SANKA
 package gui;
 
 import java.sql.ResultSet;
