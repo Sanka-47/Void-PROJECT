@@ -16,17 +16,30 @@ public class AllTutors extends javax.swing.JPanel {
     
     private AdminDashboard parent;
     
+    public void setAdminDashboard(AdminDashboard ad) {
+        this.parent = ad;
+    }
+    
+    private EmployeeDashboard eparent;
+    
+    public void setEmployeeDashboard(EmployeeDashboard ed) {
+        this.eparent = ed;
+    }
+    
     private AddTutor updateTutor;
 
-    public AllTutors(AdminDashboard parent) {
-        this.parent = parent;
+    public AllTutors() {
         this.updateTutor = new AddTutor();
         initComponents();
         loadTable();
     }
     
-    private void switchToRegistration() {
+    private void switchToRegistrationAD() {
         parent.switchPanel(updateTutor);
+    }
+    
+    private void switchToRegistrationED() {
+        eparent.switchPanel(updateTutor);
     }
     
     private void loadTable() {
@@ -187,7 +200,13 @@ public class AllTutors extends javax.swing.JPanel {
             updateTutor.getjButton3().setEnabled(true);
             updateTutor.getjButton4().setEnabled(true);
             
-            switchToRegistration();
+            if (parent != null) {
+                switchToRegistrationAD();
+            } else if (eparent != null) {
+                switchToRegistrationED();
+            } else {
+                System.out.println("Null");
+            }
         }
     }//GEN-LAST:event_jTable1MouseClicked
 

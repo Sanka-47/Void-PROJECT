@@ -12,21 +12,30 @@ public class AllStudents extends javax.swing.JPanel {
 
     private AdminDashboard parent;
 
+    public void setAdminDashboard(AdminDashboard ad) {
+        this.parent = ad;
+    }
+
+    private EmployeeDashboard eparent;
+
+    public void setEmployeeDashboard(EmployeeDashboard ed) {
+        this.eparent = ed;
+    }
+
     private StudentRegistration updateStudent;
 
-//    public void setStudent(StudentRegistration updateStudent) {
-//        this.updateStudent = updateStudent;
-//    }
-
-    public AllStudents(AdminDashboard parent) {
-        this.parent = parent;
+    public AllStudents() {
         this.updateStudent = new StudentRegistration();
         initComponents();
         loadTable();
     }
 
-    private void switchToRegistration() {
+    private void switchToRegistrationAD() {
         parent.switchPanel(updateStudent);
+    }
+
+    private void switchToRegistrationED() {
+        eparent.switchPanel(updateStudent);
     }
 
     private void loadTable() {
@@ -168,7 +177,13 @@ public class AllStudents extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        switchToRegistration();
+        if (parent != null) {
+            switchToRegistrationAD();
+        } else if (eparent != null) {
+            switchToRegistrationED();
+        } else {
+            System.out.println("Null");
+        }
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
@@ -215,14 +230,19 @@ public class AllStudents extends javax.swing.JPanel {
             } catch (Exception e) {
                 System.out.println("Error converting Object to Date: " + e.getMessage());
             }
-            
+
             updateStudent.getjButton1().setEnabled(false);
             updateStudent.getjButton2().setEnabled(true);
             updateStudent.getjButton3().setEnabled(true);
             updateStudent.getjButton4().setEnabled(true);
-            
 
-            switchToRegistration();
+            if (parent != null) {
+                switchToRegistrationAD();
+            } else if (eparent != null) {
+                switchToRegistrationED();
+            } else {
+                System.out.println("Null");
+            }
         }
     }//GEN-LAST:event_jTable1MouseClicked
 

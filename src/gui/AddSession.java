@@ -230,6 +230,11 @@ public class AddSession extends javax.swing.JPanel {
 
         jButton2.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
         jButton2.setText("Edit Session");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jLabel2.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
         jLabel2.setText("Class ID");
@@ -429,6 +434,76 @@ public class AddSession extends javax.swing.JPanel {
             }
         }
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        String sessionID = jTextField1.getText();
+        String className = jTextField2.getText();
+        Date date = jDateChooser1.getDate();
+        String startTime = jFormattedTextField1.getText();
+        String endTime = jFormattedTextField2.getText();
+        String hallnumber = jTextField3.getText();
+        String price = jFormattedTextField3.getText();
+        String tName = String.valueOf(jComboBox1.getSelectedItem());
+        String course = String.valueOf(jComboBox2.getSelectedItem());
+        String status = String.valueOf(jComboBox3.getSelectedItem());
+
+        if (className.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please enter the class name!", "Warning", JOptionPane.WARNING_MESSAGE);
+        } else if (date == null) {
+            JOptionPane.showMessageDialog(this, "Please enter a date!", "Warning", JOptionPane.WARNING_MESSAGE);
+        } else if (startTime.isEmpty() || startTime.equals(0.00)) {
+            JOptionPane.showMessageDialog(this, "Please enter the class starting time!", "Warning", JOptionPane.WARNING_MESSAGE);
+        } else if (endTime.isEmpty() || endTime.equals(0.00)) {
+            JOptionPane.showMessageDialog(this, "Please enter the class ending time!", "Warning", JOptionPane.WARNING_MESSAGE);
+        } else if (hallnumber.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please enter the location!", "Warning", JOptionPane.WARNING_MESSAGE);
+        } else if (price.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "PLease enter a price!", "Warning", JOptionPane.WARNING_MESSAGE);
+        } else if (!price.matches("^[0-9]*\\.?[0-9]+$")) {
+            JOptionPane.showMessageDialog(this, "Please enter only values!", "Warning", JOptionPane.WARNING_MESSAGE);
+        } else if (tName.equals("Select")) {
+            JOptionPane.showMessageDialog(this, "Please select a tutor!", "Warning", JOptionPane.WARNING_MESSAGE);
+        }else if (course.equals("Select")) {
+            JOptionPane.showMessageDialog(this, "Please select a course!", "Warning", JOptionPane.WARNING_MESSAGE);
+        } else if (status.equals("Select")) {
+            JOptionPane.showMessageDialog(this, "Please enter the class status!", "Warning", JOptionPane.WARNING_MESSAGE);
+        } else {
+
+            try {
+
+//                ResultSet resultSet1 = MySQL2.executeSearch("SELECT `id` FROM `tutor` WHERE `id` = '" + tutorMap.get(tName) + "' AND `contact_info` = '" + tMobile + "'");
+//                if (resultSet1.next()) {
+//                    String tutorID = resultSet.getString("id");
+//                    
+//                    ResultSet resultSet2 = MySQL2.executeSearch("SELECT `id` FROM `courses` WHERE `name` = '" + course + "'");
+//                    String courseID = resultSet2.getString("id");
+//                    
+//                    ResultSet resultSet3 = MySQL2.executeSearch("SELECT `id` FROM  `class_status` WHERE `name` = '" + status + "'");
+//                    String statusID = resultSet3.getString("id");
+                SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+
+                System.out.println("Session ID: " + sessionID);
+                System.out.println("Class Name :" + className);
+                System.out.println("Date: " + format.format(date));
+                System.out.println("Start Time: " + startTime);
+                System.out.println("End Time :" + endTime);
+                System.out.println("Hall Number :" + hallnumber);
+                System.out.println("Price :" + price);
+                System.out.println("Tutor ID :" + tutorMap.get(tName));
+                System.out.println("Course ID :" + courseMap.get(course));
+                System.out.println("Status ID :" + statusMap.get(status));
+
+                MySQL2.executeIUD("UPDATE `class` SET `name` = '" + className + "', `date` = '" + format.format(date) + "', `start_time` = '" + startTime + "', "
+                        + "`end_time` = '" + endTime + "', `hallnumber` = '" + hallnumber + "', `amount` = '" + price + "', `tutor_id` = '" + tutorMap.get(tName) + "', "
+                        + "`courses_id` = '" + courseMap.get(course) + "', `class_status` = '" + statusMap.get(status) + "' WHERE `class`.`id` = '" + sessionID + "'");
+
+                JOptionPane.showMessageDialog(this, "Tutor's phone number does not match with the previously saved number! Please try again!", "Warning", JOptionPane.WARNING_MESSAGE);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }//GEN-LAST:event_jButton2ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -164,10 +164,10 @@ public class Menu extends javax.swing.JFrame implements Runnable, ThreadFactory 
                         ResultSet rs = MySQL2.executeSearch("SELECT * FROM `student` WHERE `nic`= '" + result.getText() + "'");
 
                         if (rs.next()) {
-                            invoice.getjTextField2().setText(rs.getString("first_name") + " " + rs.getString("last_name"));
+                            invoice.getStudentNameField().setText(rs.getString("first_name") + " " + rs.getString("last_name"));
 //                   invoice.getstudentID().setText(rs.getString("nic"));
                             StudentPayment.setStudent_id(rs.getString("nic"));
-                            invoice.setCustomerName(rs.getString("nic"));
+                            invoice.getNICLabel().setText(rs.getString("nic"));
                             
                         }
 

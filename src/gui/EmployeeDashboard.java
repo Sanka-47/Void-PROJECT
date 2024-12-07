@@ -1,4 +1,3 @@
-//author CHANULI
 package gui;
 
 import com.formdev.flatlaf.FlatLaf;
@@ -8,6 +7,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
@@ -24,6 +24,12 @@ public class EmployeeDashboard extends javax.swing.JFrame {
         this.fName = fName;
         this.lName = lName;
         loadDate();
+    }
+    
+    public void switchPanel(JPanel panel) {
+        jPanel4.removeAll();
+        jPanel4.add(panel, BorderLayout.CENTER);
+        SwingUtilities.updateComponentTreeUI(jPanel4);
     }
 
     private void loadDate() {
@@ -330,7 +336,7 @@ public class EmployeeDashboard extends javax.swing.JFrame {
                     .addComponent(jPanel7, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel6, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(18, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -410,25 +416,25 @@ public class EmployeeDashboard extends javax.swing.JFrame {
     private void jButton4jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4jButton4ActionPerformed
         jPanel4.removeAll();
         AllTutors ats = new AllTutors();
+        ats.setEmployeeDashboard(this);
         jPanel4.add(ats, BorderLayout.CENTER);
 
         SwingUtilities.updateComponentTreeUI(jPanel4);
     }//GEN-LAST:event_jButton4jButton4ActionPerformed
 
     private void jButton5jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5jButton5ActionPerformed
-//        jPanel4.removeAll();
-//        AllStudents as = new AllStudents();
-//        jPanel4.add(as, BorderLayout.CENTER);
-//        
-//        SwingUtilities.updateComponentTreeUI(jPanel4);
-
-        AllStudents allstudents = new AllStudents();
-        allstudents.setVisible(true);
+        jPanel4.removeAll();
+        AllStudents as = new AllStudents();
+        as.setEmployeeDashboard(this);
+        jPanel4.add(as, BorderLayout.CENTER);
+        
+        SwingUtilities.updateComponentTreeUI(jPanel4);
     }//GEN-LAST:event_jButton5jButton5ActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
         jPanel4.removeAll();
         AllSession allSession = new AllSession();
+        allSession.setEmployeeDashboard(this);
         jPanel4.add(allSession, BorderLayout.CENTER);
 
         SwingUtilities.updateComponentTreeUI(jPanel4);
@@ -454,27 +460,25 @@ public class EmployeeDashboard extends javax.swing.JFrame {
         
     }//GEN-LAST:event_jButton8ActionPerformed
 
-//    public static void main(String args[]) throws UnsupportedLookAndFeelException {
-////        FlatMacDarkLaf.setup();
-//
-////        FlatLaf.registerCustomDefaultsSource("src/Themes/NewTheme.properties");
-//        UIManager.setLookAndFeel(new FlatLightLaf());
-//        UIManager.put("Button.background", Color.decode("#607D8B"));
-//        UIManager.put("Button.foreground", Color.decode("#ffffff"));
-//        UIManager.put("TextField.background", Color.decode("#f0f0f0"));
-//        UIManager.put("TextField.foreground", Color.decode("#000000"));
-//        UIManager.put("Panel.background", Color.decode("#E0E0E0"));
-//        UIManager.put("Label.foreground", Color.decode("#000000"));
-//        UIManager.put("Table.background", Color.decode("#ffffff"));
-//        UIManager.put("Table.foreground", Color.decode("#000000"));
-//
-//        /* Create and display the form */
-//        java.awt.EventQueue.invokeLater(new Runnable() {
-//            public void run() {
-//                new EmployeeDashboard("", "").setVisible(true);
-//            }
-//        });
-//    }
+    public static void main(String args[]) throws UnsupportedLookAndFeelException {
+        UIManager.setLookAndFeel(new FlatLightLaf());
+        UIManager.put("Button.background", Color.decode("#607D8B"));
+        UIManager.put("Button.focusedBackground", Color.decode("#607D8B"));
+        UIManager.put("Button.foreground", Color.decode("#ffffff"));
+        UIManager.put("TextField.background", Color.decode("#f0f0f0"));
+        UIManager.put("TextField.foreground", Color.decode("#000000"));
+        UIManager.put("Panel.background", Color.decode("#E0E0E0"));
+        UIManager.put("Label.foreground", Color.decode("#000000"));
+        UIManager.put("Table.background", Color.decode("#ffffff"));
+        UIManager.put("Table.foreground", Color.decode("#000000"));
+        
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new EmployeeDashboard("", "").setVisible(true);
+            }
+        });
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
