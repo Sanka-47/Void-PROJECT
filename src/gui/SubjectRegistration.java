@@ -4,6 +4,10 @@
  */
 package gui;
 
+import java.sql.ResultSet;
+import javax.swing.JOptionPane;
+import model.MySQL2;
+
 /**
  *
  * @author Bhanuka
@@ -49,6 +53,11 @@ public class SubjectRegistration extends javax.swing.JPanel {
 
         jButton1.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
         jButton1.setText("Clear All");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jButton2.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
         jButton2.setText("Registration");
@@ -112,9 +121,63 @@ public class SubjectRegistration extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void ClearAll(){
+        
+        jTextField1.setText("");
+        jTextField2.setText("");
+        
+        
+    
+    }
+    
+    
+    
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
+        String subjectName = jTextField1.getText();
+        String description = jTextField2.getText();
+        
+        try{
+        
+        if (subjectName.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Please enter your subjectName!", "Warning", JOptionPane.WARNING_MESSAGE);
+            } else if (!subjectName.matches("^[A-Za-z]+( [A-Za-z]+)?$")) {
+                JOptionPane.showMessageDialog(this, "Invalid first name. Only alphabetic characters are allowed, with one space between two names.", "Warning", JOptionPane.WARNING_MESSAGE);
+            } else if (description.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Please enter your description!", "Warning", JOptionPane.WARNING_MESSAGE);
+            } else{
+
+                ResultSet resultSet = MySQL2.executeSearch("SELECT * FROM `subject` WHERE  `name` = '" + subjectName+ "' AND `description` = '" + description + "'");
+
+                if (resultSet.next()) {
+                    JOptionPane.showMessageDialog(this, "This user already registered", "Warning", JOptionPane.WARNING_MESSAGE);
+                } else {
+
+                    
+                    MySQL2.executeIUD("INSERT INTO `subject`(`name`,`description`)"
+                            + "VALUES('" +subjectName+ "','" + description + "')");
+                    ClearAll();
+                }     
+
+                }
+        
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+        
+        
+        
+        
+        
+        
+        
+        
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        ClearAll();
+    }//GEN-LAST:event_jButton1ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
