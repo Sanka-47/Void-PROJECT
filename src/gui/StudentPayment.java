@@ -1,8 +1,5 @@
 
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
+//author SANKA
 package gui;
 
 import com.formdev.flatlaf.themes.FlatMacDarkLaf;
@@ -29,10 +26,7 @@ import model.InvoiceItem;
 
 import model.MySQL2;
 
-/**
- *
- * @author Vishwa
- */
+
 public class StudentPayment extends javax.swing.JFrame {
 
     private static String code;
