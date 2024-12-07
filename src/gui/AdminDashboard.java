@@ -547,7 +547,8 @@ public class AdminDashboard extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         jPanel4.removeAll();
-        AllSession allSession = new AllSession(this);
+        AllSession allSession = new AllSession();
+        allSession.setAdminDashboard(this);
         jPanel4.add(allSession, BorderLayout.CENTER);
 
         SwingUtilities.updateComponentTreeUI(jPanel4);
@@ -573,7 +574,6 @@ public class AdminDashboard extends javax.swing.JFrame {
         jPanel4.removeAll();
         RescheduleSessions rescheduleSessions = new RescheduleSessions();
         jPanel4.add(rescheduleSessions, BorderLayout.CENTER);
-        jButton5.setBackground(Color.decode("#09121c"));
 
         SwingUtilities.updateComponentTreeUI(jPanel4);
     }//GEN-LAST:event_jButton5jButton5ActionPerformed
@@ -588,7 +588,8 @@ public class AdminDashboard extends javax.swing.JFrame {
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
         jPanel4.removeAll();
-        AllStudents as = new AllStudents(this);
+        AllStudents as = new AllStudents();
+        as.setAdminDashboard(this);
         jPanel4.add(as, BorderLayout.CENTER);
 
         SwingUtilities.updateComponentTreeUI(jPanel4);
@@ -612,7 +613,8 @@ public class AdminDashboard extends javax.swing.JFrame {
 
     private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
         jPanel4.removeAll();
-        AllTutors ats = new AllTutors(this);
+        AllTutors ats = new AllTutors();
+        ats.setAdminDashboard(this);
         jPanel4.add(ats, BorderLayout.CENTER);
 
         SwingUtilities.updateComponentTreeUI(jPanel4);

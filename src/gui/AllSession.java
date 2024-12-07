@@ -14,10 +14,19 @@ public class AllSession extends javax.swing.JPanel {
     
     private AdminDashboard parent;
     
+    public void setAdminDashboard(AdminDashboard ad) {
+        this.parent = ad;
+    }
+    
+    private EmployeeDashboard eparent;
+    
+    public void setEmployeeDashboard(EmployeeDashboard ed) {
+        this.eparent = ed;
+    }
+    
     private AddSession updateSession;
 
-    public AllSession(AdminDashboard parent) {
-        this.parent = parent;
+    public AllSession() {
         this.updateSession = new AddSession();
         initComponents();
         DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
@@ -27,8 +36,12 @@ public class AllSession extends javax.swing.JPanel {
         loadSessions();
     }
     
-    private void switchToAddSession() {
+    private void switchToAddSessionAD() {
         parent.switchPanel(updateSession);
+    }
+    
+    private void switchToAddSesssionED() {
+        eparent.switchPanel(updateSession);
     }
     
     private void loadSessions() {
@@ -257,7 +270,13 @@ public class AllSession extends javax.swing.JPanel {
             updateSession.getjComboBox3().setSelectedItem(ClassStatus);
             updateSession.getjTextField1().setEditable(false);
             
-            switchToAddSession();
+            if (parent != null) {
+                switchToAddSessionAD();
+            } else if (eparent != null) {
+                switchToAddSesssionED();
+            } else {
+                System.out.println("Null");
+            }
         }
     }//GEN-LAST:event_jTable1MouseClicked
 

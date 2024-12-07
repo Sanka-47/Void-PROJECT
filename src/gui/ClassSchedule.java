@@ -6,6 +6,7 @@
 package gui;
 
 import java.sql.ResultSet;
+import java.util.Vector;
 import javax.swing.table.DefaultTableModel;
 import model.MySQL2;
 
@@ -20,40 +21,35 @@ public class ClassSchedule extends javax.swing.JPanel {
      */
     public ClassSchedule() {
         initComponents();
-         loadAllClasses();
+        loadAllClasses();
     }
 
     public void loadAllClasses() {
-    DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-    model.setRowCount(0); // Clear the table
-
+        
     try {
-        String query = "SELECT c.date AS class_date, " +
-                       "CONCAT(t.first_name, ' ', t.last_name) AS tutor_name, " +
-                       "c.location, " +
-                       "CONCAT(c.start_time, ' - ', c.end_time) AS class_time, " +
-                       "c.amount, " +
-                       "cs.name AS course_name " +
-                       "FROM class c " +
-                       "JOIN tutor t ON c.tutor_id = t.id " +
-                       "JOIN courses cs ON c.courses_id = cs.id";
 
-        ResultSet rs = MySQL2.executeSearch(query);
+            ResultSet resultSet = MySQL2.executeSearch("SELECT * FROM `class` INNER JOIN `tutor` ON `class`.`tutor_id` = `tutor`.`id` "
+                    + "INNER JOIN `courses` ON `class`.`courses_id` = `courses`.`id` "
+                    + "INNER JOIN `class_status` ON `class`.`class_status_id` = `class_status`.`id`");
 
-        while (rs.next()) {
-            String classDate = rs.getString("class_date");
-            String tutorName = rs.getString("tutor_name");
-            String location = rs.getString("hallnumber");
-            String classTime = rs.getString("class_time");
-            double amount = rs.getDouble("amount");
-            String courseName = rs.getString("course_name");
+            DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+            model.setRowCount(0);
 
-            // Add a row to the table
-            model.addRow(new Object[]{classDate, tutorName, location, classTime, amount, courseName});
+            while (resultSet.next()) {
+                Vector<String> vector = new Vector<>();
+                vector.add(resultSet.getString("date"));
+                vector.add(resultSet.getString("tutor.first_name") + " " + resultSet.getString("tutor.last_name"));
+                vector.add(resultSet.getString("hallnumber"));
+                vector.add(resultSet.getString("start_time") + " - " + resultSet.getString("end_time"));
+                vector.add(resultSet.getString("amount"));
+                vector.add(resultSet.getString("courses.name"));
+
+                model.addRow(vector);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-    } catch (Exception e) {
-        e.printStackTrace();
-    }
 }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -70,7 +66,7 @@ public class ClassSchedule extends javax.swing.JPanel {
 
         setPreferredSize(new java.awt.Dimension(1000, 581));
 
-        jLabel1.setFont(new java.awt.Font("Century Gothic", 1, 36)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Century Gothic", 1, 24)); // NOI18N
         jLabel1.setText("Class Schedules");
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
@@ -78,7 +74,7 @@ public class ClassSchedule extends javax.swing.JPanel {
 
             },
             new String [] {
-                "Class date", "Tutor name", "Location", "Time", "Amount", "Course Name"
+                "Class date", "Tutor name", "Hall Number", "Time", "Amount", "Course Name"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -96,23 +92,23 @@ public class ClassSchedule extends javax.swing.JPanel {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(341, 341, 341)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 298, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(46, 46, 46)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 890, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(64, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 988, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jLabel1)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(20, 20, 20)
                 .addComponent(jLabel1)
-                .addGap(36, 36, 36)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(56, Short.MAX_VALUE))
+                .addGap(62, 62, 62)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 462, Short.MAX_VALUE)
+                .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
