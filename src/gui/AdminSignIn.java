@@ -105,7 +105,7 @@ public class AdminSignIn extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel5)
                     .addComponent(jLabel2))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 41, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -156,16 +156,16 @@ public class AdminSignIn extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         
-        String email = jTextField1.getText();
+        String mobile = jTextField1.getText();
         String password = String.valueOf(jPasswordField1.getPassword());
 
-        if (email.isEmpty()) {
+        if (mobile.isEmpty()) {
 
-            JOptionPane.showMessageDialog(this, "Please enter your email!", "Warning", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Please enter your mobile!", "Warning", JOptionPane.WARNING_MESSAGE);
 
-        } else if (!email.matches("^(?=.{1,64}@)[\\p{L}0-9_-]+(\\.[\\p{L}0-9_-]+)*@[^-][\\p{L}0-9-]+(\\.[\\p{L}0-9-]+)*(\\.[\\p{L}]{2,})$")) {
+        } else if (!mobile.matches("^07[01245678]{1}[0-9]{7}$")) {
 
-            JOptionPane.showMessageDialog(this, "Please enter a valid email!", "Warning", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Please enter a valid mobile!", "Warning", JOptionPane.WARNING_MESSAGE);
 
         } else if (password.isEmpty()) {
 
@@ -175,7 +175,7 @@ public class AdminSignIn extends javax.swing.JFrame {
 
             try {
 
-                ResultSet resultSet = MySQL2.executeSearch("SELECT * FROM `employee` WHERE `email` = '" + email + "' AND `password` = '" + password + "'");
+                ResultSet resultSet = MySQL2.executeSearch("SELECT * FROM `employee` WHERE `contact_info` = '" + mobile + "' AND `password` = '" + password + "'");
 
                 if (resultSet.next()) {
 
@@ -183,9 +183,9 @@ public class AdminSignIn extends javax.swing.JFrame {
                     String lName = resultSet.getString("last_name");
                     JOptionPane.showMessageDialog(this, "Success", "Success", JOptionPane.INFORMATION_MESSAGE);
 
-//                    AdminDashboard ad = new AdminDashboard(fName, lName);
-//                    ad.setVisible(true);
-//                    this.dispose();
+                    AdminDashboard ad = new AdminDashboard(fName, lName);
+                    ad.setVisible(true);
+                    this.dispose();
                     
 //                    Dashboard d = new Dashboard(fName, lName);
 //                    d.setVisible(true);
@@ -195,7 +195,7 @@ public class AdminSignIn extends javax.swing.JFrame {
 
                 } else {
 
-                    JOptionPane.showMessageDialog(this, "Incorrect email or password", "Warning", JOptionPane.WARNING_MESSAGE);
+                    JOptionPane.showMessageDialog(this, "Incorrect mobile or password", "Warning", JOptionPane.WARNING_MESSAGE);
                 }
 
             } catch (Exception e) {
