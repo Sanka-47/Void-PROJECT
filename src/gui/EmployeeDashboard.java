@@ -17,15 +17,16 @@ public class EmployeeDashboard extends javax.swing.JFrame {
 
     private String fName;
     private String lName;
-    
+    private String mobile;
+
     public EmployeeDashboard(String fName, String lName) {
         initComponents();
-        jLabel5.setText(fName +" "+ lName);
+        jLabel5.setText(fName + " " + lName);
         this.fName = fName;
         this.lName = lName;
         loadDate();
     }
-    
+
     public void switchPanel(JPanel panel) {
         jPanel4.removeAll();
         jPanel4.add(panel, BorderLayout.CENTER);
@@ -408,11 +409,14 @@ public class EmployeeDashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        jPanel4.removeAll();
-        AddSession addSession = new AddSession();
-        jPanel4.add(addSession, BorderLayout.CENTER);
+//        jPanel4.removeAll();
+//        TutorScheduleAndCalander addSession = new TutorScheduleAndCalander();
+//        jPanel4.add(addSession, BorderLayout.CENTER);
+//
+//        SwingUtilities.updateComponentTreeUI(jPanel4);
 
-        SwingUtilities.updateComponentTreeUI(jPanel4);
+        TutorScheduleAndCalander cr = new TutorScheduleAndCalander(mobile, lName);
+        cr.setVisible(true);
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton4jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4jButton4ActionPerformed
@@ -429,7 +433,7 @@ public class EmployeeDashboard extends javax.swing.JFrame {
         AllStudents as = new AllStudents();
         as.setEmployeeDashboard(this);
         jPanel4.add(as, BorderLayout.CENTER);
-        
+
         SwingUtilities.updateComponentTreeUI(jPanel4);
     }//GEN-LAST:event_jButton5jButton5ActionPerformed
 
@@ -456,10 +460,10 @@ public class EmployeeDashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton7ActionPerformed
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
-        
+
         CourseRegistration cr = new CourseRegistration(fName, lName);
         cr.setVisible(true);
-        
+
     }//GEN-LAST:event_jButton8ActionPerformed
 
     public static void main(String args[]) throws UnsupportedLookAndFeelException {
@@ -473,7 +477,7 @@ public class EmployeeDashboard extends javax.swing.JFrame {
         UIManager.put("Label.foreground", Color.decode("#000000"));
         UIManager.put("Table.background", Color.decode("#ffffff"));
         UIManager.put("Table.foreground", Color.decode("#000000"));
-        
+
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
