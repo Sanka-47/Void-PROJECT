@@ -441,7 +441,7 @@ public class EmployeeDashboard extends javax.swing.JFrame {
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
         jPanel4.removeAll();
         AllSession allSession = new AllSession();
-        allSession.setEmployeeDashboard(this);
+//        allSession.setEmployeeDashboard(this);
         jPanel4.add(allSession, BorderLayout.CENTER);
 
         SwingUtilities.updateComponentTreeUI(jPanel4);

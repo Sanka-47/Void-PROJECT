@@ -1,9 +1,12 @@
 //KAVISHKA
 package gui;
 
+import com.formdev.flatlaf.FlatLightLaf;
 import com.formdev.flatlaf.themes.FlatMacDarkLaf;
 import java.awt.Color;
 import javax.swing.ImageIcon;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 
 
 public class SplashWindow extends javax.swing.JFrame {
@@ -71,29 +74,42 @@ public class SplashWindow extends javax.swing.JFrame {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(loadingText, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addComponent(loadingText, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(loadingText, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 38, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addComponent(loadingText, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
-        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 360, 210, -1));
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 580, 210, -1));
 
         jProgressBar1.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
         jProgressBar1.setForeground(new java.awt.Color(153, 153, 255));
         jProgressBar1.setStringPainted(true);
-        getContentPane().add(jProgressBar1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 400, 400, 30));
+        getContentPane().add(jProgressBar1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 620, 400, 30));
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resource/loading1.gif"))); // NOI18N
-        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, 400));
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resource/ezgif.com-video-to-gif-converter.gif"))); // NOI18N
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 400, 620));
 
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    public static void main(String args[]) {
-        FlatMacDarkLaf.setup();
+    public static void main(String args[]) throws UnsupportedLookAndFeelException {
+        UIManager.setLookAndFeel(new FlatLightLaf());
+        UIManager.put("Button.background", Color.decode("#607D8B"));
+        UIManager.put("Button.focusedBackground", Color.decode("#607D8B"));
+        UIManager.put("Button.foreground", Color.decode("#ffffff"));
+        UIManager.put("TextField.background", Color.decode("#f0f0f0"));
+        UIManager.put("TextField.foreground", Color.decode("#000000"));
+        UIManager.put("Panel.background", Color.decode("#E0E0E0"));
+        UIManager.put("Label.foreground", Color.decode("#000000"));
+        UIManager.put("Table.background", Color.decode("#ffffff"));
+        UIManager.put("Table.foreground", Color.decode("#000000"));
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {

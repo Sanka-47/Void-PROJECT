@@ -12,22 +12,22 @@ import javax.swing.table.DefaultTableModel;
 
 public class AllSession extends javax.swing.JPanel {
     
-    private AdminDashboard parent;
-    
-    public void setAdminDashboard(AdminDashboard ad) {
-        this.parent = ad;
-    }
-    
-    private EmployeeDashboard eparent;
-    
-    public void setEmployeeDashboard(EmployeeDashboard ed) {
-        this.eparent = ed;
-    }
-    
-    private AddSession updateSession;
+//    private AdminDashboard parent;
+//    
+//    public void setAdminDashboard(AdminDashboard ad) {
+//        this.parent = ad;
+//    }
+//    
+//    private EmployeeDashboard eparent;
+//    
+//    public void setEmployeeDashboard(EmployeeDashboard ed) {
+//        this.eparent = ed;
+//    }
+//    
+//    private AddSession updateSession;
 
     public AllSession() {
-        this.updateSession = new AddSession();
+//        this.updateSession = new AddSession();
         initComponents();
         DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
         renderer.setHorizontalAlignment(SwingConstants.CENTER);
@@ -36,24 +36,44 @@ public class AllSession extends javax.swing.JPanel {
         loadSessions();
     }
     
-    private void switchToAddSessionAD() {
-        parent.switchPanel(updateSession);
-    }
-    
-    private void switchToAddSesssionED() {
-        eparent.switchPanel(updateSession);
-    }
+//    private void switchToAddSessionAD() {
+//        parent.switchPanel(updateSession);
+//    }
+//    
+//    private void switchToAddSesssionED() {
+//        eparent.switchPanel(updateSession);
+//    }
     
     private void loadSessions() {
         
         try {
-            
+
             String sort = String.valueOf(jComboBox1.getSelectedItem());
-            
+
             String query = "SELECT * FROM `class` INNER JOIN `tutor` ON `class`.`tutor_id` = `tutor`.`id` "
                     + "INNER JOIN `courses` ON `class`.`courses_id` = `courses`.`id` "
-                    + "INNER JOIN `class_status` ON `class`.`class_status_id` = `class_status`.`id`";
-            
+                    + "INNER JOIN `class_status` ON `class`.`class_status_id` = `class_status`.`id` ";
+
+            Date start = null;
+            Date end = null;
+
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+
+            if (jDateChooser1.getDate() != null) {
+                start = jDateChooser1.getDate();
+                query += " WHERE `class`.`date` > '" + format.format(start) + "' AND ";
+            }
+
+            if (query.contains("WHERE") && jDateChooser2.getDate() != null) {
+                end = jDateChooser2.getDate();
+                query += "`class`.`date` < '" + format.format(end) + "' ";
+            } else {
+                if (jDateChooser2.getDate() != null) {
+                    end = jDateChooser2.getDate();
+                    query += " WHERE `class`.`date` < '" + format.format(end) + "' ";
+                }
+            }
+
             if (sort.equals("Hall Number ASC")) {
                 query += "ORDER BY `hallnumber` ASC ";
             } else if (sort.equals("Hall Number DESC")) {
@@ -68,6 +88,7 @@ public class AllSession extends javax.swing.JPanel {
                 query += "ORDER BY `courses`.`name` DESC";
             }
 
+            System.out.println(query);
             ResultSet resultSet = MySQL2.executeSearch(query);
 
             DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
@@ -220,64 +241,64 @@ public class AllSession extends javax.swing.JPanel {
     }//GEN-LAST:event_jComboBox1ActionPerformed
 
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
-        int row = jTable1.getSelectedRow(); // Selected row
-        int col = jTable1.getSelectedColumn(); // Selected column
-
-// Validate indices
-        if (row >= 0 && col >= 0 && col < jTable1.getColumnCount()) {
-            Object value = jTable1.getValueAt(row, col);
-            System.out.println("Value: " + value);
-        } else {
-            System.out.println("Invalid row/column selected.");
-        }
-
-        String ClassID = String.valueOf(jTable1.getValueAt(row, 0));
-        String ClassName = String.valueOf(jTable1.getValueAt(row, 1));
-        String Date = String.valueOf(jTable1.getValueAt(row, 2));
-        String StartTime = String.valueOf(jTable1.getValueAt(row, 3));
-        String EndTime = String.valueOf(jTable1.getValueAt(row, 4));
-        String HallNumber = String.valueOf(jTable1.getValueAt(row, 5));
-        String Price = String.valueOf(jTable1.getValueAt(row, 6));
-        String TutorName = String.valueOf(jTable1.getValueAt(row, 7));
-        String CourseName = String.valueOf(jTable1.getValueAt(row, 8));
-        String ClassStatus = String.valueOf(jTable1.getValueAt(row, 9));
-
-        if (evt.getClickCount() == 2) {
-//            switchToRegistration();
-            if (updateSession == null) {
-                updateSession = new AddSession();
-            }
-            
-            updateSession.getjTextField1().setText(ClassID);
-            updateSession.getjTextField2().setText(ClassName);
-            
-            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-
-            try {
-                Date date = formatter.parse((Date));
-                updateSession.getjDateChooser1().setDate(date);
-                System.out.println("Converted Date: " + date);
-            } catch (Exception e) {
-                System.out.println("Error converting Object to Date: " + e.getMessage());
-            }
-            
-            updateSession.getjFormattedTextField1().setText(StartTime);
-            updateSession.getjFormattedTextField2().setText(EndTime);
-            updateSession.getjTextField3().setText(HallNumber);
-            updateSession.getjFormattedTextField3().setText(Price);
-            updateSession.getjComboBox1().setSelectedItem(TutorName);
-            updateSession.getjComboBox2().setSelectedItem(CourseName);
-            updateSession.getjComboBox3().setSelectedItem(ClassStatus);
-            updateSession.getjTextField1().setEditable(false);
-            
-            if (parent != null) {
-                switchToAddSessionAD();
-            } else if (eparent != null) {
-                switchToAddSesssionED();
-            } else {
-                System.out.println("Null");
-            }
-        }
+//        int row = jTable1.getSelectedRow(); // Selected row
+//        int col = jTable1.getSelectedColumn(); // Selected column
+//
+//// Validate indices
+//        if (row >= 0 && col >= 0 && col < jTable1.getColumnCount()) {
+//            Object value = jTable1.getValueAt(row, col);
+//            System.out.println("Value: " + value);
+//        } else {
+//            System.out.println("Invalid row/column selected.");
+//        }
+//
+//        String ClassID = String.valueOf(jTable1.getValueAt(row, 0));
+//        String ClassName = String.valueOf(jTable1.getValueAt(row, 1));
+//        String Date = String.valueOf(jTable1.getValueAt(row, 2));
+//        String StartTime = String.valueOf(jTable1.getValueAt(row, 3));
+//        String EndTime = String.valueOf(jTable1.getValueAt(row, 4));
+//        String HallNumber = String.valueOf(jTable1.getValueAt(row, 5));
+//        String Price = String.valueOf(jTable1.getValueAt(row, 6));
+//        String TutorName = String.valueOf(jTable1.getValueAt(row, 7));
+//        String CourseName = String.valueOf(jTable1.getValueAt(row, 8));
+//        String ClassStatus = String.valueOf(jTable1.getValueAt(row, 9));
+//
+//        if (evt.getClickCount() == 2) {
+////            switchToRegistration();
+//            if (updateSession == null) {
+//                updateSession = new AddSession();
+//            }
+//            
+//            updateSession.getjTextField1().setText(ClassID);
+//            updateSession.getjTextField2().setText(ClassName);
+//            
+//            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+//
+//            try {
+//                Date date = formatter.parse((Date));
+//                updateSession.getjDateChooser1().setDate(date);
+//                System.out.println("Converted Date: " + date);
+//            } catch (Exception e) {
+//                System.out.println("Error converting Object to Date: " + e.getMessage());
+//            }
+//            
+//            updateSession.getjFormattedTextField1().setText(StartTime);
+//            updateSession.getjFormattedTextField2().setText(EndTime);
+//            updateSession.getjTextField3().setText(HallNumber);
+//            updateSession.getjFormattedTextField3().setText(Price);
+//            updateSession.getjComboBox1().setSelectedItem(TutorName);
+//            updateSession.getjComboBox2().setSelectedItem(CourseName);
+//            updateSession.getjComboBox3().setSelectedItem(ClassStatus);
+//            updateSession.getjTextField1().setEditable(false);
+//            
+//            if (parent != null) {
+//                switchToAddSessionAD();
+//            } else if (eparent != null) {
+//                switchToAddSesssionED();
+//            } else {
+//                System.out.println("Null");
+//            }
+//        }
     }//GEN-LAST:event_jTable1MouseClicked
 
 
