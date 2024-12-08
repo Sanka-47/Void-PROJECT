@@ -1,5 +1,4 @@
 //Author KAVISHKA
-
 package gui;
 
 import com.formdev.flatlaf.FlatLaf;
@@ -16,6 +15,9 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
 public class AdminDashboard extends javax.swing.JFrame {
+    
+    private String lName;
+    private String mobile;
 
     public AdminDashboard(String fName, String lName) {
         initComponents();
@@ -525,11 +527,14 @@ public class AdminDashboard extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        jPanel4.removeAll();
-        AddSession addSession = new AddSession();
-        jPanel4.add(addSession, BorderLayout.CENTER);
+//        jPanel4.removeAll();
+//        AddSession addSession = new AddSession();
+//        jPanel4.add(addSession, BorderLayout.CENTER);
+//
+//        SwingUtilities.updateComponentTreeUI(jPanel4);
 
-        SwingUtilities.updateComponentTreeUI(jPanel4);
+        TutorScheduleAndCalander cr = new TutorScheduleAndCalander(mobile, lName);
+        cr.setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed

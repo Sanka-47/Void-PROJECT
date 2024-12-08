@@ -25,12 +25,15 @@ public class TutorScheduleAndCalander extends javax.swing.JFrame {
     private static HashMap<String, String> subjectMap = new HashMap<>();
     private static HashMap<String, String> courseMap = new HashMap<>();
     private static HashMap<String, String> tutorMap = new HashMap<>();
+    private static HashMap<String, String> statusMap = new HashMap<>();
 
     public TutorScheduleAndCalander(String mobile, String lName) {
         initComponents();
         loadDate();
         loadTutorSchedule();
         loadCourses();
+        loadTutors();
+        loadStatus();
     }
 
     private void loadTutorSchedule() {
@@ -50,12 +53,14 @@ public class TutorScheduleAndCalander extends javax.swing.JFrame {
                 Vector<String> vector = new Vector<>();
                 vector.add(resultSet.getString("class.id"));
                 vector.add(resultSet.getString("courses.name"));
+                vector.add(resultSet.getString("tutor.first_name") + " " + resultSet.getString("tutor.last_name"));
                 vector.add(resultSet.getString("class.name"));
                 vector.add(resultSet.getString("class.date"));
                 vector.add(resultSet.getString("class.start_time"));
                 vector.add(resultSet.getString("class.end_time"));
                 vector.add(resultSet.getString("class.hallnumber"));
                 vector.add(resultSet.getString("class_status.name"));
+                vector.add(resultSet.getString("class.amount"));
 
                 model.addRow(vector);
             }
@@ -88,20 +93,46 @@ public class TutorScheduleAndCalander extends javax.swing.JFrame {
         }
     }
 
+    private void loadStatus() {
+
+        try {
+
+            Vector<String> vector = new Vector<>();
+            vector.add("Select");
+
+            ResultSet resultSet = MySQL2.executeSearch("SELECT * FROM `class_status`");
+
+            while (resultSet.next()) {
+                vector.add(resultSet.getString("name"));
+                statusMap.put(resultSet.getString("name"), resultSet.getString("id"));
+            }
+
+            jComboBox3.setModel(new DefaultComboBoxModel<>(vector));
+
+        } catch (Exception e) {
+            e.printStackTrace();
+
+        }
+    }
+
     private void loadTutors() {
 
         try {
-            ResultSet resultSet = MySQL2.executeSearch("SELECT * FROM `tutor`");
+            ResultSet resultSet = MySQL2.executeSearch("SELECT first_name, last_name, id FROM `tutor`");
 
             Vector<String> vector = new Vector<>();
             vector.add("Select");
 
             while (resultSet.next()) {
-                vector.add(resultSet.getString("name"));
-                courseMap.put(resultSet.getString("name"), resultSet.getString("id"));
+//                vector.add(resultSet.getString("name"));
+//                tutorMap.put(resultSet.getString("name"), resultSet.getString("id"));
+
+                String fullName = resultSet.getString("first_name") + " " + resultSet.getString("last_name");
+                vector.add(fullName);
+                tutorMap.put(fullName, resultSet.getString("id"));
 
                 DefaultComboBoxModel model = new DefaultComboBoxModel(vector);
-                jComboBox2.setModel(model);
+                jComboBox1.setModel(model);
 
             }
 
@@ -156,18 +187,25 @@ public class TutorScheduleAndCalander extends javax.swing.JFrame {
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
-        jTextField4 = new javax.swing.JTextField();
         jLabel11 = new javax.swing.JLabel();
-        jTextField5 = new javax.swing.JTextField();
         jLabel12 = new javax.swing.JLabel();
-        jTextField6 = new javax.swing.JTextField();
         jTextField7 = new javax.swing.JTextField();
         jComboBox2 = new javax.swing.JComboBox<>();
         jLabel14 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
         jTextField2 = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
+        jButton2 = new javax.swing.JButton();
+        jLabel13 = new javax.swing.JLabel();
+        jTextField3 = new javax.swing.JTextField();
+        jDateChooser1 = new com.toedter.calendar.JDateChooser();
+        jLabel15 = new javax.swing.JLabel();
+        jComboBox1 = new javax.swing.JComboBox<>();
+        jFormattedTextField1 = new javax.swing.JFormattedTextField();
+        jFormattedTextField2 = new javax.swing.JFormattedTextField();
+        jLabel16 = new javax.swing.JLabel();
+        jFormattedTextField3 = new javax.swing.JFormattedTextField();
+        jComboBox3 = new javax.swing.JComboBox<>();
         jPanel4 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
@@ -267,13 +305,6 @@ public class TutorScheduleAndCalander extends javax.swing.JFrame {
         jLabel10.setFont(new java.awt.Font("Century Gothic", 0, 13)); // NOI18N
         jLabel10.setText("Start Time");
 
-        jTextField4.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
-        jTextField4.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField4ActionPerformed(evt);
-            }
-        });
-
         jLabel11.setFont(new java.awt.Font("Century Gothic", 0, 13)); // NOI18N
         jLabel11.setText("End Time");
 
@@ -282,10 +313,16 @@ public class TutorScheduleAndCalander extends javax.swing.JFrame {
 
         jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
+        jLabel14.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
         jLabel14.setText("Status");
 
         jButton1.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
         jButton1.setText("Reset");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jTextField2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -293,7 +330,35 @@ public class TutorScheduleAndCalander extends javax.swing.JFrame {
             }
         });
 
+        jLabel7.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
         jLabel7.setText("Title");
+
+        jButton2.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
+        jButton2.setText("Edit Session");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
+        jLabel13.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
+        jLabel13.setText("Class ID");
+
+        jTextField3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField3ActionPerformed(evt);
+            }
+        });
+
+        jLabel15.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
+        jLabel15.setText("Tutor");
+
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        jLabel16.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
+        jLabel16.setText("Amount");
+
+        jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -302,66 +367,93 @@ public class TutorScheduleAndCalander extends javax.swing.JFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jTextField4)
                     .addComponent(jButton10, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton8, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 303, Short.MAX_VALUE)
-                    .addComponent(jTextField5)
-                    .addComponent(jTextField6)
-                    .addComponent(jTextField7)
-                    .addComponent(jComboBox2, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jTextField1)
+                    .addComponent(jButton8, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 311, Short.MAX_VALUE)
                     .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(jLabel13)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel8)
-                            .addComponent(jLabel10)
-                            .addComponent(jLabel12)
-                            .addComponent(jLabel11)
+                            .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jTextField2)
+                    .addComponent(jDateChooser1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jFormattedTextField3)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel9)
+                            .addComponent(jLabel7)
+                            .addComponent(jLabel10)
+                            .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel12)
+                            .addComponent(jLabel15)
+                            .addComponent(jFormattedTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel16))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jFormattedTextField2)
+                            .addComponent(jLabel11)
                             .addComponent(jLabel14)
-                            .addComponent(jLabel7))
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jTextField2))
+                            .addComponent(jComboBox3, 0, 120, Short.MAX_VALUE))))
                 .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel8)
+                .addGap(5, 5, 5)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(jLabel13)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(jLabel8)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(10, 10, 10)
+                .addComponent(jLabel15)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(10, 10, 10)
                 .addComponent(jLabel7)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(5, 5, 5)
                 .addComponent(jLabel9)
-                .addGap(6, 6, 6)
-                .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel10)
+                .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel10)
+                    .addComponent(jLabel11))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel11)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jFormattedTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jFormattedTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel12)
+                    .addComponent(jLabel14))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel16)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel12)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel14)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jFormattedTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton10, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(21, Short.MAX_VALUE))
+                .addGap(5, 5, 5))
         );
 
         jPanel4.setPreferredSize(new java.awt.Dimension(1000, 581));
@@ -372,11 +464,11 @@ public class TutorScheduleAndCalander extends javax.swing.JFrame {
 
             },
             new String [] {
-                "ID", "Course", "Title", "Date", "Start Time", "End Time", "Hall Number", "Class Status"
+                "ID", "Course", "Tutor", "Title", "Date", "Start Time", "End Time", "Hall Number", "Amount", "Class Status"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false
+                false, false, false, false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -404,20 +496,18 @@ public class TutorScheduleAndCalander extends javax.swing.JFrame {
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 554, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 502, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, 622, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 1258, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -428,8 +518,7 @@ public class TutorScheduleAndCalander extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -438,101 +527,158 @@ public class TutorScheduleAndCalander extends javax.swing.JFrame {
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
 
-        try {
-            String course = String.valueOf(jComboBox2.getSelectedItem());
-            String date = jTextField4.getText();
-            String startTime = jTextField5.getText();
-            String endTime = jTextField6.getText();
-            String hallNumber = jTextField7.getText();
+        String sessionID = jTextField3.getText();
+        String course = String.valueOf(jComboBox2.getSelectedItem());
+        String tName = String.valueOf(jComboBox1.getSelectedItem());
+        String className = jTextField2.getText();
+        Date date = jDateChooser1.getDate();
+        String startTime = jFormattedTextField1.getText();
+        String endTime = jFormattedTextField2.getText();
+        String hallnumber = jTextField7.getText();
+        String status = String.valueOf(jComboBox3.getSelectedItem());
+        String price = jFormattedTextField3.getText();
 
-            if (course.equals("Select")) {
-                JOptionPane.showMessageDialog(this, "Please select a course", "Warning", JOptionPane.WARNING_MESSAGE);
-            } else if (date.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Please enter the date", "Warning", JOptionPane.WARNING_MESSAGE);
-            } else if (startTime.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Please enter the start time", "Warning", JOptionPane.WARNING_MESSAGE);
-            } else if (endTime.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Please enter the end time", "Warning", JOptionPane.WARNING_MESSAGE);
-            } else if (hallNumber.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Please enter the hall number", "Warning", JOptionPane.WARNING_MESSAGE);
-            } else {
-                String courseId = courseMap.get(course);
+// Validation checks
+        if (className.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please enter the class name!", "Warning", JOptionPane.WARNING_MESSAGE);
+            return;
+        } else if (date == null) {
+            JOptionPane.showMessageDialog(this, "Please enter a date!", "Warning", JOptionPane.WARNING_MESSAGE);
+            return;
+        } else if (startTime.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please enter the class starting time!", "Warning", JOptionPane.WARNING_MESSAGE);
+            return;
+        } else if (endTime.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please enter the class ending time!", "Warning", JOptionPane.WARNING_MESSAGE);
+            return;
+        } else if (hallnumber.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please enter the location!", "Warning", JOptionPane.WARNING_MESSAGE);
+            return;
+        } else if (price.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please enter a price!", "Warning", JOptionPane.WARNING_MESSAGE);
+            return;
+        } else if (!price.matches("\\d+(\\.\\d{1,2})?")) {
+            JOptionPane.showMessageDialog(this, "Please enter a valid price!", "Warning", JOptionPane.WARNING_MESSAGE);
+            return;
+        } else if (tName.equals("Select") || tutorMap.get(tName) == null) {
+            JOptionPane.showMessageDialog(this, "Please select a valid tutor!", "Warning", JOptionPane.WARNING_MESSAGE);
+            return;
+        } else if (course.equals("Select") || courseMap.get(course) == null) {
+            JOptionPane.showMessageDialog(this, "Please select a valid course!", "Warning", JOptionPane.WARNING_MESSAGE);
+            return;
+        } else if (status.equals("Select") || statusMap.get(status) == null) {
+            JOptionPane.showMessageDialog(this, "Please select a valid status!", "Warning", JOptionPane.WARNING_MESSAGE);
+            return;
+        } else {
+            try {
+                // Fetch tutor details from the database
+                ResultSet resultSet1 = MySQL2.executeSearch("SELECT `id` FROM `tutor` WHERE `id` = '" + tutorMap.get(tName) + "'");
 
-                MySQL2.executeIUD("INSERT INTO `class`(`courses_id`,`date`, `start_time`, `end_time`, `hallnumber`) "
-                        + "VALUES ('" + courseId + "', '" + date + "', '" + startTime + "', '" + endTime + "', '" + hallNumber + "')");
+                if (resultSet1.next()) {
+                    // Format date
+                    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 
-                loadTutorSchedule(); //
-                reset();
-                JOptionPane.showMessageDialog(this, "Session added successfully!");
+                    // Output to console for debugging
+                    System.out.println("Session ID: " + sessionID);
+                    System.out.println("Class Name: " + className);
+                    System.out.println("Date: " + format.format(date));
+                    System.out.println("Start Time: " + startTime);
+                    System.out.println("End Time: " + endTime);
+                    System.out.println("Hall Number: " + hallnumber);
+                    System.out.println("Price: " + price);
+                    System.out.println("Tutor ID: " + tutorMap.get(tName));
+                    System.out.println("Course ID: " + courseMap.get(course));
+                    System.out.println("Status ID: " + statusMap.get(status));
+
+                    // Insert data into the database
+                    MySQL2.executeIUD("INSERT INTO `class` (`id`, `name`, `date`, `start_time`, `end_time`, `hallnumber`, `amount`, `tutor_id`, `courses_id`, `class_status_id`) "
+                            + "VALUES ('" + sessionID + "', '" + className + "', '" + format.format(date) + "', '" + startTime + "', '" + endTime + "', '" + hallnumber + "', '" + price + "', "
+                            + "'" + tutorMap.get(tName) + "', '" + courseMap.get(course) + "', '" + statusMap.get(status) + "')");
+
+                    JOptionPane.showMessageDialog(this, "Class added successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
+                    reset();
+                    loadTutorSchedule();
+
+                } else {
+                    JOptionPane.showMessageDialog(this, "The tutor's ID does not match the record in the system. Please check the tutor information and try again.", "Warning", JOptionPane.WARNING_MESSAGE);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(this, "Failed to add session.", "Error", JOptionPane.ERROR_MESSAGE);
         }
+
+//        try {
+//            String course = String.valueOf(jComboBox2.getSelectedItem());
+//            String date = jTextField4.getText();
+//            String startTime = jTextField5.getText();
+//            String endTime = jTextField6.getText();
+//            String hallNumber = jTextField7.getText();
+//
+//            if (course.equals("Select")) {
+//                JOptionPane.showMessageDialog(this, "Please select a course", "Warning", JOptionPane.WARNING_MESSAGE);
+//            } else if (date.isEmpty()) {
+//                JOptionPane.showMessageDialog(this, "Please enter the date", "Warning", JOptionPane.WARNING_MESSAGE);
+//            } else if (startTime.isEmpty()) {
+//                JOptionPane.showMessageDialog(this, "Please enter the start time", "Warning", JOptionPane.WARNING_MESSAGE);
+//            } else if (endTime.isEmpty()) {
+//                JOptionPane.showMessageDialog(this, "Please enter the end time", "Warning", JOptionPane.WARNING_MESSAGE);
+//            } else if (hallNumber.isEmpty()) {
+//                JOptionPane.showMessageDialog(this, "Please enter the hall number", "Warning", JOptionPane.WARNING_MESSAGE);
+//            } else {
+//                String courseId = courseMap.get(course);
+//
+//                MySQL2.executeIUD("INSERT INTO `class`(`courses_id`,`date`, `start_time`, `end_time`, `hallnumber`) "
+//                        + "VALUES ('" + courseId + "', '" + date + "', '" + startTime + "', '" + endTime + "', '" + hallNumber + "')");
+//
+//                loadTutorSchedule(); //
+//                reset();
+//                JOptionPane.showMessageDialog(this, "Session added successfully!");
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            JOptionPane.showMessageDialog(this, "Failed to add session.", "Error", JOptionPane.ERROR_MESSAGE);
+//        }
 
     }//GEN-LAST:event_jButton8ActionPerformed
-
-    private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
-
-        try {
-            
-            String course = String.valueOf(jComboBox2.getSelectedItem());
-            String date = jTextField4.getText();
-            String start_time = jTextField5.getText();
-            String end_time = jTextField6.getText();
-            String hallNumber = jTextField7.getText();
-
-            int inactiveStatusId = 2;
-
-            String updateQuery = "UPDATE `class` SET `class_status_id` = '" + inactiveStatusId + "' "
-                    + "WHERE `date` = '" + date + "' AND `start_time` = '" + start_time + "' "
-                    + "AND `end_time` = '" + end_time + "' AND `hallnumber` = '" + hallNumber + "'";
-
-            MySQL2.executeIUD(updateQuery);
-
-            loadTutorSchedule();
-
-            reset();
-
-            JOptionPane.showMessageDialog(this, "Session cancelled and marked as Inactive.");
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(this, "Error while canceling the session.", "Error", JOptionPane.ERROR_MESSAGE);
-        }
-
-    }//GEN-LAST:event_jButton10ActionPerformed
-
-    private void jTextField4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField4ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField4ActionPerformed
 
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
 
         int row = jTable1.getSelectedRow();
 
         String id = String.valueOf(jTable1.getValueAt(row, 0));
+        jTextField3.setText(id);
 
         String courseName = String.valueOf(jTable1.getValueAt(row, 1));
         jComboBox2.setSelectedItem(courseName);
 
-        String title = String.valueOf(jTable1.getValueAt(row, 2));
+        String tutor = String.valueOf(jTable1.getValueAt(row, 2));
+        jComboBox1.setSelectedItem(tutor);
+
+        String title = String.valueOf(jTable1.getValueAt(row, 3));
         jTextField2.setText(title);
 
-        String date = String.valueOf(jTable1.getValueAt(row, 3));
-        jTextField4.setText(date);
+        String date = String.valueOf(jTable1.getValueAt(row, 4));
+        try {
+            java.util.Date parsedDate = new SimpleDateFormat("yyyy-MM-dd").parse(date);
+            jDateChooser1.setDate(parsedDate);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
-        String startTime = String.valueOf(jTable1.getValueAt(row, 4));
-        jTextField5.setText(startTime);
+        String startTime = String.valueOf(jTable1.getValueAt(row, 5));
+        jFormattedTextField1.setText(startTime);
 
-        String endTime = String.valueOf(jTable1.getValueAt(row, 5));
-        jTextField6.setText(endTime);
+        String endTime = String.valueOf(jTable1.getValueAt(row, 6));
+        jFormattedTextField2.setText(endTime);
 
-        String hallNumber = String.valueOf(jTable1.getValueAt(row, 6));
+        String hallNumber = String.valueOf(jTable1.getValueAt(row, 7));
         jTextField7.setText(hallNumber);
 
-        String status = String.valueOf(jTable1.getValueAt(row, 7));
-        jTextField1.setText(status);
+        String amount = String.valueOf(jTable1.getValueAt(row, 9));
+        jFormattedTextField3.setText(amount);
+
+        String status = String.valueOf(jTable1.getValueAt(row, 8));
+        jComboBox3.setSelectedItem(status);
 
 
     }//GEN-LAST:event_jTable1MouseClicked
@@ -540,6 +686,123 @@ public class TutorScheduleAndCalander extends javax.swing.JFrame {
     private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField2ActionPerformed
+
+    private void jTextField3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField3ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField3ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+
+        String sessionID = jTextField3.getText();
+        String course = String.valueOf(jComboBox2.getSelectedItem());
+        String tName = String.valueOf(jComboBox1.getSelectedItem());
+        String className = jTextField2.getText();
+        Date date = jDateChooser1.getDate();
+        String startTime = jFormattedTextField1.getText();
+        String endTime = jFormattedTextField2.getText();
+        String hallnumber = jTextField7.getText();
+        String status = String.valueOf(jComboBox3.getSelectedItem());
+        String price = jFormattedTextField3.getText();
+
+        if (className.isEmpty() || date == null || startTime.isEmpty() || endTime.isEmpty() || hallnumber.isEmpty() || price.isEmpty()
+                || !price.matches("^[0-9]*\\.?[0-9]+$") || tName.equals("Select") || course.equals("Select") || status.equals("Select")) {
+
+            if (className.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Please enter the class name!", "Warning", JOptionPane.WARNING_MESSAGE);
+            } else if (date == null) {
+                JOptionPane.showMessageDialog(this, "Please enter a date!", "Warning", JOptionPane.WARNING_MESSAGE);
+            } else if (startTime.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Please enter the class starting time!", "Warning", JOptionPane.WARNING_MESSAGE);
+            } else if (endTime.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Please enter the class ending time!", "Warning", JOptionPane.WARNING_MESSAGE);
+            } else if (hallnumber.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Please enter the location!", "Warning", JOptionPane.WARNING_MESSAGE);
+            } else if (price.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Please enter a price!", "Warning", JOptionPane.WARNING_MESSAGE);
+            } else if (!price.matches("^[0-9]*\\.?[0-9]+$")) {
+                JOptionPane.showMessageDialog(this, "Please enter only numeric values for price!", "Warning", JOptionPane.WARNING_MESSAGE);
+            } else if (tName.equals("Select")) {
+                JOptionPane.showMessageDialog(this, "Please select a tutor!", "Warning", JOptionPane.WARNING_MESSAGE);
+            } else if (course.equals("Select")) {
+                JOptionPane.showMessageDialog(this, "Please select a course!", "Warning", JOptionPane.WARNING_MESSAGE);
+            } else if (status.equals("Select")) {
+                JOptionPane.showMessageDialog(this, "Please select the class status!", "Warning", JOptionPane.WARNING_MESSAGE);
+            }
+
+            return;
+        }
+
+        try {
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+
+            System.out.println("Session ID: " + sessionID);
+            System.out.println("Class Name: " + className);
+            System.out.println("Date: " + format.format(date));
+            System.out.println("Start Time: " + startTime);
+            System.out.println("End Time: " + endTime);
+            System.out.println("Hall Number: " + hallnumber);
+            System.out.println("Price: " + price);
+            System.out.println("Tutor ID: " + tutorMap.get(tName));
+            System.out.println("Course ID: " + courseMap.get(course));
+            System.out.println("Status ID: " + statusMap.get(status));
+
+            MySQL2.executeIUD("UPDATE `class` SET `name` = '" + className + "', `date` = '" + format.format(date) + "', `start_time` = '" + startTime + "', "
+                    + "`end_time` = '" + endTime + "', `hallnumber` = '" + hallnumber + "', `amount` = '" + price + "', `tutor_id` = '" + tutorMap.get(tName) + "', "
+                    + "`courses_id` = '" + courseMap.get(course) + "', `class_status_id` = '" + statusMap.get(status) + "' WHERE `class`.`id` = '" + sessionID + "'");
+
+            JOptionPane.showMessageDialog(this, "Class updated successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
+
+            reset();
+            loadTutorSchedule();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Failed to update the class. Please try again.", "Error", JOptionPane.ERROR_MESSAGE);
+
+        }
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        reset();
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
+
+        String sessionID = jTextField3.getText();
+        
+        if (sessionID.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please enter a session ID to cancel!", "Warning", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        int confirm = JOptionPane.showConfirmDialog(this, "Are you sure you want to cancel this session?", "Confirm Cancellation", JOptionPane.YES_NO_OPTION);
+        if (confirm == JOptionPane.NO_OPTION) {
+            return;
+        }
+
+        try {
+            ResultSet resultSet = MySQL2.executeSearch("SELECT `id` FROM `class` WHERE `id` = '" + sessionID + "'");
+
+            if (resultSet.next()) {
+
+                MySQL2.executeIUD("DELETE FROM `class` WHERE `id` = '" + sessionID + "'");
+
+                JOptionPane.showMessageDialog(this, "Session canceled successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
+
+                reset();
+                loadTutorSchedule();
+                
+            } else {
+                JOptionPane.showMessageDialog(this, "The session ID does not exist. Please check and try again.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "An error occurred while canceling the session. Please try again.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+
+
+    }//GEN-LAST:event_jButton10ActionPerformed
 
     public static void main(String args[]) throws UnsupportedLookAndFeelException {
 
@@ -563,13 +826,23 @@ public class TutorScheduleAndCalander extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton10;
+    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton8;
+    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JComboBox<String> jComboBox2;
+    private javax.swing.JComboBox<String> jComboBox3;
+    private com.toedter.calendar.JDateChooser jDateChooser1;
+    private javax.swing.JFormattedTextField jFormattedTextField1;
+    private javax.swing.JFormattedTextField jFormattedTextField2;
+    private javax.swing.JFormattedTextField jFormattedTextField3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -584,19 +857,21 @@ public class TutorScheduleAndCalander extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField4;
-    private javax.swing.JTextField jTextField5;
-    private javax.swing.JTextField jTextField6;
+    private javax.swing.JTextField jTextField3;
     private javax.swing.JTextField jTextField7;
     // End of variables declaration//GEN-END:variables
 
     private void reset() {
+        jComboBox1.setSelectedIndex(0);
         jComboBox2.setSelectedIndex(0);
-        jTextField4.setText("");
-        jTextField5.setText("");
-        jTextField6.setText("");
+        jComboBox3.setSelectedIndex(0);
+        jTextField2.setText("");
+        jTextField3.setText("");
         jTextField7.setText("");
+        jDateChooser1.setDate(null);
+        jFormattedTextField1.setText("");
+        jFormattedTextField2.setText("");
+        jFormattedTextField3.setText("");
     }
 }

@@ -18,13 +18,13 @@ public class TutorClassList extends javax.swing.JPanel {
 
     private TutorDashboard parent;
 
-    private AddSession addSession;
+//    private AddSession addSession;
 
     private String tutorId;
 
     public TutorClassList(TutorDashboard parent) {
         this.parent = parent;
-        this.addSession = new AddSession();
+//        this.addSession = new AddSession();
         initComponents();
         loadTable();
 
@@ -34,9 +34,9 @@ public class TutorClassList extends javax.swing.JPanel {
         jTable1.setDefaultRenderer(Object.class, renderer);
     }
 
-    private void switchToAddSession() {
-        parent.switchPanel(addSession);
-    }
+//    private void switchToAddSession() {
+//        parent.switchPanel(addSession);
+//    }
 
     private void loadTable() {
 
@@ -111,7 +111,7 @@ public class TutorClassList extends javax.swing.JPanel {
         jLabel2.setText("Double click relevant row to 'Update' the row");
 
         jButton3.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
-        jButton3.setText("Delete");
+        jButton3.setText("Cancel Session");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton3ActionPerformed(evt);
@@ -119,7 +119,7 @@ public class TutorClassList extends javax.swing.JPanel {
         });
 
         jButton1.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
-        jButton1.setText("Add");
+        jButton1.setText("Request New Session");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
@@ -216,7 +216,7 @@ public class TutorClassList extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        switchToAddSession();
+//        switchToAddSession();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
@@ -264,36 +264,36 @@ public class TutorClassList extends javax.swing.JPanel {
         String CourseName = String.valueOf(jTable1.getValueAt(row, 7));
         String ClassStatus = String.valueOf(jTable1.getValueAt(row, 8));
 
-        if (evt.getClickCount() == 2) {
-            //            switchToRegistration();
-            if (addSession == null) {
-                addSession = new AddSession();
-            }
-
-            addSession.getjTextField1().setText(ClassID);
-            addSession.getjTextField2().setText(ClassName);
-
-            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-
-            try {
-                Date date = formatter.parse((Date));
-                addSession.getjDateChooser1().setDate(date);
-                System.out.println("Converted Date: " + date);
-            } catch (Exception e) {
-                System.out.println("Error converting Object to Date: " + e.getMessage());
-            }
-
-            addSession.getjFormattedTextField1().setText(StartTime);
-            addSession.getjFormattedTextField2().setText(EndTime);
-            addSession.getjTextField3().setText(HallNumber);
-            addSession.getjFormattedTextField3().setText(Price);
-            addSession.getjComboBox1().setSelectedItem(TutorName);
-            addSession.getjComboBox2().setSelectedItem(CourseName);
-            addSession.getjComboBox3().setSelectedItem(ClassStatus);
-            addSession.getjTextField1().setEditable(false);
-
-            switchToAddSession();
-        }
+//        if (evt.getClickCount() == 2) {
+//            //            switchToRegistration();
+//            if (addSession == null) {
+//                addSession = new AddSession();
+//            }
+//
+//            addSession.getjTextField1().setText(ClassID);
+//            addSession.getjTextField2().setText(ClassName);
+//
+//            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+//
+//            try {
+//                Date date = formatter.parse((Date));
+//                addSession.getjDateChooser1().setDate(date);
+//                System.out.println("Converted Date: " + date);
+//            } catch (Exception e) {
+//                System.out.println("Error converting Object to Date: " + e.getMessage());
+//            }
+//
+//            addSession.getjFormattedTextField1().setText(StartTime);
+//            addSession.getjFormattedTextField2().setText(EndTime);
+//            addSession.getjTextField3().setText(HallNumber);
+//            addSession.getjFormattedTextField3().setText(Price);
+//            addSession.getjComboBox1().setSelectedItem(TutorName);
+//            addSession.getjComboBox2().setSelectedItem(CourseName);
+//            addSession.getjComboBox3().setSelectedItem(ClassStatus);
+//            addSession.getjTextField1().setEditable(false);
+//
+//            switchToAddSession();
+//        }
     }//GEN-LAST:event_jTable1MouseClicked
 
 
