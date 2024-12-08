@@ -540,7 +540,7 @@ public class AdminDashboard extends javax.swing.JFrame {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         jPanel4.removeAll();
         AllSession allSession = new AllSession();
-        allSession.setAdminDashboard(this);
+//        allSession.setAdminDashboard(this);
         jPanel4.add(allSession, BorderLayout.CENTER);
 
         SwingUtilities.updateComponentTreeUI(jPanel4);
