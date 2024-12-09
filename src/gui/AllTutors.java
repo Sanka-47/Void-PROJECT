@@ -197,6 +197,7 @@ public class AllTutors extends javax.swing.JPanel {
             
             updateTutor.getjButton1().setEnabled(false);
             updateTutor.getjButton2().setEnabled(true);
+            updateTutor.getjTextField3().setEnabled(false);
             updateTutor.getjButton3().setEnabled(true);
             updateTutor.getjButton4().setEnabled(true);
             
