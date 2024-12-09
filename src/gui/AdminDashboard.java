@@ -15,7 +15,8 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
 public class AdminDashboard extends javax.swing.JFrame {
-    
+
+    private String fName;
     private String lName;
     private String mobile;
 
@@ -23,6 +24,8 @@ public class AdminDashboard extends javax.swing.JFrame {
         initComponents();
         loadDate();
         jLabel5.setText(fName + " " + lName);
+        this.fName = fName;
+        this.lName = lName;
     }
 
     public void switchPanel(JPanel panel) {
@@ -324,7 +327,7 @@ public class AdminDashboard extends javax.swing.JFrame {
         jLabel12.setText("Course Management");
 
         jButton17.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
-        jButton17.setText("Add Course");
+        jButton17.setText("Course Registration");
         jButton17.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton17ActionPerformed(evt);
@@ -503,7 +506,7 @@ public class AdminDashboard extends javax.swing.JFrame {
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, 1153, Short.MAX_VALUE)
+            .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, 1414, Short.MAX_VALUE)
             .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
         );
 
@@ -653,11 +656,14 @@ public class AdminDashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton16ActionPerformed
 
     private void jButton17ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton17ActionPerformed
-        jPanel4.removeAll();
-        AllCourses acs = new AllCourses();
-        jPanel4.add(acs, BorderLayout.CENTER);
+//        jPanel4.removeAll();
+//        AllCourses acs = new AllCourses();
+//        jPanel4.add(acs, BorderLayout.CENTER);
+//
+//        SwingUtilities.updateComponentTreeUI(jPanel4);
 
-        SwingUtilities.updateComponentTreeUI(jPanel4);
+        TutorScheduleAndCalander cr = new TutorScheduleAndCalander(mobile, lName);
+        cr.setVisible(true);
     }//GEN-LAST:event_jButton17ActionPerformed
 
     private void jButton21ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton21ActionPerformed
