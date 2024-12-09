@@ -3,6 +3,8 @@
 package gui;
 
 import java.sql.ResultSet;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Vector;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -30,6 +32,23 @@ public class RescheduleSessions extends javax.swing.JPanel {
                     + "INNER JOIN `courses` ON `class`.`courses_id` = `courses`.`id` "
                     + "INNER JOIN `class_status` ON `class`.`class_status_id` = `class_status`.`id` WHERE `class_status`.`name` = 'Rescheduled'";
             
+            Date start = null;
+            Date end = null;
+
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+
+            if (jDateChooser1.getDate() != null && jDateChooser2.getDate() != null) {
+                start = jDateChooser1.getDate();
+                end = jDateChooser2.getDate();
+                query += "WHERE `class`.`date` > '" + format.format(start) + "' AND `class`.`date` < '" + format.format(end) + "' ";
+            } else if (jDateChooser1.getDate() != null && jDateChooser2.getDate() == null) {
+                    start = jDateChooser1.getDate();
+                    query += "WHERE `class`.`date` > '" + format.format(start) + "' ";
+            } else if (jDateChooser1.getDate() == null && jDateChooser2.getDate() != null) {
+                    end = jDateChooser2.getDate();
+                    query += "WHERE `class`.`date` < '" + format.format(end) + "' ";
+            }
+
             if (sort.equals("Hall Number ASC")) {
                 query += "ORDER BY `hallnumber` ASC ";
             } else if (sort.equals("Hall Number DESC")) {
@@ -44,6 +63,7 @@ public class RescheduleSessions extends javax.swing.JPanel {
                 query += "ORDER BY `courses`.`name` DESC";
             }
 
+            System.out.println(query);
             ResultSet resultSet = MySQL2.executeSearch(query);
 
             DefaultTableModel model = (DefaultTableModel) jTable1.getModel();

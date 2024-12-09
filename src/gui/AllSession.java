@@ -11,19 +11,19 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
 public class AllSession extends javax.swing.JPanel {
-    
+
 //    private AdminDashboard parent;
-//    
+//
 //    public void setAdminDashboard(AdminDashboard ad) {
 //        this.parent = ad;
 //    }
-//    
+//
 //    private EmployeeDashboard eparent;
-//    
+//
 //    public void setEmployeeDashboard(EmployeeDashboard ed) {
 //        this.eparent = ed;
 //    }
-//    
+//
 //    private AddSession updateSession;
 
     public AllSession() {
@@ -35,17 +35,17 @@ public class AllSession extends javax.swing.JPanel {
         jTable1.setDefaultRenderer(Object.class, renderer);
         loadSessions();
     }
-    
+
 //    private void switchToAddSessionAD() {
 //        parent.switchPanel(updateSession);
 //    }
-//    
+//
 //    private void switchToAddSesssionED() {
 //        eparent.switchPanel(updateSession);
 //    }
-    
+
     private void loadSessions() {
-        
+
         try {
 
             String sort = String.valueOf(jComboBox1.getSelectedItem());
@@ -59,19 +59,16 @@ public class AllSession extends javax.swing.JPanel {
 
             SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 
-            if (jDateChooser1.getDate() != null) {
+            if (jDateChooser1.getDate() != null && jDateChooser2.getDate() != null) {
                 start = jDateChooser1.getDate();
-                query += " WHERE `class`.`date` > '" + format.format(start) + "' AND ";
-            }
-
-            if (query.contains("WHERE") && jDateChooser2.getDate() != null) {
                 end = jDateChooser2.getDate();
-                query += "`class`.`date` < '" + format.format(end) + "' ";
-            } else {
-                if (jDateChooser2.getDate() != null) {
+                query += "WHERE `class`.`date` > '" + format.format(start) + "' AND `class`.`date` < '" + format.format(end) + "' ";
+            } else if (jDateChooser1.getDate() != null && jDateChooser2.getDate() == null) {
+                    start = jDateChooser1.getDate();
+                    query += "WHERE `class`.`date` > '" + format.format(start) + "' ";
+            } else if (jDateChooser1.getDate() == null && jDateChooser2.getDate() != null) {
                     end = jDateChooser2.getDate();
-                    query += " WHERE `class`.`date` < '" + format.format(end) + "' ";
-                }
+                    query += "WHERE `class`.`date` < '" + format.format(end) + "' ";
             }
 
             if (sort.equals("Hall Number ASC")) {
@@ -140,6 +137,11 @@ public class AllSession extends javax.swing.JPanel {
 
         jButton1.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
         jButton1.setText("Sort");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jLabel3.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
         jLabel3.setText("Sort By :");
@@ -268,10 +270,10 @@ public class AllSession extends javax.swing.JPanel {
 //            if (updateSession == null) {
 //                updateSession = new AddSession();
 //            }
-//            
+//
 //            updateSession.getjTextField1().setText(ClassID);
 //            updateSession.getjTextField2().setText(ClassName);
-//            
+//
 //            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 //
 //            try {
@@ -281,7 +283,7 @@ public class AllSession extends javax.swing.JPanel {
 //            } catch (Exception e) {
 //                System.out.println("Error converting Object to Date: " + e.getMessage());
 //            }
-//            
+//
 //            updateSession.getjFormattedTextField1().setText(StartTime);
 //            updateSession.getjFormattedTextField2().setText(EndTime);
 //            updateSession.getjTextField3().setText(HallNumber);
@@ -290,7 +292,7 @@ public class AllSession extends javax.swing.JPanel {
 //            updateSession.getjComboBox2().setSelectedItem(CourseName);
 //            updateSession.getjComboBox3().setSelectedItem(ClassStatus);
 //            updateSession.getjTextField1().setEditable(false);
-//            
+//
 //            if (parent != null) {
 //                switchToAddSessionAD();
 //            } else if (eparent != null) {
@@ -300,6 +302,10 @@ public class AllSession extends javax.swing.JPanel {
 //            }
 //        }
     }//GEN-LAST:event_jTable1MouseClicked
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        loadSessions();
+    }//GEN-LAST:event_jButton1ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
