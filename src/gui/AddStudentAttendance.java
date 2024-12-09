@@ -219,14 +219,14 @@ public class AddStudentAttendance extends javax.swing.JFrame {
         String ClassName = String.valueOf(jComboBox2.getSelectedItem());
         Date duedate = jDateChooser1.getDate();
 
-        if (ClassName.equals("Select")) {
-            JOptionPane.showMessageDialog(this, "Please select a class!", "Warning", JOptionPane.WARNING_MESSAGE);
-        } else if (StudentName.equals("Select")) {
-            JOptionPane.showMessageDialog(this, "Please select a student!", "Warning", JOptionPane.WARNING_MESSAGE);
-        } else if (Status.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Please select a title!", "Warning", JOptionPane.WARNING_MESSAGE);
+        if (Status.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please select a Status!", "Warning", JOptionPane.WARNING_MESSAGE);
         } else if (duedate == null) {
             JOptionPane.showMessageDialog(this, "Please enter a date!", "Warning", JOptionPane.WARNING_MESSAGE);
+        } else  if (StudentName.equals("Select")) {
+            JOptionPane.showMessageDialog(this, "Please select a student!", "Warning", JOptionPane.WARNING_MESSAGE);
+        } else if (ClassName.equals("Select")) {
+            JOptionPane.showMessageDialog(this, "Please select a class!", "Warning", JOptionPane.WARNING_MESSAGE);
         } else {
 
             try {
