@@ -260,17 +260,17 @@ public class AddAssignmentJFrame extends javax.swing.JFrame {
         String courseName = String.valueOf(jComboBox2.getSelectedItem());
         Date duedate = jDateChooser1.getDate();
 
-        if (courseName.equals("Select")) {
-            JOptionPane.showMessageDialog(this, "Please select a course!", "Warning", JOptionPane.WARNING_MESSAGE);
-        } else if (tutorName.equals("Select")) {
-            JOptionPane.showMessageDialog(this, "Please select a tutor!", "Warning", JOptionPane.WARNING_MESSAGE);
-        } else if (title.isEmpty()) {
+        if (title.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Please select a title!", "Warning", JOptionPane.WARNING_MESSAGE);
-        } else if (description.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Please enter a description!", "Warning", JOptionPane.WARNING_MESSAGE);
         } else if (duedate == null) {
             JOptionPane.showMessageDialog(this, "Please enter a date!", "Warning", JOptionPane.WARNING_MESSAGE);
-        } else {
+        } else  if (description.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please enter a description!", "Warning", JOptionPane.WARNING_MESSAGE);
+        } else if (tutorName.equals("Select")) {
+            JOptionPane.showMessageDialog(this, "Please select a tutor!", "Warning", JOptionPane.WARNING_MESSAGE);
+        } else  if (courseName.equals("Select")) {
+            JOptionPane.showMessageDialog(this, "Please select a course!", "Warning", JOptionPane.WARNING_MESSAGE);
+        } else  {
 
             try {
 

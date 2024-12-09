@@ -238,15 +238,15 @@ public class AddStudentPerformanceReport extends javax.swing.JFrame {
         String studentName = String.valueOf(jComboBox1.getSelectedItem());
         String assignmentName = String.valueOf(jComboBox2.getSelectedItem());
 
-        if (assignmentName.equals("Select")) {
-            JOptionPane.showMessageDialog(this, "Please select an assignment!", "Warning", JOptionPane.WARNING_MESSAGE);
-        } else if (studentName.equals("Select")) {
-            JOptionPane.showMessageDialog(this, "Please select a Student!", "Warning", JOptionPane.WARNING_MESSAGE);
-        } else if (grade.isEmpty()) {
+        if (grade.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Please select a grade!", "Warning", JOptionPane.WARNING_MESSAGE);
         } else if (comments.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Please enter comments!", "Warning", JOptionPane.WARNING_MESSAGE);
-        } else {
+        } else if (studentName.equals("Select")) {
+            JOptionPane.showMessageDialog(this, "Please select a Student!", "Warning", JOptionPane.WARNING_MESSAGE);
+        } else  if (assignmentName.equals("Select")) {
+            JOptionPane.showMessageDialog(this, "Please select an assignment!", "Warning", JOptionPane.WARNING_MESSAGE);
+        } else   {
 
             try {
 
