@@ -4,12 +4,14 @@
  */
 package gui;
 
+import java.awt.BorderLayout;
 import java.sql.ResultSet;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Vector;
 import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import model.MySQL2;
@@ -165,6 +167,9 @@ public class StudentPerformanceReport extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+
+         AddStudentPerformanceReport addStudentPerformanceReport = new AddStudentPerformanceReport();
+        addStudentPerformanceReport.setVisible(true);
         
     }//GEN-LAST:event_jButton1ActionPerformed
 
