@@ -210,8 +210,8 @@ public class AdminSignIn extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-//        ForgotPassword forgotPassword = new ForgotPassword(this, true);
-//        forgotPassword.setVisible(true);
+        ForgotPassword forgotPassword = new ForgotPassword(this, true);
+        forgotPassword.setVisible(true);
     }//GEN-LAST:event_jButton2ActionPerformed
 
     public static void main(String args[]) throws UnsupportedLookAndFeelException {

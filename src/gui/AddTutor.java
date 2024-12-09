@@ -23,7 +23,7 @@ public class AddTutor extends javax.swing.JPanel {
         initComponents();
         LoadGender();
         LoadCourses();
-        jButton3.setEnabled(false);
+        jButton2.setEnabled(false);
         jButton4.setEnabled(false);
     }
     
@@ -347,13 +347,13 @@ public class AddTutor extends javax.swing.JPanel {
             } else if (!nic.matches("^(([5,6,7,8,9]{1})([0-9]{1})([0,1,2,3,5,6,7,8]{1})([0-9]{6})([v|V|x|X]))|(([1,2]{1})([0,9]{1})([0-9]{2})([0,1,2,3,5,6,7,8]{1})([0-9]{7}))")) {
                 JOptionPane.showMessageDialog(this, "Please enter your valid nic number!", "Warning", JOptionPane.WARNING_MESSAGE);
             } else if (qualification.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Please enter qulification your !", "Warning", JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Please enter your qulification  !", "Warning", JOptionPane.WARNING_MESSAGE);
             } else if (mobile.isEmpty()) {
                 JOptionPane.showMessageDialog(this, "Please enter your mobile number!", "Warning", JOptionPane.WARNING_MESSAGE);
             } else if (!mobile.matches("^07[01245678]{1}[0-9]{7}$")) {
                 JOptionPane.showMessageDialog(this, "Please enter a valid number!", "Warning", JOptionPane.WARNING_MESSAGE);
             } else if (password.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Ubata amuthuwen kiyanne one naha ne passsword eka type karapan", "Warning", JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Please enter your Password!", "Warning", JOptionPane.WARNING_MESSAGE);
             } else if (!password.matches("^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*#?&])[A-Za-z\\d@$!%*#?&]{8,}$")) {
                 JOptionPane.showMessageDialog(this, "Please type a password with a minimum of 8 characters including a number and character !", "Warning", JOptionPane.WARNING_MESSAGE);
             } else if (gender.equals("Select")) {
@@ -409,18 +409,18 @@ public class AddTutor extends javax.swing.JPanel {
                 JOptionPane.showMessageDialog(this, "Please enter your valid nic number!", "Warning", JOptionPane.WARNING_MESSAGE);
             } else if (qualification.isEmpty()) {
                 JOptionPane.showMessageDialog(this, "Please enter qulification your !", "Warning", JOptionPane.WARNING_MESSAGE);
+            } else if (courses.equals("Select")) {
+                JOptionPane.showMessageDialog(this, "Please enter courses type !", "Warning", JOptionPane.WARNING_MESSAGE);
+            } else if (gender.equals("Select")) {
+                JOptionPane.showMessageDialog(this, "Please enter gender type !", "Warning", JOptionPane.WARNING_MESSAGE);
             } else if (mobile.isEmpty()) {
                 JOptionPane.showMessageDialog(this, "Please enter your mobile number!", "Warning", JOptionPane.WARNING_MESSAGE);
             } else if (!mobile.matches("^07[01245678]{1}[0-9]{7}$")) {
                 JOptionPane.showMessageDialog(this, "Please enter a valid number!", "Warning", JOptionPane.WARNING_MESSAGE);
             } else if (password.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Ubata amuthuwen kiyanne one naha ne passsword eka type karapan", "Warning", JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Please enter your Password!", "Warning", JOptionPane.WARNING_MESSAGE);
             } else if (!password.matches("^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*#?&])[A-Za-z\\d@$!%*#?&]{8,}$")) {
                 JOptionPane.showMessageDialog(this, "Please type a password with a minimum of 8 characters including a number and character !", "Warning", JOptionPane.WARNING_MESSAGE);
-            } else if (gender.equals("Select")) {
-                JOptionPane.showMessageDialog(this, "Please enter gender type !", "Warning", JOptionPane.WARNING_MESSAGE);
-            } else if (courses.equals("Select")) {
-                JOptionPane.showMessageDialog(this, "Please enter courses type !", "Warning", JOptionPane.WARNING_MESSAGE);
             } else {
 
                 MySQL2.executeIUD("UPDATE SET `first_name` = '" + firstName + "', `last_name` = '" + lastName + "', `qualification` = '" + qualification + "', "
