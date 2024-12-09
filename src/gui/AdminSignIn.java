@@ -160,6 +160,7 @@ public class AdminSignIn extends javax.swing.JFrame {
         
         String mobile = jTextField1.getText();
         String password = String.valueOf(jPasswordField1.getPassword());
+        
 
         if (mobile.isEmpty()) {
 
@@ -177,7 +178,7 @@ public class AdminSignIn extends javax.swing.JFrame {
 
             try {
 
-                ResultSet resultSet = MySQL2.executeSearch("SELECT * FROM `employee` WHERE `contact_info` = '" + mobile + "' AND `password` = '" + password + "'");
+                ResultSet resultSet = MySQL2.executeSearch("SELECT * FROM `employee` WHERE `contact_info` = '" + mobile + "' AND `password` = '" + password + "' AND `roles_id`='2'");
 
                 if (resultSet.next()) {
 
