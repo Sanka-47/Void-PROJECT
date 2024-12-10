@@ -691,7 +691,7 @@ public class AdminDashboard extends javax.swing.JFrame {
         StudentInvoiceHistory twh = new StudentInvoiceHistory();
         jPanel4.add(twh, BorderLayout.CENTER);
 
-        SwingUtilities.updateComponentTreeUI(jPanel4);;// TODO add your handling code here:
+        SwingUtilities.updateComponentTreeUI(jPanel4);// TODO add your handling code here:
     }//GEN-LAST:event_jButton20ActionPerformed
 
     public static void main(String args[]) throws UnsupportedLookAndFeelException {

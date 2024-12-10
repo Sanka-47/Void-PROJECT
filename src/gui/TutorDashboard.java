@@ -28,6 +28,7 @@ public class TutorDashboard extends javax.swing.JFrame {
         loadDate();
     }
 
+    
     public TutorDashboard(int tutorId) {
         initComponents();
         updateDashboard(1);
