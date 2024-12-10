@@ -684,12 +684,7 @@ if (student_name.isEmpty()) {
             if (invoiceItemMap.get(nic + "-" + subject_id) == null) {
                 invoiceItemMap.put(nic + "-" + subject_id, invoiceItem);
             } else {
-                int option = JOptionPane.showConfirmDialog(this, "Subject Already Added", "Message",
-                        JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE);
-
-                if (option == JOptionPane.YES_OPTION) {
-                    invoiceItemMap.put(nic + "-" + subject_id, invoiceItem);  // Update the entry
-                }
+               JOptionPane.showMessageDialog(this, "Subject Already Added", "Info", JOptionPane.INFORMATION_MESSAGE);
             }
 
             // Refresh and reset
