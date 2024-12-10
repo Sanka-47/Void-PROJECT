@@ -9,6 +9,7 @@ import com.formdev.flatlaf.intellijthemes.FlatArcIJTheme;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.util.List;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -53,12 +54,13 @@ public class Notifications extends javax.swing.JFrame {
             JPanel notificationBox = new JPanel();
 
             // Set the preferred size for the notification box
-            notificationBox.setPreferredSize(new Dimension(400, 100)); // Wider and taller box
-            notificationBox.setMaximumSize(new Dimension(400, 100)); // Ensure consistent size
+            notificationBox.setPreferredSize(new Dimension(800, 100)); // Wider and taller box
+//            notificationBox.setMaximumSize(new Dimension(400, 100)); // Ensure consistent size
 
             // Create a label for the notification details
             JLabel notificationLabel = new JLabel("<html>" + notification.getDetails() + "</html>");
             notificationLabel.setVerticalAlignment(SwingConstants.CENTER);
+            notificationLabel.setFont(new Font("Arial", Font.PLAIN, 20));
 
             // Create a "More Info" button
             JButton moreInfoButton = new JButton("More Info");
@@ -107,6 +109,7 @@ public class Notifications extends javax.swing.JFrame {
         notificationsPanel.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         detailsLabel.setBackground(new java.awt.Color(204, 204, 204));
+        detailsLabel.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         detailsLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         detailsLabel.setText("notification here");
         detailsLabel.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
@@ -150,13 +153,13 @@ public class Notifications extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(499, Short.MAX_VALUE)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 259, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(492, 492, 492))
             .addGroup(layout.createSequentialGroup()
-                .addGap(197, 197, 197)
-                .addComponent(notificationsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 838, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(215, Short.MAX_VALUE))
+                .addGap(51, 51, 51)
+                .addComponent(notificationsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 1103, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
