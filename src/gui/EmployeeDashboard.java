@@ -99,7 +99,7 @@ public class EmployeeDashboard extends javax.swing.JFrame {
         jPanel1.setPreferredSize(new java.awt.Dimension(1250, 120));
 
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resource/VOID.png"))); // NOI18N
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/VOID.png"))); // NOI18N
         jLabel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(51, 51, 255)));
 
         jLabel2.setFont(new java.awt.Font("Century Gothic", 1, 24)); // NOI18N
@@ -127,11 +127,11 @@ public class EmployeeDashboard extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(23, 23, 23)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 221, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 317, Short.MAX_VALUE)
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel5)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 221, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 317, Short.MAX_VALUE)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -338,7 +338,7 @@ public class EmployeeDashboard extends javax.swing.JFrame {
                     .addComponent(jPanel7, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel6, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(18, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -352,6 +352,7 @@ public class EmployeeDashboard extends javax.swing.JFrame {
                 .addContainerGap(67, Short.MAX_VALUE))
         );
 
+        jPanel4.setBackground(new java.awt.Color(255, 239, 239));
         jPanel4.setPreferredSize(new java.awt.Dimension(1000, 581));
         jPanel4.setLayout(new java.awt.BorderLayout());
 
@@ -362,9 +363,8 @@ public class EmployeeDashboard extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 256, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(31, 31, 31)
-                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 962, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(50, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, 1247, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -376,7 +376,7 @@ public class EmployeeDashboard extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 1319, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 1529, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
@@ -410,14 +410,17 @@ public class EmployeeDashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-//        jPanel4.removeAll();
-//        TutorScheduleAndCalander addSession = new TutorScheduleAndCalander();
-//        jPanel4.add(addSession, BorderLayout.CENTER);
-//
-//        SwingUtilities.updateComponentTreeUI(jPanel4);
+
+        jPanel4.removeAll();
 
         TutorScheduleAndCalander cr = new TutorScheduleAndCalander(mobile, lName);
-        cr.setVisible(true);
+
+        jPanel4.add(cr, BorderLayout.CENTER);
+
+        SwingUtilities.updateComponentTreeUI(jPanel4);
+
+        jPanel4.revalidate();
+        jPanel4.repaint();
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton4jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4jButton4ActionPerformed
@@ -441,7 +444,6 @@ public class EmployeeDashboard extends javax.swing.JFrame {
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
         jPanel4.removeAll();
         AllSession allSession = new AllSession();
-//        allSession.setEmployeeDashboard(this);
         jPanel4.add(allSession, BorderLayout.CENTER);
 
         SwingUtilities.updateComponentTreeUI(jPanel4);
@@ -456,14 +458,22 @@ public class EmployeeDashboard extends javax.swing.JFrame {
 //studentPayment.setVisible(true);
 //        SwingUtilities.updateComponentTreeUI(jPanel4);
 
-        StudentInvoiceHistory sih = new StudentInvoiceHistory();
+        StudentPayment sih = new StudentPayment();
         sih.setVisible(true);
     }//GEN-LAST:event_jButton7ActionPerformed
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
 
+        jPanel4.removeAll();
+
         CourseRegistration cr = new CourseRegistration(fName, lName);
-        cr.setVisible(true);
+
+        jPanel4.add(cr, BorderLayout.CENTER);
+
+        SwingUtilities.updateComponentTreeUI(jPanel4);
+
+        jPanel4.revalidate();
+        jPanel4.repaint();
 
     }//GEN-LAST:event_jButton8ActionPerformed
 
