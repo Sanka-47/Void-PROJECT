@@ -1,4 +1,3 @@
-
 //author SANKA
 package gui;
 
@@ -26,7 +25,6 @@ import model.InvoiceItem;
 
 import model.MySQL2;
 
-
 public class StudentPayment extends javax.swing.JFrame {
 
     private static String code;
@@ -43,9 +41,6 @@ public class StudentPayment extends javax.swing.JFrame {
 //    public void setCustomerName(String name) {
 //        customerName.setText(name);
 //    }
-    
-    
-
     private void loadPaymentMethods() {
 
         try {
@@ -119,22 +114,20 @@ public class StudentPayment extends javax.swing.JFrame {
 //    public JLabel getjLabel6() {
 //        return customerName;
 //    }
-
     //Course Name
     public JTextField getSubjectNameField() {
         return SubjectNameField;
     }
-    
+
     //Student Name
     public JTextField getStudentNameField() {
         return StudentNameFields;
     }
-    
+
     //Student NIC
     public JLabel getNICLabel() {
         return customerName;
     }
-
 
     //stock id
 //    public JTextField getjTextField3() {
@@ -662,62 +655,56 @@ public class StudentPayment extends javax.swing.JFrame {
     }//GEN-LAST:event_totalFieldActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+String subject_id = String.valueOf(Subject_id);
+String nic = customerName.getText();  // Use nic directly for the query
+String student_name = StudentNameFields.getText();
+String selling_price = String.valueOf(Selling_price);
+String paymentMethodID = paymentMethodMap.get(String.valueOf(jComboBox1.getSelectedItem()));
 
-        String subject_id = String.valueOf(Subject_id);
-        String student_id = String.valueOf(Student_id);
-        String student_name = StudentNameFields.getText();
-        String nic = customerName.getText();
-        String selling_price = String.valueOf(Selling_price);
-        String paymentMethodID = paymentMethodMap.get(String.valueOf(jComboBox1.getSelectedItem()));
+if (student_name.isEmpty()) {
+    JOptionPane.showMessageDialog(this, "Please select a student", "Warning", JOptionPane.WARNING_MESSAGE);
+} else if (SubjectNameField.getText().isEmpty()) {
+    JOptionPane.showMessageDialog(this, "Please enter a subject", "Warning", JOptionPane.WARNING_MESSAGE);
+} else {
+    try {
+        // Correct the query to use nic instead of student_id
+        ResultSet rs = MySQL2.executeSearch("SELECT * FROM `student` WHERE `nic` ='" + nic + "'");
 
-        if (student_name.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Please select a student", "Warning", JOptionPane.WARNING_MESSAGE);
-        } else if (SubjectNameField.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Please enter a subject", "Warning", JOptionPane.WARNING_MESSAGE);
-        } else {
-            try {
-                ResultSet rs = MySQL2.executeSearch("SELECT * FROM `student` WHERE `nic` ='" + student_id + "'");
+        if (rs.next()) {
+            // Create InvoiceItem with correct values
+            InvoiceItem invoiceItem = new InvoiceItem();
+            invoiceItem.setStudent_id(nic);  // Use nic as the student ID
+            invoiceItem.setStudent_name(student_name);
+            invoiceItem.setSubject_id(subject_id);
+            invoiceItem.setSubject_name(SubjectNameField.getText());
+            invoiceItem.setNic(nic);
+            invoiceItem.setSellingPrice(selling_price);
 
-                if (rs.next()) {
+            // Check and add/update invoice items
+            if (invoiceItemMap.get(nic + "-" + subject_id) == null) {
+                invoiceItemMap.put(nic + "-" + subject_id, invoiceItem);
+            } else {
+                int option = JOptionPane.showConfirmDialog(this, "Subject Already Added", "Message",
+                        JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE);
 
-//                    // Assuming we want to check if the student is already enrolled in this subject
-//                    String enrolledSubject = rs.getString("id");
-//                    if (subject_id.equals(enrolledSubject)) {
-//                        JOptionPane.showMessageDialog(this, "Student is already enrolled in this subject", "Warning", JOptionPane.WARNING_MESSAGE);
-//                    } else {
-                    InvoiceItem invoiceItem = new InvoiceItem();
-                    invoiceItem.setStudent_id(student_id);
-                    invoiceItem.setStudent_name(student_name);
-                    invoiceItem.setSubject_id(subject_id);
-                    invoiceItem.setSubject_name(SubjectNameField.getText());
-                    invoiceItem.setNic(nic);
-                    invoiceItem.setSellingPrice(selling_price);
-
-                    if (invoiceItemMap.get(student_id + "-" + subject_id) == null) {
-                        invoiceItemMap.put(student_id + "-" + subject_id, invoiceItem);
-                    } else {
-                        int option = JOptionPane.showConfirmDialog(this, "Subject Allready Added", "Message",
-                                JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE);
-
-                        if (option == JOptionPane.YES_OPTION) {
-                            invoiceItemMap.put(student_id + "-" + subject_id, invoiceItem);  // Update the entry
-                        }
-                    }
-
-                    loadInvoiceItems();  // Refresh the items in the invoice display
-                    jButton4.setEnabled(false);
-                    jButton5.setEnabled(false);// Disable button if required
-
-                    reset();  // Clear the input fields
-//                    }
-                } else {
-                    JOptionPane.showMessageDialog(this, "Student not found", "Error", JOptionPane.ERROR_MESSAGE);
+                if (option == JOptionPane.YES_OPTION) {
+                    invoiceItemMap.put(nic + "-" + subject_id, invoiceItem);  // Update the entry
                 }
-            } catch (Exception e) {
-//                logger.severe("An error occurred while processing the student invoice: " + e.getMessage());
-                e.printStackTrace();
             }
+
+            // Refresh and reset
+            loadInvoiceItems();
+            jButton4.setEnabled(false);
+            jButton5.setEnabled(false);  // Disable button if required
+            reset();  // Clear the input fields
+        } else {
+            JOptionPane.showMessageDialog(this, "Student not found", "Error", JOptionPane.ERROR_MESSAGE);
         }
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+}
+
 
     }//GEN-LAST:event_jButton3ActionPerformed
 
@@ -756,10 +743,6 @@ public class StudentPayment extends javax.swing.JFrame {
                 //insert to invoiceItem
 
             }
-
-          
-
-         
 
             //Withdraw Points
             //view or print report
@@ -801,7 +784,6 @@ public class StudentPayment extends javax.swing.JFrame {
 ////                JasperPrint jasperPrint = JasperFillManager.fillReport(s, params, dataSource);
 ////                JasperViewer.viewReport(jasperPrint, false);
 //            }
-
             reset1();
             printInvoiceButton.setEnabled(false);
             invoiceItemMap.clear();
@@ -922,7 +904,6 @@ public class StudentPayment extends javax.swing.JFrame {
 //    public JLabel getstudentID() {
 //        return studentID;
 //    }
-
     /**
      * @param aSubject_id the Subject_id to set
      */
