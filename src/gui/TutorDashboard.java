@@ -22,6 +22,8 @@ import model.MySQL2;
  * @author Rushma
  */
 public class TutorDashboard extends javax.swing.JFrame {
+    
+    public static int tutorID = 1;
 
     public TutorDashboard() {
         initComponents();
@@ -30,8 +32,9 @@ public class TutorDashboard extends javax.swing.JFrame {
 
     public TutorDashboard(int tutorId) {
         initComponents();
-        updateDashboard(1);
+        updateDashboard(tutorId);
         loadDate();
+        tutorID = tutorId;
 // Update the wallet amount when the dashboard opens
     }
 
@@ -517,7 +520,8 @@ public class TutorDashboard extends javax.swing.JFrame {
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
         jPanel3.removeAll();
-        TodoList addSession = new TodoList();
+        String  tutID = String.valueOf(tutorID);
+        TodoList addSession = new TodoList(tutID);
         jPanel3.add(addSession, BorderLayout.CENTER);
 
         SwingUtilities.updateComponentTreeUI(jPanel3);
@@ -525,7 +529,7 @@ public class TutorDashboard extends javax.swing.JFrame {
 
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
         //        jPanel9.removeAll();
-        Notifications addSession = new Notifications(1);
+        Notifications addSession = new Notifications(this.tutorID);
         addSession.setVisible(true);
 //        jPanel9.add(addSession, BorderLayout.CENTER);
 //
@@ -554,7 +558,7 @@ public class TutorDashboard extends javax.swing.JFrame {
         UIManager.put("Table.foreground", Color.decode("#000000"));
 
         java.awt.EventQueue.invokeLater(() -> {
-            new TutorDashboard(1).setVisible(true); // Pass the tutor ID
+            new TutorDashboard(tutorID).setVisible(true); // Pass the tutor ID
         });
     }
 
