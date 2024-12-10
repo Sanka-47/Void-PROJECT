@@ -232,8 +232,8 @@ public class AllStudents extends javax.swing.JPanel {
             }
 
             updateStudent.getjButton1().setEnabled(false);
-            updateStudent.getjButton2().setEnabled(true);
             updateStudent.getjButton3().setEnabled(true);
+            updateStudent.getjButton2().setEnabled(false);
             updateStudent.getjButton4().setEnabled(true);
 
             if (parent != null) {

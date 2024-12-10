@@ -117,6 +117,7 @@ public class StudentRegistration extends javax.swing.JPanel {
         jComboBox1.setSelectedIndex(0);
         jButton1.setEnabled(true);
         jButton2.setEnabled(true);
+        jTextField5.setEnabled(true);
         jButton3.setEnabled(false);
         jButton4.setEnabled(true);
 //        logger.info("Form reset.");
