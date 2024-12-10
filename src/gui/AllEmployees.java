@@ -1,5 +1,4 @@
 //author KAVISHKA
-
 package gui;
 
 import java.sql.ResultSet;
@@ -10,22 +9,35 @@ import javax.swing.table.DefaultTableModel;
 import model.MySQL2;
 
 public class AllEmployees extends javax.swing.JPanel {
-    
-    private AdminDashboard parent;
-    
-    private EmployeeRegistration updateEmployee;
 
-    public AllEmployees(AdminDashboard parent) {
-        this.parent = parent;
-        this.updateEmployee = new EmployeeRegistration();
+    private AdminDashboard parent;
+
+    public void setAdminDashboard(AdminDashboard ad) {
+        this.parent = ad;
+    }
+
+    private EmployeeDashboard eparent;
+
+    public void setEmployeeDashboard(EmployeeDashboard ed) {
+        this.eparent = ed;
+    }
+
+    public EmployeeRegistration updateEmployee;
+    
+//    public void setEmployeeRegistration(EmployeeRegistration updateEmployee) {
+//        this.updateEmployee = updateEmployee;
+//    }
+
+    public AllEmployees(EmployeeRegistration em) {
+        this.updateEmployee = em;
         initComponents();
         loadTable();
     }
-    
+
     private void switchToRegistration() {
         parent.switchPanel(updateEmployee);
     }
-    
+
     private void loadTable() {
         try {
 
@@ -169,12 +181,12 @@ public class AllEmployees extends javax.swing.JPanel {
             updateEmployee.getjComboBox1().setSelectedItem(Gender);
             updateEmployee.getjComboBox2().setSelectedItem(Role);
             updateEmployee.getjPasswordField1().setText("");
-            
+
             updateEmployee.getjButton1().setEnabled(false);
             updateEmployee.getjButton2().setEnabled(true);
             updateEmployee.getjButton3().setEnabled(true);
             updateEmployee.getjButton4().setEnabled(true);
-            
+
             switchToRegistration();
         }
     }//GEN-LAST:event_jTable1MouseClicked

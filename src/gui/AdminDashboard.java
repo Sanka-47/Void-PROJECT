@@ -16,7 +16,6 @@ import javax.swing.UnsupportedLookAndFeelException;
 
 public class AdminDashboard extends javax.swing.JFrame {
 
-    private String fName;
     private String lName;
     private String mobile;
 
@@ -24,8 +23,6 @@ public class AdminDashboard extends javax.swing.JFrame {
         initComponents();
         loadDate();
         jLabel5.setText(fName + " " + lName);
-        this.fName = fName;
-        this.lName = lName;
     }
 
     public void switchPanel(JPanel panel) {
@@ -101,9 +98,9 @@ public class AdminDashboard extends javax.swing.JFrame {
         jButton17 = new javax.swing.JButton();
         jButton18 = new javax.swing.JButton();
         jButton19 = new javax.swing.JButton();
+        jButton20 = new javax.swing.JButton();
         jButton21 = new javax.swing.JButton();
         jButton22 = new javax.swing.JButton();
-        jButton20 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("VOID Admin Dashboard");
@@ -174,7 +171,7 @@ public class AdminDashboard extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jPanel4.setBackground(new java.awt.Color(25, 50, 80));
+        jPanel4.setBackground(new java.awt.Color(44, 62, 80));
         jPanel4.setPreferredSize(new java.awt.Dimension(1000, 581));
         jPanel4.setLayout(new java.awt.BorderLayout());
 
@@ -327,7 +324,7 @@ public class AdminDashboard extends javax.swing.JFrame {
         jLabel12.setText("Course Management");
 
         jButton17.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
-        jButton17.setText("Course Registration");
+        jButton17.setText("Add Course");
         jButton17.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton17ActionPerformed(evt);
@@ -345,6 +342,14 @@ public class AdminDashboard extends javax.swing.JFrame {
         jButton19.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
         jButton19.setText("Edit Course");
 
+        jButton20.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
+        jButton20.setText("Student Invoice History");
+        jButton20.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton20ActionPerformed(evt);
+            }
+        });
+
         jButton21.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
         jButton21.setText("Employee Payment History");
         jButton21.addActionListener(new java.awt.event.ActionListener() {
@@ -358,14 +363,6 @@ public class AdminDashboard extends javax.swing.JFrame {
         jButton22.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton22ActionPerformed(evt);
-            }
-        });
-
-        jButton20.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
-        jButton20.setText("Student Invoice History");
-        jButton20.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton20ActionPerformed(evt);
             }
         });
 
@@ -506,8 +503,11 @@ public class AdminDashboard extends javax.swing.JFrame {
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, 1414, Short.MAX_VALUE)
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+            .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, 630, Short.MAX_VALUE)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -633,17 +633,22 @@ public class AdminDashboard extends javax.swing.JFrame {
 
     private void jButton14ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton14ActionPerformed
         jPanel4.removeAll();
-        EmployeeRegistration em = new EmployeeRegistration();
+        AllEmployees allEmployees = new AllEmployees(null);
+        EmployeeRegistration em = new EmployeeRegistration(allEmployees);
+        allEmployees = new AllEmployees(em);
+        em.setAdminDashboard(this);
+        allEmployees.setAdminDashboard(this);
         jPanel4.add(em, BorderLayout.CENTER);
-//
         SwingUtilities.updateComponentTreeUI(jPanel4);
     }//GEN-LAST:event_jButton14ActionPerformed
 
     private void jButton15ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton15ActionPerformed
         jPanel4.removeAll();
-        AllEmployees al = new AllEmployees(this);
-        jPanel4.add(al, BorderLayout.CENTER);
-
+        AllEmployees allEmployees = new AllEmployees(null);
+        EmployeeRegistration em = new EmployeeRegistration(allEmployees);
+        allEmployees = new AllEmployees(em);
+        allEmployees.setAdminDashboard(this);
+        jPanel4.add(allEmployees, BorderLayout.CENTER);
         SwingUtilities.updateComponentTreeUI(jPanel4);
     }//GEN-LAST:event_jButton15ActionPerformed
 
@@ -656,14 +661,11 @@ public class AdminDashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton16ActionPerformed
 
     private void jButton17ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton17ActionPerformed
-//        jPanel4.removeAll();
-//        AllCourses acs = new AllCourses();
-//        jPanel4.add(acs, BorderLayout.CENTER);
-//
-//        SwingUtilities.updateComponentTreeUI(jPanel4);
+        jPanel4.removeAll();
+        AllCourses acs = new AllCourses();
+        jPanel4.add(acs, BorderLayout.CENTER);
 
-        TutorScheduleAndCalander cr = new TutorScheduleAndCalander(mobile, lName);
-        cr.setVisible(true);
+        SwingUtilities.updateComponentTreeUI(jPanel4);
     }//GEN-LAST:event_jButton17ActionPerformed
 
     private void jButton21ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton21ActionPerformed
@@ -694,15 +696,20 @@ public class AdminDashboard extends javax.swing.JFrame {
 
     public static void main(String args[]) throws UnsupportedLookAndFeelException {
         UIManager.setLookAndFeel(new FlatLightLaf());
-        UIManager.put("Button.background", Color.decode("#607D8B"));
-        UIManager.put("Button.focusedBackground", Color.decode("#607D8B"));
-        UIManager.put("Button.foreground", Color.decode("#ffffff"));
-        UIManager.put("TextField.background", Color.decode("#f0f0f0"));
-        UIManager.put("TextField.foreground", Color.decode("#000000"));
-        UIManager.put("Panel.background", Color.decode("#E0E0E0"));
-        UIManager.put("Label.foreground", Color.decode("#000000"));
-        UIManager.put("Table.background", Color.decode("#ffffff"));
+        UIManager.put("Button.background", Color.decode("#6E2594"));
+        UIManager.put("Button.focusedBackground", Color.decode("#60AFFF"));
+        UIManager.put("Button.foreground", Color.decode("#FFFFFF"));
+        UIManager.put("TextField.background", Color.decode("#F5F3FF"));
+        UIManager.put("TextField.foreground", Color.decode("#4D4D4D"));
+        UIManager.put("Panel.background", Color.decode("#E4D9FF"));
+//        UIManager.put("Label.foreground", Color.decode("#4D4D4D"));
+        UIManager.put("Table.background", Color.decode("#FFFFFF"));
         UIManager.put("Table.foreground", Color.decode("#000000"));
+        UIManager.put("Table.selectionBackground", Color.decode("#8E82FF"));
+        UIManager.put("Table.selectionForeground", Color.decode("#FFFFFF"));
+//        UIManager.put("Label.success", Color.decode("#6DD3AF"));
+//        UIManager.put("Label.warning", Color.decode("#FFD56B"));
+//        UIManager.put("Label.error", Color.decode("#FF6F61"));
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -749,7 +756,7 @@ public class AdminDashboard extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel4;
+    public javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane2;
     // End of variables declaration//GEN-END:variables
 }
