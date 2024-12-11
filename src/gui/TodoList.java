@@ -24,9 +24,9 @@ public class TodoList extends javax.swing.JPanel {
     // A HashMap to store tasks for each tutor
     private HashMap<String, ArrayList<Task>> tutorTasks = new HashMap<>();
 
-    public TodoList(String tutorsId) {
+    public TodoList(int tutorsId) {
         initComponents();
-        String tutorId = tutorsId; // Replace with actual tutor ID logic if dynamic
+        String tutorId = String.valueOf(tutorsId); // Replace with actual tutor ID logic if dynamic
         updateTaskList(tutorId);
     }
 

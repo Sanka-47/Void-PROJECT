@@ -12,9 +12,9 @@ public class AllEmployees extends javax.swing.JPanel {
 
     private AdminDashboard parent;
 
-    public void setAdminDashboard(AdminDashboard ad) {
-        this.parent = ad;
-    }
+//    public void setAdminDashboard(AdminDashboard ad) {
+//        this.parent = ad;
+//    }
 
     private EmployeeDashboard eparent;
 
@@ -28,10 +28,11 @@ public class AllEmployees extends javax.swing.JPanel {
 //        this.updateEmployee = updateEmployee;
 //    }
 
-    public AllEmployees(EmployeeRegistration em) {
-        this.updateEmployee = em;
+    public AllEmployees(AdminDashboard parent) {
+        this.parent = parent;
         initComponents();
         loadTable();
+        this.updateEmployee = new EmployeeRegistration(parent);
     }
 
     private void switchToRegistration() {
@@ -172,15 +173,6 @@ public class AllEmployees extends javax.swing.JPanel {
         String NIC = String.valueOf(jTable1.getValueAt(row, 6));
 //        String Gender = String.valueOf(jTable1.getValueAt(row, 7));
 
-        try {
-            
-            ResultSet resultSet = MySQL2.executeSearch("SELECT `password` FROM `employee` WHERE `nic` = '"+ NIC +"'");
-            
-            updateEmployee.getjPasswordField1().setText("password");
-            
-//            System.out.println(Password);
-      
-        
         if (evt.getClickCount() == 2) {
 
             updateEmployee.getjTextField1().setText(Firstname);
@@ -189,18 +181,14 @@ public class AllEmployees extends javax.swing.JPanel {
             updateEmployee.getjTextField4().setText(NIC);
             updateEmployee.getjComboBox1().setSelectedItem(Gender);
             updateEmployee.getjComboBox2().setSelectedItem(Role);
-//            updateEmployee.getjPasswordField1().setText(Password);
+            updateEmployee.getjPasswordField1().setText("");
 
             updateEmployee.getjButton1().setEnabled(false);
             updateEmployee.getjButton2().setEnabled(true);
-            updateEmployee.getjButton3().setEnabled(false);
+            updateEmployee.getjButton3().setEnabled(true);
             updateEmployee.getjButton4().setEnabled(true);
-            updateEmployee.getjTextField4().setEnabled(false);
 
             switchToRegistration();
-        }
-        } catch (Exception e) {
-            e.printStackTrace();
         }
     }//GEN-LAST:event_jTable1MouseClicked
 

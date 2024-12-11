@@ -14,33 +14,34 @@ public class AllTutors extends javax.swing.JPanel {
     
     private static HashMap <String, String> passwordMap = new HashMap<>();
     
-    private AdminDashboard parent;
+    private DashboardInterface parent;
     
-    public void setAdminDashboard(AdminDashboard ad) {
-        this.parent = ad;
-    }
-    
-    private EmployeeDashboard eparent;
-    
-    public void setEmployeeDashboard(EmployeeDashboard ed) {
-        this.eparent = ed;
-    }
+//    public void setAdminDashboard(AdminDashboard ad) {
+//        this.parent = ad;
+//    }
+//    
+//    private EmployeeDashboard eparent;
+//    
+//    public void setEmployeeDashboard(EmployeeDashboard ed) {
+//        this.eparent = ed;
+//    }
     
     private AddTutor updateTutor;
 
-    public AllTutors() {
-        this.updateTutor = new AddTutor();
+    public AllTutors(DashboardInterface parent) {
+        this.parent = parent;
         initComponents();
         loadTable();
+        this.updateTutor = new AddTutor(parent);
     }
     
     private void switchToRegistrationAD() {
         parent.switchPanel(updateTutor);
     }
     
-    private void switchToRegistrationED() {
-        eparent.switchPanel(updateTutor);
-    }
+//    private void switchToRegistrationED() {
+//        eparent.switchPanel(updateTutor);
+//    }
     
     private void loadTable() {
         try {
@@ -203,9 +204,11 @@ public class AllTutors extends javax.swing.JPanel {
             
             if (parent != null) {
                 switchToRegistrationAD();
-            } else if (eparent != null) {
-                switchToRegistrationED();
-            } else {
+            } 
+//            else if (eparent != null) {
+//                switchToRegistrationED();
+//            }
+            else {
                 System.out.println("Null");
             }
         }

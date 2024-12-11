@@ -10,32 +10,29 @@ import model.MySQL2;
 
 public class AllStudents extends javax.swing.JPanel {
 
-    private AdminDashboard parent;
+    private DashboardInterface parent;
 
-    public void setAdminDashboard(AdminDashboard ad) {
-        this.parent = ad;
-    }
-
-    private EmployeeDashboard eparent;
-
-    public void setEmployeeDashboard(EmployeeDashboard ed) {
-        this.eparent = ed;
-    }
+//    public void setAdminDashboard(AdminDashboard ad) {
+//        this.parent = ad;
+//    }
+//
+//    private EmployeeDashboard eparent;
+//
+//    public void setEmployeeDashboard(EmployeeDashboard ed) {
+//        this.eparent = ed;
+//    }
 
     private StudentRegistration updateStudent;
 
-    public AllStudents() {
-        this.updateStudent = new StudentRegistration();
+    public AllStudents(DashboardInterface parent) {
+        this.parent = parent;
         initComponents();
         loadTable();
+        this.updateStudent = new StudentRegistration(parent);
     }
 
-    private void switchToRegistrationAD() {
+    private void switchToRegistration() {
         parent.switchPanel(updateStudent);
-    }
-
-    private void switchToRegistrationED() {
-        eparent.switchPanel(updateStudent);
     }
 
     private void loadTable() {
@@ -93,7 +90,6 @@ public class AllStudents extends javax.swing.JPanel {
         jLabel2 = new javax.swing.JLabel();
         jComboBox1 = new javax.swing.JComboBox<>();
         jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
 
         jLabel1.setFont(new java.awt.Font("Century Gothic", 1, 24)); // NOI18N
         jLabel1.setText("All Students");
@@ -132,13 +128,6 @@ public class AllStudents extends javax.swing.JPanel {
         jButton1.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
         jButton1.setText("Generate Report");
 
-        jButton2.setText("jButton2");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -148,8 +137,6 @@ public class AllStudents extends javax.swing.JPanel {
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(248, 248, 248)
-                .addComponent(jButton2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jButton1)
                 .addGap(23, 23, 23))
@@ -168,23 +155,12 @@ public class AllStudents extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton2))
+                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(28, 28, 28)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0))
         );
     }// </editor-fold>//GEN-END:initComponents
-
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        if (parent != null) {
-            switchToRegistrationAD();
-        } else if (eparent != null) {
-            switchToRegistrationED();
-        } else {
-            System.out.println("Null");
-        }
-    }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
         int row = jTable1.getSelectedRow(); // Selected row
@@ -210,7 +186,7 @@ public class AllStudents extends javax.swing.JPanel {
         if (evt.getClickCount() == 2) {
 //            switchToRegistration();
             if (updateStudent == null) {
-                updateStudent = new StudentRegistration();
+//                updateStudent = new StudentRegistration();
             }
 
             updateStudent.getjTextField1().setText(Firstname);
@@ -232,15 +208,13 @@ public class AllStudents extends javax.swing.JPanel {
             }
 
             updateStudent.getjButton1().setEnabled(false);
+            updateStudent.getjButton2().setEnabled(true);
             updateStudent.getjButton3().setEnabled(true);
-            updateStudent.getjButton2().setEnabled(false);
             updateStudent.getjButton4().setEnabled(true);
 
             if (parent != null) {
-                switchToRegistrationAD();
-            } else if (eparent != null) {
-                switchToRegistrationED();
-            } else {
+                switchToRegistration();
+            }  else {
                 System.out.println("Null");
             }
         }
@@ -249,7 +223,6 @@ public class AllStudents extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

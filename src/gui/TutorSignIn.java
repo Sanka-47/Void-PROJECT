@@ -1,9 +1,13 @@
 //author RANDIKA
 package gui;
 
+import com.formdev.flatlaf.FlatLightLaf;
 import com.formdev.flatlaf.intellijthemes.FlatSolarizedLightIJTheme;
+import java.awt.Color;
 import java.sql.ResultSet;
 import javax.swing.JOptionPane;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 import model.MySQL2;
 
 public class TutorSignIn extends javax.swing.JFrame {
@@ -13,7 +17,6 @@ public class TutorSignIn extends javax.swing.JFrame {
 //    public static String getNic() {
 //        return Nic;
 //    }
-    
     public TutorSignIn() {
         initComponents();
     }
@@ -156,16 +159,16 @@ public class TutorSignIn extends javax.swing.JFrame {
     }//GEN-LAST:event_jPasswordField1ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-    String nic = jTextField2.getText();
+        String nic = jTextField2.getText();
         String password = String.valueOf(jPasswordField1.getPassword());
 
         if (nic.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Please enter your NIC", "Warning", JOptionPane.WARNING_MESSAGE);
 
         } else if (!nic.matches("^(([5,6,7,8,9]{1})([0-9]{1})([0,1,2,3,5,6,7,8]{1})([0-9]{6})([v|V|x|X]))|(([1,2]{1})([0,9]{1})([0-9]{2})([0,1,2,3,5,6,7,8]{1})([0-9]{7}))")) {
-          
+
             JOptionPane.showMessageDialog(this, "Please enter your valid NIC number!", "Warning", JOptionPane.WARNING_MESSAGE);
-            
+
         } else if (password.isEmpty()) {
 
             JOptionPane.showMessageDialog(this, "Please enter your password", "Warning", JOptionPane.WARNING_MESSAGE);
@@ -173,19 +176,18 @@ public class TutorSignIn extends javax.swing.JFrame {
         } else {
 
             try {
-                
+
                 ResultSet resultSet = MySQL2.executeSearch("SELECT * FROM `tutor` WHERE `nic` = '" + nic + "' AND `password`='" + password + "'");
 
                 if (resultSet.next()) {
-                    
-//                    this.Nic = nic;
 
-                    String fName = resultSet.getString("first_name");
-                    String lName = resultSet.getString("last_name");
-                    
-                    TutorDashboard tutorDashboard = new TutorDashboard(1);
+//                    this.Nic = nic;
+                    String fName = resultSet.getString("first_name") + " " + resultSet.getString("last_name");
+                    int tutorID = resultSet.getInt("tutor.id");
+
+                    TutorDashboard tutorDashboard = new TutorDashboard(fName, tutorID);
                     tutorDashboard.setVisible(true);
-                    this.dispose();  
+                    this.dispose();
 
                 } else {
 
@@ -201,9 +203,18 @@ public class TutorSignIn extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    public static void main(String args[]) {
-
-        FlatSolarizedLightIJTheme.setup();
+    public static void main(String args[]) throws UnsupportedLookAndFeelException {
+        UIManager.setLookAndFeel(new FlatLightLaf());
+        UIManager.put("Button.background", Color.decode("#4E4ACF"));
+        UIManager.put("Button.focusedBackground", Color.decode("#6AAAFF"));
+        UIManager.put("Button.foreground", Color.decode("#FFFFFF"));
+        UIManager.put("TextField.background", Color.decode("#F5F3FF"));
+        UIManager.put("TextField.foreground", Color.decode("#4D4D4D"));
+        UIManager.put("Panel.background", Color.decode("#EEF1EF"));
+        UIManager.put("Table.background", Color.decode("#FFFFFF"));
+        UIManager.put("Table.foreground", Color.decode("#4D4D4D"));
+        UIManager.put("Table.selectionBackground", Color.decode("#40424E"));
+        UIManager.put("Table.selectionForeground", Color.decode("#FFFFFF"));
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -230,5 +241,4 @@ public class TutorSignIn extends javax.swing.JFrame {
     /**
      * @return the nic
      */
-    
 }

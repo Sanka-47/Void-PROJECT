@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
- */
+
 package gui;
 
 import java.sql.ResultSet;
@@ -16,14 +13,15 @@ import model.MySQL2;
 
 public class TutorClassList extends javax.swing.JPanel {
 
-    private TutorDashboard parent;
+    private DashboardInterface parent;
 
-//    private AddSession addSession;
+    private String mobile;
 
-    private String tutorId;
+    private int tutorId;
 
-    public TutorClassList(TutorDashboard parent) {
+    public TutorClassList(DashboardInterface parent, int TutorID) {
         this.parent = parent;
+        this.tutorId = TutorID;
 //        this.addSession = new AddSession();
         initComponents();
         loadTable();
@@ -32,6 +30,7 @@ public class TutorClassList extends javax.swing.JPanel {
         renderer.setHorizontalAlignment(SwingConstants.CENTER);
 
         jTable1.setDefaultRenderer(Object.class, renderer);
+        this.tutorId = TutorID;
     }
 
 //    private void switchToAddSession() {
@@ -39,15 +38,15 @@ public class TutorClassList extends javax.swing.JPanel {
 //    }
 
     private void loadTable() {
+        
+        String TID = String.valueOf(tutorId);
 
         try {
-
-            tutorId = "1";
 
             // String sort = String.valueOf(jComboBox1.getSelectedItem());
             String query = "SELECT * FROM class INNER JOIN tutor ON class.tutor_id = tutor.id "
                     + " INNER JOIN courses ON class.courses_id = courses.id "
-                    + "INNER JOIN class_status ON class.class_status_id = class_status.id WHERE `tutor_id` = '" + tutorId + "' ";
+                    + "INNER JOIN class_status ON class.class_status_id = class_status.id WHERE `tutor_id` = '" + TID + "' ";
 
 //            if (sort.equals("Student Name ASC")) {
 //                query += "ORDER BY `teacher`.`id` ASC";
@@ -216,8 +215,8 @@ public class TutorClassList extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        TutorScheduleAndCalander cr = new TutorScheduleAndCalander("","");
-        cr.setVisible(true);
+//        TutorScheduleAndCalandar TSC = new TutorScheduleAndCalandar(parent,);
+//        parent.switchPanel(TSC);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
