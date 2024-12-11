@@ -2,6 +2,7 @@
 
 package gui;
 
+import com.formdev.flatlaf.FlatLightLaf;
 import model.MySQL2;
 import java.awt.Color;
 import java.sql.ResultSet;
@@ -45,7 +46,7 @@ public class AdminSignIn extends javax.swing.JFrame {
 
         jTextField1.setPreferredSize(new java.awt.Dimension(64, 38));
 
-        jLabel4.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
+        jLabel4.setFont(new java.awt.Font("Roboto", 1, 16)); // NOI18N
         jLabel4.setText("Password");
 
         jButton1.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
@@ -182,11 +183,11 @@ public class AdminSignIn extends javax.swing.JFrame {
 
                 if (resultSet.next()) {
 
-                    String fName = resultSet.getString("first_name");
-                    String lName = resultSet.getString("last_name");
+                    String fName = resultSet.getString("first_name") + " " + resultSet.getString("last_name");
+                    String adminID = resultSet.getString("employee.id");
                     JOptionPane.showMessageDialog(this, "Success", "Success", JOptionPane.INFORMATION_MESSAGE);
 
-                    AdminDashboard ad = new AdminDashboard(fName, lName);
+                    AdminDashboard ad = new AdminDashboard(fName, adminID);
                     ad.setVisible(true);
                     this.dispose();
                     
@@ -216,7 +217,17 @@ public class AdminSignIn extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     public static void main(String args[]) throws UnsupportedLookAndFeelException {
-        
+        UIManager.setLookAndFeel(new FlatLightLaf());
+        UIManager.put("Button.background", Color.decode("#4E4ACF"));
+        UIManager.put("Button.focusedBackground", Color.decode("#6AAAFF"));
+        UIManager.put("Button.foreground", Color.decode("#FFFFFF"));
+        UIManager.put("TextField.background", Color.decode("#F5F3FF"));
+        UIManager.put("TextField.foreground", Color.decode("#4D4D4D"));
+        UIManager.put("Panel.background", Color.decode("#EEF1EF"));
+        UIManager.put("Table.background", Color.decode("#FFFFFF"));
+        UIManager.put("Table.foreground", Color.decode("#4D4D4D"));
+        UIManager.put("Table.selectionBackground", Color.decode("#40424E"));
+        UIManager.put("Table.selectionForeground", Color.decode("#FFFFFF"));
         
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {

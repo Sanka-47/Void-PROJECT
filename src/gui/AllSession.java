@@ -25,9 +25,12 @@ public class AllSession extends javax.swing.JPanel {
 //    }
 //
 //    private AddSession updateSession;
+    
+    private DashboardInterface parent;
 
-    public AllSession() {
+    public AllSession(DashboardInterface parent) {
 //        this.updateSession = new AddSession();
+        this.parent = parent;
         initComponents();
         DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
         renderer.setHorizontalAlignment(SwingConstants.CENTER);

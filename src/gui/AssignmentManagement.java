@@ -27,8 +27,10 @@ public class AssignmentManagement extends javax.swing.JPanel {
 
     private String course;
     
+    private int tutorId;
     
-    public AssignmentManagement() {
+    public AssignmentManagement(int tutorID) {
+        this.tutorId = tutorID;
         initComponents();
         loadTable("Select");
         loadCourses();
@@ -38,6 +40,7 @@ public class AssignmentManagement extends javax.swing.JPanel {
         renderer.setHorizontalAlignment(SwingConstants.CENTER);
         
         jTable1.setDefaultRenderer(Object.class, renderer);
+        System.out.println("Tutor ID :" + tutorID);
     }
 
     private static HashMap<String, String> courseMap = new HashMap<>();
@@ -47,15 +50,17 @@ public class AssignmentManagement extends javax.swing.JPanel {
 
         try {
             
+            String TID = String.valueOf(tutorId);
+            
             String query = "";
             
             if (column == null || column.equals("Select")) {
                 query = "SELECT * FROM `assignment` INNER JOIN `tutor` ON `assignment`.`tutor_id` = `tutor`.`id`"
-                    + "INNER JOIN `courses` ON `assignment`.`courses_id` = `courses`.`id`";
+                    + "INNER JOIN `courses` ON `assignment`.`courses_id` = `courses`.`id` WHERE `tutor`.`id` = '" + TID + "'";
                 System.out.println("1");
-            } else if (column != null) {
+            } else {
                 query = "SELECT * FROM `assignment` INNER JOIN `tutor` ON `assignment`.`tutor_id` = `tutor`.`id`"
-                    + "INNER JOIN `courses` ON `assignment`.`courses_id` = `courses`.`id` WHERE courses.name = '"+column+"'";
+                    + "INNER JOIN `courses` ON `assignment`.`courses_id` = `courses`.`id` WHERE `courses`.`name` = '"+column+"' AND `tutor`.`id` = '" + TID + "'";
                 System.out.println("2");
             }
 

@@ -15,11 +15,14 @@ import model.MySQL2;
  * @author Rushma
  */
 public class ClassSchedule extends javax.swing.JPanel {
+    
+    private int tutorId;
 
     /**
      * Creates new form ClassSchedule
      */
-    public ClassSchedule() {
+    public ClassSchedule(int tutorID) {
+        this.tutorId = tutorID;
         initComponents();
         loadAllClasses();
     }
@@ -27,10 +30,13 @@ public class ClassSchedule extends javax.swing.JPanel {
     public void loadAllClasses() {
         
     try {
+        
+        String TID = String.valueOf(tutorId);
+        System.out.println(tutorId);
 
             ResultSet resultSet = MySQL2.executeSearch("SELECT * FROM `class` INNER JOIN `tutor` ON `class`.`tutor_id` = `tutor`.`id` "
                     + "INNER JOIN `courses` ON `class`.`courses_id` = `courses`.`id` "
-                    + "INNER JOIN `class_status` ON `class`.`class_status_id` = `class_status`.`id`");
+                    + "INNER JOIN `class_status` ON `class`.`class_status_id` = `class_status`.`id` WHERE `tutor_id` = '" + TID + "'");
 
             DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
             model.setRowCount(0);
