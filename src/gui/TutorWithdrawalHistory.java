@@ -5,7 +5,11 @@
  */
 package gui;
 
+import com.formdev.flatlaf.FlatLightLaf;
 import com.formdev.flatlaf.intellijthemes.FlatArcIJTheme;
+import java.awt.Color;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 
 /**
  *
@@ -86,9 +90,19 @@ public class TutorWithdrawalHistory extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
+    public static void main(String args[]) throws UnsupportedLookAndFeelException {
         /* Set the Nimbus look and feel */
-        FlatArcIJTheme.setup();
+        UIManager.setLookAndFeel(new FlatLightLaf());
+        UIManager.put("Button.background", Color.decode("#4E4ACF"));
+        UIManager.put("Button.focusedBackground", Color.decode("#6AAAFF"));
+        UIManager.put("Button.foreground", Color.decode("#FFFFFF"));
+        UIManager.put("TextField.background", Color.decode("#F5F3FF"));
+        UIManager.put("TextField.foreground", Color.decode("#4D4D4D"));
+        UIManager.put("Panel.background", Color.decode("#EEF1EF"));
+        UIManager.put("Table.background", Color.decode("#FFFFFF"));
+        UIManager.put("Table.foreground", Color.decode("#4D4D4D"));
+        UIManager.put("Table.selectionBackground", Color.decode("#40424E"));
+        UIManager.put("Table.selectionForeground", Color.decode("#FFFFFF"));
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {

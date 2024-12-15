@@ -6,10 +6,13 @@ import com.formdev.flatlaf.FlatLightLaf;
 import com.formdev.flatlaf.intellijthemes.FlatArcIJTheme;
 import com.formdev.flatlaf.intellijthemes.FlatCyanLightIJTheme;
 import com.formdev.flatlaf.intellijthemes.FlatSolarizedLightIJTheme;
+import java.awt.Color;
 import java.sql.ResultSet;
 import java.util.Vector;
 import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import model.MySQL2;
@@ -250,9 +253,19 @@ public class TutorWallet extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
+    public static void main(String args[]) throws UnsupportedLookAndFeelException {
 
-        FlatCyanLightIJTheme.setup();
+        UIManager.setLookAndFeel(new FlatLightLaf());
+        UIManager.put("Button.background", Color.decode("#4E4ACF"));
+        UIManager.put("Button.focusedBackground", Color.decode("#6AAAFF"));
+        UIManager.put("Button.foreground", Color.decode("#FFFFFF"));
+        UIManager.put("TextField.background", Color.decode("#F5F3FF"));
+        UIManager.put("TextField.foreground", Color.decode("#4D4D4D"));
+        UIManager.put("Panel.background", Color.decode("#EEF1EF"));
+        UIManager.put("Table.background", Color.decode("#FFFFFF"));
+        UIManager.put("Table.foreground", Color.decode("#4D4D4D"));
+        UIManager.put("Table.selectionBackground", Color.decode("#40424E"));
+        UIManager.put("Table.selectionForeground", Color.decode("#FFFFFF"));
 
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {

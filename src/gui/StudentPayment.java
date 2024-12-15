@@ -318,7 +318,7 @@ public class StudentPayment extends javax.swing.JFrame {
         StudentNameFields.setEditable(false);
         StudentNameFields.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
 
-        jButton4.setBackground(new java.awt.Color(221, 219, 222));
+        jButton4.setBackground(new java.awt.Color(242, 242, 242));
         jButton4.setFont(new java.awt.Font("Poppins", 1, 12)); // NOI18N
         jButton4.setText("Select");
         jButton4.addActionListener(new java.awt.event.ActionListener() {
@@ -396,8 +396,9 @@ public class StudentPayment extends javax.swing.JFrame {
 
         jPanel5.setBackground(new java.awt.Color(235, 235, 235));
 
-        jButton2.setBackground(new java.awt.Color(202, 212, 223));
+        jButton2.setBackground(new java.awt.Color(78, 74, 207));
         jButton2.setFont(new java.awt.Font("Poppins", 1, 12)); // NOI18N
+        jButton2.setForeground(new java.awt.Color(255, 255, 255));
         jButton2.setText("Clear All");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -405,8 +406,9 @@ public class StudentPayment extends javax.swing.JFrame {
             }
         });
 
-        jButton3.setBackground(new java.awt.Color(202, 212, 223));
+        jButton3.setBackground(new java.awt.Color(78, 74, 207));
         jButton3.setFont(new java.awt.Font("Poppins", 1, 14)); // NOI18N
+        jButton3.setForeground(new java.awt.Color(255, 255, 255));
         jButton3.setText("Add to Invoice");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
