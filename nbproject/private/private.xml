@@ -3,11 +3,19 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+<<<<<<< HEAD
             <file>file:/C:/Users/CHAMA%20COMPUTERS/Desktop/Void(FINAL)/Void-PROJECT-/src/gui/AdminSignIn.java</file>
             <file>file:/C:/Users/CHAMA%20COMPUTERS/Desktop/Void(FINAL)/Void-PROJECT-/src/emailverification/SendEmail.java</file>
             <file>file:/C:/Users/CHAMA%20COMPUTERS/Desktop/Void(FINAL)/Void-PROJECT-/src/gui/TutorDashboard.java</file>
             <file>file:/C:/Users/CHAMA%20COMPUTERS/Desktop/Void(FINAL)/Void-PROJECT-/src/emailverification/VCGen.java</file>
             <file>file:/C:/Users/CHAMA%20COMPUTERS/Desktop/Void(FINAL)/Void-PROJECT-/src/gui/ForgotPassword.java</file>
+=======
+            <file>file:/C:/Users/kalin/Desktop/Void(INDIVIDUALS)/Void(PROJECT_MAIN)/void(SANKA)/Void-PROJECT-/src/gui/UpdateAssignmentJFrame.java</file>
+            <file>file:/C:/Users/kalin/Desktop/Void(INDIVIDUALS)/Void(PROJECT_MAIN)/void(SANKA)/Void-PROJECT-/src/gui/TutorWallet.java</file>
+            <file>file:/C:/Users/kalin/Desktop/Void(INDIVIDUALS)/Void(PROJECT_MAIN)/void(SANKA)/Void-PROJECT-/src/gui/AdminDashboard.java</file>
+            <file>file:/C:/Users/kalin/Desktop/Void(INDIVIDUALS)/Void(PROJECT_MAIN)/void(SANKA)/Void-PROJECT-/src/gui/EmployeeDashboard.java</file>
+            <file>file:/C:/Users/kalin/Desktop/Void(INDIVIDUALS)/Void(PROJECT_MAIN)/void(SANKA)/Void-PROJECT-/src/gui/EmployeeDetails.java</file>
+>>>>>>> d1a66d67c7b7ca10a4ebfcb1adbeb1592f28e0d4
         </group>
     </open-files>
 </project-private>
