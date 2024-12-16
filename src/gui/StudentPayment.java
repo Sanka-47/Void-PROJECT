@@ -816,7 +816,7 @@ if (student_name.isEmpty()) {
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
-        AllCourses allSubjects = new AllCourses();
+        AllCourses1 allSubjects = new AllCourses1();
         allSubjects.setVisible(true);
         allSubjects.setInvoice(this);
     }//GEN-LAST:event_jButton6ActionPerformed

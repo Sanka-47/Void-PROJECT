@@ -17,7 +17,7 @@ import model.MySQL2;
  *
  * @author mrtkb
  */
-public class AllCourses extends javax.swing.JFrame {
+public class AllCourses1 extends javax.swing.JFrame {
 
     private StudentPayment studentPayment;
 
@@ -28,7 +28,7 @@ public class AllCourses extends javax.swing.JFrame {
     /**
      * Creates new form allSubjects
      */
-    public AllCourses() {
+    public AllCourses1() {
         initComponents();
 
         DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
@@ -170,7 +170,7 @@ public class AllCourses extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new AllCourses().setVisible(true);
+                new AllCourses1().setVisible(true);
             }
         });
     }

@@ -10,6 +10,13 @@
 <project name="void(SANKA)" default="default" basedir=".">
     <description>Builds, tests, and runs the project void(SANKA).</description>
     <import file="nbproject/build-impl.xml"/>
+    <target name="-pre-compile">
+        <mkdir dir="${build.classes.dir}"/>
+        <path id="extra.libs">
+            <pathelement path="lib/javax.mail.jar"/>
+        </path>
+        <property name="build.classpath" value="${build.classpath}:${extra.libs}"/>
+    </target>
     <!--
 
     There exist several targets which are by default empty and which can be 
