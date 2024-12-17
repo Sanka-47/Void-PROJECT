@@ -89,101 +89,96 @@ public class TutorDetails extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Century Gothic", 1, 36)); // NOI18N
         jLabel1.setText("Tutor Details");
 
-        jLabel2.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        jLabel2.setFont(new java.awt.Font("Century Gothic", 0, 24)); // NOI18N
         jLabel2.setText("Name :");
 
-        jLabel3.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        jLabel3.setFont(new java.awt.Font("Century Gothic", 0, 24)); // NOI18N
         jLabel3.setText("Qualification :");
 
-        jLabel4.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        jLabel4.setFont(new java.awt.Font("Century Gothic", 0, 24)); // NOI18N
         jLabel4.setText("Contact Information :");
 
-        jLabel5.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        jLabel5.setFont(new java.awt.Font("Century Gothic", 0, 24)); // NOI18N
         jLabel5.setText("Gender :");
 
-        jLabel7.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        jLabel7.setFont(new java.awt.Font("Century Gothic", 0, 24)); // NOI18N
         jLabel7.setText("NIC :");
 
-        nicLabel.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        nicLabel.setFont(new java.awt.Font("Century Gothic", 1, 24)); // NOI18N
         nicLabel.setText("NIC :");
 
-        nameLabel.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        nameLabel.setFont(new java.awt.Font("Century Gothic", 1, 24)); // NOI18N
         nameLabel.setText("Name :");
 
-        qualificationLabel.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        qualificationLabel.setFont(new java.awt.Font("Century Gothic", 1, 24)); // NOI18N
         qualificationLabel.setText("Qualification :");
 
-        contactLabel.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        contactLabel.setFont(new java.awt.Font("Century Gothic", 1, 24)); // NOI18N
         contactLabel.setText("Contact Information :");
 
-        genderLabel.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        genderLabel.setFont(new java.awt.Font("Century Gothic", 1, 24)); // NOI18N
         genderLabel.setText("Gender :");
 
-        jLabel6.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        jLabel6.setFont(new java.awt.Font("Century Gothic", 0, 24)); // NOI18N
         jLabel6.setText("Courses :");
 
-        courseLabel.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        courseLabel.setFont(new java.awt.Font("Century Gothic", 1, 24)); // NOI18N
         courseLabel.setText("Gender :");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(502, Short.MAX_VALUE)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 298, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(450, 450, 450))
             .addGroup(layout.createSequentialGroup()
-                .addGap(54, 54, 54)
+                .addGap(81, 81, 81)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel2)
+                    .addComponent(jLabel7)
                     .addComponent(jLabel3)
+                    .addComponent(jLabel2)
                     .addComponent(jLabel4)
                     .addComponent(jLabel5)
-                    .addComponent(jLabel7)
                     .addComponent(jLabel6))
-                .addGap(61, 61, 61)
+                .addGap(34, 34, 34)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1)
                     .addComponent(nicLabel)
                     .addComponent(nameLabel)
                     .addComponent(qualificationLabel)
                     .addComponent(contactLabel)
                     .addComponent(genderLabel)
                     .addComponent(courseLabel))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(361, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(33, 33, 33)
+                .addGap(24, 24, 24)
                 .addComponent(jLabel1)
-                .addGap(50, 50, 50)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addGap(48, 48, 48)
-                        .addComponent(jLabel3)
-                        .addGap(48, 48, 48)
-                        .addComponent(jLabel4)
-                        .addGap(48, 48, 48)
-                        .addComponent(jLabel5)
-                        .addGap(48, 48, 48)
-                        .addComponent(jLabel6))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(nameLabel)
-                        .addGap(48, 48, 48)
-                        .addComponent(qualificationLabel)
-                        .addGap(48, 48, 48)
-                        .addComponent(contactLabel)
-                        .addGap(48, 48, 48)
-                        .addComponent(genderLabel)
-                        .addGap(48, 48, 48)
-                        .addComponent(courseLabel)
-                        .addGap(47, 47, 47)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(nicLabel)
-                            .addComponent(jLabel7))))
-                .addContainerGap(152, Short.MAX_VALUE))
+                .addGap(59, 59, 59)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(nameLabel)
+                    .addComponent(jLabel2))
+                .addGap(48, 48, 48)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(qualificationLabel)
+                    .addComponent(jLabel3))
+                .addGap(48, 48, 48)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(contactLabel)
+                    .addComponent(jLabel4))
+                .addGap(48, 48, 48)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(genderLabel)
+                    .addComponent(jLabel5))
+                .addGap(48, 48, 48)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(courseLabel)
+                    .addComponent(jLabel6))
+                .addGap(47, 47, 47)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(nicLabel)
+                    .addComponent(jLabel7))
+                .addContainerGap(57, Short.MAX_VALUE))
         );
 
         pack();

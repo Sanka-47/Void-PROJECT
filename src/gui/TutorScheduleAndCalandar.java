@@ -12,13 +12,15 @@ import javax.swing.table.DefaultTableModel;
 import model.MySQL2;
 
 public class TutorScheduleAndCalandar extends javax.swing.JPanel {
+    
+    private DashboardInterface parent;
 
     private static HashMap<String, String> subjectMap = new HashMap<>();
     private static HashMap<String, String> courseMap = new HashMap<>();
     private static HashMap<String, String> tutorMap = new HashMap<>();
     private static HashMap<String, String> statusMap = new HashMap<>();
     
-    public TutorScheduleAndCalandar(String mobile, String fName) {
+    public TutorScheduleAndCalandar(DashboardInterface parent) {
         initComponents();
         loadTutorSchedule();
         loadCourses();

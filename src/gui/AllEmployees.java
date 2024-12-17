@@ -55,6 +55,7 @@ public class AllEmployees extends javax.swing.JPanel {
                 vector.add(resultSet.getString("first_name"));
                 vector.add(resultSet.getString("last_name"));
                 vector.add(resultSet.getString("contact_info"));
+                vector.add(resultSet.getString("email"));
                 vector.add(resultSet.getString("roles.name"));
                 vector.add(resultSet.getString("gender.name"));
                 vector.add(resultSet.getString("nic"));
@@ -83,17 +84,17 @@ public class AllEmployees extends javax.swing.JPanel {
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null}
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "Employee ID", "First Name", "Last Name", "Contact Info", "Role", "Gender", "NIC"
+                "Employee ID", "First Name", "Last Name", "Mobile", "Email", "Role", "Gender", "NIC"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false
+                false, false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -168,10 +169,10 @@ public class AllEmployees extends javax.swing.JPanel {
         String Firstname = String.valueOf(jTable1.getValueAt(row, 1));
         String LastName = String.valueOf(jTable1.getValueAt(row, 2));
         String Mobile = String.valueOf(jTable1.getValueAt(row, 3));
-        String Role = String.valueOf(jTable1.getValueAt(row, 4));
-        String Gender = String.valueOf(jTable1.getValueAt(row, 5));
-        String NIC = String.valueOf(jTable1.getValueAt(row, 6));
-//        String Gender = String.valueOf(jTable1.getValueAt(row, 7));
+        String Email = String.valueOf(jTable1.getValueAt(row, 4));
+        String Role = String.valueOf(jTable1.getValueAt(row, 5));
+        String Gender = String.valueOf(jTable1.getValueAt(row, 6));
+        String NIC = String.valueOf(jTable1.getValueAt(row, 7));
 
         if (evt.getClickCount() == 2) {
 
@@ -182,6 +183,7 @@ public class AllEmployees extends javax.swing.JPanel {
             updateEmployee.getjComboBox1().setSelectedItem(Gender);
             updateEmployee.getjComboBox2().setSelectedItem(Role);
             updateEmployee.getjPasswordField1().setText("");
+            updateEmployee.getjTextField5().setText(Email);
 
             updateEmployee.getjButton1().setEnabled(false);
             updateEmployee.getjButton2().setEnabled(true);

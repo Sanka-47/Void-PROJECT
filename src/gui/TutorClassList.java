@@ -215,8 +215,8 @@ public class TutorClassList extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-//        TutorScheduleAndCalandar TSC = new TutorScheduleAndCalandar(parent,);
-//        parent.switchPanel(TSC);
+        TutorScheduleAndCalandar TSC = new TutorScheduleAndCalandar(parent);
+        parent.switchPanel(TSC);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed

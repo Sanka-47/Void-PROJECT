@@ -89,116 +89,111 @@ public class StudentDetails extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        contactLabel.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        contactLabel.setFont(new java.awt.Font("Century Gothic", 1, 24)); // NOI18N
         contactLabel.setText("Contact Information :");
 
-        jLabel7.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        jLabel7.setFont(new java.awt.Font("Century Gothic", 0, 24)); // NOI18N
         jLabel7.setText("NIC :");
 
-        genderLabel.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        genderLabel.setFont(new java.awt.Font("Century Gothic", 1, 24)); // NOI18N
         genderLabel.setText("Gender :");
 
-        jLabel2.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        jLabel2.setFont(new java.awt.Font("Century Gothic", 0, 24)); // NOI18N
         jLabel2.setText("Name :");
 
-        nicLabel.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        nicLabel.setFont(new java.awt.Font("Century Gothic", 1, 24)); // NOI18N
         nicLabel.setText("NIC :");
 
-        jLabel4.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        jLabel4.setFont(new java.awt.Font("Century Gothic", 0, 24)); // NOI18N
         jLabel4.setText("Contact Information :");
 
-        nameLabel.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        nameLabel.setFont(new java.awt.Font("Century Gothic", 1, 24)); // NOI18N
         nameLabel.setText("Name :");
 
-        jLabel5.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        jLabel5.setFont(new java.awt.Font("Century Gothic", 0, 24)); // NOI18N
         jLabel5.setText("Gender :");
 
         jLabel1.setFont(new java.awt.Font("Century Gothic", 1, 36)); // NOI18N
         jLabel1.setText("Student Details");
 
-        jLabel8.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        jLabel8.setFont(new java.awt.Font("Century Gothic", 0, 24)); // NOI18N
         jLabel8.setText("Date of Birth :");
 
-        dobLabel.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        dobLabel.setFont(new java.awt.Font("Century Gothic", 1, 24)); // NOI18N
         dobLabel.setText("NIC :");
 
-        registrationLabel.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        registrationLabel.setFont(new java.awt.Font("Century Gothic", 1, 24)); // NOI18N
         registrationLabel.setText("NIC :");
 
-        jLabel9.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        jLabel9.setFont(new java.awt.Font("Century Gothic", 0, 24)); // NOI18N
         jLabel9.setText("Date of Registration :");
 
-        emailLabel.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        emailLabel.setFont(new java.awt.Font("Century Gothic", 1, 24)); // NOI18N
         emailLabel.setText("NIC :");
 
-        jLabel10.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        jLabel10.setFont(new java.awt.Font("Century Gothic", 0, 24)); // NOI18N
         jLabel10.setText("Email :");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(502, Short.MAX_VALUE)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 298, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(450, 450, 450))
             .addGroup(layout.createSequentialGroup()
-                .addGap(54, 54, 54)
+                .addGap(92, 92, 92)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel10)
                     .addComponent(jLabel2)
                     .addComponent(jLabel4)
                     .addComponent(jLabel5)
                     .addComponent(jLabel7)
                     .addComponent(jLabel8)
-                    .addComponent(jLabel9)
-                    .addComponent(jLabel10))
-                .addGap(58, 58, 58)
+                    .addComponent(jLabel9))
+                .addGap(66, 66, 66)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(nicLabel)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 298, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(nameLabel)
                     .addComponent(contactLabel)
                     .addComponent(genderLabel)
+                    .addComponent(nicLabel)
                     .addComponent(dobLabel)
                     .addComponent(registrationLabel)
                     .addComponent(emailLabel))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(392, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(33, 33, 33)
+                .addContainerGap()
                 .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addGap(47, 47, 47)
-                        .addComponent(jLabel4)
-                        .addGap(36, 36, 36)
-                        .addComponent(jLabel5)
-                        .addGap(47, 47, 47)
-                        .addComponent(jLabel7)
-                        .addGap(39, 39, 39)
-                        .addComponent(jLabel8)
-                        .addGap(36, 36, 36)
-                        .addComponent(jLabel9)
-                        .addGap(36, 36, 36)
-                        .addComponent(jLabel10))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(nameLabel)
-                        .addGap(47, 47, 47)
-                        .addComponent(contactLabel)
-                        .addGap(36, 36, 36)
-                        .addComponent(genderLabel)
-                        .addGap(44, 44, 44)
-                        .addComponent(nicLabel)
-                        .addGap(36, 36, 36)
-                        .addComponent(dobLabel)
-                        .addGap(36, 36, 36)
-                        .addComponent(registrationLabel)
-                        .addGap(36, 36, 36)
-                        .addComponent(emailLabel)))
-                .addContainerGap(56, Short.MAX_VALUE))
+                .addGap(39, 39, 39)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(nameLabel))
+                .addGap(47, 47, 47)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(contactLabel))
+                .addGap(36, 36, 36)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5)
+                    .addComponent(genderLabel))
+                .addGap(47, 47, 47)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel7)
+                    .addComponent(nicLabel))
+                .addGap(39, 39, 39)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel8)
+                    .addComponent(dobLabel))
+                .addGap(36, 36, 36)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel9)
+                    .addComponent(registrationLabel))
+                .addGap(36, 36, 36)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel10)
+                    .addComponent(emailLabel))
+                .addContainerGap(42, Short.MAX_VALUE))
         );
 
         pack();
