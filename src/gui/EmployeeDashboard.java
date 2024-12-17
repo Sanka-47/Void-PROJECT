@@ -365,7 +365,7 @@ public class EmployeeDashboard extends javax.swing.JFrame implements DashboardIn
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         jPanel4.removeAll();
-        TutorScheduleAndCalandar addSession = new TutorScheduleAndCalandar(mobile, fName);
+        TutorScheduleAndCalandar addSession = new TutorScheduleAndCalandar(this);
         jPanel4.add(addSession, BorderLayout.CENTER);
 
         SwingUtilities.updateComponentTreeUI(jPanel4);
