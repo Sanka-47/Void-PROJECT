@@ -18,6 +18,7 @@ public class AdminDashboard extends javax.swing.JFrame implements DashboardInter
 
     private String adminID;
     private String fName;
+    private String lName;
     private String mobile;
 
     public AdminDashboard(String fName, String adminID) {
@@ -26,6 +27,8 @@ public class AdminDashboard extends javax.swing.JFrame implements DashboardInter
         jLabel5.setText(fName);
         this.adminID = adminID;
         this.fName = fName;
+        this.lName = lName;
+
     }
 
     public void switchPanel(JPanel panel) {
@@ -466,7 +469,7 @@ public class AdminDashboard extends javax.swing.JFrame implements DashboardInter
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, 630, Short.MAX_VALUE)
+            .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, 1326, Short.MAX_VALUE)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
@@ -595,11 +598,22 @@ public class AdminDashboard extends javax.swing.JFrame implements DashboardInter
     }//GEN-LAST:event_jButton14ActionPerformed
 
     private void jButton16ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton16ActionPerformed
+//        jPanel4.removeAll();
+//        AllCourses1 acs = new AllCourses1();
+//        jPanel4.add(acs, BorderLayout.CENTER);
+//
+//        SwingUtilities.updateComponentTreeUI(jPanel4);
+
         jPanel4.removeAll();
-        AllCourses1 acs = new AllCourses1();
-        jPanel4.add(acs, BorderLayout.CENTER);
+
+        CourseRegistration cr = new CourseRegistration(fName, lName);
+
+        jPanel4.add(cr, BorderLayout.CENTER);
 
         SwingUtilities.updateComponentTreeUI(jPanel4);
+
+        jPanel4.revalidate();
+        jPanel4.repaint();
     }//GEN-LAST:event_jButton16ActionPerformed
 
     private void jButton15ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton15ActionPerformed
