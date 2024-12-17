@@ -28,29 +28,64 @@ public class TutorScheduleAndCalandar extends javax.swing.JPanel {
     
     private void loadTutorSchedule() {
 
+//        try {
+//            ResultSet resultSet = MySQL2.executeSearch("SELECT * FROM `class` "
+//                    + "INNER JOIN `tutor` ON `class`.`tutor_id`=`tutor`.`id`"
+//                    + "INNER JOIN `courses` ON `class`.`courses_id`=`courses`.`id`"
+//                    + "INNER JOIN `class_status` ON  `class`.`class_status_id`=`class_status`.`id`"
+//                    + "INNER JOIN `subject` ON `class`.`courses_id`=`subject`.`courses_id`");
+//
+//            DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+//            model.setRowCount(0);
+//
+//            while (resultSet.next()) {
+//
+//                Vector<String> vector = new Vector<>();
+//                vector.add(resultSet.getString("class.id"));
+//                vector.add(resultSet.getString("courses.name"));
+//                vector.add(resultSet.getString("tutor.first_name") + " " + resultSet.getString("tutor.last_name"));
+//                vector.add(resultSet.getString("class.name"));
+//                vector.add(resultSet.getString("class.date"));
+//                vector.add(resultSet.getString("class.start_time"));
+//                vector.add(resultSet.getString("class.end_time"));
+//                vector.add(resultSet.getString("class.hallnumber"));
+//                vector.add(resultSet.getString("class.amount"));
+//                vector.add(resultSet.getString("class_status.name"));
+//
+//                model.addRow(vector);
+//            }
+//
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
         try {
-            ResultSet resultSet = MySQL2.executeSearch("SELECT * FROM `class` "
-                    + "INNER JOIN `tutor` ON `class`.`tutor_id`=`tutor`.`id`"
-                    + "INNER JOIN `courses` ON `class`.`courses_id`=`courses`.`id`"
-                    + "INNER JOIN `class_status` ON  `class`.`class_status_id`=`class_status`.`id`"
-                    + "INNER JOIN `subject` ON `class`.`courses_id`=`subject`.`courses_id`");
+            // Corrected SQL query with DISTINCT and removal of unnecessary joins
+            ResultSet resultSet = MySQL2.executeSearch(
+                    "SELECT DISTINCT `class`.`id`, `courses`.`name` AS course_name, "
+                    + "`tutor`.`first_name`, `tutor`.`last_name`, `class`.`name` AS class_name, "
+                    + "`class`.`date`, `class`.`start_time`, `class`.`end_time`, `class`.`hallnumber`, "
+                    + "`class`.`amount`, `class_status`.`name` AS status_name "
+                    + "FROM `class` "
+                    + "INNER JOIN `tutor` ON `class`.`tutor_id` = `tutor`.`id` "
+                    + "INNER JOIN `courses` ON `class`.`courses_id` = `courses`.`id` "
+                    + "INNER JOIN `class_status` ON `class`.`class_status_id` = `class_status`.`id`"
+            );
 
             DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
             model.setRowCount(0);
 
             while (resultSet.next()) {
-
                 Vector<String> vector = new Vector<>();
-                vector.add(resultSet.getString("class.id"));
-                vector.add(resultSet.getString("courses.name"));
-                vector.add(resultSet.getString("tutor.first_name") + " " + resultSet.getString("tutor.last_name"));
-                vector.add(resultSet.getString("class.name"));
-                vector.add(resultSet.getString("class.date"));
-                vector.add(resultSet.getString("class.start_time"));
-                vector.add(resultSet.getString("class.end_time"));
-                vector.add(resultSet.getString("class.hallnumber"));
-                vector.add(resultSet.getString("class_status.name"));
-                vector.add(resultSet.getString("class.amount"));
+                vector.add(resultSet.getString("id"));
+                vector.add(resultSet.getString("course_name"));
+                vector.add(resultSet.getString("first_name") + " " + resultSet.getString("last_name"));
+                vector.add(resultSet.getString("class_name"));
+                vector.add(resultSet.getString("date"));
+                vector.add(resultSet.getString("start_time"));
+                vector.add(resultSet.getString("end_time"));
+                vector.add(resultSet.getString("hallnumber"));
+                vector.add(resultSet.getString("amount"));
+                vector.add(resultSet.getString("status_name"));
 
                 model.addRow(vector);
             }
@@ -174,8 +209,32 @@ public class TutorScheduleAndCalandar extends javax.swing.JPanel {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
 
+<<<<<<< Updated upstream:src/gui/TutorScheduleAndCalandar.java
         jLabel13.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
         jLabel13.setText("Class ID");
+=======
+        setBackground(new java.awt.Color(255, 102, 102));
+        setMaximumSize(new java.awt.Dimension(2147483647, 2147483647));
+        setPreferredSize(new java.awt.Dimension(1000, 581));
+
+        jPanel3.setPreferredSize(new java.awt.Dimension(250, 581));
+
+        jButton8.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
+        jButton8.setText("Schedule Session");
+        jButton8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton8ActionPerformed(evt);
+            }
+        });
+
+        jButton10.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
+        jButton10.setText("Cancel Session");
+        jButton10.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton10ActionPerformed(evt);
+            }
+        });
+>>>>>>> Stashed changes:src/gui/TutorScheduleAndCalander.java
 
         jLabel8.setFont(new java.awt.Font("Century Gothic", 0, 13)); // NOI18N
         jLabel8.setText("Course");
@@ -386,9 +445,101 @@ public class TutorScheduleAndCalandar extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
+<<<<<<< Updated upstream:src/gui/TutorScheduleAndCalandar.java
     private void jTextField3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField3ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField3ActionPerformed
+=======
+    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
+
+        String sessionID = jTextField3.getText();
+        String course = String.valueOf(jComboBox2.getSelectedItem());
+        String tName = String.valueOf(jComboBox1.getSelectedItem());
+        String className = jTextField2.getText();
+        Date date = jDateChooser1.getDate();
+        String startTime = jFormattedTextField1.getText();
+        String endTime = jFormattedTextField2.getText();
+        String hallnumber = jTextField7.getText();
+        String status = String.valueOf(jComboBox3.getSelectedItem());
+        String price = jFormattedTextField3.getText();
+
+        // Validation checks
+        if (sessionID.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please enter the Class ID!", "Warning", JOptionPane.WARNING_MESSAGE);
+            return;
+        } else if (course.equals("Select") || courseMap.get(course) == null) {
+            JOptionPane.showMessageDialog(this, "Please select a valid course!", "Warning", JOptionPane.WARNING_MESSAGE);
+            return;
+        } else if (tName.equals("Select") || tutorMap.get(tName) == null) {
+            JOptionPane.showMessageDialog(this, "Please select a valid tutor!", "Warning", JOptionPane.WARNING_MESSAGE);
+            return;
+        } else if (className.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please enter the Title!", "Warning", JOptionPane.WARNING_MESSAGE);
+            return;
+        } else if (date == null) {
+            JOptionPane.showMessageDialog(this, "Please enter a Date!", "Warning", JOptionPane.WARNING_MESSAGE);
+            return;
+        } else if (startTime.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please enter the class Starting time!", "Warning", JOptionPane.WARNING_MESSAGE);
+            return;
+        } else if (endTime.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please enter the class Ending time!", "Warning", JOptionPane.WARNING_MESSAGE);
+            return;
+        } else if (hallnumber.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please enter the Location!", "Warning", JOptionPane.WARNING_MESSAGE);
+            return;
+        } else if (status.equals("Select") || statusMap.get(status) == null) {
+            JOptionPane.showMessageDialog(this, "Please select a valid Status!", "Warning", JOptionPane.WARNING_MESSAGE);
+            return;
+        } else if (price.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please enter the Amount!", "Warning", JOptionPane.WARNING_MESSAGE);
+            return;
+
+        } else {
+
+            try {
+                // Fetch tutor details from the database
+                ResultSet resultSet1 = MySQL2.executeSearch("SELECT `id` FROM `tutor` WHERE `id` = '" + tutorMap.get(tName) + "'");
+
+                if (resultSet1.next()) {
+                    // Format date
+                    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+
+                    // Output to console for debugging
+                    System.out.println("Session ID: " + sessionID);
+                    System.out.println("Class Name: " + className);
+                    System.out.println("Date: " + format.format(date));
+                    System.out.println("Start Time: " + startTime);
+                    System.out.println("End Time: " + endTime);
+                    System.out.println("Hall Number: " + hallnumber);
+                    System.out.println("Price: " + price);
+                    System.out.println("Tutor ID: " + tutorMap.get(tName));
+                    System.out.println("Course ID: " + courseMap.get(course));
+                    System.out.println("Status ID: " + statusMap.get(status));
+
+                    // Insert data into the database
+                    MySQL2.executeIUD("INSERT INTO `class` (`id`, `name`, `date`, `start_time`, `end_time`, `hallnumber`, `amount`, `tutor_id`, `courses_id`, `class_status_id`) "
+                            + "VALUES ('" + sessionID + "', '" + className + "', '" + format.format(date) + "', '" + startTime + "', '" + endTime + "', '" + hallnumber + "', '" + price + "', "
+                            + "'" + tutorMap.get(tName) + "', '" + courseMap.get(course) + "', '" + statusMap.get(status) + "')");
+
+                    JOptionPane.showMessageDialog(this, "Class added successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
+                    reset();
+                    loadTutorSchedule();
+
+                } else {
+                    JOptionPane.showMessageDialog(this, "The tutor's ID does not match the record in the system. Please check the tutor information and try again.", "Warning", JOptionPane.WARNING_MESSAGE);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+    }//GEN-LAST:event_jButton8ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        reset();
+    }//GEN-LAST:event_jButton1ActionPerformed
+>>>>>>> Stashed changes:src/gui/TutorScheduleAndCalander.java
 
     private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
         // TODO add your handling code here:
@@ -434,11 +585,12 @@ public class TutorScheduleAndCalandar extends javax.swing.JPanel {
         } else if (status.equals("Select") || statusMap.get(status) == null) {
             JOptionPane.showMessageDialog(this, "Please select a valid Status!", "Warning", JOptionPane.WARNING_MESSAGE);
             return;
-        }else if (price.isEmpty()) {
+        } else if (price.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Please enter the Amount!", "Warning", JOptionPane.WARNING_MESSAGE);
             return;
 
-        }try {
+        }
+        try {
             SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 
             System.out.println("Session ID: " + sessionID);
