@@ -16,16 +16,27 @@ import javax.swing.UnsupportedLookAndFeelException;
 
 public class AdminDashboard extends javax.swing.JFrame implements DashboardInterface {
 
+<<<<<<< Updated upstream
     private String adminID;
     private String fName;
+=======
+    private String fName;
+    private String lName;
+>>>>>>> Stashed changes
     private String mobile;
 
     public AdminDashboard(String fName, String adminID) {
         initComponents();
         loadDate();
+<<<<<<< Updated upstream
         jLabel5.setText(fName);
         this.adminID = adminID;
         this.fName = fName;
+=======
+        jLabel5.setText(fName + " " + lName);
+        this.fName = fName;
+        this.lName = lName;
+>>>>>>> Stashed changes
     }
 
     public void switchPanel(JPanel panel) {
@@ -497,7 +508,21 @@ public class AdminDashboard extends javax.swing.JFrame implements DashboardInter
         TutorScheduleAndCalandar addSession = new TutorScheduleAndCalandar(mobile, fName);
         jPanel4.add(addSession, BorderLayout.CENTER);
 
+<<<<<<< Updated upstream
         SwingUtilities.updateComponentTreeUI(jPanel4);
+=======
+        jPanel4.removeAll();
+
+        TutorScheduleAndCalander cr = new TutorScheduleAndCalander(mobile, lName);
+
+        jPanel4.add(cr, BorderLayout.CENTER);
+
+        SwingUtilities.updateComponentTreeUI(jPanel4);
+
+        jPanel4.revalidate();
+        jPanel4.repaint();
+
+>>>>>>> Stashed changes
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -596,11 +621,40 @@ public class AdminDashboard extends javax.swing.JFrame implements DashboardInter
 
     private void jButton16ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton16ActionPerformed
         jPanel4.removeAll();
+<<<<<<< Updated upstream
         AllCourses1 acs = new AllCourses1();
         jPanel4.add(acs, BorderLayout.CENTER);
 
         SwingUtilities.updateComponentTreeUI(jPanel4);
     }//GEN-LAST:event_jButton16ActionPerformed
+=======
+        AllEmployees allEmployees = new AllEmployees(null);
+        EmployeeRegistration em = new EmployeeRegistration(allEmployees);
+        allEmployees = new AllEmployees(em);
+        allEmployees.setAdminDashboard(this);
+        jPanel4.add(allEmployees, BorderLayout.CENTER);
+        SwingUtilities.updateComponentTreeUI(jPanel4);
+    }//GEN-LAST:event_jButton15ActionPerformed
+
+    private void jButton17ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton17ActionPerformed
+//        jPanel4.removeAll();
+//        AllCourses acs = new AllCourses();
+//        jPanel4.add(acs, BorderLayout.CENTER);
+//
+//        SwingUtilities.updateComponentTreeUI(jPanel4);
+
+        jPanel4.removeAll();
+
+        CourseRegistration cr = new CourseRegistration(fName, lName);
+
+        jPanel4.add(cr, BorderLayout.CENTER);
+
+        SwingUtilities.updateComponentTreeUI(jPanel4);
+
+        jPanel4.revalidate();
+        jPanel4.repaint();
+    }//GEN-LAST:event_jButton17ActionPerformed
+>>>>>>> Stashed changes
 
     private void jButton15ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton15ActionPerformed
         jPanel4.removeAll();
@@ -614,6 +668,14 @@ public class AdminDashboard extends javax.swing.JFrame implements DashboardInter
         AdminReportDashboard adminReportDashboard = new AdminReportDashboard("bhanu", "bandara");
         adminReportDashboard.setVisible(true);
         this.dispose();
+<<<<<<< Updated upstream
+=======
+    }//GEN-LAST:event_jButton22ActionPerformed
+
+    private void jButton18ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton18ActionPerformed
+        AllCourses ac = new AllCourses();
+        ac.setVisible(true);
+>>>>>>> Stashed changes
     }//GEN-LAST:event_jButton18ActionPerformed
 
     private void jButton17ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton17ActionPerformed
