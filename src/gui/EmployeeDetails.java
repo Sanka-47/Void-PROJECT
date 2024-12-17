@@ -85,37 +85,37 @@ public class EmployeeDetails extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        contactLabel.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        contactLabel.setFont(new java.awt.Font("Century Gothic", 1, 24)); // NOI18N
         contactLabel.setText("Contact Information :");
 
-        jLabel7.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        jLabel7.setFont(new java.awt.Font("Century Gothic", 0, 24)); // NOI18N
         jLabel7.setText("NIC :");
 
-        genderLabel.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        genderLabel.setFont(new java.awt.Font("Century Gothic", 1, 24)); // NOI18N
         genderLabel.setText("Gender :");
 
-        jLabel2.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        jLabel2.setFont(new java.awt.Font("Century Gothic", 0, 24)); // NOI18N
         jLabel2.setText("Name :");
 
-        jLabel3.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        jLabel3.setFont(new java.awt.Font("Century Gothic", 0, 24)); // NOI18N
         jLabel3.setText("Role :");
 
-        nicLabel.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        nicLabel.setFont(new java.awt.Font("Century Gothic", 1, 24)); // NOI18N
         nicLabel.setText("NIC :");
 
-        jLabel4.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        jLabel4.setFont(new java.awt.Font("Century Gothic", 0, 24)); // NOI18N
         jLabel4.setText("Contact Information :");
 
-        nameLabel.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        nameLabel.setFont(new java.awt.Font("Century Gothic", 1, 24)); // NOI18N
         nameLabel.setText("Name :");
 
-        jLabel5.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        jLabel5.setFont(new java.awt.Font("Century Gothic", 0, 24)); // NOI18N
         jLabel5.setText("Gender :");
 
-        roleLabel.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        roleLabel.setFont(new java.awt.Font("Century Gothic", 1, 24)); // NOI18N
         roleLabel.setText("Qualification :");
 
-        jLabel1.setFont(new java.awt.Font("Century Gothic", 1, 36)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Century Gothic", 1, 32)); // NOI18N
         jLabel1.setText("Employee Details");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -123,32 +123,33 @@ public class EmployeeDetails extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(54, 54, 54)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel2)
-                    .addComponent(jLabel3)
-                    .addComponent(jLabel4)
-                    .addComponent(jLabel5)
-                    .addComponent(jLabel7))
-                .addGap(61, 61, 61)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(nicLabel)
-                    .addComponent(nameLabel)
-                    .addComponent(roleLabel)
-                    .addComponent(contactLabel)
-                    .addComponent(genderLabel))
-                .addContainerGap(679, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 409, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(339, 339, 339))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(99, 99, 99)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel4)
+                            .addComponent(jLabel5)
+                            .addComponent(jLabel7))
+                        .addGap(61, 61, 61)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(nicLabel)
+                            .addComponent(nameLabel)
+                            .addComponent(roleLabel)
+                            .addComponent(contactLabel)
+                            .addComponent(genderLabel)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(362, 362, 362)
+                        .addComponent(jLabel1)))
+                .addContainerGap(370, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(33, 33, 33)
+                .addGap(28, 28, 28)
                 .addComponent(jLabel1)
-                .addGap(50, 50, 50)
+                .addGap(63, 63, 63)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel2)
@@ -158,7 +159,7 @@ public class EmployeeDetails extends javax.swing.JFrame {
                         .addComponent(jLabel4)
                         .addGap(48, 48, 48)
                         .addComponent(jLabel5)
-                        .addGap(38, 38, 38)
+                        .addGap(47, 47, 47)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel7)
                             .addComponent(nicLabel)))
@@ -170,7 +171,7 @@ public class EmployeeDetails extends javax.swing.JFrame {
                         .addComponent(contactLabel)
                         .addGap(48, 48, 48)
                         .addComponent(genderLabel)))
-                .addContainerGap(248, Short.MAX_VALUE))
+                .addContainerGap(86, Short.MAX_VALUE))
         );
 
         pack();

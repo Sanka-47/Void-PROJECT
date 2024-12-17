@@ -160,7 +160,7 @@ public class ForgotPassword extends javax.swing.JDialog {
         Properties props = new Properties();
         props.put("mail.smtp.host", "smtp.gmail.com");
         props.put("mail.smtp.port", 465);
-        props.put("mail.smtp.user", "gayanlmdjayawardana@gmail.com");
+        props.put("mail.smtp.user", "");
         props.put("mail.smtp.auth", "true");
         props.put("mail.smtp.starttls.enable", "true");
         props.put("mail.smtp.debug", "true");
@@ -177,14 +177,14 @@ public class ForgotPassword extends javax.swing.JDialog {
                 MimeMessage message = new MimeMessage(session);
                 message.setText("Your verification code is " + vCode);
                 message.setSubject("Verification Code");
-                message.setFrom(new InternetAddress("gayanlmdjayawardana@gmail.com"));
+                message.setFrom(new InternetAddress(""));
                 message.addRecipient(RecipientType.TO, new InternetAddress(email));
                 message.saveChanges();
                 Transport transport = session.getTransport("smtp");
-                transport.connect("smtp.gmail.com", "gayanlmdjayawardana@gmail.com", "gafakwcqltwnspow");
+                transport.connect("smtp.gmail.com", "", "gafakwcqltwnspow");
                 transport.sendMessage(message, message.getAllRecipients());
                 transport.close();
-                jLabel1.setText("Your password mailed to you");
+                jLabel1.setText("Code Sent");
 
             }
 
@@ -203,15 +203,15 @@ public class ForgotPassword extends javax.swing.JDialog {
         String password = String.valueOf(jPasswordField1.getPassword());
 
         if (email.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Pissu kelin nathuwe email eka dapan", "Warning", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Please enter your email!", "Warning", JOptionPane.WARNING_MESSAGE);
         } else if (!email.matches("^(?=.{1,64}@)[\\p{L}0-9_-]+(\\.[\\p{L}0-9_-]+)*@[^-][\\p{L}0-9-]+(\\.[\\p{L}0-9-]+)*(\\.[\\p{L}]{2,})$")) {
-            JOptionPane.showMessageDialog(this, "Hariyata email eka type karapan", "Warning", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Invalid email address!", "Warning", JOptionPane.WARNING_MESSAGE);
         } else if (vc.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Please enter your first name!", "Warning", JOptionPane.WARNING_MESSAGE);
         } else if (!vc.contains(vCode)) {
             JOptionPane.showMessageDialog(this, "Oops!, you have entered the wrong code!", "Warning", JOptionPane.WARNING_MESSAGE);
         } else if (password.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Ubata amuthuwen kiyanne one naha ne passsword eka type karapan", "Warning", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Please enter your new password!", "Warning", JOptionPane.WARNING_MESSAGE);
         } else if (!password.matches("^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*#?&])[A-Za-z\\d@$!%*#?&]{8,}$")) {
             JOptionPane.showMessageDialog(this, "Please type a password with a minimum of 8 characters including a number and character !", "Warning", JOptionPane.WARNING_MESSAGE);
         } else {
