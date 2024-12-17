@@ -29,28 +29,33 @@ public class TutorScheduleAndCalandar extends javax.swing.JPanel {
     private void loadTutorSchedule() {
 
         try {
-            ResultSet resultSet = MySQL2.executeSearch("SELECT * FROM `class` "
-                    + "INNER JOIN `tutor` ON `class`.`tutor_id`=`tutor`.`id`"
-                    + "INNER JOIN `courses` ON `class`.`courses_id`=`courses`.`id`"
-                    + "INNER JOIN `class_status` ON  `class`.`class_status_id`=`class_status`.`id`"
-                    + "INNER JOIN `subject` ON `class`.`courses_id`=`subject`.`courses_id`");
+            // Corrected SQL query with DISTINCT and removal of unnecessary joins
+            ResultSet resultSet = MySQL2.executeSearch(
+                    "SELECT DISTINCT `class`.`id`, `courses`.`name` AS course_name, "
+                    + "`tutor`.`first_name`, `tutor`.`last_name`, `class`.`name` AS class_name, "
+                    + "`class`.`date`, `class`.`start_time`, `class`.`end_time`, `class`.`hallnumber`, "
+                    + "`class`.`amount`, `class_status`.`name` AS status_name "
+                    + "FROM `class` "
+                    + "INNER JOIN `tutor` ON `class`.`tutor_id` = `tutor`.`id` "
+                    + "INNER JOIN `courses` ON `class`.`courses_id` = `courses`.`id` "
+                    + "INNER JOIN `class_status` ON `class`.`class_status_id` = `class_status`.`id`"
+            );
 
             DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
             model.setRowCount(0);
 
             while (resultSet.next()) {
-
                 Vector<String> vector = new Vector<>();
-                vector.add(resultSet.getString("class.id"));
-                vector.add(resultSet.getString("courses.name"));
-                vector.add(resultSet.getString("tutor.first_name") + " " + resultSet.getString("tutor.last_name"));
-                vector.add(resultSet.getString("class.name"));
-                vector.add(resultSet.getString("class.date"));
-                vector.add(resultSet.getString("class.start_time"));
-                vector.add(resultSet.getString("class.end_time"));
-                vector.add(resultSet.getString("class.hallnumber"));
-                vector.add(resultSet.getString("class_status.name"));
-                vector.add(resultSet.getString("class.amount"));
+                vector.add(resultSet.getString("id"));
+                vector.add(resultSet.getString("course_name"));
+                vector.add(resultSet.getString("first_name") + " " + resultSet.getString("last_name"));
+                vector.add(resultSet.getString("class_name"));
+                vector.add(resultSet.getString("date"));
+                vector.add(resultSet.getString("start_time"));
+                vector.add(resultSet.getString("end_time"));
+                vector.add(resultSet.getString("hallnumber"));
+                vector.add(resultSet.getString("amount"));
+                vector.add(resultSet.getString("status_name"));
 
                 model.addRow(vector);
             }
