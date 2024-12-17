@@ -11,6 +11,8 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
 public class AdminSignIn extends javax.swing.JFrame {
+    
+    public String email;
 
     public AdminSignIn() {
         initComponents();
@@ -212,9 +214,35 @@ public class AdminSignIn extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        ForgotPassword forgotPassword = new ForgotPassword(this, true);
-        forgotPassword.setVisible(true);
-        forgotPassword.setEmail("");
+        String nic = jTextField1.getText();
+
+        if (nic.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please enter your NIC", "Warning", JOptionPane.WARNING_MESSAGE);
+        } else if (!nic.matches("^(([5,6,7,8,9]{1})([0-9]{1})([0,1,2,3,5,6,7,8]{1})([0-9]{6})([v|V|x|X]))|(([1,2]{1})([0,9]{1})([0-9]{2})([0,1,2,3,5,6,7,8]{1})([0-9]{7}))")) {
+            JOptionPane.showMessageDialog(this, "Please enter your valid NIC number!", "Warning", JOptionPane.WARNING_MESSAGE);
+        } else {
+
+            try {
+
+                ResultSet resultSet = MySQL2.executeSearch("SELECT `email` FROM `tutor` WHERE `nic` = '" + nic + "'");
+
+                if (resultSet.next()) {
+                    
+                    this.email = resultSet.getString("email");
+                    ForgotPassword forgotPassword = new ForgotPassword(this, true, email, 1);
+                    forgotPassword.setVisible(true);
+
+                } else {
+
+                    JOptionPane.showMessageDialog(this, "Invalid NIC or password", "Warning", JOptionPane.WARNING_MESSAGE);
+                    jTextField1.setText("");
+                    jPasswordField1.setText("");
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }//GEN-LAST:event_jButton2ActionPerformed
 
     public static void main(String args[]) throws UnsupportedLookAndFeelException {

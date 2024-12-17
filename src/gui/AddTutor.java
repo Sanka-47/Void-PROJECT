@@ -1,5 +1,4 @@
 //author KAVISHKA
-
 package gui;
 
 import com.toedter.calendar.JDateChooser;
@@ -15,7 +14,7 @@ import javax.swing.JTextField;
 import model.MySQL2;
 
 public class AddTutor extends javax.swing.JPanel {
-    
+
     private DashboardInterface parent;
 
     private static HashMap<String, String> courseMap = new HashMap<>();
@@ -29,7 +28,7 @@ public class AddTutor extends javax.swing.JPanel {
         jButton2.setEnabled(false);
         jButton4.setEnabled(false);
     }
-    
+
     //First Name
     public JTextField getjTextField1() {
         return jTextField1; // Replace with the correct field reference
@@ -54,7 +53,7 @@ public class AddTutor extends javax.swing.JPanel {
     public JComboBox<String> getjComboBox1() {
         return jComboBox1;
     }
-    
+
     //Gender
     public JComboBox<String> getjComboBox2() {
         return jComboBox2;
@@ -70,21 +69,26 @@ public class AddTutor extends javax.swing.JPanel {
         return jPasswordField1;
     }
     
+    //Email
+    public JTextField getjTextField6() {
+        return jTextField6;
+    }
+
     //Register
     public JButton getjButton1() {
         return jButton1;
     }
-    
+
     //Update
     public JButton getjButton2() {
         return jButton2;
     }
-    
+
     //Clear All
     public JButton getjButton3() {
         return jButton3;
     }
-    
+
     //Back
     public JButton getjButton4() {
         return jButton4;
@@ -352,6 +356,7 @@ public class AddTutor extends javax.swing.JPanel {
         String courses = String.valueOf(jComboBox1.getSelectedItem());
         String mobile = jTextField5.getText();
         String password = String.valueOf(jPasswordField1.getPassword());
+        String email = jTextField6.getText();
 
         try {
 
@@ -381,6 +386,10 @@ public class AddTutor extends javax.swing.JPanel {
                 JOptionPane.showMessageDialog(this, "Please enter gender type !", "Warning", JOptionPane.WARNING_MESSAGE);
             } else if (courses.equals("Select")) {
                 JOptionPane.showMessageDialog(this, "Please enter courses type !", "Warning", JOptionPane.WARNING_MESSAGE);
+            } else if (email.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Please Enter Email", "Warning", JOptionPane.WARNING_MESSAGE);
+            } else if (!email.matches("^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$")) {
+                JOptionPane.showMessageDialog(this, "Please Enter Valid Email", "Warning", JOptionPane.WARNING_MESSAGE);
             } else {
 
                 ResultSet resultSet = MySQL2.executeSearch("SELECT * FROM `tutor` WHERE  `nic` = '" + nic + "' AND `contact_info` = '" + mobile + "'");
@@ -389,8 +398,8 @@ public class AddTutor extends javax.swing.JPanel {
                     JOptionPane.showMessageDialog(this, "This user already registered", "Warning", JOptionPane.WARNING_MESSAGE);
                 } else {
 
-                    MySQL2.executeIUD("INSERT INTO `tutor`(`first_name`,`last_name`,`qualification`,`contact_info`,`gender_id`,`courses_id`,`password`,`nic`)"
-                            + "VALUES('" + firstName + "','" + lastName + "','" + qualification + "','" + mobile + "','" + genderMap.get(gender) + "','" + courseMap.get(courses) + "','" + password + "','" + nic + "')");
+                    MySQL2.executeIUD("INSERT INTO `tutor`(`first_name`,`last_name`,`qualification`,`contact_info`,`email`,`gender_id`,`courses_id`,`password`,`nic`)"
+                            + "VALUES('" + firstName + "','" + lastName + "','" + qualification + "','" + mobile + "','" + email + "','" + genderMap.get(gender) + "','" + courseMap.get(courses) + "','" + password + "','" + nic + "')");
                     ClearAll();
 
                 }
@@ -413,6 +422,7 @@ public class AddTutor extends javax.swing.JPanel {
         String courses = String.valueOf(jComboBox1.getSelectedItem());
         String mobile = jTextField5.getText();
         String password = String.valueOf(jPasswordField1.getPassword());
+        String email = jTextField6.getText();
 
         try {
 
@@ -442,12 +452,16 @@ public class AddTutor extends javax.swing.JPanel {
                 JOptionPane.showMessageDialog(this, "Please enter your Password!", "Warning", JOptionPane.WARNING_MESSAGE);
             } else if (!password.matches("^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*#?&])[A-Za-z\\d@$!%*#?&]{8,}$")) {
                 JOptionPane.showMessageDialog(this, "Please type a password with a minimum of 8 characters including a number and character !", "Warning", JOptionPane.WARNING_MESSAGE);
+            } else if (email.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Please Enter Email", "Warning", JOptionPane.WARNING_MESSAGE);
+            } else if (!email.matches("^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$")) {
+                JOptionPane.showMessageDialog(this, "Please Enter Valid Email", "Warning", JOptionPane.WARNING_MESSAGE);
             } else {
 
                 MySQL2.executeIUD("UPDATE `tutor` SET `first_name` = '" + firstName + "', `last_name` = '" + lastName + "', `qualification` = '" + qualification + "', "
-                        + "`contact_info` = '" + mobile + "', `gender_id` = '" + genderMap.get(gender) + "', `courses_id` = '" + courseMap.get(courses) + "', "
+                        + "`contact_info` = '" + mobile + "',`email` = '" + email + "',`gender_id` = '" + genderMap.get(gender) + "', `courses_id` = '" + courseMap.get(courses) + "', "
                         + "`password` = '" + password + "' WHERE `nic` = '" + nic + "'");
-                
+
                 JOptionPane.showMessageDialog(this, "Tutor Profile updated sucessfully! ", "Info", JOptionPane.INFORMATION_MESSAGE);
                 ClearAll();
 

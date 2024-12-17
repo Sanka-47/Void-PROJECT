@@ -23,8 +23,7 @@ import model.MySQL2;
  */
 public class TutorDashboard extends javax.swing.JFrame implements DashboardInterface {
     
-    private int tutorID;
-    
+    private int tutorID;   
 
     public TutorDashboard(String fName, int tutorID) {
         initComponents();
@@ -522,25 +521,25 @@ public class TutorDashboard extends javax.swing.JFrame implements DashboardInter
         tw.setVisible(true);
     }//GEN-LAST:event_jButton10ActionPerformed
 
-//    public static void main(String args[]) throws UnsupportedLookAndFeelException {
-//        UIManager.setLookAndFeel(new FlatLightLaf());
-//        UIManager.put("Button.background", Color.decode("#4E4ACF"));
-//        UIManager.put("Button.focusedBackground", Color.decode("#6AAAFF"));
-//        UIManager.put("Button.foreground", Color.decode("#FFFFFF"));
-//        UIManager.put("TextField.background", Color.decode("#F5F3FF"));
-//        UIManager.put("TextField.foreground", Color.decode("#4D4D4D"));
-//        UIManager.put("Panel.background", Color.decode("#EEF1EF"));
-//        UIManager.put("Table.background", Color.decode("#FFFFFF"));
-//        UIManager.put("Table.foreground", Color.decode("#4D4D4D"));
-//        UIManager.put("Table.selectionBackground", Color.decode("#40424E"));
-//        UIManager.put("Table.selectionForeground", Color.decode("#FFFFFF"));
-//        
-//        java.awt.EventQueue.invokeLater(new Runnable() {
-//            public void run() {
-//                new TutorDashboard("",1).setVisible(true);
-//            }
-//        });
-//    }
+    public static void main(String args[]) throws UnsupportedLookAndFeelException {
+        UIManager.setLookAndFeel(new FlatLightLaf());
+        UIManager.put("Button.background", Color.decode("#4E4ACF"));
+        UIManager.put("Button.focusedBackground", Color.decode("#6AAAFF"));
+        UIManager.put("Button.foreground", Color.decode("#FFFFFF"));
+        UIManager.put("TextField.background", Color.decode("#F5F3FF"));
+        UIManager.put("TextField.foreground", Color.decode("#4D4D4D"));
+        UIManager.put("Panel.background", Color.decode("#EEF1EF"));
+        UIManager.put("Table.background", Color.decode("#FFFFFF"));
+        UIManager.put("Table.foreground", Color.decode("#4D4D4D"));
+        UIManager.put("Table.selectionBackground", Color.decode("#40424E"));
+        UIManager.put("Table.selectionForeground", Color.decode("#FFFFFF"));
+        
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new TutorDashboard("",1).setVisible(true);
+            }
+        });
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel amountLabel;

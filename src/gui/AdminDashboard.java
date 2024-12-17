@@ -494,7 +494,7 @@ public class AdminDashboard extends javax.swing.JFrame implements DashboardInter
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         jPanel4.removeAll();
-        TutorScheduleAndCalandar addSession = new TutorScheduleAndCalandar(mobile, fName);
+        TutorScheduleAndCalandar addSession = new TutorScheduleAndCalandar(this);
         jPanel4.add(addSession, BorderLayout.CENTER);
 
         SwingUtilities.updateComponentTreeUI(jPanel4);

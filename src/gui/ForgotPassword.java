@@ -1,5 +1,4 @@
 //Author KAVISHKA
-
 package gui;
 
 import java.sql.ResultSet;
@@ -16,12 +15,15 @@ import model.MySQL2;
 public class ForgotPassword extends javax.swing.JDialog {
 
     private String email;
+
     private String vCode;
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
-    
+    private int x;
+
+//    public void setEmail(String email) {
+//        this.email = email;
+//        System.out.println("1");
+//    }
     private static String generateCode(int length) {
         String chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
         Random random = new Random();
@@ -34,11 +36,14 @@ public class ForgotPassword extends javax.swing.JDialog {
         return code.toString();
     }
 
-    public ForgotPassword(java.awt.Frame parent, boolean modal) {
+    public ForgotPassword(java.awt.Frame parent, boolean modal, String email, int x) {
         super(parent, modal);
         initComponents();
         jLabel4.setText(email);
+        this.email = email;
         this.vCode = generateCode(10);
+        System.out.println(vCode);
+        this.x = x;
     }
 
     @SuppressWarnings("unchecked")
@@ -203,19 +208,24 @@ public class ForgotPassword extends javax.swing.JDialog {
             JOptionPane.showMessageDialog(this, "Hariyata email eka type karapan", "Warning", JOptionPane.WARNING_MESSAGE);
         } else if (vc.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Please enter your first name!", "Warning", JOptionPane.WARNING_MESSAGE);
-        } else if (vc.contains(vCode)) {
+        } else if (!vc.contains(vCode)) {
             JOptionPane.showMessageDialog(this, "Oops!, you have entered the wrong code!", "Warning", JOptionPane.WARNING_MESSAGE);
         } else if (password.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Ubata amuthuwen kiyanne one naha ne passsword eka type karapan", "Warning", JOptionPane.WARNING_MESSAGE);
         } else if (!password.matches("^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*#?&])[A-Za-z\\d@$!%*#?&]{8,}$")) {
             JOptionPane.showMessageDialog(this, "Please type a password with a minimum of 8 characters including a number and character !", "Warning", JOptionPane.WARNING_MESSAGE);
         } else {
-            
+
             try {
-                
-                MySQL2.executeIUD("UPDATE `employee` SET `password` = '" + password + "' WHERE `email` = '" + email + "'");
-                JOptionPane.showMessageDialog(this, "Successfully Updated!", "Confirmation", JOptionPane.INFORMATION_MESSAGE);
-                
+
+                if (x == 1 || x == 2) {
+                    MySQL2.executeIUD("UPDATE `employee` SET `password` = '" + password + "' WHERE `email` = '" + email + "'");
+                    JOptionPane.showMessageDialog(this, "Successfully Updated!", "Confirmation", JOptionPane.INFORMATION_MESSAGE);
+                } else if (x == 3) {
+                    MySQL2.executeIUD("UPDATE `tutor` SET `password` = '" + password + "' WHERE `email` = '" + email + "'");
+                    JOptionPane.showMessageDialog(this, "Successfully Updated!", "Confirmation", JOptionPane.INFORMATION_MESSAGE);
+                }
+
             } catch (Exception e) {
                 e.printStackTrace();
             }
