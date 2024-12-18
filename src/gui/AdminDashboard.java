@@ -631,7 +631,10 @@ public class AdminDashboard extends javax.swing.JFrame implements DashboardInter
     }//GEN-LAST:event_jButton18ActionPerformed
 
     private void jButton17ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton17ActionPerformed
-        // TODO add your handling code here:
+        jPanel4.removeAll();
+        AllCourses ac = new AllCourses();
+        jPanel4.add(ac, BorderLayout.CENTER);
+        SwingUtilities.updateComponentTreeUI(jPanel4);
     }//GEN-LAST:event_jButton17ActionPerformed
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
