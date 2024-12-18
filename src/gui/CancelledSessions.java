@@ -68,7 +68,7 @@ public class CancelledSessions extends javax.swing.JPanel {
                 query += "ORDER BY `courses`.`name` DESC";
             }
 
-            System.out.println(query);
+            
             ResultSet resultSet = MySQL2.executeSearch(query);
 
             DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
