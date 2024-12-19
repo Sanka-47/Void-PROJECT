@@ -1,5 +1,4 @@
 //author KAVISHKA
-
 package gui;
 
 import model.MySQL2;
@@ -11,11 +10,11 @@ import java.util.Vector;
 import javax.swing.table.DefaultTableModel;
 
 public class AllTutors extends javax.swing.JPanel {
-    
-    private static HashMap <String, String> passwordMap = new HashMap<>();
-    
+
+    private static HashMap<String, String> passwordMap = new HashMap<>();
+
     private DashboardInterface parent;
-    
+
 //    public void setAdminDashboard(AdminDashboard ad) {
 //        this.parent = ad;
 //    }
@@ -25,7 +24,6 @@ public class AllTutors extends javax.swing.JPanel {
 //    public void setEmployeeDashboard(EmployeeDashboard ed) {
 //        this.eparent = ed;
 //    }
-    
     private AddTutor updateTutor;
 
     public AllTutors(DashboardInterface parent) {
@@ -34,15 +32,14 @@ public class AllTutors extends javax.swing.JPanel {
         loadTable();
         this.updateTutor = new AddTutor(parent);
     }
-    
+
     private void switchToRegistrationAD() {
         parent.switchPanel(updateTutor);
     }
-    
+
 //    private void switchToRegistrationED() {
 //        eparent.switchPanel(updateTutor);
 //    }
-    
     private void loadTable() {
         try {
 
@@ -83,6 +80,8 @@ public class AllTutors extends javax.swing.JPanel {
         jTable1 = new javax.swing.JTable();
         jLabel2 = new javax.swing.JLabel();
         jComboBox1 = new javax.swing.JComboBox<>();
+        searchName = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
 
         jLabel1.setFont(new java.awt.Font("Century Gothic", 1, 24)); // NOI18N
         jLabel1.setText("All Tutors");
@@ -123,6 +122,20 @@ public class AllTutors extends javax.swing.JPanel {
             }
         });
 
+        searchName.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                searchNameActionPerformed(evt);
+            }
+        });
+        searchName.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                searchNameKeyReleased(evt);
+            }
+        });
+
+        jLabel3.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
+        jLabel3.setText("Search By Name :");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -132,14 +145,18 @@ public class AllTutors extends javax.swing.JPanel {
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(754, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(jLabel3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(searchName, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel1)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 977, Short.MAX_VALUE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -150,7 +167,10 @@ public class AllTutors extends javax.swing.JPanel {
                 .addGap(34, 34, 34)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel3)
+                        .addComponent(searchName, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(19, 19, 19)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 421, Short.MAX_VALUE)
                 .addContainerGap())
@@ -198,31 +218,71 @@ public class AllTutors extends javax.swing.JPanel {
             updateTutor.getjPasswordField1().setText(passwordMap.get(TutorID));
             System.out.println(passwordMap.get(TutorID));
             updateTutor.getjTextField6().setText(Email);
-            
+
             updateTutor.getjButton1().setEnabled(false);
             updateTutor.getjButton2().setEnabled(true);
             updateTutor.getjTextField3().setEnabled(false);
             updateTutor.getjButton3().setEnabled(true);
             updateTutor.getjButton4().setEnabled(true);
-            
+
             if (parent != null) {
                 switchToRegistrationAD();
-            } 
-//            else if (eparent != null) {
-//                switchToRegistrationED();
-//            }
+            } //            else if (eparent != null) {
+            //                switchToRegistrationED();
+            //            }
             else {
                 System.out.println("Null");
             }
         }
     }//GEN-LAST:event_jTable1MouseClicked
 
+    private void searchNameKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_searchNameKeyReleased
+        String searchText = searchName.getText().trim();
+        loadTableWithSearch(searchText);
+    }//GEN-LAST:event_searchNameKeyReleased
+
+    private void searchNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchNameActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_searchNameActionPerformed
+private void loadTableWithSearch(String searchText) {
+    try {
+        ResultSet resultSet = MySQL2.executeSearch("SELECT * FROM `tutor` "
+                + "INNER JOIN `gender` ON `tutor`.`gender_id` = `gender`.`id` "
+                + "INNER JOIN `courses` ON `tutor`.`courses_id` = `courses`.`id` "
+                + "WHERE `first_name` LIKE '%" + searchText + "%' OR `last_name` LIKE '%" + searchText + "%'");
+
+        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+        model.setRowCount(0);
+
+        while (resultSet.next()) {
+            Vector<String> vector = new Vector<>();
+            vector.add(resultSet.getString("tutor.id"));
+            vector.add(resultSet.getString("first_name"));
+            vector.add(resultSet.getString("last_name"));
+            vector.add(resultSet.getString("qualification"));
+            vector.add(resultSet.getString("contact_info"));
+            vector.add(resultSet.getString("email"));
+            vector.add(resultSet.getString("gender.name"));
+            vector.add(resultSet.getString("courses.name"));
+            vector.add(resultSet.getString("nic"));
+            passwordMap.put(resultSet.getString("password"), resultSet.getString("tutor.id"));
+
+            model.addRow(vector);
+        }
+
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+}
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
+    private javax.swing.JTextField searchName;
     // End of variables declaration//GEN-END:variables
 }
