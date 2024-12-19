@@ -49,10 +49,10 @@ public class AllStudents extends javax.swing.JPanel {
                 query += "ORDER BY `student`.`last_name` ASC";
             } else if (sort.equals("Last Name DESC")) {
                 query += "ORDER BY `student`.`last_name` DESC";
-            } else if (sort.equals("ID ASC")) {
-                query += "ORDER BY `id` ASC";
-            } else if (sort.equals("Subject DESC")) {
-                query += "ORDER BY `id` DESC";
+            } else if (sort.equals("NIC ASC")) {
+                query += "ORDER BY `nic` ASC";
+            } else if (sort.equals("NIC DESC")) {
+                query += "ORDER BY `nic` DESC";
             }
 
             ResultSet resultSet = MySQL2.executeSearch(query);
@@ -124,7 +124,12 @@ public class AllStudents extends javax.swing.JPanel {
         jLabel2.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
         jLabel2.setText("Sort By :");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "First Name ASC", "First Name DESC", "Last Name ASC", "Last Name DESC", "ID ASC", "ID DESC" }));
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "First Name ASC", "First Name DESC", "Last Name ASC", "Last Name DESC", "NIC ASC", "NIC DESC" }));
+        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox1ActionPerformed(evt);
+            }
+        });
 
         jButton1.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
         jButton1.setText("Generate Report");
@@ -240,7 +245,54 @@ public class AllStudents extends javax.swing.JPanel {
         String searchText = searchName.getText().trim();
         loadTableWithSearch(searchText);
     }//GEN-LAST:event_searchNameKeyReleased
-  
+
+    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+        loadSortTable();
+    }//GEN-LAST:event_jComboBox1ActionPerformed
+
+    private void loadSortTable() {
+        try {
+            String sort = String.valueOf(jComboBox1.getSelectedItem());
+
+            String query = "SELECT * FROM `student` INNER JOIN `gender` ON `student`.`gender_id` = `gender`.`id` ";
+
+            if (sort.equals("First Name ASC")) {
+                query += "ORDER BY `student`.`first_name` ASC";
+            } else if (sort.equals("First Name DESC")) {
+                query += "ORDER BY `student`.`first_name` DESC";
+            } else if (sort.equals("Last Name ASC")) {
+                query += "ORDER BY `student`.`last_name` ASC";
+            } else if (sort.equals("Last Name DESC")) {
+                query += "ORDER BY `student`.`last_name` DESC";
+            } else if (sort.equals("NIC ASC")) {
+                query += "ORDER BY `student`.`nic` ASC";
+            } else if (sort.equals("NIC DESC")) {
+                query += "ORDER BY `student`.`nic` DESC";
+            }
+
+            ResultSet resultSet = MySQL2.executeSearch(query);
+
+            DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+            model.setRowCount(0); // Clear the table
+
+            while (resultSet.next()) {
+                Vector<String> vector = new Vector<>();
+                vector.add(resultSet.getString("NIC"));
+                vector.add(resultSet.getString("first_name"));
+                vector.add(resultSet.getString("last_name"));
+                vector.add(resultSet.getString("dob"));
+                vector.add(resultSet.getString("contact_info"));
+                vector.add(resultSet.getString("registration_date"));
+                vector.add(resultSet.getString("email"));
+                vector.add(resultSet.getString("gender.name"));
+
+                model.addRow(vector);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     private void loadTableWithSearch(String searchText) {
         try {
             String sort = String.valueOf(jComboBox1.getSelectedItem());
@@ -258,10 +310,10 @@ public class AllStudents extends javax.swing.JPanel {
                 query += " ORDER BY `student`.`last_name` ASC";
             } else if (sort.equals("Last Name DESC")) {
                 query += " ORDER BY `student`.`last_name` DESC";
-            } else if (sort.equals("ID ASC")) {
-                query += " ORDER BY `id` ASC";
-            } else if (sort.equals("ID DESC")) {
-                query += " ORDER BY `id` DESC";
+            } else if (sort.equals("NIC ASC")) {
+                query += " ORDER BY `nic` ASC";
+            } else if (sort.equals("NIC DESC")) {
+                query += " ORDER BY `nic` DESC";
             }
 
             ResultSet resultSet = MySQL2.executeSearch(query);

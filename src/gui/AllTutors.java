@@ -115,7 +115,7 @@ public class AllTutors extends javax.swing.JPanel {
         jLabel2.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
         jLabel2.setText("Sort By :");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "First Name ASC", "First Name DESC", "Last Name ASC", "Last Name DESC", "ID ASC", "ID DESC" }));
         jComboBox1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboBox1ActionPerformed(evt);
@@ -165,12 +165,13 @@ public class AllTutors extends javax.swing.JPanel {
                 .addGap(32, 32, 32)
                 .addComponent(jLabel1)
                 .addGap(34, 34, 34)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel3)
-                        .addComponent(searchName, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(searchName, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel2)
+                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(19, 19, 19)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 421, Short.MAX_VALUE)
                 .addContainerGap())
@@ -178,8 +179,63 @@ public class AllTutors extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
-        loadTable();
+        loadTableSort();
     }//GEN-LAST:event_jComboBox1ActionPerformed
+    private void loadTableSort() {
+         try {
+        // Get the selected sort option from the combo box
+        String sort = String.valueOf(jComboBox1.getSelectedItem());
+        
+        // Default query to fetch tutor data
+        String query = "SELECT * FROM `tutor` "
+                + "INNER JOIN `gender` ON `tutor`.`gender_id` = `gender`.`id` "
+                + "INNER JOIN `courses` ON `tutor`.`courses_id` = `courses`.`id`";
+
+        // Modify the query based on the selected sort option
+        if (sort.equals("First Name ASC")) {
+            query += " ORDER BY `tutor`.`first_name` ASC";
+        } else if (sort.equals("First Name DESC")) {
+            query += " ORDER BY `tutor`.`first_name` DESC";
+        } else if (sort.equals("Last Name ASC")) {
+            query += " ORDER BY `tutor`.`last_name` ASC";
+        } else if (sort.equals("Last Name DESC")) {
+            query += " ORDER BY `tutor`.`last_name` DESC";
+        } else if (sort.equals("ID ASC")) {
+            query += " ORDER BY `tutor`.`id` ASC";
+        } else if (sort.equals("ID DESC")) {
+            query += " ORDER BY `tutor`.`id` DESC";
+        }
+
+        // Execute the query to fetch sorted data
+        ResultSet resultSet = MySQL2.executeSearch(query);
+
+        // Get the table model and clear the existing rows
+        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+        model.setRowCount(0);
+
+        // Add rows to the table for each result from the query
+        while (resultSet.next()) {
+            Vector<String> vector = new Vector<>();
+            vector.add(resultSet.getString("tutor.id"));
+            vector.add(resultSet.getString("first_name"));
+            vector.add(resultSet.getString("last_name"));
+            vector.add(resultSet.getString("qualification"));
+            vector.add(resultSet.getString("contact_info"));
+            vector.add(resultSet.getString("email"));
+            vector.add(resultSet.getString("gender.name"));
+            vector.add(resultSet.getString("courses.name"));
+            vector.add(resultSet.getString("nic"));
+
+            // Store the password mapping for later use
+            passwordMap.put(resultSet.getString("password"), resultSet.getString("tutor.id"));
+
+            // Add the row to the table model
+            model.addRow(vector);
+        }
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+    }
 
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
         int row = jTable1.getSelectedRow(); // Selected row
@@ -242,38 +298,96 @@ public class AllTutors extends javax.swing.JPanel {
     }//GEN-LAST:event_searchNameKeyReleased
 
     private void searchNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchNameActionPerformed
-        // TODO add your handling code here:
+        String selectedSort = (String) jComboBox1.getSelectedItem();
+        loadTable(selectedSort);
     }//GEN-LAST:event_searchNameActionPerformed
-private void loadTableWithSearch(String searchText) {
-    try {
-        ResultSet resultSet = MySQL2.executeSearch("SELECT * FROM `tutor` "
-                + "INNER JOIN `gender` ON `tutor`.`gender_id` = `gender`.`id` "
-                + "INNER JOIN `courses` ON `tutor`.`courses_id` = `courses`.`id` "
-                + "WHERE `first_name` LIKE '%" + searchText + "%' OR `last_name` LIKE '%" + searchText + "%'");
 
-        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-        model.setRowCount(0);
+    private void loadTable(String sortOption) {
+        try {
+            String orderByClause = "";
 
-        while (resultSet.next()) {
-            Vector<String> vector = new Vector<>();
-            vector.add(resultSet.getString("tutor.id"));
-            vector.add(resultSet.getString("first_name"));
-            vector.add(resultSet.getString("last_name"));
-            vector.add(resultSet.getString("qualification"));
-            vector.add(resultSet.getString("contact_info"));
-            vector.add(resultSet.getString("email"));
-            vector.add(resultSet.getString("gender.name"));
-            vector.add(resultSet.getString("courses.name"));
-            vector.add(resultSet.getString("nic"));
-            passwordMap.put(resultSet.getString("password"), resultSet.getString("tutor.id"));
+            switch (sortOption) {
+                case "First Name ASC":
+                    orderByClause = "ORDER BY `first_name` ASC";
+                    break;
+                case "First Name DESC":
+                    orderByClause = "ORDER BY `first_name` DESC";
+                    break;
+                case "Last Name ASC":
+                    orderByClause = "ORDER BY `last_name` ASC";
+                    break;
+                case "Last Name DESC":
+                    orderByClause = "ORDER BY `last_name` DESC";
+                    break;
+                case "ID ASC":
+                    orderByClause = "ORDER BY `tutor`.`id` ASC";
+                    break;
+                case "ID DESC":
+                    orderByClause = "ORDER BY `tutor`.`id` DESC";
+                    break;
+                default:
+                    break; // No sorting applied
+            }
 
-            model.addRow(vector);
+            ResultSet resultSet = MySQL2.executeSearch("SELECT * FROM `tutor` "
+                    + "INNER JOIN `gender` ON `tutor`.`gender_id` = `gender`.`id` "
+                    + "INNER JOIN `courses` ON `tutor`.`courses_id` = `courses`.`id` "
+                    + orderByClause);
+
+            DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+            model.setRowCount(0);
+
+            while (resultSet.next()) {
+                Vector<String> vector = new Vector<>();
+                vector.add(resultSet.getString("tutor.id"));
+                vector.add(resultSet.getString("first_name"));
+                vector.add(resultSet.getString("last_name"));
+                vector.add(resultSet.getString("qualification"));
+                vector.add(resultSet.getString("contact_info"));
+                vector.add(resultSet.getString("email"));
+                vector.add(resultSet.getString("gender.name"));
+                vector.add(resultSet.getString("courses.name"));
+                vector.add(resultSet.getString("nic"));
+                passwordMap.put(resultSet.getString("password"), resultSet.getString("tutor.id"));
+//
+                model.addRow(vector);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-
-    } catch (Exception e) {
-        e.printStackTrace();
     }
-}
+
+    private void loadTableWithSearch(String searchText) {
+        try {
+            ResultSet resultSet = MySQL2.executeSearch("SELECT * FROM `tutor` "
+                    + "INNER JOIN `gender` ON `tutor`.`gender_id` = `gender`.`id` "
+                    + "INNER JOIN `courses` ON `tutor`.`courses_id` = `courses`.`id` "
+                    + "WHERE `first_name` LIKE '%" + searchText + "%' OR `last_name` LIKE '%" + searchText + "%'");
+
+            DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+            model.setRowCount(0);
+
+            while (resultSet.next()) {
+                Vector<String> vector = new Vector<>();
+                vector.add(resultSet.getString("tutor.id"));
+                vector.add(resultSet.getString("first_name"));
+                vector.add(resultSet.getString("last_name"));
+                vector.add(resultSet.getString("qualification"));
+                vector.add(resultSet.getString("contact_info"));
+                vector.add(resultSet.getString("email"));
+                vector.add(resultSet.getString("gender.name"));
+                vector.add(resultSet.getString("courses.name"));
+                vector.add(resultSet.getString("nic"));
+                passwordMap.put(resultSet.getString("password"), resultSet.getString("tutor.id"));
+
+                model.addRow(vector);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
