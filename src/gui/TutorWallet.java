@@ -28,22 +28,28 @@ public class TutorWallet extends javax.swing.JFrame {
      * Creates new form withdrawHistory
      */
     private static double TotalAmount;
+    private int tutorId;  // Variable to store tutor ID
 
-    public TutorWallet() {
+    public TutorWallet(int tutorId) {
+        this.tutorId = tutorId; // Store the passed tutorId
         initComponents();
-        LoadWalletDetails();
+        LoadWalletDetails();  // Load the wallet details using the tutorId
         DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
         renderer.setHorizontalAlignment(SwingConstants.CENTER);
 
         jTable1.setDefaultRenderer(Object.class, renderer);
     }
-    
-     public static TutorWallet getInstance() {
-        if (instance == null) {
-            instance = new TutorWallet();
-        }
-        return instance;
+
+    private TutorWallet() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
+//    public static TutorWallet getInstance() {
+//        if (instance == null) {
+//            instance = new TutorWallet();
+//        }
+//        return instance;
+//    }
 
     @Override
     public void dispose() {
@@ -52,20 +58,20 @@ public class TutorWallet extends javax.swing.JFrame {
     }
 
     private void LoadWalletDetails() {
-
         try {
-            ResultSet rs = MySQL2.executeSearch("SELECT \n"
-                    + "  wallet.*, \n"
-                    + "  tutor.*, \n"
-                    + "  class.*, \n"
-                    + "  withdrawal_status.*, \n"
-                    + "  courses.name AS cm \n"
-                    + "FROM `wallet`\n"
-                    + "INNER JOIN `tutor` ON `wallet`.`tutor_id` = `tutor`.`id`\n"
-                    + "INNER JOIN `class` ON `class`.`id` = `wallet`.`class_id`\n"
-                    + "INNER JOIN `withdrawal_status` ON `withdrawal_status`.`id` = `wallet`.`withdrawal_status_id`\n"
-                    + "INNER JOIN `courses` ON `courses`.`id` = `class`.`courses_id`\n"
-                    + "WHERE `tutor`.`id`='1' AND `withdrawal_status_id`='1'");
+            // Use the tutorId variable in the query
+            ResultSet rs = MySQL2.executeSearch("SELECT "
+                    + "wallet.*, "
+                    + "tutor.*, "
+                    + "class.*, "
+                    + "withdrawal_status.*, "
+                    + "courses.name AS cm "
+                    + "FROM `wallet` "
+                    + "INNER JOIN `tutor` ON `wallet`.`tutor_id` = `tutor`.`id` "
+                    + "INNER JOIN `class` ON `class`.`id` = `wallet`.`class_id` "
+                    + "INNER JOIN `withdrawal_status` ON `withdrawal_status`.`id` = `wallet`.`withdrawal_status_id` "
+                    + "INNER JOIN `courses` ON `courses`.`id` = `class`.`courses_id` "
+                    + "WHERE `tutor`.`id`='" + tutorId + "' AND `withdrawal_status_id`='1'");
 
             DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
             model.setRowCount(0);
@@ -245,11 +251,11 @@ public class TutorWallet extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
 
         try {
-           MySQL2.executeIUD("UPDATE `wallet` " +
-                  "SET `withdrawal_status_id` = 2, " +
-                  "`date` = NOW() " +
-                  "WHERE `withdrawal_status_id` = 1 " +
-                  "AND `tutor_id` = 1;");
+            MySQL2.executeIUD("UPDATE `wallet` "
+                    + "SET `withdrawal_status_id` = 2, "
+                    + "`date` = NOW() "
+                    + "WHERE `withdrawal_status_id` = 1 "
+                    + "AND `tutor_id` = 1;");
 
             JOptionPane.showMessageDialog(this, "Withdrawed Successfully", "Info", JOptionPane.INFORMATION_MESSAGE);
             LoadWalletDetails();
