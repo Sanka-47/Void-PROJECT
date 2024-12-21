@@ -299,9 +299,7 @@ public class AllStudents extends javax.swing.JPanel {
             String query = "SELECT * FROM `student` INNER JOIN `gender` ON `student`.`gender_id` = `gender`.`id`";
 
             if (!searchText.isEmpty()) {
-                query += " WHERE `student`.`first_name` LIKE '%" + searchText + "%' "
-                        + "OR `student`.`last_name` LIKE '%" + searchText + "%' "
-                        + "OR `student`.`nic` LIKE '%" + searchText + "%'";
+                query += " WHERE `student`.`first_name` LIKE '%" + searchText + "%' OR `student`.`last_name` LIKE '%" + searchText + "%'";
             }
 
             if (sort.equals("First Name ASC")) {
@@ -340,7 +338,6 @@ public class AllStudents extends javax.swing.JPanel {
             e.printStackTrace();
         }
     }
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;

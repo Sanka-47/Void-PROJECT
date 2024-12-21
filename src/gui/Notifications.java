@@ -67,6 +67,7 @@ public class Notifications extends javax.swing.JFrame {
 
             // Add action listener to the More Info button
             moreInfoButton.addActionListener(e -> {
+                System.out.println("Details for Class ID: " + notification.getClassId());
                 new NotificationDetails(notification.getClassId()).setVisible(true);
             });
 

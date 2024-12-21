@@ -6,7 +6,6 @@ import com.formdev.flatlaf.FlatLightLaf;
 import com.formdev.flatlaf.intellijthemes.FlatArcIJTheme;
 import com.formdev.flatlaf.intellijthemes.FlatCyanLightIJTheme;
 import com.formdev.flatlaf.intellijthemes.FlatSolarizedLightIJTheme;
-import static com.mysql.cj.protocol.x.XProtocolDecoder.instance;
 import java.awt.Color;
 import java.sql.ResultSet;
 import java.util.Vector;
@@ -36,19 +35,6 @@ public class TutorWallet extends javax.swing.JFrame {
         renderer.setHorizontalAlignment(SwingConstants.CENTER);
 
         jTable1.setDefaultRenderer(Object.class, renderer);
-    }
-    
-     public static TutorWallet getInstance() {
-        if (instance == null) {
-            instance = new TutorWallet();
-        }
-        return instance;
-    }
-
-    @Override
-    public void dispose() {
-        super.dispose();
-        instance = null; // Allow new instance creation once disposed
     }
 
     private void LoadWalletDetails() {
