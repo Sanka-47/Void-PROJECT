@@ -182,59 +182,59 @@ public class AllTutors extends javax.swing.JPanel {
         loadTableSort();
     }//GEN-LAST:event_jComboBox1ActionPerformed
     private void loadTableSort() {
-         try {
-        // Get the selected sort option from the combo box
-        String sort = String.valueOf(jComboBox1.getSelectedItem());
-        
-        // Default query to fetch tutor data
-        String query = "SELECT * FROM `tutor` "
-                + "INNER JOIN `gender` ON `tutor`.`gender_id` = `gender`.`id` "
-                + "INNER JOIN `courses` ON `tutor`.`courses_id` = `courses`.`id`";
+        try {
+            // Get the selected sort option from the combo box
+            String sort = String.valueOf(jComboBox1.getSelectedItem());
 
-        // Modify the query based on the selected sort option
-        if (sort.equals("First Name ASC")) {
-            query += " ORDER BY `tutor`.`first_name` ASC";
-        } else if (sort.equals("First Name DESC")) {
-            query += " ORDER BY `tutor`.`first_name` DESC";
-        } else if (sort.equals("Last Name ASC")) {
-            query += " ORDER BY `tutor`.`last_name` ASC";
-        } else if (sort.equals("Last Name DESC")) {
-            query += " ORDER BY `tutor`.`last_name` DESC";
-        } else if (sort.equals("ID ASC")) {
-            query += " ORDER BY `tutor`.`id` ASC";
-        } else if (sort.equals("ID DESC")) {
-            query += " ORDER BY `tutor`.`id` DESC";
+            // Default query to fetch tutor data
+            String query = "SELECT * FROM `tutor` "
+                    + "INNER JOIN `gender` ON `tutor`.`gender_id` = `gender`.`id` "
+                    + "INNER JOIN `courses` ON `tutor`.`courses_id` = `courses`.`id`";
+
+            // Modify the query based on the selected sort option
+            if (sort.equals("First Name ASC")) {
+                query += " ORDER BY `tutor`.`first_name` ASC";
+            } else if (sort.equals("First Name DESC")) {
+                query += " ORDER BY `tutor`.`first_name` DESC";
+            } else if (sort.equals("Last Name ASC")) {
+                query += " ORDER BY `tutor`.`last_name` ASC";
+            } else if (sort.equals("Last Name DESC")) {
+                query += " ORDER BY `tutor`.`last_name` DESC";
+            } else if (sort.equals("ID ASC")) {
+                query += " ORDER BY `tutor`.`id` ASC";
+            } else if (sort.equals("ID DESC")) {
+                query += " ORDER BY `tutor`.`id` DESC";
+            }
+
+            // Execute the query to fetch sorted data
+            ResultSet resultSet = MySQL2.executeSearch(query);
+
+            // Get the table model and clear the existing rows
+            DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+            model.setRowCount(0);
+
+            // Add rows to the table for each result from the query
+            while (resultSet.next()) {
+                Vector<String> vector = new Vector<>();
+                vector.add(resultSet.getString("tutor.id"));
+                vector.add(resultSet.getString("first_name"));
+                vector.add(resultSet.getString("last_name"));
+                vector.add(resultSet.getString("qualification"));
+                vector.add(resultSet.getString("contact_info"));
+                vector.add(resultSet.getString("email"));
+                vector.add(resultSet.getString("gender.name"));
+                vector.add(resultSet.getString("courses.name"));
+                vector.add(resultSet.getString("nic"));
+
+                // Store the password mapping for later use
+                passwordMap.put(resultSet.getString("password"), resultSet.getString("tutor.id"));
+
+                // Add the row to the table model
+                model.addRow(vector);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-
-        // Execute the query to fetch sorted data
-        ResultSet resultSet = MySQL2.executeSearch(query);
-
-        // Get the table model and clear the existing rows
-        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-        model.setRowCount(0);
-
-        // Add rows to the table for each result from the query
-        while (resultSet.next()) {
-            Vector<String> vector = new Vector<>();
-            vector.add(resultSet.getString("tutor.id"));
-            vector.add(resultSet.getString("first_name"));
-            vector.add(resultSet.getString("last_name"));
-            vector.add(resultSet.getString("qualification"));
-            vector.add(resultSet.getString("contact_info"));
-            vector.add(resultSet.getString("email"));
-            vector.add(resultSet.getString("gender.name"));
-            vector.add(resultSet.getString("courses.name"));
-            vector.add(resultSet.getString("nic"));
-
-            // Store the password mapping for later use
-            passwordMap.put(resultSet.getString("password"), resultSet.getString("tutor.id"));
-
-            // Add the row to the table model
-            model.addRow(vector);
-        }
-    } catch (Exception e) {
-        e.printStackTrace();
-    }
     }
 
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
@@ -360,10 +360,14 @@ public class AllTutors extends javax.swing.JPanel {
 
     private void loadTableWithSearch(String searchText) {
         try {
-            ResultSet resultSet = MySQL2.executeSearch("SELECT * FROM `tutor` "
+            String query = "SELECT * FROM `tutor` "
                     + "INNER JOIN `gender` ON `tutor`.`gender_id` = `gender`.`id` "
                     + "INNER JOIN `courses` ON `tutor`.`courses_id` = `courses`.`id` "
-                    + "WHERE `first_name` LIKE '%" + searchText + "%' OR `last_name` LIKE '%" + searchText + "%'");
+                    + "WHERE `first_name` LIKE '%" + searchText + "%' "
+                    + "OR `last_name` LIKE '%" + searchText + "%' "
+                    + "OR `nic` LIKE '%" + searchText + "%'";
+
+            ResultSet resultSet = MySQL2.executeSearch(query);
 
             DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
             model.setRowCount(0);
@@ -383,7 +387,6 @@ public class AllTutors extends javax.swing.JPanel {
 
                 model.addRow(vector);
             }
-
         } catch (Exception e) {
             e.printStackTrace();
         }
