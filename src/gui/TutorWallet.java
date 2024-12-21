@@ -6,7 +6,6 @@ import com.formdev.flatlaf.FlatLightLaf;
 import com.formdev.flatlaf.intellijthemes.FlatArcIJTheme;
 import com.formdev.flatlaf.intellijthemes.FlatCyanLightIJTheme;
 import com.formdev.flatlaf.intellijthemes.FlatSolarizedLightIJTheme;
-import static com.mysql.cj.protocol.x.XProtocolDecoder.instance;
 import java.awt.Color;
 import java.sql.ResultSet;
 import java.util.Vector;
@@ -17,7 +16,7 @@ import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import model.MySQL2;
-
+zz
 /**
  *
  * @author mrtkb
@@ -56,6 +55,7 @@ public class TutorWallet extends javax.swing.JFrame {
         super.dispose();
         instance = null; // Allow new instance creation once disposed
     }
+
 
     private void LoadWalletDetails() {
         try {
