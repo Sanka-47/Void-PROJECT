@@ -135,7 +135,7 @@ public class AllStudents extends javax.swing.JPanel {
         jButton1.setText("Generate Report");
 
         jLabel3.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
-        jLabel3.setText("Search By Name :");
+        jLabel3.setText("Search By Name or NIC:");
 
         searchName.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {

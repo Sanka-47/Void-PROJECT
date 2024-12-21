@@ -134,7 +134,7 @@ public class AllTutors extends javax.swing.JPanel {
         });
 
         jLabel3.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
-        jLabel3.setText("Search By Name :");
+        jLabel3.setText("Search By Name or NIC:");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
