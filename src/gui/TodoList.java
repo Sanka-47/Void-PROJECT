@@ -117,11 +117,13 @@ public class TodoList extends javax.swing.JPanel {
 
         ArrayList<Task> tasks = tutorTasks.get(tutorId);
         if (tasks == null || selectedIndex >= tasks.size()) {
+            System.out.println("Tasks list is null or index out of bounds: " + tasks);
             JOptionPane.showMessageDialog(this, "Invalid task selection.");
             return;
         }
 
         Task task = tasks.get(selectedIndex); // Get the selected task
+        System.out.println("Editing task: " + task.getDescription());
 
         task.setDescription(newDescription); // Update the task description
 
@@ -145,6 +147,7 @@ public class TodoList extends javax.swing.JPanel {
             ArrayList<Task> tasks = getTasksFromDatabase(tutorId);
             if (tasks != null) {
                 tutorTasks.put(tutorId, tasks); // Ensure tutorTasks is updated
+                System.out.println("Tasks for tutor " + tutorId + ": " + tasks);
                 String[] taskDescriptions = new String[tasks.size()];
                 for (int i = 0; i < tasks.size(); i++) {
                     Task task = tasks.get(i);
