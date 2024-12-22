@@ -21,20 +21,48 @@ public class AllCourses extends javax.swing.JPanel {
     public AllCourses() {
         initComponents();
         
-        
         DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
         renderer.setHorizontalAlignment(SwingConstants.CENTER);
 
         jTable1.setDefaultRenderer(Object.class, renderer);
 
         LoadSubject();
-        addSearchFunctionality();
     }
     
     private void LoadSubject() {
+        
         try {
+            
+            String sort = String.valueOf(jComboBox1.getSelectedItem());
+            
+            String searchText = jTextField1.getText().toLowerCase();
+            
+            String query = "SELECT * FROM `courses`";
+            
+            if (!searchText.isEmpty()) {
+                
+                query += "WHERE LOWER(`id`) LIKE '%" + searchText + "%' "
+                        + "OR LOWER(`name`) LIKE '%" + searchText + "%' "
+                        + "OR LOWER(`fee`) LIKE '%" + searchText + "%' ";
+                
+            }
+            
+            if (sort.equals("Price ASC")) {
+                query += "ORDER BY `fee` ASC";
+            } else if (sort.equals("Price DESC")) {
+                query += "ORDER BY `fee` DESC";
+            } else if (sort.equals("Name ASC")) {
+                query += "ORDER BY `name` ASC";
+            } else if (sort.equals("Name DESC")) {
+                query += "ORDER BY `name` DESC";
+            } else if (sort.equals("ID ASC")) {
+                query += "ORDER BY `id` ASC";
+            } else if (sort.equals("ID DESC")) {
+                query += "ORDER BY `id` DESC";
+            }
+            
             // Execute SQL query to retrieve subjects
-            ResultSet rs = MySQL2.executeSearch("SELECT * FROM `courses`");
+            ResultSet rs = MySQL2.executeSearch(query);
 
             // Get the table model for jTable1
             DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
@@ -55,52 +83,6 @@ public class AllCourses extends javax.swing.JPanel {
         } catch (Exception ex) {
             ex.printStackTrace();
 //        LOGGER.log(Level.SEVERE, "Error loading subject data", ex);
-        }
-    }
-    
-    public void addSearchFunctionality() {
-        jTextField1.getDocument().addDocumentListener(new DocumentListener() {
-            @Override
-            public void insertUpdate(DocumentEvent e) {
-                filterTable();
-            }
-
-            @Override
-            public void removeUpdate(DocumentEvent e) {
-                filterTable();
-            }
-
-            @Override
-            public void changedUpdate(DocumentEvent e) {
-                filterTable();
-            }
-        });
-    }
-
-    private void filterTable() {
-        String searchText = jTextField1.getText().toLowerCase();
-        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-
-        model.setRowCount(0); // Clear the table
-
-        try {
-            String query = "SELECT * FROM `courses` "
-                    + "WHERE LOWER(id) LIKE '%" + searchText + "%' OR "
-                    + "LOWER(name) LIKE '%" + searchText + "%' OR "
-                    + "LOWER(fee) LIKE '%" + searchText + "%'";
-
-            ResultSet rs = MySQL2.executeSearch(query);
-
-            while (rs.next()) {
-                Vector<Object> vectorE = new Vector<>();
-                vectorE.add(rs.getInt("id"));
-                vectorE.add(rs.getString("name"));
-                vectorE.add(rs.getString("fee"));
-
-                model.addRow(vectorE); // Add row to the table model
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
         }
     }
 
@@ -145,14 +127,19 @@ public class AllCourses extends javax.swing.JPanel {
         jLabel2.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
         jLabel2.setText("Sort By :");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Price ASC", "Price DESC", "Name ASC", "Name DESC", "ID ASC", "ID DESC" }));
+        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox1ActionPerformed(evt);
+            }
+        });
 
-        jLabel3.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel3.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
         jLabel3.setText("Search");
 
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
+        jTextField1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTextField1KeyReleased(evt);
             }
         });
 
@@ -173,28 +160,25 @@ public class AllCourses extends javax.swing.JPanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 265, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jLabel3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 204, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(18, Short.MAX_VALUE)
+                .addContainerGap(21, Short.MAX_VALUE)
                 .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel2)
-                            .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(10, 10, 10)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 36, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel2))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(11, 11, 11)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 448, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -225,9 +209,13 @@ public class AllCourses extends javax.swing.JPanel {
 //        }
     }//GEN-LAST:event_jTable1MouseClicked
 
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
+    private void jTextField1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField1KeyReleased
+        LoadSubject();
+    }//GEN-LAST:event_jTextField1KeyReleased
+
+    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+        LoadSubject();
+    }//GEN-LAST:event_jComboBox1ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -32,7 +32,7 @@ public class TutorScheduleAndCalandar extends javax.swing.JPanel {
 
         try {
 
-            String sort = String.valueOf(jComboBox1.getSelectedItem());
+            String sort = String.valueOf(jComboBox4.getSelectedItem());
 
             String query = "SELECT * FROM `class` INNER JOIN `tutor` ON `class`.`tutor_id` = `tutor`.`id` "
                     + "INNER JOIN `courses` ON `class`.`courses_id` = `courses`.`id` "
@@ -43,15 +43,15 @@ public class TutorScheduleAndCalandar extends javax.swing.JPanel {
 
             SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 
-            if (jDateChooser1.getDate() != null && jDateChooser2.getDate() != null) {
-                start = jDateChooser1.getDate();
-                end = jDateChooser2.getDate();
+            if (jDateChooser2.getDate() != null && jDateChooser3.getDate() != null) {
+                start = jDateChooser2.getDate();
+                end = jDateChooser3.getDate();
                 query += "WHERE `class`.`date` > '" + format.format(start) + "' AND `class`.`date` < '" + format.format(end) + "' ";
-            } else if (jDateChooser1.getDate() != null && jDateChooser2.getDate() == null) {
-                    start = jDateChooser1.getDate();
+            } else if (jDateChooser2.getDate() != null && jDateChooser3.getDate() == null) {
+                    start = jDateChooser2.getDate();
                     query += "WHERE `class`.`date` > '" + format.format(start) + "' ";
-            } else if (jDateChooser1.getDate() == null && jDateChooser2.getDate() != null) {
-                    end = jDateChooser2.getDate();
+            } else if (jDateChooser2.getDate() == null && jDateChooser3.getDate() != null) {
+                    end = jDateChooser3.getDate();
                     query += "WHERE `class`.`date` < '" + format.format(end) + "' ";
             }
 
@@ -149,7 +149,7 @@ public class TutorScheduleAndCalandar extends javax.swing.JPanel {
                 courseMap.put(resultSet.getString("name"), resultSet.getString("id"));
 
                 DefaultComboBoxModel model = new DefaultComboBoxModel(vector);
-                jComboBox2.setModel(model);
+                jComboBox1.setModel(model);
 
             }
 
@@ -197,7 +197,7 @@ public class TutorScheduleAndCalandar extends javax.swing.JPanel {
                 tutorMap.put(fullName, resultSet.getString("id"));
 
                 DefaultComboBoxModel model = new DefaultComboBoxModel(vector);
-                jComboBox1.setModel(model);
+                jComboBox2.setModel(model);
 
             }
 
@@ -207,12 +207,12 @@ public class TutorScheduleAndCalandar extends javax.swing.JPanel {
     }
     
     private void reset() {
-        jComboBox1.setSelectedIndex(0);
         jComboBox2.setSelectedIndex(0);
+        jComboBox1.setSelectedIndex(0);
         jComboBox3.setSelectedIndex(0);
         jTextField2.setText("");
+        jTextField1.setText("");
         jTextField3.setText("");
-        jTextField7.setText("");
         jDateChooser1.setDate(null);
         jFormattedTextField1.setText("");
         jFormattedTextField2.setText("");
@@ -225,10 +225,10 @@ public class TutorScheduleAndCalandar extends javax.swing.JPanel {
 
         jLabel13 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
-        jComboBox2 = new javax.swing.JComboBox<>();
-        jTextField3 = new javax.swing.JTextField();
-        jLabel15 = new javax.swing.JLabel();
         jComboBox1 = new javax.swing.JComboBox<>();
+        jTextField1 = new javax.swing.JTextField();
+        jLabel15 = new javax.swing.JLabel();
+        jComboBox2 = new javax.swing.JComboBox<>();
         jLabel7 = new javax.swing.JLabel();
         jTextField2 = new javax.swing.JTextField();
         jLabel9 = new javax.swing.JLabel();
@@ -238,7 +238,7 @@ public class TutorScheduleAndCalandar extends javax.swing.JPanel {
         jLabel11 = new javax.swing.JLabel();
         jFormattedTextField2 = new javax.swing.JFormattedTextField();
         jLabel12 = new javax.swing.JLabel();
-        jTextField7 = new javax.swing.JTextField();
+        jTextField3 = new javax.swing.JTextField();
         jLabel14 = new javax.swing.JLabel();
         jComboBox3 = new javax.swing.JComboBox<>();
         jLabel16 = new javax.swing.JLabel();
@@ -262,23 +262,23 @@ public class TutorScheduleAndCalandar extends javax.swing.JPanel {
         jLabel8.setFont(new java.awt.Font("Century Gothic", 0, 13)); // NOI18N
         jLabel8.setText("Course");
 
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jComboBox2.addActionListener(new java.awt.event.ActionListener() {
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox2ActionPerformed(evt);
+                jComboBox1ActionPerformed(evt);
             }
         });
 
-        jTextField3.addActionListener(new java.awt.event.ActionListener() {
+        jTextField1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField3ActionPerformed(evt);
+                jTextField1ActionPerformed(evt);
             }
         });
 
         jLabel15.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
         jLabel15.setText("Tutor");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         jLabel7.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
         jLabel7.setText("Title");
@@ -407,20 +407,20 @@ public class TutorScheduleAndCalandar extends javax.swing.JPanel {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel13)
-                            .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(jLabel8)))
                         .addGap(12, 12, 12))
-                    .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jComboBox2, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jTextField2)
                     .addComponent(jDateChooser1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jFormattedTextField3)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                         .addGroup(layout.createSequentialGroup()
-                            .addComponent(jTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGap(5, 5, 5)
                             .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGroup(layout.createSequentialGroup()
@@ -467,8 +467,8 @@ public class TutorScheduleAndCalandar extends javax.swing.JPanel {
                                     .addComponent(jLabel8))
                                 .addGap(32, 32, 32))
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(10, 10, 10)
                         .addComponent(jLabel15))
                     .addGroup(layout.createSequentialGroup()
@@ -488,7 +488,7 @@ public class TutorScheduleAndCalandar extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(10, 10, 10)
                         .addComponent(jLabel7)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -511,7 +511,7 @@ public class TutorScheduleAndCalandar extends javax.swing.JPanel {
                             .addComponent(jLabel14))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jLabel16)
@@ -528,9 +528,9 @@ public class TutorScheduleAndCalandar extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTextField3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField3ActionPerformed
+    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField3ActionPerformed
+    }//GEN-LAST:event_jTextField1ActionPerformed
 
     private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
         // TODO add your handling code here:
@@ -538,14 +538,14 @@ public class TutorScheduleAndCalandar extends javax.swing.JPanel {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
 
-        String sessionID = jTextField3.getText();
-        String course = String.valueOf(jComboBox2.getSelectedItem());
-        String tName = String.valueOf(jComboBox1.getSelectedItem());
+        String sessionID = jTextField1.getText();
+        String course = String.valueOf(jComboBox1.getSelectedItem());
+        String tName = String.valueOf(jComboBox2.getSelectedItem());
         String className = jTextField2.getText();
         Date date = jDateChooser1.getDate();
         String startTime = jFormattedTextField1.getText();
         String endTime = jFormattedTextField2.getText();
-        String hallnumber = jTextField7.getText();
+        String hallnumber = jTextField3.getText();
         String status = String.valueOf(jComboBox3.getSelectedItem());
         String price = jFormattedTextField3.getText();
 
@@ -648,14 +648,14 @@ public class TutorScheduleAndCalandar extends javax.swing.JPanel {
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
 
-        String sessionID = jTextField3.getText();
-        String course = String.valueOf(jComboBox2.getSelectedItem());
-        String tName = String.valueOf(jComboBox1.getSelectedItem());
+        String sessionID = jTextField1.getText();
+        String course = String.valueOf(jComboBox1.getSelectedItem());
+        String tName = String.valueOf(jComboBox2.getSelectedItem());
         String className = jTextField2.getText();
         Date date = jDateChooser1.getDate();
         String startTime = jFormattedTextField1.getText();
         String endTime = jFormattedTextField2.getText();
-        String hallnumber = jTextField7.getText();
+        String hallnumber = jTextField3.getText();
         String status = String.valueOf(jComboBox3.getSelectedItem());
         String price = jFormattedTextField3.getText();
 
@@ -736,13 +736,13 @@ public class TutorScheduleAndCalandar extends javax.swing.JPanel {
         int row = jTable1.getSelectedRow();
 
         String id = String.valueOf(jTable1.getValueAt(row, 0));
-        jTextField3.setText(id);
+        jTextField1.setText(id);
 
         String courseName = String.valueOf(jTable1.getValueAt(row, 1));
-        jComboBox2.setSelectedItem(courseName);
+        jComboBox1.setSelectedItem(courseName);
 
         String tutor = String.valueOf(jTable1.getValueAt(row, 2));
-        jComboBox1.setSelectedItem(tutor);
+        jComboBox2.setSelectedItem(tutor);
 
         String title = String.valueOf(jTable1.getValueAt(row, 3));
         jTextField2.setText(title);
@@ -762,12 +762,12 @@ public class TutorScheduleAndCalandar extends javax.swing.JPanel {
         jFormattedTextField2.setText(endTime);
 
         String hallNumber = String.valueOf(jTable1.getValueAt(row, 7));
-        jTextField7.setText(hallNumber);
+        jTextField3.setText(hallNumber);
 
-        String amount = String.valueOf(jTable1.getValueAt(row, 9));
+        String amount = String.valueOf(jTable1.getValueAt(row, 8));
         jFormattedTextField3.setText(amount);
 
-        String status = String.valueOf(jTable1.getValueAt(row, 8));
+        String status = String.valueOf(jTable1.getValueAt(row, 9));
         jComboBox3.setSelectedItem(status);
     }//GEN-LAST:event_jTable1MouseClicked
 
@@ -775,9 +775,9 @@ public class TutorScheduleAndCalandar extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_jFormattedTextField2ActionPerformed
 
-    private void jComboBox2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox2ActionPerformed
+    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBox2ActionPerformed
+    }//GEN-LAST:event_jComboBox1ActionPerformed
 
     private void jComboBox4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox4ActionPerformed
         loadSessions();
@@ -818,8 +818,8 @@ public class TutorScheduleAndCalandar extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
+    private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField7;
     // End of variables declaration//GEN-END:variables
 }
