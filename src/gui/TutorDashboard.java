@@ -239,7 +239,7 @@ public class TutorDashboard extends javax.swing.JFrame implements DashboardInter
         jScrollPane4.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         jScrollPane4.setPreferredSize(new java.awt.Dimension(250, 575));
 
-        jPanel2.setPreferredSize(new java.awt.Dimension(250, 1000));
+        jPanel2.setPreferredSize(new java.awt.Dimension(250, 581));
 
         jButton1.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
         jButton1.setText("Class List");
@@ -490,15 +490,42 @@ public class TutorDashboard extends javax.swing.JFrame implements DashboardInter
         jPanel3.add(addSession, BorderLayout.CENTER);
         SwingUtilities.updateComponentTreeUI(jPanel3);
     }//GEN-LAST:event_jButton8ActionPerformed
-
+    private Notifications n;
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
-        Notifications addSession = new Notifications(1);
-        addSession.setVisible(true);
-    }//GEN-LAST:event_jButton9ActionPerformed
+//        Notifications addSession = new Notifications(tutorID);
+//        addSession.setVisible(true);
+        if (n == null) {
+            // Check if the instance has not been created
+            n = new Notifications(tutorID); // Create a new instance
+        }
 
+        if (!n.isVisible()) {
+            // Check if it's not visible
+            n.setVisible(true); // Make it visible
+        } else {
+            // Bring it to the front if it's already visible
+            n.toFront();
+            n.requestFocus();
+        }
+
+    }//GEN-LAST:event_jButton9ActionPerformed
+    private TutorWallet tw;
     private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
-        TutorWallet tw = new TutorWallet();
-        tw.setVisible(true);
+
+        if (tw == null) {
+            // Check if the instance has not been created
+            tw = new TutorWallet(tutorID); // Create a new instance
+        }
+
+        if (!tw.isVisible()) {
+            // Check if it's not visible
+            tw.setVisible(true); // Make it visible
+        } else {
+            // Bring it to the front if it's already visible
+            tw.toFront();
+            tw.requestFocus();
+        }
+
     }//GEN-LAST:event_jButton10ActionPerformed
 
 //    public static void main(String args[]) throws UnsupportedLookAndFeelException {
