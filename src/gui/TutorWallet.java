@@ -16,7 +16,7 @@ import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import model.MySQL2;
-zz
+
 /**
  *
  * @author mrtkb
@@ -53,7 +53,7 @@ public class TutorWallet extends javax.swing.JFrame {
     @Override
     public void dispose() {
         super.dispose();
-        instance = null; // Allow new instance creation once disposed
+        Object instance = null; // Allow new instance creation once disposed
     }
 
 
@@ -255,7 +255,7 @@ public class TutorWallet extends javax.swing.JFrame {
                     + "SET `withdrawal_status_id` = 2, "
                     + "`date` = NOW() "
                     + "WHERE `withdrawal_status_id` = 1 "
-                    + "AND `tutor_id` = 1;");
+                    + "AND `tutor_id` = '"+tutorId+"';");
 
             JOptionPane.showMessageDialog(this, "Withdrawed Successfully", "Info", JOptionPane.INFORMATION_MESSAGE);
             LoadWalletDetails();

@@ -36,55 +36,53 @@ public class Notifications extends javax.swing.JFrame {
     }
 
     private void loadNotifications(int tutorId) {
-    // Fetch notifications for the given tutor
-    List<Notification> notifications = NotificationManager.getDailyNotifications(tutorId);
+        // Fetch notifications for the given tutor
+        List<Notification> notifications = NotificationManager.getDailyNotifications(tutorId);
 
-    // Clear the parent container
-    notificationsPanel.removeAll();
+        // Clear the parent container
+        notificationsPanel.removeAll();
 
-    // Set layout for the notifications panel
-    notificationsPanel.setLayout(new BoxLayout(notificationsPanel, BoxLayout.Y_AXIS));
+        // Set layout for the notifications panel
+        notificationsPanel.setLayout(new BoxLayout(notificationsPanel, BoxLayout.Y_AXIS));
 
-    // If there are no notifications, show a default message
-    if (notifications.isEmpty()) {
-        JLabel noNotificationLabel = new JLabel("<html><b>No classes scheduled for today.</b></html>");
-        notificationsPanel.add(noNotificationLabel);
-    } else {
-        for (Notification notification : notifications) {
-            JPanel notificationBox = new JPanel();
+        // If there are no notifications, show a default message
+        if (notifications.isEmpty()) {
+            JLabel noNotificationLabel = new JLabel("<html><b>No classes scheduled for today.</b></html>");
+            notificationsPanel.add(noNotificationLabel);
+        } else {
+            for (Notification notification : notifications) {
+                JPanel notificationBox = new JPanel();
 
-            // Set the preferred size for the notification box
-            notificationBox.setPreferredSize(new Dimension(800, 100)); // Wider and taller box
+                // Set the preferred size for the notification box
+                notificationBox.setPreferredSize(new Dimension(800, 100)); // Wider and taller box
 //            notificationBox.setMaximumSize(new Dimension(400, 100)); // Ensure consistent size
 
-            // Create a label for the notification details
-            JLabel notificationLabel = new JLabel("<html>" + notification.getDetails() + "</html>");
-            notificationLabel.setVerticalAlignment(SwingConstants.CENTER);
-            notificationLabel.setFont(new Font("Arial", Font.PLAIN, 20));
+                // Create a label for the notification details
+                JLabel notificationLabel = new JLabel("<html>" + notification.getDetails() + "</html>");
+                notificationLabel.setVerticalAlignment(SwingConstants.CENTER);
+                notificationLabel.setFont(new Font("Arial", Font.PLAIN, 20));
 
-            // Create a "More Info" button
-            JButton moreInfoButton = new JButton("More Info");
+                // Create a "More Info" button
+                JButton moreInfoButton = new JButton("More Info");
 
-            // Add action listener to the More Info button
-            moreInfoButton.addActionListener(e -> {
-                System.out.println("Details for Class ID: " + notification.getClassId());
-                new NotificationDetails(notification.getClassId()).setVisible(true);
-            });
+                // Add action listener to the More Info button
+                moreInfoButton.addActionListener(e -> {
+                    new NotificationDetails(notification.getClassId()).setVisible(true);
+                });
 
-            // Add components to the notification box
-            notificationBox.add(notificationLabel, BorderLayout.CENTER);
-            notificationBox.add(moreInfoButton, BorderLayout.EAST);
+                // Add components to the notification box
+                notificationBox.add(notificationLabel, BorderLayout.CENTER);
+                notificationBox.add(moreInfoButton, BorderLayout.EAST);
 
-            // Add the notification box to the parent panel
-            notificationsPanel.add(notificationBox);
+                // Add the notification box to the parent panel
+                notificationsPanel.add(notificationBox);
+            }
         }
+
+        // Refresh the parent container
+        notificationsPanel.revalidate();
+        notificationsPanel.repaint();
     }
-
-    // Refresh the parent container
-    notificationsPanel.revalidate();
-    notificationsPanel.repaint();
-}
-
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -174,10 +172,23 @@ public class Notifications extends javax.swing.JFrame {
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
-
+ private NotificationDetails tw;
     private void moreInfoBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_moreInfoBtnActionPerformed
         int selectedClassId = 1; // Replace with logic to get the actual Class ID
-        new NotificationDetails(selectedClassId).setVisible(true);
+
+        if (tw == null) {
+            // Check if the instance has not been created
+            tw = new NotificationDetails(selectedClassId); // Create a new instance
+        }
+
+        if (!tw.isVisible()) {
+            // Check if it's not visible
+            tw.setVisible(true); // Make it visible
+        } else {
+            // Bring it to the front if it's already visible
+            tw.toFront();
+            tw.requestFocus();
+        }
     }//GEN-LAST:event_moreInfoBtnActionPerformed
 
     /**
