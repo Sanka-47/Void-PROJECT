@@ -160,7 +160,7 @@ public class EmployeeDashboard extends javax.swing.JFrame implements DashboardIn
 
         jPanel3.setPreferredSize(new java.awt.Dimension(250, 581));
 
-        jLabel7.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
+        jLabel7.setFont(new java.awt.Font("Century Gothic", 1, 16)); // NOI18N
         jLabel7.setText("Sessions / Courses");
 
         jButton6.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
@@ -196,7 +196,7 @@ public class EmployeeDashboard extends javax.swing.JFrame implements DashboardIn
             }
         });
 
-        jLabel8.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
+        jLabel8.setFont(new java.awt.Font("Century Gothic", 1, 16)); // NOI18N
         jLabel8.setText("Tutors");
 
         jButton4.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
@@ -216,7 +216,7 @@ public class EmployeeDashboard extends javax.swing.JFrame implements DashboardIn
             }
         });
 
-        jLabel9.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
+        jLabel9.setFont(new java.awt.Font("Century Gothic", 1, 16)); // NOI18N
         jLabel9.setText("Students");
 
         jButton2.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
@@ -245,12 +245,6 @@ public class EmployeeDashboard extends javax.swing.JFrame implements DashboardIn
                         .addGap(47, 47, 47)
                         .addComponent(jLabel7))
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel3Layout.createSequentialGroup()
-                        .addGap(90, 90, 90)
-                        .addComponent(jLabel8))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel3Layout.createSequentialGroup()
-                        .addGap(84, 84, 84)
-                        .addComponent(jLabel9))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel3Layout.createSequentialGroup()
                         .addGap(12, 12, 12)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jButton5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -265,6 +259,15 @@ public class EmployeeDashboard extends javax.swing.JFrame implements DashboardIn
                             .addComponent(jButton8, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jButton3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addGap(14, 14, 14))
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGap(101, 101, 101)
+                        .addComponent(jLabel8))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGap(89, 89, 89)
+                        .addComponent(jLabel9)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -400,8 +403,8 @@ public class EmployeeDashboard extends javax.swing.JFrame implements DashboardIn
 ////        AllStudents as = new AllStudents();
 ////        jPanel4.add(as, BorderLayout.CENTER);
 //
-StudentPayment studentPayment = new StudentPayment();
-studentPayment.setVisible(true);
+        StudentPayment studentPayment = new StudentPayment();
+        studentPayment.setVisible(true);
 //        SwingUtilities.updateComponentTreeUI(jPanel4);
 
 //        StudentInvoiceHistory sih = new StudentInvoiceHistory();
@@ -410,8 +413,8 @@ studentPayment.setVisible(true);
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
         jPanel4.removeAll();
-        CourseRegistration addSession = new CourseRegistration(mobile, fName);
-        jPanel4.add(addSession, BorderLayout.CENTER);
+        CourseRegistration CR = new CourseRegistration();
+        jPanel4.add(CR, BorderLayout.CENTER);
 
         SwingUtilities.updateComponentTreeUI(jPanel4);
     }//GEN-LAST:event_jButton8ActionPerformed
@@ -428,7 +431,7 @@ studentPayment.setVisible(true);
         UIManager.put("Table.foreground", Color.decode("#4D4D4D"));
         UIManager.put("Table.selectionBackground", Color.decode("#40424E"));
         UIManager.put("Table.selectionForeground", Color.decode("#FFFFFF"));
-        
+
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
