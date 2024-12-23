@@ -40,7 +40,6 @@ public class AssignmentManagement extends javax.swing.JPanel {
         renderer.setHorizontalAlignment(SwingConstants.CENTER);
         
         jTable1.setDefaultRenderer(Object.class, renderer);
-        System.out.println("Tutor ID :" + tutorID);
     }
 
     private static HashMap<String, String> courseMap = new HashMap<>();
@@ -57,11 +56,9 @@ public class AssignmentManagement extends javax.swing.JPanel {
             if (column == null || column.equals("Select")) {
                 query = "SELECT * FROM `assignment` INNER JOIN `tutor` ON `assignment`.`tutor_id` = `tutor`.`id`"
                     + "INNER JOIN `courses` ON `assignment`.`courses_id` = `courses`.`id` WHERE `tutor`.`id` = '" + TID + "'";
-                System.out.println("1");
             } else {
                 query = "SELECT * FROM `assignment` INNER JOIN `tutor` ON `assignment`.`tutor_id` = `tutor`.`id`"
                     + "INNER JOIN `courses` ON `assignment`.`courses_id` = `courses`.`id` WHERE `courses`.`name` = '"+column+"' AND `tutor`.`id` = '" + TID + "'";
-                System.out.println("2");
             }
 
             ResultSet rs = MySQL2.executeSearch(query);
@@ -288,7 +285,6 @@ public class AssignmentManagement extends javax.swing.JPanel {
 // Validate indices
         if (row >= 0 && col >= 0 && col < jTable1.getColumnCount()) {
             Object value = jTable1.getValueAt(row, col);
-            System.out.println("Value: " + value);
         } else {
             System.out.println("Invalid row/column selected.");
         }
@@ -318,7 +314,6 @@ public class AssignmentManagement extends javax.swing.JPanel {
             try {
                 Date dateofBirth = formatter.parse((DueDate));
                 updateStudent.getjDateChooser1().setDate(dateofBirth);
-                System.out.println("Converted Date: " + dateofBirth);
             } catch (Exception e) {
                 System.out.println("Error converting Object to Date: " + e.getMessage());
             }

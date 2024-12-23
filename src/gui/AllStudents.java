@@ -299,7 +299,9 @@ public class AllStudents extends javax.swing.JPanel {
             String query = "SELECT * FROM `student` INNER JOIN `gender` ON `student`.`gender_id` = `gender`.`id`";
 
             if (!searchText.isEmpty()) {
-                query += " WHERE `student`.`first_name` LIKE '%" + searchText + "%' OR `student`.`last_name` LIKE '%" + searchText + "%'";
+                query += " WHERE `student`.`first_name` LIKE '%" + searchText + "%' "
+                        + "OR `student`.`last_name` LIKE '%" + searchText + "%' "
+                        + "OR `student`.`nic` LIKE '%" + searchText + "%'";
             }
 
             if (sort.equals("First Name ASC")) {
@@ -311,9 +313,9 @@ public class AllStudents extends javax.swing.JPanel {
             } else if (sort.equals("Last Name DESC")) {
                 query += " ORDER BY `student`.`last_name` DESC";
             } else if (sort.equals("NIC ASC")) {
-                query += " ORDER BY `nic` ASC";
+                query += " ORDER BY `student`.`nic` ASC";
             } else if (sort.equals("NIC DESC")) {
-                query += " ORDER BY `nic` DESC";
+                query += " ORDER BY `student`.`nic` DESC";
             }
 
             ResultSet resultSet = MySQL2.executeSearch(query);
@@ -323,7 +325,7 @@ public class AllStudents extends javax.swing.JPanel {
 
             while (resultSet.next()) {
                 Vector<String> vector = new Vector<>();
-                vector.add(resultSet.getString("NIC"));
+                vector.add(resultSet.getString("nic"));
                 vector.add(resultSet.getString("first_name"));
                 vector.add(resultSet.getString("last_name"));
                 vector.add(resultSet.getString("dob"));
@@ -338,6 +340,7 @@ public class AllStudents extends javax.swing.JPanel {
             e.printStackTrace();
         }
     }
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;

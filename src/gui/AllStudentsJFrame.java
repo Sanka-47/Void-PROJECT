@@ -255,7 +255,7 @@ public class AllStudentsJFrame extends javax.swing.JFrame {
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
         loadSortTable();
     }//GEN-LAST:event_jComboBox1ActionPerformed
-   private void loadSortTable() {
+    private void loadSortTable() {
         try {
             String sort = String.valueOf(jComboBox1.getSelectedItem());
 
@@ -297,14 +297,16 @@ public class AllStudentsJFrame extends javax.swing.JFrame {
             e.printStackTrace();
         }
     }
-    
+
     private void loadTableWithSearch(String searchText) {
         try {
             String sort = String.valueOf(jComboBox1.getSelectedItem());
             String query = "SELECT * FROM `student` INNER JOIN `gender` ON `student`.`gender_id` = `gender`.`id`";
 
             if (!searchText.isEmpty()) {
-                query += " WHERE `student`.`first_name` LIKE '%" + searchText + "%' OR `student`.`last_name` LIKE '%" + searchText + "%'";
+                query += " WHERE `student`.`first_name` LIKE '%" + searchText + "%' "
+                        + "OR `student`.`last_name` LIKE '%" + searchText + "%' "
+                        + "OR `student`.`nic` LIKE '%" + searchText + "%'";
             }
 
             if (sort.equals("First Name ASC")) {
@@ -315,10 +317,10 @@ public class AllStudentsJFrame extends javax.swing.JFrame {
                 query += " ORDER BY `student`.`last_name` ASC";
             } else if (sort.equals("Last Name DESC")) {
                 query += " ORDER BY `student`.`last_name` DESC";
-            } else if (sort.equals("ID ASC")) {
-                query += " ORDER BY `id` ASC";
-            } else if (sort.equals("ID DESC")) {
-                query += " ORDER BY `id` DESC";
+            } else if (sort.equals("NIC ASC")) {
+                query += " ORDER BY `student`.`nic` ASC";
+            } else if (sort.equals("NIC DESC")) {
+                query += " ORDER BY `student`.`nic` DESC";
             }
 
             ResultSet resultSet = MySQL2.executeSearch(query);
@@ -328,7 +330,7 @@ public class AllStudentsJFrame extends javax.swing.JFrame {
 
             while (resultSet.next()) {
                 Vector<String> vector = new Vector<>();
-                vector.add(resultSet.getString("NIC"));
+                vector.add(resultSet.getString("nic"));
                 vector.add(resultSet.getString("first_name"));
                 vector.add(resultSet.getString("last_name"));
                 vector.add(resultSet.getString("dob"));
@@ -343,6 +345,7 @@ public class AllStudentsJFrame extends javax.swing.JFrame {
             e.printStackTrace();
         }
     }
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;

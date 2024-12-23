@@ -298,8 +298,8 @@ public class AllTutors extends javax.swing.JPanel {
     }//GEN-LAST:event_searchNameKeyReleased
 
     private void searchNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchNameActionPerformed
-        String selectedSort = (String) jComboBox1.getSelectedItem();
-        loadTable(selectedSort);
+//        String selectedSort = (String) jComboBox1.getSelectedItem();
+//        loadTable(selectedSort);
     }//GEN-LAST:event_searchNameActionPerformed
 
     private void loadTable(String sortOption) {
@@ -358,36 +358,39 @@ public class AllTutors extends javax.swing.JPanel {
         }
     }
 
-    private void loadTableWithSearch(String searchText) {
-        try {
-            ResultSet resultSet = MySQL2.executeSearch("SELECT * FROM `tutor` "
-                    + "INNER JOIN `gender` ON `tutor`.`gender_id` = `gender`.`id` "
-                    + "INNER JOIN `courses` ON `tutor`.`courses_id` = `courses`.`id` "
-                    + "WHERE `first_name` LIKE '%" + searchText + "%' OR `last_name` LIKE '%" + searchText + "%'");
+  private void loadTableWithSearch(String searchText) {
+    try {
+        ResultSet resultSet = MySQL2.executeSearch("SELECT * FROM `tutor` "
+                + "INNER JOIN `gender` ON `tutor`.`gender_id` = `gender`.`id` "
+                + "INNER JOIN `courses` ON `tutor`.`courses_id` = `courses`.`id` "
+                + "WHERE `first_name` LIKE '%" + searchText + "%' "
+                + "OR `last_name` LIKE '%" + searchText + "%' "
+                + "OR `nic` LIKE '%" + searchText + "%'");
 
-            DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-            model.setRowCount(0);
+        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+        model.setRowCount(0);
 
-            while (resultSet.next()) {
-                Vector<String> vector = new Vector<>();
-                vector.add(resultSet.getString("tutor.id"));
-                vector.add(resultSet.getString("first_name"));
-                vector.add(resultSet.getString("last_name"));
-                vector.add(resultSet.getString("qualification"));
-                vector.add(resultSet.getString("contact_info"));
-                vector.add(resultSet.getString("email"));
-                vector.add(resultSet.getString("gender.name"));
-                vector.add(resultSet.getString("courses.name"));
-                vector.add(resultSet.getString("nic"));
-                passwordMap.put(resultSet.getString("password"), resultSet.getString("tutor.id"));
+        while (resultSet.next()) {
+            Vector<String> vector = new Vector<>();
+            vector.add(resultSet.getString("tutor.id"));
+            vector.add(resultSet.getString("first_name"));
+            vector.add(resultSet.getString("last_name"));
+            vector.add(resultSet.getString("qualification"));
+            vector.add(resultSet.getString("contact_info"));
+            vector.add(resultSet.getString("email"));
+            vector.add(resultSet.getString("gender.name"));
+            vector.add(resultSet.getString("courses.name"));
+            vector.add(resultSet.getString("nic"));
+            passwordMap.put(resultSet.getString("password"), resultSet.getString("tutor.id"));
 
-                model.addRow(vector);
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
+            model.addRow(vector);
         }
+
+    } catch (Exception e) {
+        e.printStackTrace();
     }
+}
+
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
