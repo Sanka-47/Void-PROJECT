@@ -37,22 +37,22 @@ public class CourseRegistration extends javax.swing.JPanel {
     private void loadCourseDetails() {
 
         try {
-            
+
             String sort = String.valueOf(jComboBox2.getSelectedItem());
-            
+
             String searchText = jTextField3.getText().toLowerCase();
-            
+
             String query = "SELECT * FROM `courses` "
                     + "INNER JOIN `course_status` ON `courses`.`course_status_id` = `course_status`.`id` ";
-            
+
             if (!searchText.isEmpty()) {
-                
+
                 query += "WHERE LOWER(`courses`.`id`) LIKE '%" + searchText + "%' "
                         + "OR LOWER(`courses`.`name`) LIKE '%" + searchText + "%' "
                         + "OR LOWER(`courses`.`fee`) LIKE '%" + searchText + "%' ";
-                
+
             }
-            
+
             if (sort.equals("Price ASC")) {
                 query += "ORDER BY `courses`.`fee` ASC";
             } else if (sort.equals("Price DESC")) {
@@ -65,6 +65,20 @@ public class CourseRegistration extends javax.swing.JPanel {
                 query += "ORDER BY `courses`.`id` ASC";
             } else if (sort.equals("ID DESC")) {
                 query += "ORDER BY `courses`.`id` DESC";
+            }
+
+            if (query.contains("WHERE")) {
+                if (sort.equals("Active")) {
+                    query += "`course_status`.`name` = 'Active'";
+                } else if (sort.equals("Deactive")) {
+                    query += "`course_status`.`name` = 'Deactive'";
+                }
+            } else {
+                if (sort.equals("Active")) {
+                    query += "WHERE `course_status`.`name` = 'Active'";
+                } else if (sort.equals("Deactive")) {
+                    query += "WHERE `course_status`.`name` = 'Deactive'";
+                }
             }
             
             ResultSet resultSet = MySQL2.executeSearch(query);
@@ -181,7 +195,7 @@ public class CourseRegistration extends javax.swing.JPanel {
         jLabel2.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
         jLabel2.setText("Sort By :");
 
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Price ASC", "Price DESC", "Name ASC", "Name DESC", "ID ASC", "ID DESC" }));
+        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Price ASC", "Price DESC", "Name ASC", "Name DESC", "ID ASC", "ID DESC", "Active", "Deactive" }));
         jComboBox2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboBox2ActionPerformed(evt);
@@ -322,7 +336,7 @@ public class CourseRegistration extends javax.swing.JPanel {
             loadCourseDetails();
             reset();
             JOptionPane.showMessageDialog(this, "Course updated successfully!");
-            
+
         } catch (Exception e) {
             e.printStackTrace();
             JOptionPane.showMessageDialog(this, "Failed to update the course.", "Error", JOptionPane.ERROR_MESSAGE);
@@ -362,7 +376,6 @@ public class CourseRegistration extends javax.swing.JPanel {
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
 
-
         int selectedRow = jTable1.getSelectedRow();
         if (selectedRow == -1) {
             JOptionPane.showMessageDialog(this, "Please select a course to Activate/Deactivate.", "Warning", JOptionPane.WARNING_MESSAGE);
@@ -373,7 +386,7 @@ public class CourseRegistration extends javax.swing.JPanel {
         String currentStatus = jTable1.getValueAt(selectedRow, 4).toString();
 
         try {
-            
+
             String newStatusId = currentStatus.equals("active") ? "0" : "1";
 
             MySQL2.executeIUD("UPDATE `courses` SET `course_status_id`='" + newStatusId + "' WHERE `id`='" + courseId + "'");
@@ -402,19 +415,19 @@ public class CourseRegistration extends javax.swing.JPanel {
     }//GEN-LAST:event_jTextField3KeyReleased
 
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
-        
+
         int Row = jTable1.getSelectedRow();
-        
+
         if (evt.getClickCount() == 2) {
-            
+
             jTextField1.setText(String.valueOf(jTable1.getValueAt(Row, 1)));
             jComboBox1.setSelectedItem(String.valueOf(jTable1.getValueAt(Row, 2)));
             jTextField2.setText(String.valueOf(jTable1.getValueAt(Row, 3)));
-            
+
             jButton1.setEnabled(true);
             jButton2.setEnabled(false);
             jButton3.setEnabled(true);
-            
+
         }
     }//GEN-LAST:event_jTable1MouseClicked
 
@@ -443,7 +456,7 @@ public class CourseRegistration extends javax.swing.JPanel {
         jTextField1.setText("");
         jComboBox1.setSelectedIndex(0);
         jTextField2.setText("");
-        
+
         jButton1.setEnabled(false);
         jButton3.setEnabled(false);
     }
