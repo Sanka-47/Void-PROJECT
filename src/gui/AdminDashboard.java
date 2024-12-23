@@ -175,7 +175,7 @@ public class AdminDashboard extends javax.swing.JFrame implements DashboardInter
         jScrollPane2.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         jScrollPane2.setPreferredSize(new java.awt.Dimension(250, 581));
 
-        jPanel3.setPreferredSize(new java.awt.Dimension(250, 1500));
+        jPanel3.setPreferredSize(new java.awt.Dimension(250, 1181));
 
         jButton1.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
         jButton1.setText("Add Session");
@@ -411,7 +411,7 @@ public class AdminDashboard extends javax.swing.JFrame implements DashboardInter
                 .addComponent(jButton14, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton15, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(341, Short.MAX_VALUE))
+                .addContainerGap(22, Short.MAX_VALUE))
         );
 
         jScrollPane2.setViewportView(jPanel3);

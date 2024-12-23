@@ -78,7 +78,7 @@ public class AllSession extends javax.swing.JPanel {
 
                 if (query.contains("WHERE")) {
 
-                    query += "LOWER(`class`.`id`) LIKE '%" + searchText + "%' "
+                    query += "AND LOWER(`class`.`id`) LIKE '%" + searchText + "%' "
                             + "OR LOWER(`class`.`name`) LIKE '%" + searchText + "%'";
 
                 } else {
