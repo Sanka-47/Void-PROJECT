@@ -54,7 +54,8 @@ public class AllEmployees extends javax.swing.JPanel {
             if (!searchText.isEmpty()) {
                 
                 query += "WHERE LOWER(`employee`.`first_name`) LIKE '%" + searchText + "%' "
-                        + "OR LOWER(`employee`.`last_name`) LIKE '%" + searchText + "%' ";
+                        + "OR LOWER(`employee`.`last_name`) LIKE '%" + searchText + "%' "
+                        + "OR LOWER(`employee`.`nic`) LIKE '%" + searchText + "%' ";
                 
             }
             
