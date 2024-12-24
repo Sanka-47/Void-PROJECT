@@ -6,6 +6,7 @@
 package gui;
 
 import java.sql.ResultSet;
+import java.text.DateFormatSymbols;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import model.MySQL2;
@@ -23,50 +24,53 @@ public class TotoalTutorPayment extends javax.swing.JFrame {
         initComponents();
         loadTutorPaymentData();
     }
-    
-private void loadTutorPaymentData() {
-    DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-    model.setRowCount(0); // Clear the table before loading new data
 
-    String query = "SELECT \n" +
-"    MONTH(wallet.date) AS Month,\n" +
-"    YEAR(wallet.date) AS Year,\n" +
-"    SUM(class.amount) AS Total_Payment\n" +
-"FROM \n" +
-"    wallet\n" +
-"INNER JOIN \n" +
-"    tutor ON wallet.tutor_id = tutor.id\n" +
-"INNER JOIN \n" +
-"    class ON class.id = wallet.class_id\n" +
-"INNER JOIN \n" +
-"    withdrawal_status ON withdrawal_status.id = wallet.withdrawal_status_id\n" +
-"INNER JOIN \n" +
-"    courses ON courses.id = class.courses_id\n" +
-"WHERE \n" +
-"    wallet.withdrawal_status_id = 2\n" +
-"GROUP BY \n" +
-"    YEAR(wallet.date), MONTH(wallet.date), wallet.tutor_id\n" +
-"ORDER BY \n" +
-"    YEAR(wallet.date) DESC, MONTH(wallet.date) DESC;";
 
-    try {
-        ResultSet resultSet = MySQL2.executeSearch(query);
 
-        while (resultSet.next()) {
-            String month = resultSet.getString("Month");
-            int year = resultSet.getInt("Year");
-            
-            double totalPayments = resultSet.getDouble("Total_Payment");
+    private void loadTutorPaymentData() {
+        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+        model.setRowCount(0); // Clear the table before loading new data
 
-            model.addRow(new Object[]{month, year,  totalPayments});
+        String query = "SELECT \n"
+                + "    MONTH(wallet.date) AS Month,\n"
+                + "    YEAR(wallet.date) AS Year,\n"
+                + "    SUM(class.amount) AS Total_Payment\n"
+                + "FROM \n"
+                + "    wallet\n"
+                + "INNER JOIN \n"
+                + "    tutor ON wallet.tutor_id = tutor.id\n"
+                + "INNER JOIN \n"
+                + "    class ON class.id = wallet.class_id\n"
+                + "INNER JOIN \n"
+                + "    withdrawal_status ON withdrawal_status.id = wallet.withdrawal_status_id\n"
+                + "INNER JOIN \n"
+                + "    courses ON courses.id = class.courses_id\n"
+                + "WHERE \n"
+                + "    wallet.withdrawal_status_id = 2\n"
+                + "GROUP BY \n"
+                + "    YEAR(wallet.date), MONTH(wallet.date), wallet.tutor_id\n"
+                + "ORDER BY \n"
+                + "    YEAR(wallet.date) DESC, MONTH(wallet.date) DESC;";
+
+        try {
+            ResultSet resultSet = MySQL2.executeSearch(query);
+
+            while (resultSet.next()) {
+                int monthNumber = resultSet.getInt("Month");
+                String month = new DateFormatSymbols().getMonths()[monthNumber - 1];
+                int year = resultSet.getInt("Year");
+
+                double totalPayments = resultSet.getDouble("Total_Payment");
+
+                model.addRow(new Object[]{month, year, totalPayments});
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this,
+                    "Error loading tutor payment data: " + e.getMessage(),
+                    "Database Error",
+                    JOptionPane.ERROR_MESSAGE);
         }
-    } catch (Exception e) {
-        JOptionPane.showMessageDialog(this, 
-            "Error loading tutor payment data: " + e.getMessage(),
-            "Database Error", 
-            JOptionPane.ERROR_MESSAGE);
     }
-}
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -84,7 +88,7 @@ private void loadTutorPaymentData() {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
-        jLabel1.setText("Total Tutor Payment");
+        jLabel1.setText("Monthly Tutor Payment");
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
