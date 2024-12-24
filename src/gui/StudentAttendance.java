@@ -40,39 +40,59 @@ public class StudentAttendance extends javax.swing.JPanel {
             String query = "SELECT * FROM attendance INNER JOIN student ON attendance.student_nic = student.nic" 
                    + " INNER JOIN class ON attendance.class_id = class.id ";
 
-            Date start = null;
-            Date end = null;
-
-            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-
-            if (jDateChooser1.getDate() != null && jDateChooser2.getDate() != null) {
-                start = jDateChooser1.getDate();
-                end = jDateChooser2.getDate();
-                query += "WHERE `attendance`.`date` > '" + format.format(start) + "' AND `attendance`.`date` < '" + format.format(end) + "' ";
-            } else if (jDateChooser1.getDate() != null && jDateChooser2.getDate() == null) {
-                start = jDateChooser1.getDate();
-                query += "WHERE `attendance`.`date` > '" + format.format(start) + "' ";
-            } else if (jDateChooser1.getDate() == null && jDateChooser2.getDate() != null) {
-                end = jDateChooser2.getDate();
-                query += "WHERE `attendance`.`date` < '" + format.format(end) + "' ";
-            }
-
             if (!searchText.isEmpty()) {
 
                 if (query.contains("WHERE")) {
 
-                    query += "LOWER(`student`.`nic`) LIKE '%" + searchText + "%' "
+                    query += "LOWER(`attendance`.`id`) LIKE '%" + searchText + "%' "
                             + "OR LOWER(`student`.`first_name`) LIKE '%" + searchText + "%'"
                             + "OR LOWER(`student`.`last_name`) LIKE '%" + searchText + "%'";
 
                 } else {
 
-                    query += "WHERE LOWER(`student`.`nic`) LIKE '%" + searchText + "%' "
+                    query += "WHERE LOWER(`attendance`.`id`) LIKE '%" + searchText + "%' "
                             + "OR LOWER(`student`.`first_name`) LIKE '%" + searchText + "%' "
                             + "OR LOWER(`student`.`last_name`) LIKE '%" + searchText + "%' ";
 
                 }
 
+            }
+            
+            Date start = null;
+            Date end = null;
+
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+            
+                
+            
+
+            if (jDateChooser1.getDate() != null && jDateChooser2.getDate() != null) {
+                start = jDateChooser1.getDate();
+                end = jDateChooser2.getDate();
+                
+                if (query.contains("WHERE")) {
+                    query += "AND `attendance`.`date` > '" + format.format(start) + "' AND `attendance`.`date` < '" + format.format(end) + "' ";
+                } else {
+                    query += "WHERE `attendance`.`date` > '" + format.format(start) + "' AND `attendance`.`date` < '" + format.format(end) + "' ";
+                }
+                
+            } else if (jDateChooser1.getDate() != null && jDateChooser2.getDate() == null) {
+                start = jDateChooser1.getDate();
+                
+                if (query.contains("WHERE")) {
+                    query += "AND `attendance`.`date` > '" + format.format(start) + "' ";
+                } else {
+                    query += "WHERE `attendance`.`date` > '" + format.format(start) + "' ";
+                }
+                
+            } else if (jDateChooser1.getDate() == null && jDateChooser2.getDate() != null) {
+                end = jDateChooser2.getDate();
+                
+                if (query.contains("WHERE")) {
+                    query += "AND `attendance`.`date` < '" + format.format(end) + "' ";
+                } else {
+                    query += "WHERE `attendance`.`date` < '" + format.format(end) + "' ";
+                }
             }
 
             if (sort.equals("Class Name ASC")) {
