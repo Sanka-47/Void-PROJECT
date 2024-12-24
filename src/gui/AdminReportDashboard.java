@@ -202,7 +202,7 @@ public class AdminReportDashboard extends javax.swing.JFrame {
         });
 
         jButton24.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
-        jButton24.setText("Total Tutor Payment");
+        jButton24.setText("Monthly Tutor Payment");
         jButton24.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton24ActionPerformed(evt);
