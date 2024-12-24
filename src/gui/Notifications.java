@@ -10,7 +10,9 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -25,6 +27,8 @@ import model.NotificationManager;
  * @author Rushma
  */
 public class Notifications extends javax.swing.JFrame {
+
+      Map<Integer, NotificationDetails> notificationDetailsMap = new HashMap<>();
 
     public Notifications(int tutorId) {
         initComponents();
@@ -65,11 +69,26 @@ public class Notifications extends javax.swing.JFrame {
                 // Create a "More Info" button
                 JButton moreInfoButton = new JButton("More Info");
 
-                // Add action listener to the More Info button
-                moreInfoButton.addActionListener(e -> {
-                    new NotificationDetails(notification.getClassId()).setVisible(true);
-                });
+               moreInfoButton.addActionListener(e -> {
+                    int classId = notification.getClassId();
 
+                    if (!notificationDetailsMap.containsKey(classId)) {
+                        // Create a new instance and store it in the map
+                        NotificationDetails tw = new NotificationDetails(classId);
+                        notificationDetailsMap.put(classId, tw);
+                        tw.setVisible(true);
+                    } else {
+                        // Retrieve the existing instance
+                        NotificationDetails tw = notificationDetailsMap.get(classId);
+
+                        if (!tw.isVisible()) {
+                            tw.setVisible(true); // Show it if it's not visible
+                        } else {
+                            tw.toFront(); // Bring it to the front if already visible
+                            tw.requestFocus();
+                        }
+                    }
+                });
                 // Add components to the notification box
                 notificationBox.add(notificationLabel, BorderLayout.CENTER);
                 notificationBox.add(moreInfoButton, BorderLayout.EAST);
