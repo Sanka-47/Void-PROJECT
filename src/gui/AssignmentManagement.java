@@ -198,7 +198,7 @@ public class AssignmentManagement extends javax.swing.JPanel {
 
             // Execute query
             ResultSet rs = MySQL2.executeSearch(query.toString());
-            System.out.println(query); // Debugging purposes
+//            System.out.println(query); // Debugging purposes
 
             // Update table model
             DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
