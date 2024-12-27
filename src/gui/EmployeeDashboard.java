@@ -391,11 +391,11 @@ public class EmployeeDashboard extends javax.swing.JFrame implements DashboardIn
     }//GEN-LAST:event_jButton5jButton5ActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
-        jPanel4.removeAll();
-        AllSession allSession = new AllSession(this);
-        jPanel4.add(allSession, BorderLayout.CENTER);
-
-        SwingUtilities.updateComponentTreeUI(jPanel4);
+//        jPanel4.removeAll();
+//        AllSession allSession = new AllSession(this);
+//        jPanel4.add(allSession, BorderLayout.CENTER);
+//
+//        SwingUtilities.updateComponentTreeUI(jPanel4);
     }//GEN-LAST:event_jButton6ActionPerformed
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed

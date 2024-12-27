@@ -187,7 +187,7 @@ public class AdminSignIn extends javax.swing.JFrame {
 
                     String fName = resultSet.getString("first_name") + " " + resultSet.getString("last_name");
                     String adminID = resultSet.getString("employee.id");
-                    JOptionPane.showMessageDialog(this, "Success", "Success", JOptionPane.INFORMATION_MESSAGE);
+                    
 
                     AdminDashboard ad = new AdminDashboard(fName, adminID);
                     ad.setVisible(true);
@@ -202,6 +202,8 @@ public class AdminSignIn extends javax.swing.JFrame {
                 } else {
 
                     JOptionPane.showMessageDialog(this, "Incorrect mobile or password", "Warning", JOptionPane.WARNING_MESSAGE);
+                    jTextField1.setText("");
+                    jPasswordField1.setText("");
                 }
 
             } catch (Exception e) {
