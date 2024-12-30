@@ -802,7 +802,7 @@ if (student_name.isEmpty()) {
     }//GEN-LAST:event_jComboBox1ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        Menu menu = new Menu();
+        PaymentMenu menu = new PaymentMenu();
         menu.setVisible(true);
         menu.setInvoice(this);
 
