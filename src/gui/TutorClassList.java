@@ -30,6 +30,15 @@ public class TutorClassList extends javax.swing.JPanel {
 
         jTable1.setDefaultRenderer(Object.class, renderer);
         this.tutorId = TutorID;
+
+        cancelBtn.setEnabled(false);
+
+        // Add selection listener to enable buttons when a row is selected
+        jTable1.getSelectionModel().addListSelectionListener(event -> {
+            if (!event.getValueIsAdjusting() && jTable1.getSelectedRow() != -1) {
+                cancelBtn.setEnabled(true);
+            }
+        });
     }
 
 //    private void switchToAddSession() {
@@ -61,7 +70,7 @@ public class TutorClassList extends javax.swing.JPanel {
 //            } else if (sort.equals("Subject DESC")) {
 //                query += "ORDER BY `subject.name` DESC";
 //            }
-           if (!searchText.isEmpty()) {
+            if (!searchText.isEmpty()) {
 
 //                if (query.contains("WHERE")) {
 //
@@ -138,7 +147,7 @@ public class TutorClassList extends javax.swing.JPanel {
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
-        jButton3 = new javax.swing.JButton();
+        cancelBtn = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
@@ -151,15 +160,18 @@ public class TutorClassList extends javax.swing.JPanel {
         jButton2 = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
         jTextField1 = new javax.swing.JTextField();
+        jLabel7 = new javax.swing.JLabel();
+        jTextField2 = new javax.swing.JTextField();
+        jLabel8 = new javax.swing.JLabel();
 
         jLabel1.setFont(new java.awt.Font("Century Gothic", 1, 28)); // NOI18N
         jLabel1.setText("Tutor Class List");
 
-        jButton3.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
-        jButton3.setText("Cancel Session");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        cancelBtn.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
+        cancelBtn.setText("Cancel Session");
+        cancelBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                cancelBtnActionPerformed(evt);
             }
         });
 
@@ -227,16 +239,14 @@ public class TutorClassList extends javax.swing.JPanel {
             }
         });
 
+        jLabel7.setText("Select a row to cancel the session");
+
+        jLabel8.setText("Reason for cancelling");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(241, 241, 241)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(190, 190, 190)
-                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(210, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
                 .addGap(19, 19, 19)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -265,6 +275,21 @@ public class TutorClassList extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(cancelBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel8)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jTextField2))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel7))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -274,7 +299,7 @@ public class TutorClassList extends javax.swing.JPanel {
                     .addComponent(jLabel3)
                     .addComponent(jLabel4)
                     .addComponent(jLabel1))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -289,13 +314,17 @@ public class TutorClassList extends javax.swing.JPanel {
                             .addGap(10, 10, 10)
                             .addComponent(jLabel5)
                             .addGap(9, 9, 9))))
-                .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 327, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(39, 39, 39)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(54, 54, 54))
+                .addGap(16, 16, 16)
+                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(cancelBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel8))
+                .addGap(5, 5, 5)
+                .addComponent(jLabel7)
+                .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -304,50 +333,64 @@ public class TutorClassList extends javax.swing.JPanel {
         parent.switchPanel(rs);
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-
-        try {
-
-            int option = JOptionPane.showConfirmDialog(this, "Are you sure you want to delete this row?", "Message",
-                    JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE);
-
-            if (option == JOptionPane.YES_OPTION) {
-                MySQL2.executeIUD("DELETE FROM tutor WHERE tutor.id = '" + tutorId + "'");
-            } else {
-                JOptionPane.showMessageDialog(this, "Row not deleted", "Information", JOptionPane.INFORMATION_MESSAGE);
-            }
-            loadTable();
-
-        } catch (Exception e) {
-
-            e.printStackTrace();
-
+    private void cancelBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelBtnActionPerformed
+        // Check if the text field (jTextField2) is empty
+        if (jTextField2.getText().trim().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please fill in the required text field to cancel the session.");
+            return; // Exit the method if the text field is empty
         }
 
-    }//GEN-LAST:event_jButton3ActionPerformed
+        int selectedRow = jTable1.getSelectedRow();
+        if (selectedRow != -1) {
+            String id = (String) jTable1.getValueAt(selectedRow, 0); // Get 'id' from selected row
+            String reason = jTextField2.getText().trim(); // Get reason from jTextField2
+
+            try {
+                // Step 1: Update class_status_id to '3' (Cancelled)
+                String query = "UPDATE class SET class_status_id = '3' WHERE `id` = '" + id + "'";
+                MySQL2.executeIUD(query);
+
+                // Step 2: Insert cancellation details into tutor_cancelled_sessions table
+                String insertQuery = "INSERT INTO tutor_cancelled_sessions (class_id, reason) VALUES ('" + id + "', '" + reason + "')";
+                MySQL2.executeIUD(insertQuery);
+
+                // Step 3: Reload table data
+                loadTable();
+                JOptionPane.showMessageDialog(this, "Session cancelled and logged successfully!");
+
+                // Step 4: Disable buttons after action
+                cancelBtn.setEnabled(false);
+                jTextField2.setText("");
+            } catch (Exception e) {
+                e.printStackTrace();
+                JOptionPane.showMessageDialog(this, "Error while cancelling session.");
+            }
+        }
+
+    }//GEN-LAST:event_cancelBtnActionPerformed
 
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
-        int row = jTable1.getSelectedRow(); // Selected row
-        int col = jTable1.getSelectedColumn(); // Selected column
-
-        // Validate indices
-        if (row >= 0 && col >= 0 && col < jTable1.getColumnCount()) {
-            Object value = jTable1.getValueAt(row, col);
-            System.out.println("Value: " + value);
-        } else {
-            System.out.println("Invalid row/column selected.");
-        }
-
-        String ClassID = String.valueOf(jTable1.getValueAt(row, 0));
-        String ClassName = String.valueOf(jTable1.getValueAt(row, 1));
-        String Date = String.valueOf(jTable1.getValueAt(row, 2));
-        String StartTime = String.valueOf(jTable1.getValueAt(row, 3));
-        String EndTime = String.valueOf(jTable1.getValueAt(row, 4));
-        String HallNumber = String.valueOf(jTable1.getValueAt(row, 5));
-        String Price = String.valueOf(jTable1.getValueAt(row, 6));
-        String TutorName = jLabel4.getText();
-        String CourseName = String.valueOf(jTable1.getValueAt(row, 7));
-        String ClassStatus = String.valueOf(jTable1.getValueAt(row, 8));
+//        int row = jTable1.getSelectedRow(); // Selected row
+//        int col = jTable1.getSelectedColumn(); // Selected column
+//
+//        // Validate indices
+//        if (row >= 0 && col >= 0 && col < jTable1.getColumnCount()) {
+//            Object value = jTable1.getValueAt(row, col);
+//            System.out.println("Value: " + value);
+//        } else {
+//            System.out.println("Invalid row/column selected.");
+//        }
+//
+//        String ClassID = String.valueOf(jTable1.getValueAt(row, 0));
+//        String ClassName = String.valueOf(jTable1.getValueAt(row, 1));
+//        String Date = String.valueOf(jTable1.getValueAt(row, 2));
+//        String StartTime = String.valueOf(jTable1.getValueAt(row, 3));
+//        String EndTime = String.valueOf(jTable1.getValueAt(row, 4));
+//        String HallNumber = String.valueOf(jTable1.getValueAt(row, 5));
+//        String Price = String.valueOf(jTable1.getValueAt(row, 6));
+//        String TutorName = jLabel4.getText();
+//        String CourseName = String.valueOf(jTable1.getValueAt(row, 7));
+//        String ClassStatus = String.valueOf(jTable1.getValueAt(row, 8));
 
 //        if (evt.getClickCount() == 2) {
 //            //            switchToRegistration();
@@ -391,9 +434,9 @@ public class TutorClassList extends javax.swing.JPanel {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton cancelBtn;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
     private com.toedter.calendar.JDateChooser jDateChooser1;
     private com.toedter.calendar.JDateChooser jDateChooser2;
     private javax.swing.JLabel jLabel1;
@@ -402,8 +445,11 @@ public class TutorClassList extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
     private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField jTextField2;
     // End of variables declaration//GEN-END:variables
 }

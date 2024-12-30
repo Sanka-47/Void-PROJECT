@@ -22,17 +22,28 @@ public class TutorScheduleAndCalandar extends javax.swing.JPanel {
     private static HashMap<String, String> tutorMap = new HashMap<>();
     private static HashMap<String, String> statusMap = new HashMap<>();
 
+    // Original constructor (no changes)
     public TutorScheduleAndCalandar(DashboardInterface parent) {
-        initComponents();
+        this.parent = parent;
         initComponents();
         DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
         renderer.setHorizontalAlignment(SwingConstants.CENTER);
-
         jTable1.setDefaultRenderer(Object.class, renderer);
         loadSessions();
         loadCourses();
         loadTutors();
         loadStatus();
+    }
+
+// Overloaded constructor with new parameters
+    public TutorScheduleAndCalandar(DashboardInterface parent, Vector<String> rowData) {
+        this(parent); // Call the original constructor
+        // Use the additional data
+        if (!rowData.isEmpty()) {
+            populateFields(rowData);
+            // Example: Set data to components
+//            someLabel.setText("Selected Data: " + rowData.get(0)); // Example for first column data
+        }
     }
 
     private void loadSessions() {
@@ -128,6 +139,49 @@ public class TutorScheduleAndCalandar extends javax.swing.JPanel {
                 model.addRow(vector);
             }
 
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void populateFields(Vector<String> rowData) {
+        try {
+            // Tutor Name
+            if (rowData.size() > 0) {
+                String tutorName = rowData.get(0);
+                jComboBox2.setSelectedItem(tutorName); // Assuming tutorName goes in jComboBox2
+            }
+
+            // Title
+            if (rowData.size() > 1) {
+                String title = rowData.get(1);
+                jTextField2.setText(title); // Assuming title goes in jTextField2
+            }
+
+            // Date
+            if (rowData.size() > 2) {
+                String date = rowData.get(2);
+                java.util.Date parsedDate = new SimpleDateFormat("yyyy-MM-dd").parse(date);
+                jDateChooser1.setDate(parsedDate); // Assuming date goes in jDateChooser1
+            }
+
+            // Start Time
+            if (rowData.size() > 3) {
+                String startTime = rowData.get(3);
+                jFormattedTextField1.setText(startTime); // Assuming startTime goes in jFormattedTextField1
+            }
+
+            // End Time
+            if (rowData.size() > 4) {
+                String endTime = rowData.get(4);
+                jFormattedTextField2.setText(endTime); // Assuming endTime goes in jFormattedTextField2
+            }
+
+            // Hall Number
+            if (rowData.size() > 5) {
+                String hallNumber = rowData.get(5);
+                jTextField3.setText(hallNumber); // Assuming hallNumber goes in jTextField3
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -466,9 +520,8 @@ public class TutorScheduleAndCalandar extends javax.swing.JPanel {
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 224, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGroup(layout.createSequentialGroup()
-                                    .addComponent(jDateChooser1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jDateChooser1, javax.swing.GroupLayout.DEFAULT_SIZE, 105, Short.MAX_VALUE)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                         .addComponent(jLabel16)
@@ -497,18 +550,19 @@ public class TutorScheduleAndCalandar extends javax.swing.JPanel {
                                         .addComponent(jLabel13)
                                         .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addGap(12, 12, 12)
-                                    .addComponent(jLabel8))))
+                                    .addComponent(jLabel8)))
+                            .addComponent(jButton8, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 224, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel3)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jComboBox4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 44, Short.MAX_VALUE)
                                 .addComponent(jLabel5)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jTextField4)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jTextField4, javax.swing.GroupLayout.DEFAULT_SIZE, 45, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, 51, Short.MAX_VALUE)
                                 .addComponent(jLabel2)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jDateChooser2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -679,38 +733,38 @@ public class TutorScheduleAndCalandar extends javax.swing.JPanel {
 
     private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
 
-        //        String sessionID = jTextField3.getText();
-        //
-        //        if (sessionID.isEmpty()) {
-        //            JOptionPane.showMessageDialog(this, "Please enter a session ID to cancel!", "Warning", JOptionPane.WARNING_MESSAGE);
-        //            return;
-        //        }
-        //
-        //        int confirm = JOptionPane.showConfirmDialog(this, "Are you sure you want to cancel this session?", "Confirm Cancellation", JOptionPane.YES_NO_OPTION);
-        //        if (confirm == JOptionPane.NO_OPTION) {
-        //            return;
-        //        }
-        //
-        //        try {
-        //            ResultSet resultSet = MySQL2.executeSearch("SELECT `id` FROM `class` WHERE `id` = '" + sessionID + "'");
-        //
-        //            if (resultSet.next()) {
-        //
-        //                MySQL2.executeIUD("DELETE FROM `class` WHERE `id` = '" + sessionID + "'");
-        //
-        //                JOptionPane.showMessageDialog(this, "Session canceled successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
-        //
-        //                reset();
-        //                loadTutorSchedule();
-        //
-        //            } else {
-        //                JOptionPane.showMessageDialog(this, "The session ID does not exist. Please check and try again.", "Error", JOptionPane.ERROR_MESSAGE);
-        //            }
-        //
-        //        } catch (Exception e) {
-        //            e.printStackTrace();
-        //            JOptionPane.showMessageDialog(this, "An error occurred while canceling the session. Please try again.", "Error", JOptionPane.ERROR_MESSAGE);
-        //        }
+                String sessionID = jTextField3.getText();
+        
+                if (sessionID.isEmpty()) {
+                    JOptionPane.showMessageDialog(this, "Please enter a session ID to cancel!", "Warning", JOptionPane.WARNING_MESSAGE);
+                    return;
+                }
+        
+                int confirm = JOptionPane.showConfirmDialog(this, "Are you sure you want to cancel this session?", "Confirm Cancellation", JOptionPane.YES_NO_OPTION);
+                if (confirm == JOptionPane.NO_OPTION) {
+                    return;
+                }
+        
+                try {
+                    ResultSet resultSet = MySQL2.executeSearch("SELECT `id` FROM `class` WHERE `id` = '" + sessionID + "'");
+        
+                    if (resultSet.next()) {
+        
+                        MySQL2.executeIUD("UPDATE class SET class_status_id = '3' WHERE `id` = '" + sessionID + "'");
+       
+                        JOptionPane.showMessageDialog(this, "Session canceled successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
+        
+                        reset();
+                        loadTutorSchedule();
+        
+                    } else {
+                        JOptionPane.showMessageDialog(this, "The session ID does not exist. Please check and try again.", "Error", JOptionPane.ERROR_MESSAGE);
+                    }
+        
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    JOptionPane.showMessageDialog(this, "An error occurred while canceling the session. Please try again.", "Error", JOptionPane.ERROR_MESSAGE);
+                }
     }//GEN-LAST:event_jButton10ActionPerformed
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
