@@ -19,8 +19,13 @@ import java.util.concurrent.ThreadFactory;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.MySQL2;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
+import javax.swing.JOptionPane;
 
-public class Menu extends javax.swing.JFrame implements Runnable, ThreadFactory {
+public class AttemdaceMenu extends javax.swing.JFrame implements Runnable, ThreadFactory {
 
     private WebcamPanel panel = null;
     private Webcam webcam = null;
@@ -29,8 +34,11 @@ public class Menu extends javax.swing.JFrame implements Runnable, ThreadFactory 
     private Executor executor = Executors.newSingleThreadExecutor(this);
     private volatile boolean running = true;
 
-    public Menu() {
+    private static int ID;
+
+    public AttemdaceMenu(int id) {
         initComponents();
+        ID = id;
         initWebcam();
     }
 
@@ -41,6 +49,7 @@ public class Menu extends javax.swing.JFrame implements Runnable, ThreadFactory 
         jPanel1 = new javax.swing.JPanel();
         jSeparator1 = new javax.swing.JSeparator();
         jPanel2 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -54,7 +63,11 @@ public class Menu extends javax.swing.JFrame implements Runnable, ThreadFactory 
         jPanel2.setBackground(new java.awt.Color(250, 250, 250));
         jPanel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(230, 230, 230)));
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-        jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 470, 300));
+        jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, 470, 300));
+
+        jLabel1.setFont(new java.awt.Font("Century Gothic", 1, 28)); // NOI18N
+        jLabel1.setText("Student Attendance Marking");
+        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 0, -1, -1));
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 500, -1));
 
@@ -79,8 +92,64 @@ public class Menu extends javax.swing.JFrame implements Runnable, ThreadFactory 
                 }
             }
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Menu.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AttemdaceMenu.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
@@ -94,11 +163,12 @@ public class Menu extends javax.swing.JFrame implements Runnable, ThreadFactory 
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(() -> {
-            new Menu().setVisible(true);
+            new AttemdaceMenu(1).setVisible(true);
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JSeparator jSeparator1;
@@ -119,16 +189,14 @@ public class Menu extends javax.swing.JFrame implements Runnable, ThreadFactory 
     }
     private StudentPayment invoice;
 
-    public void setInvoice(StudentPayment invoice) {
-        this.invoice = invoice;
-    }
-
+//    public void setInvoice(StudentPayment invoice) {
+//        this.invoice = invoice;
+//    }
 //    private GRN grn;
 //
 //    public void setGrn(GRN grn) {
 //        this.grn = grn;
 //    }
-
     @Override
     public void run() {
         do {
@@ -158,26 +226,32 @@ public class Menu extends javax.swing.JFrame implements Runnable, ThreadFactory 
 
             if (result != null) {
 
-                if (invoice != null) {
+                try {
+                    ResultSet rs = MySQL2.executeSearch("SELECT * FROM `student` WHERE `nic`= '" + result.getText() + "'");
 
-                    try {
-                        ResultSet rs = MySQL2.executeSearch("SELECT * FROM `student` WHERE `nic`= '" + result.getText() + "'");
+                    if (rs.next()) {
+//                            invoice.getStudentNameField().setText(rs.getString("first_name") + " " + rs.getString("last_name"));
+////                   invoice.getstudentID().setText(rs.getString("nic"));
+//                            StudentPayment.setStudent_id(rs.getString("nic"));
+//                            invoice.getNICLabel().setText(rs.getString("nic"));
+//                            LocalDate today = LocalDate.now();
+                        LocalDate today = LocalDate.now();
+                        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+                        String formattedDate = today.format(formatter);
 
-                        if (rs.next()) {
-                            invoice.getStudentNameField().setText(rs.getString("first_name") + " " + rs.getString("last_name"));
-//                   invoice.getstudentID().setText(rs.getString("nic"));
-                            StudentPayment.setStudent_id(rs.getString("nic"));
-                            invoice.getNICLabel().setText(rs.getString("nic"));
-                            
-                        }
-
-                    } catch (Exception ex) {
-                        Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+                        MySQL2.executeIUD("INSERT INTO attendance (status, student_nic, class_id, date) "
+                                + "VALUES ('Present', '" + result.getText() + "', '" + ID + "', '" + formattedDate + "')");
+                        JOptionPane.showMessageDialog(this, "Attendance Marked !", "Info", JOptionPane.INFORMATION_MESSAGE);
+                    } else {
+                        JOptionPane.showMessageDialog(this, "Student Not Registered", "Info", JOptionPane.INFORMATION_MESSAGE);
                     }
-                    
 
-                    this.dispose();
-                } 
+                } catch (Exception ex) {
+                    Logger.getLogger(AttemdaceMenu.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+                this.dispose();
+
 //else if (grn !=null) {
 ////
 ////                    try {
@@ -191,7 +265,7 @@ public class Menu extends javax.swing.JFrame implements Runnable, ThreadFactory 
 ////                        }
 ////
 ////                    } catch (Exception ex) {
-////                        Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+////                        Logger.getLogger(PaymentMenu.class.getName()).log(Level.SEVERE, null, ex);
 ////                    }
 //                    
 //
@@ -199,7 +273,6 @@ public class Menu extends javax.swing.JFrame implements Runnable, ThreadFactory 
 //                }
 //                new Invoice().setCode( result.getText()) ;
                 //Invoice.setCode(result.getText());
-
             }
         } while (true);
     }
