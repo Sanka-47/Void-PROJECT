@@ -148,38 +148,38 @@ public class TutorScheduleAndCalandar extends javax.swing.JPanel {
         try {
             // Tutor Name
             if (rowData.size() > 0) {
-                String tutorName = rowData.get(0);
+                String tutorName = rowData.get(1);
                 jComboBox2.setSelectedItem(tutorName); // Assuming tutorName goes in jComboBox2
             }
 
             // Title
             if (rowData.size() > 1) {
-                String title = rowData.get(1);
+                String title = rowData.get(2);
                 jTextField2.setText(title); // Assuming title goes in jTextField2
             }
 
             // Date
             if (rowData.size() > 2) {
-                String date = rowData.get(2);
+                String date = rowData.get(3);
                 java.util.Date parsedDate = new SimpleDateFormat("yyyy-MM-dd").parse(date);
                 jDateChooser1.setDate(parsedDate); // Assuming date goes in jDateChooser1
             }
 
             // Start Time
             if (rowData.size() > 3) {
-                String startTime = rowData.get(3);
+                String startTime = rowData.get(4);
                 jFormattedTextField1.setText(startTime); // Assuming startTime goes in jFormattedTextField1
             }
 
             // End Time
             if (rowData.size() > 4) {
-                String endTime = rowData.get(4);
+                String endTime = rowData.get(5);
                 jFormattedTextField2.setText(endTime); // Assuming endTime goes in jFormattedTextField2
             }
 
             // Hall Number
             if (rowData.size() > 5) {
-                String hallNumber = rowData.get(5);
+                String hallNumber = rowData.get(6);
                 jTextField3.setText(hallNumber); // Assuming hallNumber goes in jTextField3
             }
         } catch (Exception e) {
