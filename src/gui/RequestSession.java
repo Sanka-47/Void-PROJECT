@@ -30,10 +30,11 @@ public class RequestSession extends javax.swing.JPanel {
         this.tutorId = TutorID;
         initComponents();
         loadTutorSchedule();
-//        loadCourses();
+        loadCourses();
 //        loadTutors();
         loadStatus();
     }
+    
 
     private void loadTutorSchedule() {
 
@@ -124,27 +125,28 @@ public class RequestSession extends javax.swing.JPanel {
 
     }
 
-//    private void loadCourses() {
-//
-//        try {
-//            ResultSet resultSet = MySQL2.executeSearch("SELECT * FROM `courses`");
-//
-//            Vector<String> vector = new Vector<>();
-//            vector.add("Select");
-//
-//            while (resultSet.next()) {
-//                vector.add(resultSet.getString("name"));
-//                courseMap.put(resultSet.getString("name"), resultSet.getString("id"));
-//
+    private void loadCourses() {
+
+        try {
+            ResultSet resultSet = MySQL2.executeSearch("SELECT * FROM `courses` INNER JOIN `tutor` ON "
+                    + "courses.id = tutor.courses_id");
+
+            Vector<String> vector = new Vector<>();
+            vector.add("Select");
+
+            while (resultSet.next()) {
+                vector.add(resultSet.getString("name"));
+                courseMap.put(resultSet.getString("name"), resultSet.getString("id"));
+               courseField.setText(resultSet.getString("name"));
 //                DefaultComboBoxModel model = new DefaultComboBoxModel(vector);
 //                jComboBox2.setModel(model);
-//
-//            }
-//
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//    }
+
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
     private void loadStatus() {
 
         try {
@@ -198,6 +200,7 @@ public class RequestSession extends javax.swing.JPanel {
         jDateChooser1.setDate(null);
         startTime.setText("");
         endTime.setText("");
+        courseField.setText("");
     }
 
     @SuppressWarnings("unchecked")
@@ -220,6 +223,8 @@ public class RequestSession extends javax.swing.JPanel {
         jTable1 = new javax.swing.JTable();
         jButton11 = new javax.swing.JButton();
         jLabel16 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        courseField = new javax.swing.JTextField();
 
         jLabel15.setFont(new java.awt.Font("Century Gothic", 0, 24)); // NOI18N
         jLabel15.setText("All available sessions");
@@ -293,6 +298,15 @@ public class RequestSession extends javax.swing.JPanel {
         jLabel16.setFont(new java.awt.Font("Century Gothic", 0, 18)); // NOI18N
         jLabel16.setText("Request New Session");
 
+        jLabel8.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
+        jLabel8.setText("Course");
+
+        courseField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                courseFieldActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -301,32 +315,34 @@ public class RequestSession extends javax.swing.JPanel {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jButton10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(title)
                     .addComponent(jDateChooser1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(hallNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jButton11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel16, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel9)
+                    .addComponent(jLabel12)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel9)
-                            .addComponent(jLabel7)
-                            .addComponent(jLabel12)
+                            .addComponent(jLabel10)
+                            .addComponent(startTime, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel10)
-                                    .addComponent(startTime, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(27, 27, 27)
-                                        .addComponent(jLabel11))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(endTime, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 773, Short.MAX_VALUE)
+                                .addGap(27, 27, 27)
+                                .addComponent(jLabel11))
+                            .addGroup(layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(endTime, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(title)
+                            .addComponent(jLabel7))
+                        .addGap(0, 0, 0))
+                    .addComponent(jLabel8)
+                    .addComponent(courseField))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 783, Short.MAX_VALUE)
                 .addContainerGap())
             .addGroup(layout.createSequentialGroup()
                 .addGap(392, 392, 392)
@@ -338,11 +354,15 @@ public class RequestSession extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addGap(82, 82, 82)
                 .addComponent(jLabel16)
-                .addGap(18, 18, 18)
+                .addGap(21, 21, 21)
+                .addComponent(jLabel8)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(courseField, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel7)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(title, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(5, 5, 5)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel9)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -366,7 +386,7 @@ public class RequestSession extends javax.swing.JPanel {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(26, 26, 26)
                 .addComponent(jLabel15)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 15, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 523, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -455,6 +475,7 @@ public class RequestSession extends javax.swing.JPanel {
     private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
          // Retrieve values from the UI components
     String Title = title.getText();
+    String Course = courseField.getText();
     Date SessionDate = jDateChooser1.getDate();
     String StartTime = startTime.getText();
     String EndTime = endTime.getText();
@@ -472,6 +493,8 @@ public class RequestSession extends javax.swing.JPanel {
         JOptionPane.showMessageDialog(this, "Please enter an end time!", "Warning", JOptionPane.WARNING_MESSAGE);
     } else if (HallNumber.isEmpty()) {
         JOptionPane.showMessageDialog(this, "Please enter a hall number!", "Warning", JOptionPane.WARNING_MESSAGE);
+    } else if (Course.isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Please enter the course!", "Warning", JOptionPane.WARNING_MESSAGE);
     } else {
 
         try {
@@ -479,8 +502,8 @@ public class RequestSession extends javax.swing.JPanel {
             SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 
             // Insert into the database
-            String query = "INSERT INTO request_sessions (title, date, start_time, end_time, hallnumber, tutor_id,approve_status) "
-                         + "VALUES ('" + Title + "', '" + format.format(SessionDate) + "', '" + StartTime + "', '" + EndTime + "', '" + HallNumber + "', '" + TutorID + "','pending')";
+            String query = "INSERT INTO request_sessions (title, date, start_time, end_time, hallnumber, tutor_id,approve_status,courses_id) "
+                         + "VALUES ('" + Title + "', '" + format.format(SessionDate) + "', '" + StartTime + "', '" + EndTime + "', '" + HallNumber + "', '" + TutorID + "','Pending','"+courseMap.get(Course)+"')";
 
             MySQL2.executeIUD(query);
 
@@ -492,6 +515,7 @@ public class RequestSession extends javax.swing.JPanel {
             startTime.setText("");
             endTime.setText("");
             hallNumber.setText("");
+            courseField.setText("");
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -500,8 +524,13 @@ public class RequestSession extends javax.swing.JPanel {
     }
     }//GEN-LAST:event_jButton11ActionPerformed
 
+    private void courseFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_courseFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_courseFieldActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextField courseField;
     private javax.swing.JFormattedTextField endTime;
     private javax.swing.JTextField hallNumber;
     private javax.swing.JButton jButton10;
@@ -513,6 +542,7 @@ public class RequestSession extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;

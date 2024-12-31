@@ -16,7 +16,7 @@ import model.MySQL2;
 public class TutorScheduleAndCalandar extends javax.swing.JPanel {
 
     private DashboardInterface parent;
-
+    private Vector<String> rowData;
     private static HashMap<String, String> subjectMap = new HashMap<>();
     private static HashMap<String, String> courseMap = new HashMap<>();
     private static HashMap<String, String> tutorMap = new HashMap<>();
@@ -40,6 +40,7 @@ public class TutorScheduleAndCalandar extends javax.swing.JPanel {
         this(parent); // Call the original constructor
         // Use the additional data
         if (!rowData.isEmpty()) {
+            this.rowData = rowData;
             populateFields(rowData);
             // Example: Set data to components
 //            someLabel.setText("Selected Data: " + rowData.get(0)); // Example for first column data
@@ -149,37 +150,39 @@ public class TutorScheduleAndCalandar extends javax.swing.JPanel {
             // Tutor Name
             if (rowData.size() > 0) {
                 String tutorName = rowData.get(1);
-                jComboBox2.setSelectedItem(tutorName); // Assuming tutorName goes in jComboBox2
+                jComboBox2.setSelectedItem(tutorName);
+                jComboBox1.setSelectedItem(rowData.get(2));
+
             }
 
             // Title
             if (rowData.size() > 1) {
-                String title = rowData.get(2);
+                String title = rowData.get(3);
                 jTextField2.setText(title); // Assuming title goes in jTextField2
             }
 
             // Date
             if (rowData.size() > 2) {
-                String date = rowData.get(3);
+                String date = rowData.get(4);
                 java.util.Date parsedDate = new SimpleDateFormat("yyyy-MM-dd").parse(date);
                 jDateChooser1.setDate(parsedDate); // Assuming date goes in jDateChooser1
             }
 
             // Start Time
             if (rowData.size() > 3) {
-                String startTime = rowData.get(4);
+                String startTime = rowData.get(5);
                 jFormattedTextField1.setText(startTime); // Assuming startTime goes in jFormattedTextField1
             }
 
             // End Time
             if (rowData.size() > 4) {
-                String endTime = rowData.get(5);
+                String endTime = rowData.get(6);
                 jFormattedTextField2.setText(endTime); // Assuming endTime goes in jFormattedTextField2
             }
 
             // Hall Number
             if (rowData.size() > 5) {
-                String hallNumber = rowData.get(6);
+                String hallNumber = rowData.get(7);
                 jTextField3.setText(hallNumber); // Assuming hallNumber goes in jTextField3
             }
         } catch (Exception e) {
@@ -733,38 +736,38 @@ public class TutorScheduleAndCalandar extends javax.swing.JPanel {
 
     private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
 
-                String sessionID = jTextField3.getText();
-        
-                if (sessionID.isEmpty()) {
-                    JOptionPane.showMessageDialog(this, "Please enter a session ID to cancel!", "Warning", JOptionPane.WARNING_MESSAGE);
-                    return;
-                }
-        
-                int confirm = JOptionPane.showConfirmDialog(this, "Are you sure you want to cancel this session?", "Confirm Cancellation", JOptionPane.YES_NO_OPTION);
-                if (confirm == JOptionPane.NO_OPTION) {
-                    return;
-                }
-        
-                try {
-                    ResultSet resultSet = MySQL2.executeSearch("SELECT `id` FROM `class` WHERE `id` = '" + sessionID + "'");
-        
-                    if (resultSet.next()) {
-        
-                        MySQL2.executeIUD("UPDATE class SET class_status_id = '3' WHERE `id` = '" + sessionID + "'");
-       
-                        JOptionPane.showMessageDialog(this, "Session canceled successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
-        
-                        reset();
-                        loadTutorSchedule();
-        
-                    } else {
-                        JOptionPane.showMessageDialog(this, "The session ID does not exist. Please check and try again.", "Error", JOptionPane.ERROR_MESSAGE);
-                    }
-        
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    JOptionPane.showMessageDialog(this, "An error occurred while canceling the session. Please try again.", "Error", JOptionPane.ERROR_MESSAGE);
-                }
+        String sessionID = jTextField3.getText();
+
+        if (sessionID.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please enter a session ID to cancel!", "Warning", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        int confirm = JOptionPane.showConfirmDialog(this, "Are you sure you want to cancel this session?", "Confirm Cancellation", JOptionPane.YES_NO_OPTION);
+        if (confirm == JOptionPane.NO_OPTION) {
+            return;
+        }
+
+        try {
+            ResultSet resultSet = MySQL2.executeSearch("SELECT `id` FROM `class` WHERE `id` = '" + sessionID + "'");
+
+            if (resultSet.next()) {
+
+                MySQL2.executeIUD("UPDATE class SET class_status_id = '3' WHERE `id` = '" + sessionID + "'");
+
+                JOptionPane.showMessageDialog(this, "Session canceled successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
+
+                reset();
+                loadTutorSchedule();
+
+            } else {
+                JOptionPane.showMessageDialog(this, "The session ID does not exist. Please check and try again.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "An error occurred while canceling the session. Please try again.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_jButton10ActionPerformed
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
@@ -838,6 +841,10 @@ public class TutorScheduleAndCalandar extends javax.swing.JPanel {
                     MySQL2.executeIUD("INSERT INTO `class` (`id`, `name`, `date`, `start_time`, `end_time`, `hallnumber`, `amount`, `tutor_id`, `courses_id`, `class_status_id`) "
                             + "VALUES ('" + sessionID + "', '" + className + "', '" + format.format(date) + "', '" + startTime + "', '" + endTime + "', '" + hallnumber + "', '" + price + "', "
                             + "'" + tutorMap.get(tName) + "', '" + courseMap.get(course) + "', '" + statusMap.get(status) + "')");
+
+                    if (!rowData.isEmpty()) {
+                        MySQL2.executeIUD("UPDATE `request_sessions` SET `approve_status` = 'Approved' WHERE `id` = '" + rowData.get(0) + "'");
+                    }
 
                     JOptionPane.showMessageDialog(this, "Class added successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
                     reset();
