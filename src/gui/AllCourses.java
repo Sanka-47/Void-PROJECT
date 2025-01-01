@@ -1,7 +1,9 @@
-
 package gui;
 
 import java.sql.ResultSet;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.Vector;
 import javax.swing.SwingConstants;
 import javax.swing.event.DocumentEvent;
@@ -9,9 +11,14 @@ import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import model.MySQL2;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.data.JRTableModelDataSource;
+import net.sf.jasperreports.view.JasperViewer;
 
 public class AllCourses extends javax.swing.JPanel {
-    
+
     private StudentPayment studentPayment;
 
     public void setInvoice(StudentPayment studentPayment) {
@@ -20,7 +27,7 @@ public class AllCourses extends javax.swing.JPanel {
 
     public AllCourses() {
         initComponents();
-        
+
         DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
         renderer.setHorizontalAlignment(SwingConstants.CENTER);
 
@@ -28,25 +35,25 @@ public class AllCourses extends javax.swing.JPanel {
 
         LoadSubject();
     }
-    
+
     private void LoadSubject() {
-        
+
         try {
-            
+
             String sort = String.valueOf(jComboBox1.getSelectedItem());
-            
+
             String searchText = jTextField1.getText().toLowerCase();
-            
+
             String query = "SELECT * FROM `courses`";
-            
+
             if (!searchText.isEmpty()) {
-                
+
                 query += "WHERE LOWER(`id`) LIKE '%" + searchText + "%' "
                         + "OR LOWER(`name`) LIKE '%" + searchText + "%' "
                         + "OR LOWER(`fee`) LIKE '%" + searchText + "%' ";
-                
+
             }
-            
+
             if (sort.equals("Price ASC")) {
                 query += "ORDER BY `fee` ASC";
             } else if (sort.equals("Price DESC")) {
@@ -60,7 +67,7 @@ public class AllCourses extends javax.swing.JPanel {
             } else if (sort.equals("ID DESC")) {
                 query += "ORDER BY `id` DESC";
             }
-            
+
             // Execute SQL query to retrieve subjects
             ResultSet rs = MySQL2.executeSearch(query);
 
@@ -71,7 +78,7 @@ public class AllCourses extends javax.swing.JPanel {
             // Iterate through the result set and populate jTable1
             while (rs.next()) {
                 Vector<Object> vectorE = new Vector<>();
-                vectorE.add(rs.getInt("id"));
+                vectorE.add(rs.getString("id"));
                 vectorE.add(rs.getString("name"));
                 vectorE.add(rs.getString("fee"));
 
@@ -97,6 +104,7 @@ public class AllCourses extends javax.swing.JPanel {
         jComboBox1 = new javax.swing.JComboBox<>();
         jLabel3 = new javax.swing.JLabel();
         jTextField1 = new javax.swing.JTextField();
+        jButton1 = new javax.swing.JButton();
 
         jLabel1.setFont(new java.awt.Font("Century Gothic", 1, 24)); // NOI18N
         jLabel1.setText("All Courses");
@@ -143,6 +151,13 @@ public class AllCourses extends javax.swing.JPanel {
             }
         });
 
+        jButton1.setText("PrintReport");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -150,10 +165,6 @@ public class AllCourses extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jLabel1)
-                        .addGap(0, 0, Short.MAX_VALUE))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 988, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel2)
@@ -162,15 +173,22 @@ public class AllCourses extends javax.swing.JPanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 204, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 204, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel1)
+                .addGap(424, 424, 424))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(21, Short.MAX_VALUE)
+                .addContainerGap()
                 .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 36, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -180,6 +198,8 @@ public class AllCourses extends javax.swing.JPanel {
                         .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(11, 11, 11)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 448, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 39, Short.MAX_VALUE)
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -217,8 +237,27 @@ public class AllCourses extends javax.swing.JPanel {
         LoadSubject();
     }//GEN-LAST:event_jComboBox1ActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+
+        String path = "src//reports//AllCourse.jasper";
+        String dateTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
+        HashMap<String, Object> params = new HashMap<>();
+        params.put("Parameter1", dateTime);
+        JRTableModelDataSource dataSource = new JRTableModelDataSource(jTable1.getModel());
+        JasperPrint jasperPrint = null;
+        try {
+            jasperPrint = JasperFillManager.fillReport(path, params, dataSource);
+        } catch (JRException e) {
+            e.printStackTrace();
+        }
+        JasperViewer.viewReport(jasperPrint, false);
+    
+    }//GEN-LAST:event_jButton1ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
