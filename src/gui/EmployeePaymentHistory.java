@@ -8,11 +8,20 @@ package gui;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.sql.ResultSet;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Vector;
 import javax.swing.JOptionPane;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
 import model.MySQL2;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.data.JRTableModelDataSource;
+import net.sf.jasperreports.view.JasperViewer;
 
 /**
  *
@@ -44,8 +53,6 @@ public class EmployeePaymentHistory extends javax.swing.JPanel {
     }
 
     public void loadEmployeePaymentHistory() {
-        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-        model.setRowCount(0); // Clear the table
 
         try {
             String query = "SELECT e.nic AS employee_nic, "
@@ -56,15 +63,18 @@ public class EmployeePaymentHistory extends javax.swing.JPanel {
                     + "JOIN employee e ON eph.employee_id = e.id";
 
             ResultSet rs = MySQL2.executeSearch(query);
+            
+            DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+            model.setRowCount(0);
 
             while (rs.next()) {
-                String nic = rs.getString("employee_nic");
-                String name = rs.getString("employee_name");
-                String paymentDate = rs.getString("payment_date");
-                double amount = rs.getDouble("amount");
+                Vector<String> vector = new Vector<>();
+                vector.add(rs.getString("employee_nic"));
+                vector.add(rs.getString("employee_name"));
+                vector.add(rs.getString("payment_date"));
+                vector.add(rs.getString("amount"));
 
-                // Add a row to the table
-                model.addRow(new Object[]{nic, name, paymentDate, amount});
+                model.addRow(vector);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -92,9 +102,6 @@ public class EmployeePaymentHistory extends javax.swing.JPanel {
 
     private void filterTable() {
         String searchText = jTextField1.getText().toLowerCase();
-        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-
-        model.setRowCount(0); // Clear the table
 
         try {
             String query = "SELECT e.nic AS employee_nic, "
@@ -108,16 +115,20 @@ public class EmployeePaymentHistory extends javax.swing.JPanel {
                     + "LOWER(e.last_name) LIKE '%" + searchText + "%'";
 
             ResultSet rs = MySQL2.executeSearch(query);
+            
+            DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+            model.setRowCount(0);
 
             while (rs.next()) {
-                String nic = rs.getString("employee_nic");
-                String name = rs.getString("employee_name");
-                String paymentDate = rs.getString("payment_date");
-                double amount = rs.getDouble("amount");
+                Vector<String> vector = new Vector<>();
+                vector.add(rs.getString("employee_nic"));
+                vector.add(rs.getString("employee_name"));
+                vector.add(rs.getString("payment_date"));
+                vector.add(rs.getString("amount"));
 
-                // Add a row to the table
-                model.addRow(new Object[]{nic, name, paymentDate, amount});
+                model.addRow(vector);
             }
+            
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -152,6 +163,7 @@ public class EmployeePaymentHistory extends javax.swing.JPanel {
         jLabel2 = new javax.swing.JLabel();
         jTextField1 = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
 
         jLabel1.setFont(new java.awt.Font("Century Gothic", 1, 36)); // NOI18N
         jLabel1.setText("Employee Payments History");
@@ -161,7 +173,7 @@ public class EmployeePaymentHistory extends javax.swing.JPanel {
 
             },
             new String [] {
-                "Employee NIC", "Employee Name", "Payment date", "Amount"
+                "Employee NIC", "Employee Name", "Payment Date", "Amount"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -185,6 +197,13 @@ public class EmployeePaymentHistory extends javax.swing.JPanel {
 
         jLabel3.setText("Double click a row to view employee details");
 
+        jButton1.setText("Print");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -192,18 +211,20 @@ public class EmployeePaymentHistory extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(79, 79, 79)
-                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 265, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(259, 259, 259)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 612, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(69, 69, 69)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel3)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 863, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(259, 259, 259)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 612, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 265, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(429, 429, 429)
+                                .addComponent(jButton1))
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLabel3)
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 863, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap(68, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -217,7 +238,9 @@ public class EmployeePaymentHistory extends javax.swing.JPanel {
                         .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(22, 22, 22)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 389, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
@@ -230,8 +253,30 @@ public class EmployeePaymentHistory extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField1ActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        //view or print report
+        String path = "src//reports//EmployeePaymentHistory.jasper";
+        
+        String dateTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
+        
+        HashMap<String, Object> params = new HashMap<>();
+        params.put("Parameter1", dateTime);
+
+        JRTableModelDataSource dataSource = new JRTableModelDataSource(jTable1.getModel());
+
+        JasperPrint jasperPrint = null;
+        try {
+            jasperPrint = JasperFillManager.fillReport(path, params, dataSource);
+        } catch (JRException e) {
+            e.printStackTrace();
+        }
+
+        JasperViewer.viewReport(jasperPrint, false);
+    }//GEN-LAST:event_jButton1ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
