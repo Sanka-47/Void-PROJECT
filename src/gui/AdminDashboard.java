@@ -80,6 +80,7 @@ public class AdminDashboard extends javax.swing.JFrame implements DashboardInter
         jScrollPane2 = new javax.swing.JScrollPane();
         jPanel3 = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
         jButton6 = new javax.swing.JButton();
@@ -99,7 +100,6 @@ public class AdminDashboard extends javax.swing.JFrame implements DashboardInter
         jButton5 = new javax.swing.JButton();
         jButton12 = new javax.swing.JButton();
         jButton15 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
         jButton16 = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
 
@@ -176,7 +176,7 @@ public class AdminDashboard extends javax.swing.JFrame implements DashboardInter
         jScrollPane2.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         jScrollPane2.setPreferredSize(new java.awt.Dimension(250, 581));
 
-        jPanel3.setPreferredSize(new java.awt.Dimension(250, 1500));
+        jPanel3.setPreferredSize(new java.awt.Dimension(250, 1232));
 
         jButton1.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
         jButton1.setText("Add Session");
@@ -184,6 +184,15 @@ public class AdminDashboard extends javax.swing.JFrame implements DashboardInter
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
+            }
+        });
+
+        jButton2.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
+        jButton2.setText("Requested Sessions");
+        jButton2.setPreferredSize(new java.awt.Dimension(201, 26));
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
             }
         });
 
@@ -311,15 +320,6 @@ public class AdminDashboard extends javax.swing.JFrame implements DashboardInter
             }
         });
 
-        jButton2.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
-        jButton2.setText("Requested Sessions");
-        jButton2.setPreferredSize(new java.awt.Dimension(201, 26));
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
-            }
-        });
-
         jButton16.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
         jButton16.setText("Tutor Cancelled Sessions");
         jButton16.setPreferredSize(new java.awt.Dimension(201, 26));
@@ -425,7 +425,7 @@ public class AdminDashboard extends javax.swing.JFrame implements DashboardInter
                 .addComponent(jButton14, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton15, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(290, Short.MAX_VALUE))
+                .addGap(14, 14, 14))
         );
 
         jScrollPane2.setViewportView(jPanel3);
