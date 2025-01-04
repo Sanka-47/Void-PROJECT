@@ -27,13 +27,13 @@ public class RequestedSessions extends javax.swing.JPanel {
         initComponents();
         loadRequestedSessions();
         // Initially disable buttons
-        approvebtn.setEnabled(false);
+//        approvebtn.setEnabled(false);
         rejectbtn.setEnabled(false);
 
         // Add selection listener to enable buttons when a row is selected
         jTable1.getSelectionModel().addListSelectionListener(event -> {
             if (!event.getValueIsAdjusting() && jTable1.getSelectedRow() != -1) {
-                approvebtn.setEnabled(true);
+//                approvebtn.setEnabled(true);
                 rejectbtn.setEnabled(true);
             }
         });
@@ -44,10 +44,13 @@ public class RequestedSessions extends javax.swing.JPanel {
             String query = "SELECT "
                     + "tutor.first_name, tutor.last_name, "
                     + "request_sessions.title, request_sessions.date, "
-                    + "request_sessions.start_time, request_sessions.id ,request_sessions.end_time, "
-                    + "request_sessions.hallnumber,request_sessions.approve_status "
+                    + "request_sessions.start_time, request_sessions.id, request_sessions.end_time, "
+                    + "request_sessions.hallnumber, request_sessions.approve_status, "
+                    + "courses.name "
                     + "FROM request_sessions "
-                    + "INNER JOIN tutor ON request_sessions.tutor_id = tutor.id";
+                    + "INNER JOIN tutor ON request_sessions.tutor_id = tutor.id "
+                    + "INNER JOIN courses ON request_sessions.courses_id = courses.id "
+                    + "WHERE request_sessions.approve_status = 'Pending' OR request_sessions.approve_status = 'Rejected'";
 
             ResultSet resultSet = MySQL2.executeSearch(query);
 
@@ -59,13 +62,13 @@ public class RequestedSessions extends javax.swing.JPanel {
                 vector.add(resultSet.getString("request_sessions.id")); // Title
                 String requestedBy = resultSet.getString("first_name") + " " + resultSet.getString("last_name");
                 vector.add(requestedBy); // Requested By
+                vector.add(resultSet.getString("courses.name")); // Title
                 vector.add(resultSet.getString("title")); // Title
                 vector.add(resultSet.getString("date")); // Date
                 vector.add(resultSet.getString("start_time")); // Start Time
                 vector.add(resultSet.getString("end_time")); // End Time
                 vector.add(resultSet.getString("hallnumber")); // Hall Number
                 vector.add(resultSet.getString("approve_status")); // Hall Number
-
                 model.addRow(vector);
             }
         } catch (Exception e) {
@@ -85,9 +88,11 @@ public class RequestedSessions extends javax.swing.JPanel {
         jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
-        approvebtn = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         rejectbtn = new javax.swing.JButton();
+        jTextField1 = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
 
         setMaximumSize(new java.awt.Dimension(1004, 2586));
         setPreferredSize(new java.awt.Dimension(1004, 586));
@@ -100,11 +105,11 @@ public class RequestedSessions extends javax.swing.JPanel {
 
             },
             new String [] {
-                "ID", "Requested By", "Title", "Date", "Start time", "End Time", "Hall Number", "Approval Status"
+                "ID", "Requested By", "Course", "Title", "Date", "Start time", "End Time", "Hall Number", "Approval Status"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false
+                false, false, false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -127,19 +132,11 @@ public class RequestedSessions extends javax.swing.JPanel {
             jTable1.getColumnModel().getColumn(5).setResizable(false);
             jTable1.getColumnModel().getColumn(6).setResizable(false);
             jTable1.getColumnModel().getColumn(7).setResizable(false);
+            jTable1.getColumnModel().getColumn(8).setResizable(false);
         }
 
-        approvebtn.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
-        approvebtn.setText("Approve");
-        approvebtn.setPreferredSize(new java.awt.Dimension(201, 26));
-        approvebtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                approvebtnActionPerformed(evt);
-            }
-        });
-
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabel2.setText("Select a row to approve or reject");
+        jLabel2.setText("Reason");
 
         rejectbtn.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
         rejectbtn.setText("Reject");
@@ -150,39 +147,62 @@ public class RequestedSessions extends javax.swing.JPanel {
             }
         });
 
+        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField1ActionPerformed(evt);
+            }
+        });
+
+        jLabel3.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel3.setText("Select a row to reject");
+
+        jLabel4.setText("Double click a row to schedule the session");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
+                .addContainerGap(766, Short.MAX_VALUE)
+                .addComponent(jLabel1)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(46, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jLabel1)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jScrollPane1)
-                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel4)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(13, 13, 13)
+                                .addComponent(jLabel3)
+                                .addGap(18, 18, 18)
+                                .addComponent(rejectbtn, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(60, 60, 60)
                         .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 252, Short.MAX_VALUE)
-                        .addComponent(approvebtn, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(rejectbtn, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap())
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 436, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 916, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(42, 42, 42))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(33, 33, 33)
+                .addGap(30, 30, 30)
                 .addComponent(jLabel1)
-                .addGap(47, 47, 47)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 397, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(approvebtn, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(rejectbtn, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2))
-                .addGap(15, 15, 15))
+                .addGap(45, 45, 45)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 388, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel4)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(rejectbtn, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel3))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -194,55 +214,60 @@ public class RequestedSessions extends javax.swing.JPanel {
             int selectedColumn = jTable1.getSelectedColumn();
 
             if (selectedRow != -1 && selectedColumn != -1) {
+                // Retrieve the value of the 8th column (index 7)
+                DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+                String column8Value = (String) model.getValueAt(selectedRow, 8);
+
+                // Check if the 8th column value is "Rejected"
+                if ("Rejected".equalsIgnoreCase(column8Value)) {
+                    JOptionPane.showMessageDialog(this,
+                            "You have rejected this request. You cannot proceed.",
+                            "Request Rejected",
+                            JOptionPane.WARNING_MESSAGE);
+                    return; // Exit the method
+                }
+
                 // Get the data from the selected cell
                 Object cellData = jTable1.getValueAt(selectedRow, selectedColumn);
 
-                // Optionally, retrieve the entire row data
-                DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+                // Retrieve the entire row data
                 Vector<String> rowData = new Vector<>();
                 for (int col = 0; col < model.getColumnCount(); col++) {
                     rowData.add((String) model.getValueAt(selectedRow, col));
                 }
+
+                // Switch to the TutorScheduleAndCalandar panel
                 TutorScheduleAndCalandar tutorPanel = new TutorScheduleAndCalandar(parent, rowData);
                 parent.switchPanel(tutorPanel);
-                // Pass the data to the new frame
-//                DetailsFrame detailsFrame = new DetailsFrame(rowData, selectedRow, selectedColumn);
-//                detailsFrame.setVisible(true);
             }
         }
     }//GEN-LAST:event_jTable1MouseClicked
 
-    private void approvebtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_approvebtnActionPerformed
-        int selectedRow = jTable1.getSelectedRow();
-        if (selectedRow != -1) {
-            String id = (String) jTable1.getValueAt(selectedRow, 0); // Get 'title' from selected row
-
-            try {
-                // Update approve_status to 'Approved'
-                String query = "UPDATE request_sessions SET approve_status = 'Approved' WHERE `id`='" + id + "'";
-                MySQL2.executeIUD(query);
-                // Reload table data
-                loadRequestedSessions();
-                JOptionPane.showMessageDialog(this, "Session approved successfully!");
-
-                // Disable buttons after action
-                approvebtn.setEnabled(false);
-                rejectbtn.setEnabled(false);
-            } catch (Exception e) {
-                e.printStackTrace();
-                JOptionPane.showMessageDialog(this, "Error while approving session.");
-            }
-        }
-    }//GEN-LAST:event_approvebtnActionPerformed
-
     private void rejectbtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rejectbtnActionPerformed
+        // Check if jTextField1 is empty
         int selectedRow = jTable1.getSelectedRow();
+        String column8Value = (String) jTable1.getValueAt(selectedRow, 8);
+
+        // Check if the 8th column value is "Rejected"
+        if ("Rejected".equalsIgnoreCase(column8Value)) {
+            JOptionPane.showMessageDialog(this,
+                    "You have already rejected this request.",
+                    "Request Rejected",
+                    JOptionPane.WARNING_MESSAGE);
+            return; // Exit the method
+        }
+
+        if (jTextField1.getText().trim().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please enter a reason before rejecting.", "Validation Error", JOptionPane.ERROR_MESSAGE);
+            return; // Exit the method
+        }
+
         if (selectedRow != -1) {
             String id = (String) jTable1.getValueAt(selectedRow, 0); // Get 'title' from selected row
 
             try {
                 // Update approve_status to 'Rejected'
-                String query = "UPDATE request_sessions SET approve_status = 'Rejected' WHERE `id`='" + id + "'";
+                String query = "UPDATE request_sessions SET approve_status = 'Rejected',reason = '" + jTextField1.getText() + "' WHERE `id`='" + id + "'";
                 MySQL2.executeIUD(query);
 
                 // Reload table data
@@ -250,22 +275,29 @@ public class RequestedSessions extends javax.swing.JPanel {
                 JOptionPane.showMessageDialog(this, "Session rejected successfully!");
 
                 // Disable buttons after action
-                approvebtn.setEnabled(false);
                 rejectbtn.setEnabled(false);
             } catch (Exception e) {
                 e.printStackTrace();
                 JOptionPane.showMessageDialog(this, "Error while rejecting session.");
             }
+        } else {
+            JOptionPane.showMessageDialog(this, "No session selected. Please select a session to reject.", "Selection Error", JOptionPane.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_rejectbtnActionPerformed
 
+    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField1ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton approvebtn;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
+    private javax.swing.JTextField jTextField1;
     private javax.swing.JButton rejectbtn;
     // End of variables declaration//GEN-END:variables
 }
