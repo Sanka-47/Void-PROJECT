@@ -1,3 +1,6 @@
 build/classes/gui/
 nbproject/private/private.xml
 /dist/
+nbproject/private/private.properties
+build/classes/model/MySQL2.class
+src/model/MySQL2.java
