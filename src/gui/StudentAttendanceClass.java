@@ -19,15 +19,20 @@ public class StudentAttendanceClass extends javax.swing.JFrame {
      * Creates new form StudentAttendanceClass
      */
     static int ID;
+
     public StudentAttendanceClass(int id) {
         initComponents();
         ID = id;
         loadClass();
     }
-    
+
+    // Variable to keep track of the currently opened class ID
+    private int currentClassId = 0;
+    private AttemdaceMenu attendanceMenu;
+
     private void loadClass() {
         try {
-            String query = "SELECT * FROM `class` WHERE `courses_id` = '" + ID +"' AND `date` = CURDATE();";
+            String query = "SELECT * FROM `class` WHERE `courses_id` = '" + ID + "' AND `date` = CURDATE();";
 
             // Execute SQL query to retrieve courses
             ResultSet rs = MySQL2.executeSearch(query);
@@ -45,8 +50,25 @@ public class StudentAttendanceClass extends javax.swing.JFrame {
                 // Create a new button for each course
                 JButton courseButton = new JButton(class_Name);
                 courseButton.addActionListener(e -> {
-                    AttemdaceMenu am = new AttemdaceMenu(class_Id);
-                    am.setVisible(true);
+                    if (attendanceMenu == null) {
+                        // Check if the instance has not been created
+                        attendanceMenu = new AttemdaceMenu(class_Id); // Create a new instance
+                        currentClassId = class_Id; // Set the current class ID
+                    } else if (class_Id != currentClassId) {
+                        // If the class ID is different
+                        attendanceMenu.dispose(); // Close the current JFrame
+                        attendanceMenu = new AttemdaceMenu(class_Id); // Create a new instance for the new class ID
+                        currentClassId = class_Id; // Update the current class ID
+                    }
+
+                    if (!attendanceMenu.isVisible()) {
+                        // Check if it's not visible
+                        attendanceMenu.setVisible(true); // Make it visible
+                    } else {
+                        // Bring it to the front if it's already visible
+                        attendanceMenu.toFront();
+                        attendanceMenu.requestFocus();
+                    }
                 });
 
                 // Add the button to the JPanel
