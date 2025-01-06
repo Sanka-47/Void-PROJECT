@@ -409,11 +409,25 @@ public class EmployeeDashboard extends javax.swing.JFrame implements DashboardIn
 
         SwingUtilities.updateComponentTreeUI(jPanel4);
     }//GEN-LAST:event_jButton8ActionPerformed
-
+    private StudentAttendanceCourse attendanceCourse;
     private void jButton6jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6jButton5ActionPerformed
-          StudentAttendanceCourse attendanceCourse = new StudentAttendanceCourse();
-          attendanceCourse.setVisible(true);
-        
+//          StudentAttendanceCourse attendanceCourse = new StudentAttendanceCourse();
+//          attendanceCourse.setVisible(true);
+
+        if (attendanceCourse == null) {
+            // Check if the instance has not been created
+            attendanceCourse = new StudentAttendanceCourse(); // Create a new instance
+        }
+
+        if (!attendanceCourse.isVisible()) {
+            // Check if it's not visible
+            attendanceCourse.setVisible(true); // Make it visible
+        } else {
+            // Bring it to the front if it's already visible
+            attendanceCourse.toFront();
+            attendanceCourse.requestFocus();
+        }
+
 
     }//GEN-LAST:event_jButton6jButton5ActionPerformed
 

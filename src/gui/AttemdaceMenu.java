@@ -198,84 +198,65 @@ public class AttemdaceMenu extends javax.swing.JFrame implements Runnable, Threa
 //        this.grn = grn;
 //    }
     @Override
-    public void run() {
-        do {
+   public void run() {
+    do {
+        try {
+            Thread.sleep(100);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        Result result = null;
+        BufferedImage image = null;
+
+        if (webcam.isOpen()) {
+            if ((image = webcam.getImage()) == null) {
+                continue;
+            }
+        }
+
+        LuminanceSource source = new BufferedImageLuminanceSource(image);
+        BinaryBitmap bitmap = new BinaryBitmap(new HybridBinarizer(source));
+
+        try {
+            result = new MultiFormatReader().decode(bitmap);
+        } catch (NotFoundException e) {
+            // No result...
+        }
+
+        if (result != null) {
             try {
-                Thread.sleep(100);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+                ResultSet rs = MySQL2.executeSearch("SELECT * FROM `student` WHERE `nic`= '" + result.getText() + "'");
 
-            Result result = null;
-            BufferedImage image = null;
+                if (rs.next()) {
+                    LocalDate today = LocalDate.now();
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+                    String formattedDate = today.format(formatter);
 
-            if (webcam.isOpen()) {
-                if ((image = webcam.getImage()) == null) {
-                    continue;
-                }
-            }
-
-            LuminanceSource source = new BufferedImageLuminanceSource(image);
-            BinaryBitmap bitmap = new BinaryBitmap(new HybridBinarizer(source));
-
-            try {
-                result = new MultiFormatReader().decode(bitmap);
-            } catch (NotFoundException e) {
-                //No result...
-            }
-
-            if (result != null) {
-
-                try {
-                    ResultSet rs = MySQL2.executeSearch("SELECT * FROM `student` WHERE `nic`= '" + result.getText() + "'");
-
-                    if (rs.next()) {
-//                            invoice.getStudentNameField().setText(rs.getString("first_name") + " " + rs.getString("last_name"));
-////                   invoice.getstudentID().setText(rs.getString("nic"));
-//                            StudentPayment.setStudent_id(rs.getString("nic"));
-//                            invoice.getNICLabel().setText(rs.getString("nic"));
-//                            LocalDate today = LocalDate.now();
-                        LocalDate today = LocalDate.now();
-                        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-                        String formattedDate = today.format(formatter);
-
+                    // Check if attendance is already marked
+                    ResultSet attendanceCheck = MySQL2.executeSearch("SELECT * FROM `attendance` WHERE `student_nic` = '" + result.getText() + "' AND `class_id` = '" + ID + "' AND `date` = '" + formattedDate + "'");
+                    
+                    if (attendanceCheck.next()) {
+                        // Attendance already marked
+                        JOptionPane.showMessageDialog(this, "Attendance already marked!", "Info", JOptionPane.INFORMATION_MESSAGE);
+                    } else {
+                        // Insert new attendance record
                         MySQL2.executeIUD("INSERT INTO attendance (status, student_nic, class_id, date) "
                                 + "VALUES ('Present', '" + result.getText() + "', '" + ID + "', '" + formattedDate + "')");
-                        JOptionPane.showMessageDialog(this, "Attendance Marked !", "Info", JOptionPane.INFORMATION_MESSAGE);
-                    } else {
-                        JOptionPane.showMessageDialog(this, "Student Not Registered", "Info", JOptionPane.INFORMATION_MESSAGE);
+                        JOptionPane.showMessageDialog(this, "Attendance Marked!", "Info", JOptionPane.INFORMATION_MESSAGE);
                     }
-
-                } catch (Exception ex) {
-                    Logger.getLogger(AttemdaceMenu.class.getName()).log(Level.SEVERE, null, ex);
+                } else {
+                    JOptionPane.showMessageDialog(this, "Student Not Registered", "Info", JOptionPane.INFORMATION_MESSAGE);
                 }
-
-                this.dispose();
-
-//else if (grn !=null) {
-////
-////                    try {
-////                        ResultSet rs = MySQL2.executeSearch("SELECT * FROM `product` INNER JOIN  `brand` ON "
-////                                + "`product`.`brand_id`=`brand`.`id`  WHERE  `product`.`id` = '" + result.getText() + "'");
-////
-////                        if (rs.next()) {
-////                            grn.getjTextField3().setText(rs.getString("product.id"));
-////                            grn.getjLabel11().setText(rs.getString("product.name"));
-////                            grn.getjLabel9().setText(rs.getString("brand.name"));
-////                        }
-////
-////                    } catch (Exception ex) {
-////                        Logger.getLogger(PaymentMenu.class.getName()).log(Level.SEVERE, null, ex);
-////                    }
-//                    
-//
-//                    this.dispose();
-//                }
-//                new Invoice().setCode( result.getText()) ;
-                //Invoice.setCode(result.getText());
+            } catch (Exception ex) {
+                Logger.getLogger(AttemdaceMenu.class.getName()).log(Level.SEVERE, null, ex);
             }
-        } while (true);
-    }
+
+            this.dispose();
+        }
+    } while (true);
+}
+
 
     @Override
     public Thread newThread(Runnable r) {
