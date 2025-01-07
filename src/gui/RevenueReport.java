@@ -12,7 +12,7 @@ import java.text.SimpleDateFormat;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import model.MySQL2;
- import java.time.Month;
+import java.time.Month;
 import java.util.Date;
 import java.util.HashMap;
 import net.sf.jasperreports.engine.JRException;
@@ -34,48 +34,41 @@ public class RevenueReport extends javax.swing.JFrame {
         initComponents();
         loadRevenueData();
     }
-    
+
     // Import the Month enum
-
 // ... other code ...
+    private void loadRevenueData() {
+        // Get the table model for jTable1
+        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+        model.setRowCount(0); // Clear existing rows
 
-private void loadRevenueData() {
-    // Get the table model for jTable1
-    DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-    model.setRowCount(0); // Clear existing rows
+        // SQL query to calculate total revenue by month and year
+        String query = "SELECT MONTH(date) AS month, YEAR(date) AS year, SUM(total) AS revenue "
+                + "FROM invoice "
+                + "GROUP BY YEAR(date), MONTH(date) "
+                + "ORDER BY YEAR(date), MONTH(date)";
 
-    // SQL query to calculate total revenue by month and year
-    String query = "SELECT MONTH(date) AS month, YEAR(date) AS year, SUM(total) AS revenue " +
-                   "FROM invoice " +
-                   "GROUP BY YEAR(date), MONTH(date) " +
-                   "ORDER BY YEAR(date), MONTH(date)";
+        try {
+            // Use MySQL2 class to execute the query
+            ResultSet resultSet = MySQL2.executeSearch(query);
 
-    try {
-        // Use MySQL2 class to execute the query
-        ResultSet resultSet = MySQL2.executeSearch(query);
+            // Populate the table model with data
+            while (resultSet.next()) {
+                int monthNumber = resultSet.getInt("month");
+                String monthName = Month.of(monthNumber).name(); // Convert month number to month name
+                String year = resultSet.getString("year");
+                String revenue = resultSet.getString("revenue");
 
-        // Populate the table model with data
-        while (resultSet.next()) {
-            int monthNumber = resultSet.getInt("month");
-            String monthName = Month.of(monthNumber).name(); // Convert month number to month name
-            String year = resultSet.getString("year");
-            String revenue = resultSet.getString("revenue");
+                // Capitalize the first letter of the month name and make the rest lowercase
+                monthName = monthName.substring(0, 1).toUpperCase() + monthName.substring(1).toLowerCase();
 
-            // Capitalize the first letter of the month name and make the rest lowercase
-            monthName = monthName.substring(0, 1).toUpperCase() + monthName.substring(1).toLowerCase();
-
-            model.addRow(new Object[]{monthName, year, revenue});
+                model.addRow(new Object[]{monthName, year, revenue});
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error loading revenue data: " + e.getMessage(),
+                    "Database Error", JOptionPane.ERROR_MESSAGE);
         }
-    } catch (Exception e) {
-        JOptionPane.showMessageDialog(this, "Error loading revenue data: " + e.getMessage(),
-                                      "Database Error", JOptionPane.ERROR_MESSAGE);
     }
-}
-
-
-
-    
-    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -148,23 +141,22 @@ private void loadRevenueData() {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-      InputStream s = this.getClass().getResourceAsStream("/reports/TotalMonthlyRevenue.jasper");
+String path = "src//reports//TotalMonthlyRevenue.jasper";
+        String dateTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
+
+        HashMap<String, Object> params = new HashMap<>();
+        params.put("Parameter1", dateTime);
+
+        JRTableModelDataSource dataSource = new JRTableModelDataSource(jTable1.getModel());
+
+        JasperPrint jasperPrint = null;
         try {
-            Date date = new Date();
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-            String finalDate = dateFormat.format(date);
-
-            HashMap<String, Object> d = new HashMap<>();
-            d.put("Parameter1", finalDate);
-
-            JRTableModelDataSource dataSource = new JRTableModelDataSource(jTable1.getModel());
-            JasperPrint jasperPrint = JasperFillManager.fillReport(s, d, dataSource);
-            JasperViewer.viewReport(jasperPrint, false);
-
-        } catch (Exception e) {
+            jasperPrint = JasperFillManager.fillReport(path, params, dataSource);
+        } catch (JRException e) {
             e.printStackTrace();
-//            logger.severe("Exception occurred while generating or displaying the report: " + e.getMessage());
         }
+
+        JasperViewer.viewReport(jasperPrint, false);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
