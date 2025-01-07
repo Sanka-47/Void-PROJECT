@@ -8,6 +8,8 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
@@ -16,6 +18,9 @@ import javax.swing.UnsupportedLookAndFeelException;
 
 public class AdminDashboard extends javax.swing.JFrame implements DashboardInterface {
 
+    private static final Logger logger = Logger.getLogger(AdminSignIn.class.getName());
+    
+    
     private String adminID;
     private String fName;
     private String lName;
@@ -38,31 +43,26 @@ public class AdminDashboard extends javax.swing.JFrame implements DashboardInter
     }
 
     private void loadDate() {
-
         jLabel6.setHorizontalAlignment(SwingConstants.CENTER);
-
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
                 while (true) {
                     Date date = new Date();
-                    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd     hh:mm:ss");
+                    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
                     String fdate = dateFormat.format(date);
                     jLabel6.setText(fdate);
-
                     try {
                         Thread.sleep(1000);
+                        logger.log(Level.INFO, "Date and time updated to: {0}", fdate);
                     } catch (Exception e) {
-                        e.printStackTrace();
+                        logger.log(Level.SEVERE, "An error occurred while updating date and time", e);
                     }
-
                 }
-
             }
         };
         Thread thread = new Thread(runnable);
         thread.start();
-
     }
 
     @SuppressWarnings("unchecked")

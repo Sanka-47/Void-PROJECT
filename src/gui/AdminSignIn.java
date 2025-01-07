@@ -1,24 +1,43 @@
 //BHANUKA
-
 package gui;
 
 import com.formdev.flatlaf.FlatLightLaf;
 import model.MySQL2;
 import java.awt.Color;
+import java.io.IOException;
 import java.sql.ResultSet;
+import java.util.logging.FileHandler;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
 public class AdminSignIn extends javax.swing.JFrame {
-    
+
+    private static final Logger logger = Logger.getLogger(AdminSignIn.class.getName());
     public String email;
 
     public AdminSignIn() {
         initComponents();
+        getLogger();
     }
 
     @SuppressWarnings("unchecked")
+
+    public static Logger getLogger() {
+        try {
+            FileHandler fileHandler = new FileHandler("Admin.log", true);
+            fileHandler.setFormatter(new SimpleFormatter());
+            logger.addHandler(fileHandler);
+            logger.setUseParentHandlers(false); // Disable console logging
+        } catch (IOException e) {
+            logger.severe("Error setting up logger: " + e.getMessage());
+        }
+        return logger;
+    }
+
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
@@ -160,89 +179,64 @@ public class AdminSignIn extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        
+
         String mobile = jTextField1.getText();
         String password = String.valueOf(jPasswordField1.getPassword());
-        
-
         if (mobile.isEmpty()) {
-
             JOptionPane.showMessageDialog(this, "Please enter your mobile!", "Warning", JOptionPane.WARNING_MESSAGE);
-
+            logger.log(Level.WARNING, "Mobile field is empty");
         } else if (!mobile.matches("^07[01245678]{1}[0-9]{7}$")) {
-
             JOptionPane.showMessageDialog(this, "Please enter a valid mobile!", "Warning", JOptionPane.WARNING_MESSAGE);
-
+            logger.log(Level.WARNING, "Invalid mobile format: {0}", mobile);
         } else if (password.isEmpty()) {
-
             JOptionPane.showMessageDialog(this, "Please enter your password!", "Warning", JOptionPane.WARNING_MESSAGE);
-
+            logger.log(Level.WARNING, "Password field is empty");
         } else {
-
             try {
-
                 ResultSet resultSet = MySQL2.executeSearch("SELECT * FROM `employee` WHERE `contact_info` = '" + mobile + "' AND `password` = '" + password + "' AND `roles_id`='2'");
-
                 if (resultSet.next()) {
-
                     String fName = resultSet.getString("first_name") + " " + resultSet.getString("last_name");
                     String adminID = resultSet.getString("employee.id");
-                    
-
+                    logger.log(Level.INFO, "User {0} successfully logged in", fName);
                     AdminDashboard ad = new AdminDashboard(fName, adminID);
                     ad.setVisible(true);
                     this.dispose();
-                    
-//                    Dashboard d = new Dashboard(fName, lName);
-//                    d.setVisible(true);
-//                    this.dispose();
-                    
-//                    setEmployeeEmail(email);
-
                 } else {
-
                     JOptionPane.showMessageDialog(this, "Incorrect mobile or password", "Warning", JOptionPane.WARNING_MESSAGE);
                     jTextField1.setText("");
                     jPasswordField1.setText("");
+                    logger.log(Level.WARNING, "Incorrect mobile or password for mobile: {0}", mobile);
                 }
-
             } catch (Exception e) {
-
-                e.printStackTrace();
-
+                logger.log(Level.SEVERE, "An error occurred", e);
             }
-
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         String nic = jTextField1.getText();
-
         if (nic.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Please enter your NIC", "Warning", JOptionPane.WARNING_MESSAGE);
-        } else if (!nic.matches("^(([5,6,7,8,9]{1})([0-9]{1})([0,1,2,3,5,6,7,8]{1})([0-9]{6})([v|V|x|X]))|(([1,2]{1})([0,9]{1})([0-9]{2})([0,1,2,3,5,6,7,8]{1})([0-9]{7}))")) {
+            logger.log(Level.WARNING, "NIC field is empty");
+        } else if (!nic.matches("^(([5,6,7,8,9]{1})([0-9]{1})([0,1,2,3,5,6,7,8]{1})([0-9]{6})([v|V|x|X]))|(([1,2]{1})([0,9]{1})([0,9]{2})([0,1,2,3,5,6,7,8]{1})([0,9]{7}))")) {
             JOptionPane.showMessageDialog(this, "Please enter your valid NIC number!", "Warning", JOptionPane.WARNING_MESSAGE);
+            logger.log(Level.WARNING, "Invalid NIC format: {0}", nic);
         } else {
-
             try {
-
                 ResultSet resultSet = MySQL2.executeSearch("SELECT `email` FROM `tutor` WHERE `nic` = '" + nic + "'");
-
                 if (resultSet.next()) {
-                    
                     this.email = resultSet.getString("email");
                     ForgotPassword forgotPassword = new ForgotPassword(this, true, email, 1);
                     forgotPassword.setVisible(true);
-
+                    logger.log(Level.INFO, "Email found for NIC: {0}", nic);
                 } else {
-
                     JOptionPane.showMessageDialog(this, "Invalid NIC or password", "Warning", JOptionPane.WARNING_MESSAGE);
                     jTextField1.setText("");
                     jPasswordField1.setText("");
+                    logger.log(Level.WARNING, "Invalid NIC or password for NIC: {0}", nic);
                 }
-
             } catch (Exception e) {
-                e.printStackTrace();
+                logger.log(Level.SEVERE, "An error occurred", e);
             }
         }
     }//GEN-LAST:event_jButton2ActionPerformed
@@ -259,7 +253,7 @@ public class AdminSignIn extends javax.swing.JFrame {
         UIManager.put("Table.foreground", Color.decode("#4D4D4D"));
         UIManager.put("Table.selectionBackground", Color.decode("#40424E"));
         UIManager.put("Table.selectionForeground", Color.decode("#FFFFFF"));
-        
+
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
