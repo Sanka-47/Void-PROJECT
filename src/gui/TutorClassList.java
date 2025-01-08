@@ -4,6 +4,7 @@ import java.sql.ResultSet;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Vector;
+import java.util.logging.Level;
 import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -45,42 +46,21 @@ public class TutorClassList extends javax.swing.JPanel {
 //        parent.switchPanel(addSession);
 //    }
     private void loadTable() {
-
         String TID = String.valueOf(tutorId);
 
         try {
             String searchText = jTextField1.getText().toLowerCase();
 
-            // String sort = String.valueOf(jComboBox1.getSelectedItem());
-            String query = "SELECT * FROM class INNER JOIN tutor ON class.tutor_id = tutor.id "
-                    + " INNER JOIN courses ON class.courses_id = courses.id "
-                    + "INNER JOIN class_status ON class.class_status_id = class_status.id WHERE `tutor_id` = '" + TID + "' ";
+            // Base query
+            String query = "SELECT * FROM class "
+                    + "INNER JOIN tutor ON class.tutor_id = tutor.id "
+                    + "INNER JOIN courses ON class.courses_id = courses.id "
+                    + "INNER JOIN class_status ON class.class_status_id = class_status.id "
+                    + "WHERE `tutor_id` = '" + TID + "' ";
 
-//            if (sort.equals("Student Name ASC")) {
-//                query += "ORDER BY `teacher`.`id` ASC";
-//            } else if (sort.equals("Student Name DESC")) {
-//                query += "ORDER BY `teacher`.`id` DESC";
-//            } else if (sort.equals("Tutor Name ASC")) {
-//                query += "ORDER BY `teacher`.`first_name` ASC";
-//            } else if (sort.equals("Tutor Name DESC")) {
-//                query += "ORDER BY `teacher`.`last_name` DESC";
-//            }
-//            else if (sort.equals("Subject ASC")) {
-//                query += "ORDER BY `subject.name` ASC";
-//            } else if (sort.equals("Subject DESC")) {
-//                query += "ORDER BY `subject.name` DESC";
-//            }
+            // Search text filtering
             if (!searchText.isEmpty()) {
-
-//                if (query.contains("WHERE")) {
-//
-//                    query += "AND LOWER(`class`.`id`) LIKE '%" + searchText + "%' "
-//                            + "OR LOWER(`class`.`name`) LIKE '%" + searchText + "%' ";
-//
-//                } else {
-                query += "AND (LOWER(`class`.`name`) LIKE '%" + searchText + "%') ";
-
-//                }
+                query += "AND LOWER(`class`.`name`) LIKE '%" + searchText + "%' ";
             }
 
             Date start = null;
@@ -88,32 +68,36 @@ public class TutorClassList extends javax.swing.JPanel {
 
             SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 
+            // Add date filtering if dates are selected
+            boolean dateConditionAdded = false; // To track if WHERE or AND has been added already
+
             if (jDateChooser1.getDate() != null || jDateChooser2.getDate() != null) {
-                if (query.contains("WHERE")) {
+                if (!query.contains("WHERE")) {
                     query += "AND ";
-                } else {
-                    query += "WHERE ";
+                }
+
+                if (jDateChooser1.getDate() != null && jDateChooser2.getDate() != null) {
+                    start = jDateChooser1.getDate();
+                    end = jDateChooser2.getDate();
+                    query += "`class`.`date` BETWEEN '" + format.format(start) + "' AND '" + format.format(end) + "' ";
+                    dateConditionAdded = true;
+                } else if (jDateChooser1.getDate() != null && jDateChooser2.getDate() == null) {
+                    start = jDateChooser1.getDate();
+                    query += "`class`.`date` >= '" + format.format(start) + "' ";
+                    dateConditionAdded = true;
+                } else if (jDateChooser1.getDate() == null && jDateChooser2.getDate() != null) {
+                    end = jDateChooser2.getDate();
+                    query += "`class`.`date` <= '" + format.format(end) + "' ";
+                    dateConditionAdded = true;
                 }
             }
 
-            if (jDateChooser1.getDate() != null && jDateChooser2.getDate() != null) {
-                start = jDateChooser1.getDate();
-                end = jDateChooser2.getDate();
-
-                query += "BETWEEN `class`.`date` > '" + format.format(start) + "' AND `class`.`date` < '" + format.format(end) + "' ";
-
-            } else if (jDateChooser1.getDate() != null && jDateChooser2.getDate() == null) {
-                start = jDateChooser1.getDate();
-
-                query += "`class`.`date` >= '" + format.format(start) + "' ";
-
-            } else if (jDateChooser1.getDate() == null && jDateChooser2.getDate() != null) {
-                end = jDateChooser2.getDate();
-
-                query += "`class`.`date` <= '" + format.format(end) + "' ";
-
+            // If there was no date filter and only the search text is used, ensure "WHERE" is present
+            if (!dateConditionAdded && searchText.isEmpty()) {
+                query = query.replace("WHERE", "WHERE 1 = 1 AND");
             }
 
+            // Execute query and populate table
             ResultSet resultSet = MySQL2.executeSearch(query);
 
             DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
@@ -128,7 +112,6 @@ public class TutorClassList extends javax.swing.JPanel {
                 vector.add(resultSet.getString("end_time"));
                 vector.add(resultSet.getString("hallnumber"));
                 vector.add(resultSet.getString("amount"));
-//                vector.add(resultSet.getString("tutor.first_name") + " " + resultSet.getString("tutor.last_name"));
                 vector.add(resultSet.getString("courses.name"));
                 vector.add(resultSet.getString("class_status.name"));
 
@@ -231,7 +214,7 @@ public class TutorClassList extends javax.swing.JPanel {
         });
 
         jLabel6.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
-        jLabel6.setText("Search");
+        jLabel6.setText("Search by class name :");
 
         jTextField1.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
@@ -314,7 +297,8 @@ public class TutorClassList extends javax.swing.JPanel {
                             .addGap(10, 10, 10)
                             .addComponent(jLabel5)
                             .addGap(9, 9, 9))))
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 327, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(24, 24, 24)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 303, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(16, 16, 16)
                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)

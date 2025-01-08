@@ -10,6 +10,7 @@ import java.util.Vector;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JLabel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
@@ -78,6 +79,10 @@ public class EmployeeRegistration extends javax.swing.JPanel {
         return jTextField4;
     }
 
+    public JLabel getjLabel8() {
+        return jLabel8;
+    }
+
     //Gender
     public JComboBox<String> getjComboBox1() {
         return jComboBox1;
@@ -92,7 +97,7 @@ public class EmployeeRegistration extends javax.swing.JPanel {
     public JPasswordField getjPasswordField1() {
         return jPasswordField1;
     }
-    
+
     //Email
     public JTextField getjTextField5() {
         return jTextField5;
@@ -171,6 +176,7 @@ public class EmployeeRegistration extends javax.swing.JPanel {
         jTextField2.setText("");
         jTextField3.setText("");
         jTextField4.setText("");
+        jTextField5.setText("");
         jComboBox1.setSelectedItem("Select");
         jComboBox2.setSelectedItem("Select");
         jPasswordField1.setText("");
@@ -216,6 +222,11 @@ public class EmployeeRegistration extends javax.swing.JPanel {
         jLabel2.setText("First Name");
 
         jTextField1.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
+        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField1ActionPerformed(evt);
+            }
+        });
 
         jLabel3.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
         jLabel3.setText("Last Name");
@@ -385,6 +396,7 @@ public class EmployeeRegistration extends javax.swing.JPanel {
 
         if (FirstName.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Please Enter First Name", "Warning", JOptionPane.WARNING_MESSAGE);
+            jTextField2.grabFocus();
         } else if (FirstName.length() > 30) {
             JOptionPane.showMessageDialog(this, "First Name is too long (maximum 30 characters)", "Warning", JOptionPane.WARNING_MESSAGE);
         } else if (!FirstName.matches("^[A-Za-z]+$")) {
@@ -453,56 +465,66 @@ public class EmployeeRegistration extends javax.swing.JPanel {
         String password = String.valueOf(jPasswordField1.getPassword());
         String email = jTextField5.getText();
 
-        if (FirstName.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Please Enter First Name", "Warning", JOptionPane.WARNING_MESSAGE);
-        } else if (FirstName.length() > 30) {
-            JOptionPane.showMessageDialog(this, "First Name is too long (maximum 30 characters)", "Warning", JOptionPane.WARNING_MESSAGE);
-        } else if (!FirstName.matches("^[A-Za-z]+$")) {
-            JOptionPane.showMessageDialog(this, "You Can Only Use Simple And Capital Letters For First Name", "Warning", JOptionPane.WARNING_MESSAGE);
-        } else if (LastName.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Please Enter Last Name", "Warning", JOptionPane.WARNING_MESSAGE);
-        } else if (LastName.length() > 30) {
-            JOptionPane.showMessageDialog(this, "Last Name is too long (maximum 30 characters)", "Warning", JOptionPane.WARNING_MESSAGE);
-        } else if (!LastName.matches("^[A-Za-z]+$")) {
-            JOptionPane.showMessageDialog(this, "You Can Only Use Simple And Capital Letters For Last Name", "Warning", JOptionPane.WARNING_MESSAGE);
-        } else if (Mobile.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Please Enter Mobile Number", "Warning", JOptionPane.WARNING_MESSAGE);
-        } else if (!Mobile.matches("^07[01245678]{1}[0-9]{7}$")) {
-            JOptionPane.showMessageDialog(this, "Please Enter A Valid Mobile Number", "Warning", JOptionPane.WARNING_MESSAGE);
-        } else if (nic.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Please Enter NIC", "Warning", JOptionPane.WARNING_MESSAGE);
-        } else if (!nic.matches("^(([5,6,7,8,9]{1})([0-9]{1})([0,1,2,3,5,6,7,8]{1})([0-9]{6})([v|V|x|X]))|(([1,2]{1})([0,9]{1})([0-9]{2})([0,1,2,3,5,6,7,8]{1})([0-9]{7}))")) {
-            JOptionPane.showMessageDialog(this, "Please Enter Valid NIC", "Warning", JOptionPane.WARNING_MESSAGE);
-        } else if (Gender.matches("Select")) {
-            JOptionPane.showMessageDialog(this, "Please Enter Your Gender", "Warning", JOptionPane.WARNING_MESSAGE);
-        } else if (role.matches("Select")) {
-            JOptionPane.showMessageDialog(this, "Please Enter Your Role", "Warning", JOptionPane.WARNING_MESSAGE);
-        } else if (password.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Please enter your Password", "Worning", JOptionPane.WARNING_MESSAGE);
-        } else if (password.length() > 30) {
-            JOptionPane.showMessageDialog(this, "Password is too long (maximum 30 characters)", "Warning", JOptionPane.WARNING_MESSAGE);
-        } else if (email.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Please Enter Email", "Warning", JOptionPane.WARNING_MESSAGE);
-        } else if (!email.matches("^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$")) {
-            JOptionPane.showMessageDialog(this, "Please Enter Valid Email", "Warning", JOptionPane.WARNING_MESSAGE);
-        } else {
-            try {
-
+        try {
+            if (FirstName.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Please Enter First Name", "Warning", JOptionPane.WARNING_MESSAGE);
+            } else if (FirstName.length() > 30) {
+                JOptionPane.showMessageDialog(this, "First Name is too long (maximum 30 characters)", "Warning", JOptionPane.WARNING_MESSAGE);
+            } else if (!FirstName.matches("^[A-Za-z]+$")) {
+                JOptionPane.showMessageDialog(this, "You Can Only Use Simple And Capital Letters For First Name", "Warning", JOptionPane.WARNING_MESSAGE);
+            } else if (LastName.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Please Enter Last Name", "Warning", JOptionPane.WARNING_MESSAGE);
+            } else if (LastName.length() > 30) {
+                JOptionPane.showMessageDialog(this, "Last Name is too long (maximum 30 characters)", "Warning", JOptionPane.WARNING_MESSAGE);
+            } else if (!LastName.matches("^[A-Za-z]+$")) {
+                JOptionPane.showMessageDialog(this, "You Can Only Use Simple And Capital Letters For Last Name", "Warning", JOptionPane.WARNING_MESSAGE);
+            } else if (Mobile.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Please Enter Mobile Number", "Warning", JOptionPane.WARNING_MESSAGE);
+            } else if (!Mobile.matches("^07[01245678]{1}[0-9]{7}$")) {
+                JOptionPane.showMessageDialog(this, "Please Enter A Valid Mobile Number", "Warning", JOptionPane.WARNING_MESSAGE);
+            } else if (nic.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Please Enter NIC", "Warning", JOptionPane.WARNING_MESSAGE);
+            } else if (!nic.matches("^(([5,6,7,8,9]{1})([0-9]{1})([0,1,2,3,5,6,7,8]{1})([0-9]{6})([v|V|x|X]))|(([1,2]{1})([0,9]{1})([0-9]{2})([0,1,2,3,5,6,7,8]{1})([0-9]{7}))")) {
+                JOptionPane.showMessageDialog(this, "Please Enter Valid NIC", "Warning", JOptionPane.WARNING_MESSAGE);
+            } else if (Gender.matches("Select")) {
+                JOptionPane.showMessageDialog(this, "Please Enter Your Gender", "Warning", JOptionPane.WARNING_MESSAGE);
+            } else if (role.matches("Select")) {
+                JOptionPane.showMessageDialog(this, "Please Enter Your Role", "Warning", JOptionPane.WARNING_MESSAGE);
+            } else if (email.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Please Enter Email", "Warning", JOptionPane.WARNING_MESSAGE);
+            } else if (!email.matches("^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$")) {
+                JOptionPane.showMessageDialog(this, "Please Enter Valid Email", "Warning", JOptionPane.WARNING_MESSAGE);
+            } else {
                 int genderId = genderMap.get(Gender);
                 int roleId = roleMap.get(role);
 
-                MySQL2.executeIUD("UPDATE `employee` SET `first_name` = '" + FirstName + "', `last_name` = '" + LastName + "', "
-                        + "`contact_info` = '" + Mobile + "', `email` = '" + email + "', `roles_id` = '" + roleMap.get(role) + "', `gender_id` = '" + genderMap.get(Gender) + "', "
-                        + "`password` = '" + password + "' WHERE `nic` = '" + nic + "'");
+                // Create the base query
+                String query = "UPDATE `employee` SET `first_name` = '" + FirstName + "', `last_name` = '" + LastName + "', "
+                        + "`contact_info` = '" + Mobile + "', `email` = '" + email + "', `roles_id` = '" + roleId + "', "
+                        + "`gender_id` = '" + genderId + "'";
+
+                // Add password only if it's provided
+                if (!password.isEmpty()) {
+                    if (!password.matches("^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*#?&])[A-Za-z\\d@$!%*#?&]{8,}$")) {
+                        JOptionPane.showMessageDialog(this, "Password must be at least 8 characters long and include a letter, a number, and a special character.", "Warning", JOptionPane.WARNING_MESSAGE);
+                        return;
+                    }
+                    query += ", `password` = '" + password + "'";
+                }
+
+                // Add the WHERE clause
+                query += " WHERE `nic` = '" + nic + "'";
+
+                // Execute the query
+                MySQL2.executeIUD(query);
 
                 JOptionPane.showMessageDialog(this, "Successfully Updated!", "Confirmation", JOptionPane.INFORMATION_MESSAGE);
                 reset();
-
-            } catch (Exception e) {
-                e.printStackTrace();
-                //               logger.log(Level.SEVERE, "Error during customer registration: ", e);
             }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
@@ -518,6 +540,10 @@ public class EmployeeRegistration extends javax.swing.JPanel {
             System.out.println("Null");
         }
     }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+        jTextField2.grabFocus();
+    }//GEN-LAST:event_jTextField1ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -548,6 +574,7 @@ private void reset() {
         jTextField1.setText("");
         jTextField2.setText("");
         jTextField3.setText("");
+        jTextField5.setText("");
         jTextField4.setText("");
         jComboBox1.setSelectedIndex(0);
         jComboBox2.setSelectedIndex(0);

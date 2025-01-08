@@ -318,7 +318,6 @@ public class StudentPayment extends javax.swing.JFrame {
         StudentNameFields.setEditable(false);
         StudentNameFields.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
 
-        jButton4.setBackground(new java.awt.Color(242, 242, 242));
         jButton4.setFont(new java.awt.Font("Poppins", 1, 12)); // NOI18N
         jButton4.setText("Select");
         jButton4.addActionListener(new java.awt.event.ActionListener() {

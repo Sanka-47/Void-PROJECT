@@ -8,6 +8,7 @@ import java.util.Vector;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
@@ -68,7 +69,7 @@ public class AddTutor extends javax.swing.JPanel {
     public JPasswordField getjPasswordField1() {
         return jPasswordField1;
     }
-    
+
     //Email
     public JTextField getjTextField6() {
         return jTextField6;
@@ -82,6 +83,10 @@ public class AddTutor extends javax.swing.JPanel {
     //Update
     public JButton getjButton2() {
         return jButton2;
+    }
+    
+    public JLabel getjLabel5(){
+        return jLabel5;
     }
 
     //Clear All
@@ -135,6 +140,7 @@ public class AddTutor extends javax.swing.JPanel {
         jTextField5.setText("");
         jTextField2.setText("");
         jTextField1.setText("");
+        jTextField6.setText("");
         jPasswordField1.setText("");
         jComboBox2.setSelectedIndex(0);
         jComboBox1.setSelectedIndex(0);
@@ -439,32 +445,27 @@ public class AddTutor extends javax.swing.JPanel {
             } else if (!nic.matches("^(([5,6,7,8,9]{1})([0-9]{1})([0,1,2,3,5,6,7,8]{1})([0-9]{6})([v|V|x|X]))|(([1,2]{1})([0,9]{1})([0-9]{2})([0,1,2,3,5,6,7,8]{1})([0-9]{7}))")) {
                 JOptionPane.showMessageDialog(this, "Please enter your valid nic number!", "Warning", JOptionPane.WARNING_MESSAGE);
             } else if (qualification.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Please enter qulification your !", "Warning", JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Please enter qualification!", "Warning", JOptionPane.WARNING_MESSAGE);
             } else if (courses.equals("Select")) {
-                JOptionPane.showMessageDialog(this, "Please enter courses type !", "Warning", JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Please enter courses type!", "Warning", JOptionPane.WARNING_MESSAGE);
             } else if (gender.equals("Select")) {
-                JOptionPane.showMessageDialog(this, "Please enter gender type !", "Warning", JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Please enter gender type!", "Warning", JOptionPane.WARNING_MESSAGE);
             } else if (mobile.isEmpty()) {
                 JOptionPane.showMessageDialog(this, "Please enter your mobile number!", "Warning", JOptionPane.WARNING_MESSAGE);
             } else if (!mobile.matches("^07[01245678]{1}[0-9]{7}$")) {
                 JOptionPane.showMessageDialog(this, "Please enter a valid number!", "Warning", JOptionPane.WARNING_MESSAGE);
-            } else if (password.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Please enter your Password!", "Warning", JOptionPane.WARNING_MESSAGE);
-            } else if (!password.matches("^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*#?&])[A-Za-z\\d@$!%*#?&]{8,}$")) {
-                JOptionPane.showMessageDialog(this, "Please type a password with a minimum of 8 characters including a number and character !", "Warning", JOptionPane.WARNING_MESSAGE);
+            } else if (!password.isEmpty() && !password.matches("^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*#?&])[A-Za-z\\d@$!%*#?&]{8,}$")) {
+                JOptionPane.showMessageDialog(this, "Please type a password with a minimum of 8 characters including a number and character!", "Warning", JOptionPane.WARNING_MESSAGE);
             } else if (email.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Please Enter Email", "Warning", JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Please enter email", "Warning", JOptionPane.WARNING_MESSAGE);
             } else if (!email.matches("^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$")) {
-                JOptionPane.showMessageDialog(this, "Please Enter Valid Email", "Warning", JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Please enter valid email", "Warning", JOptionPane.WARNING_MESSAGE);
             } else {
-
                 MySQL2.executeIUD("UPDATE `tutor` SET `first_name` = '" + firstName + "', `last_name` = '" + lastName + "', `qualification` = '" + qualification + "', "
                         + "`contact_info` = '" + mobile + "',`email` = '" + email + "',`gender_id` = '" + genderMap.get(gender) + "', `courses_id` = '" + courseMap.get(courses) + "', "
-                        + "`password` = '" + password + "' WHERE `nic` = '" + nic + "'");
-
-                JOptionPane.showMessageDialog(this, "Tutor Profile updated sucessfully! ", "Info", JOptionPane.INFORMATION_MESSAGE);
+                        + "`password` = '" + (password.isEmpty() ? "" : password) + "' WHERE `nic` = '" + nic + "'");
+                JOptionPane.showMessageDialog(this, "Tutor Profile updated successfully!", "Info", JOptionPane.INFORMATION_MESSAGE);
                 ClearAll();
-
             }
 
         } catch (Exception e) {

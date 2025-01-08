@@ -87,6 +87,7 @@ public class StudentAttendanceCourse extends javax.swing.JFrame {
         getContentPane().add(jPanelCourses, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 98, 825, 190));
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     /**

@@ -69,13 +69,17 @@ public class TutorDashboard extends javax.swing.JFrame implements DashboardInter
     public double getWalletAmount(int tutorId) {
         double totalAmount = 0;
         try {
-            String query = "SELECT SUM(c.amount) AS total_amount "
+            // Query to get the class_id and amount for the specified tutor
+            String query = "SELECT c.amount "
                     + "FROM wallet w "
-                    + "JOIN class c ON w.class_id = c.id "
+                    + "INNER JOIN class c ON w.class_id = c.id "
                     + "WHERE w.tutor_id = " + tutorId + " AND w.withdrawal_status_id = 1";
+
             ResultSet rs = MySQL2.executeSearch(query);
-            if (rs.next()) {
-                totalAmount = rs.getDouble("total_amount");
+
+            // Loop through the result set and sum the amounts
+            while (rs.next()) {
+                totalAmount += rs.getDouble("amount");
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -136,7 +140,7 @@ public class TutorDashboard extends javax.swing.JFrame implements DashboardInter
         jButton11 = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("VOID Tutor Dashboard");
 
         jPanel1.setMaximumSize(new java.awt.Dimension(1250, 120));
@@ -161,7 +165,7 @@ public class TutorDashboard extends javax.swing.JFrame implements DashboardInter
         jLabel6.setText("Time");
 
         jLabel7.setFont(new java.awt.Font("Century Gothic", 1, 16)); // NOI18N
-        jLabel7.setText("My Wallet : Rs.");
+        jLabel7.setText("My Wallet : ");
 
         amountLabel.setFont(new java.awt.Font("Century Gothic", 1, 16)); // NOI18N
         amountLabel.setText("0");
@@ -416,8 +420,8 @@ public class TutorDashboard extends javax.swing.JFrame implements DashboardInter
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 610, Short.MAX_VALUE)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, 610, Short.MAX_VALUE))
+                    .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 630, Short.MAX_VALUE)
+                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, 630, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
@@ -546,25 +550,25 @@ public class TutorDashboard extends javax.swing.JFrame implements DashboardInter
         SwingUtilities.updateComponentTreeUI(jPanel3);
     }//GEN-LAST:event_jButton11ActionPerformed
 
-//    public static void main(String args[]) throws UnsupportedLookAndFeelException {
-//        UIManager.setLookAndFeel(new FlatLightLaf());
-//        UIManager.put("Button.background", Color.decode("#4E4ACF"));
-//        UIManager.put("Button.focusedBackground", Color.decode("#6AAAFF"));
-//        UIManager.put("Button.foreground", Color.decode("#FFFFFF"));
-//        UIManager.put("TextField.background", Color.decode("#F5F3FF"));
-//        UIManager.put("TextField.foreground", Color.decode("#4D4D4D"));
-//        UIManager.put("Panel.background", Color.decode("#EEF1EF"));
-//        UIManager.put("Table.background", Color.decode("#FFFFFF"));
-//        UIManager.put("Table.foreground", Color.decode("#4D4D4D"));
-//        UIManager.put("Table.selectionBackground", Color.decode("#40424E"));
-//        UIManager.put("Table.selectionForeground", Color.decode("#FFFFFF"));
-//
-//        java.awt.EventQueue.invokeLater(new Runnable() {
-//            public void run() {
-//                new TutorDashboard("", 1).setVisible(true);
-//            }
-//        });
-//    }
+    public static void main(String args[]) throws UnsupportedLookAndFeelException {
+        UIManager.setLookAndFeel(new FlatLightLaf());
+        UIManager.put("Button.background", Color.decode("#4E4ACF"));
+        UIManager.put("Button.focusedBackground", Color.decode("#6AAAFF"));
+        UIManager.put("Button.foreground", Color.decode("#FFFFFF"));
+        UIManager.put("TextField.background", Color.decode("#F5F3FF"));
+        UIManager.put("TextField.foreground", Color.decode("#4D4D4D"));
+        UIManager.put("Panel.background", Color.decode("#EEF1EF"));
+        UIManager.put("Table.background", Color.decode("#FFFFFF"));
+        UIManager.put("Table.foreground", Color.decode("#4D4D4D"));
+        UIManager.put("Table.selectionBackground", Color.decode("#40424E"));
+        UIManager.put("Table.selectionForeground", Color.decode("#FFFFFF"));
+
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new TutorDashboard("", 1).setVisible(true);
+            }
+        });
+    }
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

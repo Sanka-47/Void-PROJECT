@@ -212,8 +212,7 @@ public class UpdateStudentReport extends javax.swing.JFrame {
                 .addGroup(layout.createSequentialGroup()
                     .addGap(63, 63, 63)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(jLabel1))
+                        .addComponent(jLabel1)
                         .addGroup(layout.createSequentialGroup()
                             .addGap(32, 32, 32)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -256,6 +255,7 @@ public class UpdateStudentReport extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed

@@ -22,11 +22,13 @@ public class TodoList extends javax.swing.JPanel {
      * Creates new form TodoList
      */
     // A HashMap to store tasks for each tutor
+    
+    private String tutorId;
     private HashMap<String, ArrayList<Task>> tutorTasks = new HashMap<>();
 
     public TodoList(int tutorsId) {
         initComponents();
-        String tutorId = String.valueOf(tutorsId); // Replace with actual tutor ID logic if dynamic
+        this.tutorId = String.valueOf(tutorsId); // Replace with actual tutor ID logic if dynamic
         updateTaskList(tutorId);
     }
 
@@ -45,6 +47,8 @@ public class TodoList extends javax.swing.JPanel {
             } catch (Exception e) {
                 e.printStackTrace(); // Handle any exceptions
             }
+        }else{
+            JOptionPane.showMessageDialog(this, "Please enter the description to add a task");
         }
     }
 
@@ -285,22 +289,18 @@ public class TodoList extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnDeleteTaskActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteTaskActionPerformed
-        String tutorId = "1"; // Example tutor ID (replace with actual tutor ID)
         deleteTask(tutorId);
     }//GEN-LAST:event_btnDeleteTaskActionPerformed
 
     private void btnAddTaskActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddTaskActionPerformed
-        String tutorId = "1"; // Example tutor ID (replace with actual tutor ID)
         addTask(tutorId);
     }//GEN-LAST:event_btnAddTaskActionPerformed
 
     private void btnEditTaskActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditTaskActionPerformed
-        String tutorId = "1"; // Example tutor ID (replace with actual tutor ID)
         editTask(tutorId);
     }//GEN-LAST:event_btnEditTaskActionPerformed
 
     private void chkCompleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkCompleteActionPerformed
-        String tutorId = "1"; // Example tutor ID (replace with actual tutor ID)
         markTaskComplete(tutorId);
     }//GEN-LAST:event_chkCompleteActionPerformed
 

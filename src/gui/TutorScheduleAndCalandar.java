@@ -39,6 +39,7 @@ public class TutorScheduleAndCalandar extends javax.swing.JPanel {
     public TutorScheduleAndCalandar(DashboardInterface parent, Vector<String> rowData) {
         this(parent); // Call the original constructor
         // Use the additional data
+        System.out.println("row data" + rowData);
         if (!rowData.isEmpty()) {
             this.rowData = rowData;
             populateFields(rowData);
@@ -702,8 +703,8 @@ public class TutorScheduleAndCalandar extends javax.swing.JPanel {
         } else if (price.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Please enter the Amount!", "Warning", JOptionPane.WARNING_MESSAGE);
             return;
-
         }
+
         try {
             SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 
@@ -718,9 +719,23 @@ public class TutorScheduleAndCalandar extends javax.swing.JPanel {
             System.out.println("Course ID: " + courseMap.get(course));
             System.out.println("Status ID: " + statusMap.get(status));
 
+            // Update the class
             MySQL2.executeIUD("UPDATE `class` SET `name` = '" + className + "', `date` = '" + format.format(date) + "', `start_time` = '" + startTime + "', "
                     + "`end_time` = '" + endTime + "', `hallnumber` = '" + hallnumber + "', `amount` = '" + price + "', `tutor_id` = '" + tutorMap.get(tName) + "', "
                     + "`courses_id` = '" + courseMap.get(course) + "', `class_status_id` = '" + statusMap.get(status) + "' WHERE `class`.`id` = '" + sessionID + "'");
+
+            // If the status is "Completed", insert data into the wallet
+            if (statusMap.get(status).equals("2")) {
+                System.out.println("completed check");
+                String tutorId = tutorMap.get(tName);
+                String courseId = courseMap.get(course);
+                String withdrawalStatusId = "1"; // Assuming the withdrawal status is "1", you can modify based on your system's logic.
+                String currentDate = format.format(new Date()); // Insert today's date in the wallet record
+
+                // Insert into wallet table
+                MySQL2.executeIUD("INSERT INTO `wallet` (`tutor_id`, `class_id`, `withdrawal_status_id`, `date`) "
+                        + "VALUES ('" + tutorId + "', '" + sessionID + "', '" + withdrawalStatusId + "', '" + currentDate + "')");
+            }
 
             JOptionPane.showMessageDialog(this, "Class updated successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
 
@@ -730,7 +745,6 @@ public class TutorScheduleAndCalandar extends javax.swing.JPanel {
         } catch (Exception e) {
             e.printStackTrace();
             JOptionPane.showMessageDialog(this, "Failed to update the class. Please try again.", "Error", JOptionPane.ERROR_MESSAGE);
-
         }
     }//GEN-LAST:event_jButton2ActionPerformed
 
@@ -842,7 +856,7 @@ public class TutorScheduleAndCalandar extends javax.swing.JPanel {
                             + "VALUES ('" + sessionID + "', '" + className + "', '" + format.format(date) + "', '" + startTime + "', '" + endTime + "', '" + hallnumber + "', '" + price + "', "
                             + "'" + tutorMap.get(tName) + "', '" + courseMap.get(course) + "', '" + statusMap.get(status) + "')");
 
-                    if (!rowData.isEmpty()) {
+                    if (rowData != null && !rowData.isEmpty()) {
                         MySQL2.executeIUD("UPDATE `request_sessions` SET `approve_status` = 'Approved' WHERE `id` = '" + rowData.get(0) + "'");
                     }
 

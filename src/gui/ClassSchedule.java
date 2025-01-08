@@ -9,6 +9,8 @@ import java.sql.ResultSet;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
 import model.MySQL2;
 
@@ -17,8 +19,9 @@ import model.MySQL2;
  * @author Rushma
  */
 public class ClassSchedule extends javax.swing.JPanel {
-    
+
     private int tutorId;
+    private static final Logger logger = Logger.getLogger(TutorSignIn.class.getName());
 
     /**
      * Creates new form ClassSchedule
@@ -30,57 +33,61 @@ public class ClassSchedule extends javax.swing.JPanel {
     }
 
     public void loadAllClasses() {
-        
-    try {
-        
-        String TID = String.valueOf(tutorId);
-        System.out.println(tutorId);
-        String searchText = jTextField1.getText().toLowerCase();
+        Logger logger = Logger.getLogger("ClassLoaderLogger");
+
+        try {
+            String TID = String.valueOf(tutorId);
+            logger.log(Level.INFO, "Tutor ID: {0}", TID);
+
+            String searchText = jTextField1.getText().toLowerCase();
+            logger.log(Level.INFO, "Search Text: {0}", searchText);
 
             String query = "SELECT * FROM `class` INNER JOIN `tutor` ON `class`.`tutor_id` = `tutor`.`id` "
                     + "INNER JOIN `courses` ON `class`.`courses_id` = `courses`.`id` "
-                    + "INNER JOIN `class_status` ON `class`.`class_status_id` = `class_status`.`id`  ";
+                    + "INNER JOIN `class_status` ON `class`.`class_status_id` = `class_status`.`id` ";
 
             Date start = null;
             Date end = null;
-
             SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 
+            // Date filtering logic
             if (jDateChooser1.getDate() != null && jDateChooser2.getDate() != null) {
                 start = jDateChooser1.getDate();
                 end = jDateChooser2.getDate();
-                query += "WHERE `class`.`date` > '" + format.format(start) + "' AND `class`.`date` < '" + format.format(end) + "' ";
+                query += "WHERE `class`.`date` BETWEEN '" + format.format(start) + "' AND '" + format.format(end) + "' ";
+                logger.log(Level.INFO, "Date Range: Start = {0}, End = {1}", new Object[]{format.format(start), format.format(end)});
             } else if (jDateChooser1.getDate() != null && jDateChooser2.getDate() == null) {
                 start = jDateChooser1.getDate();
-                query += "WHERE `class`.`date` > '" + format.format(start) + "' ";
+                query += "WHERE `class`.`date` >= '" + format.format(start) + "' ";
+                logger.log(Level.INFO, "Start Date Only: {0}", format.format(start));
             } else if (jDateChooser1.getDate() == null && jDateChooser2.getDate() != null) {
                 end = jDateChooser2.getDate();
-                query += "WHERE `class`.`date` < '" + format.format(end) + "' ";
+                query += "WHERE `class`.`date` <= '" + format.format(end) + "' ";
+                logger.log(Level.INFO, "End Date Only: {0}", format.format(end));
             }
 
+            // Search text filtering
             if (!searchText.isEmpty()) {
-
                 if (query.contains("WHERE")) {
-
-                    query += "AND LOWER(`class`.`id`) LIKE '%" + searchText + "%' "
-                            + "OR LOWER(`class`.`name`) LIKE '%" + searchText + "%'";
-
+                    query += "AND (LOWER(`class`.`id`) LIKE '%" + searchText + "%' "
+                            + "OR LOWER(`class`.`name`) LIKE '%" + searchText + "%') ";
                 } else {
-
-                    query += "WHERE LOWER(`class`.`id`) LIKE '%" + searchText + "%' "
-                            + "OR LOWER(`class`.`name`) LIKE '%" + searchText + "%' ";
-
+                    query += "WHERE (LOWER(`class`.`id`) LIKE '%" + searchText + "%' "
+                            + "OR LOWER(`class`.`name`) LIKE '%" + searchText + "%') ";
                 }
+                logger.log(Level.INFO, "Query with Search Text: {0}", query);
+            }
 
+            // Add tutor filter
+            if (query.contains("WHERE")) {
+                query += "AND `tutor_id` = '" + TID + "'";
+            } else {
+                query += "WHERE `tutor_id` = '" + TID + "'";
             }
-             
-            if (query.contains("WHERE")){
-                query += "AND `tutor_id` = '"+TID+"'";
-            } else{
-                query += "WHERE `tutor_id` = '"+TID+"'";
-            }
+            logger.log(Level.INFO, "Final Query: {0}", query);
+
+            // Execute query and populate table
             ResultSet resultSet = MySQL2.executeSearch(query);
-
             DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
             model.setRowCount(0);
 
@@ -92,14 +99,15 @@ public class ClassSchedule extends javax.swing.JPanel {
                 vector.add(resultSet.getString("start_time") + " - " + resultSet.getString("end_time"));
                 vector.add(resultSet.getString("amount"));
                 vector.add(resultSet.getString("courses.name"));
-
                 model.addRow(vector);
             }
+            logger.log(Level.INFO, "Table populated successfully with classes.");
 
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, "Error occurred while loading classes.", e);
         }
-}
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -216,9 +224,9 @@ public class ClassSchedule extends javax.swing.JPanel {
                             .addGap(10, 10, 10)
                             .addComponent(jLabel4)
                             .addGap(9, 9, 9))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 462, Short.MAX_VALUE)
-                .addContainerGap())
+                .addGap(8, 8, 8)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 448, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(24, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 

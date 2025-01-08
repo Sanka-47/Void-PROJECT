@@ -34,7 +34,7 @@ public class TutorSignIn extends javax.swing.JFrame {
         jLabel8 = new javax.swing.JLabel();
         jButton2 = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Tutor Sign Up");
 
         jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);

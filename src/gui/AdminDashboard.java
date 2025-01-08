@@ -103,7 +103,7 @@ public class AdminDashboard extends javax.swing.JFrame implements DashboardInter
         jButton16 = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("VOID Admin Dashboard");
 
         jPanel1.setMaximumSize(new java.awt.Dimension(1250, 120));
@@ -576,7 +576,7 @@ public class AdminDashboard extends javax.swing.JFrame implements DashboardInter
     private void jButton15ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton15ActionPerformed
         AdminReportDashboard adminReportDashboard = new AdminReportDashboard("bhanu", "bandara");
         adminReportDashboard.setVisible(true);
-        this.dispose();
+//        this.dispose();
     }//GEN-LAST:event_jButton15ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed

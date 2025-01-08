@@ -4,6 +4,7 @@ package gui;
 import java.sql.ResultSet;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Vector;
 import javax.swing.table.DefaultTableModel;
 import model.MySQL2;
@@ -11,11 +12,11 @@ import model.MySQL2;
 public class AllEmployees extends javax.swing.JPanel {
 
     private AdminDashboard parent;
+    private static HashMap<String, String> passwordMap = new HashMap<>();
 
 //    public void setAdminDashboard(AdminDashboard ad) {
 //        this.parent = ad;
 //    }
-
     private EmployeeDashboard eparent;
 
     public void setEmployeeDashboard(EmployeeDashboard ed) {
@@ -23,11 +24,10 @@ public class AllEmployees extends javax.swing.JPanel {
     }
 
     public EmployeeRegistration updateEmployee;
-    
+
 //    public void setEmployeeRegistration(EmployeeRegistration updateEmployee) {
 //        this.updateEmployee = updateEmployee;
 //    }
-
     public AllEmployees(AdminDashboard parent) {
         this.parent = parent;
         initComponents();
@@ -40,25 +40,25 @@ public class AllEmployees extends javax.swing.JPanel {
     }
 
     private void loadTable() {
-        
+
         try {
-            
+
             String sort = String.valueOf(jComboBox1.getSelectedItem());
-            
+
             String searchText = jTextField1.getText().toLowerCase();
-            
+
             String query = "SELECT * FROM `employee` "
                     + "INNER JOIN `gender` ON `employee`.`gender_id` = `gender`.`id` "
                     + "INNER JOIN `roles` ON `employee`.`roles_id` = `roles`.`id` ";
-            
+
             if (!searchText.isEmpty()) {
-                
+
                 query += "WHERE LOWER(`employee`.`first_name`) LIKE '%" + searchText + "%' "
                         + "OR LOWER(`employee`.`last_name`) LIKE '%" + searchText + "%' "
                         + "OR LOWER(`employee`.`nic`) LIKE '%" + searchText + "%' ";
-                
+
             }
-            
+
             if (sort.equals("First Name ASC")) {
                 query += "ORDER BY `first_name` ASC";
             } else if (sort.equals("First Name DESC")) {
@@ -88,6 +88,8 @@ public class AllEmployees extends javax.swing.JPanel {
                 vector.add(resultSet.getString("roles.name"));
                 vector.add(resultSet.getString("gender.name"));
                 vector.add(resultSet.getString("nic"));
+                passwordMap.put(resultSet.getString("password"), resultSet.getString("employee.id"));
+
 
                 model.addRow(vector);
             }
@@ -235,9 +237,18 @@ public class AllEmployees extends javax.swing.JPanel {
             updateEmployee.getjTextField4().setText(NIC);
             updateEmployee.getjComboBox1().setSelectedItem(Gender);
             updateEmployee.getjComboBox2().setSelectedItem(Role);
-            updateEmployee.getjPasswordField1().setText("");
+            String password = passwordMap.get(EmployeeID);
+            System.out.println("dsa" + password);
+            if (password != null && !password.isEmpty()) {
+                updateEmployee.getjPasswordField1().setText(password);
+            } else {
+                updateEmployee.getjPasswordField1().setText(""); // Clear if no password is set
+            }
+            updateEmployee.getjPasswordField1().setVisible(false);
+            updateEmployee.getjLabel8().setVisible(false);
             updateEmployee.getjTextField5().setText(Email);
 
+            updateEmployee.getjLabel8().setVisible(false);
             updateEmployee.getjButton1().setEnabled(false);
             updateEmployee.getjButton2().setEnabled(true);
             updateEmployee.getjButton3().setEnabled(true);

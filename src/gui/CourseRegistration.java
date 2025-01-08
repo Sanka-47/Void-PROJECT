@@ -185,7 +185,7 @@ public class CourseRegistration extends javax.swing.JPanel {
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
-        jLabel9.setText("Grade");
+        jLabel9.setText("Level");
 
         jLabel3.setText("Fees");
 
@@ -347,12 +347,12 @@ public class CourseRegistration extends javax.swing.JPanel {
 
         try {
             String courseName = jTextField1.getText();
-            String fee = jTextField2.getText();
+            Double fee = Double.parseDouble(jTextField2.getText());
             String grade = String.valueOf(jComboBox1.getSelectedItem());
 
             if (courseName.isEmpty()) {
                 JOptionPane.showMessageDialog(this, "Please enter the course name", "Warning", JOptionPane.WARNING_MESSAGE);
-            } else if (fee.isEmpty()) {
+            } else if (fee.isNaN()) {
                 JOptionPane.showMessageDialog(this, "Please enter the course fee", "Warning", JOptionPane.WARNING_MESSAGE);
             } else if (grade.equals("Select")) {
                 JOptionPane.showMessageDialog(this, "Please select a grade", "Warning", JOptionPane.WARNING_MESSAGE);
@@ -360,8 +360,8 @@ public class CourseRegistration extends javax.swing.JPanel {
 
                 String gradeId = gradeMap.get(grade);
 
-                MySQL2.executeIUD("INSERT INTO `courses`(`name`, `grade_level`, `fee`) VALUES ('"
-                        + courseName + "', '" + gradeId + "', '" + fee + "')");
+                MySQL2.executeIUD("INSERT INTO `courses`(`name`, `grade_level`, `fee`,`course_status_id`) VALUES ('"
+                        + courseName + "', '" + gradeId + "', '" + fee + "',0)");
 
                 loadCourseDetails();
                 reset();
