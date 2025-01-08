@@ -15,6 +15,7 @@ import model.MySQL2;
  * @author Rushma
  */
 public class TutorCancelledSessions extends javax.swing.JPanel {
+
     private DashboardInterface parent;
 
     /**
@@ -82,6 +83,7 @@ public class TutorCancelledSessions extends javax.swing.JPanel {
         jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
+        jLabel2 = new javax.swing.JLabel();
 
         jLabel1.setFont(new java.awt.Font("Century Gothic", 1, 24)); // NOI18N
         jLabel1.setText("Cancelled Sessions");
@@ -122,13 +124,20 @@ public class TutorCancelledSessions extends javax.swing.JPanel {
             jTable1.getColumnModel().getColumn(10).setResizable(false);
         }
 
+        jLabel2.setText("Double click a row to view the reason");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(371, 371, 371)
-                .addComponent(jLabel1)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(371, 371, 371)
+                        .addComponent(jLabel1))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(52, 52, 52)
+                        .addComponent(jLabel2)))
                 .addContainerGap(409, Short.MAX_VALUE))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
@@ -141,7 +150,9 @@ public class TutorCancelledSessions extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addGap(35, 35, 35)
                 .addComponent(jLabel1)
-                .addContainerGap(520, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 491, Short.MAX_VALUE)
+                .addComponent(jLabel2)
+                .addContainerGap())
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addGap(97, 97, 97)
@@ -151,13 +162,26 @@ public class TutorCancelledSessions extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
+        if (evt.getClickCount() == 2) {
+            // Get the selected row
+            int selectedRow = jTable1.getSelectedRow();
+            if (selectedRow != -1) {
+                // Get the reason from the "Reason" column (column index 10)
+                String reason = jTable1.getValueAt(selectedRow, 10).toString();
 
+                // Show the reason in a JOptionPane
+                javax.swing.JOptionPane.showMessageDialog(this, reason, "Reason", javax.swing.JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                javax.swing.JOptionPane.showMessageDialog(this, "No row selected", "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
+            }
+        }
 
     }//GEN-LAST:event_jTable1MouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
     // End of variables declaration//GEN-END:variables

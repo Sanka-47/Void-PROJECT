@@ -8,6 +8,8 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
@@ -16,6 +18,9 @@ import javax.swing.UnsupportedLookAndFeelException;
 
 public class AdminDashboard extends javax.swing.JFrame implements DashboardInterface {
 
+    private static final Logger logger = Logger.getLogger(AdminSignIn.class.getName());
+    
+    
     private String adminID;
     private String fName;
     private String lName;
@@ -38,31 +43,26 @@ public class AdminDashboard extends javax.swing.JFrame implements DashboardInter
     }
 
     private void loadDate() {
-
         jLabel6.setHorizontalAlignment(SwingConstants.CENTER);
-
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
                 while (true) {
                     Date date = new Date();
-                    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd     hh:mm:ss");
+                    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
                     String fdate = dateFormat.format(date);
                     jLabel6.setText(fdate);
-
                     try {
                         Thread.sleep(1000);
+                        logger.log(Level.INFO, "Date and time updated to: {0}", fdate);
                     } catch (Exception e) {
-                        e.printStackTrace();
+                        logger.log(Level.SEVERE, "An error occurred while updating date and time", e);
                     }
-
                 }
-
             }
         };
         Thread thread = new Thread(runnable);
         thread.start();
-
     }
 
     @SuppressWarnings("unchecked")
@@ -80,6 +80,7 @@ public class AdminDashboard extends javax.swing.JFrame implements DashboardInter
         jScrollPane2 = new javax.swing.JScrollPane();
         jPanel3 = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
         jButton6 = new javax.swing.JButton();
@@ -99,7 +100,6 @@ public class AdminDashboard extends javax.swing.JFrame implements DashboardInter
         jButton5 = new javax.swing.JButton();
         jButton12 = new javax.swing.JButton();
         jButton15 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
         jButton16 = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
 
@@ -176,7 +176,7 @@ public class AdminDashboard extends javax.swing.JFrame implements DashboardInter
         jScrollPane2.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         jScrollPane2.setPreferredSize(new java.awt.Dimension(250, 581));
 
-        jPanel3.setPreferredSize(new java.awt.Dimension(250, 1500));
+        jPanel3.setPreferredSize(new java.awt.Dimension(250, 1232));
 
         jButton1.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
         jButton1.setText("Add Session");
@@ -184,6 +184,15 @@ public class AdminDashboard extends javax.swing.JFrame implements DashboardInter
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
+            }
+        });
+
+        jButton2.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
+        jButton2.setText("Requested Sessions");
+        jButton2.setPreferredSize(new java.awt.Dimension(201, 26));
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
             }
         });
 
@@ -311,15 +320,6 @@ public class AdminDashboard extends javax.swing.JFrame implements DashboardInter
             }
         });
 
-        jButton2.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
-        jButton2.setText("Requested Sessions");
-        jButton2.setPreferredSize(new java.awt.Dimension(201, 26));
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
-            }
-        });
-
         jButton16.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
         jButton16.setText("Tutor Cancelled Sessions");
         jButton16.setPreferredSize(new java.awt.Dimension(201, 26));
@@ -425,7 +425,7 @@ public class AdminDashboard extends javax.swing.JFrame implements DashboardInter
                 .addComponent(jButton14, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton15, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(290, Short.MAX_VALUE))
+                .addGap(14, 14, 14))
         );
 
         jScrollPane2.setViewportView(jPanel3);
@@ -447,10 +447,7 @@ public class AdminDashboard extends javax.swing.JFrame implements DashboardInter
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, 630, Short.MAX_VALUE)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                .addContainerGap())
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());

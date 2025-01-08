@@ -21,48 +21,66 @@ public class StudentAttendanceCourse extends javax.swing.JFrame {
     /**
      * Creates new form StudentAttendanceCourse
      */
- 
-    
     public StudentAttendanceCourse() {
         initComponents();
         loadCourses();
     }
-    
-    private void loadCourses() {
-        try {
-            String query = "SELECT * FROM `courses`";
+private StudentAttendanceClass attendanceClass;
+   // Variable to keep track of the currently opened course ID
+private int currentCourseId = 0;
 
-            // Execute SQL query to retrieve courses
-            ResultSet rs = MySQL2.executeSearch(query);
+private void loadCourses() {
+    try {
+        String query = "SELECT * FROM `courses`";
 
-            // Clear existing buttons
-            jPanelCourses.removeAll();
-            jPanelCourses.revalidate();
-            jPanelCourses.repaint();
+        // Execute SQL query to retrieve courses
+        ResultSet rs = MySQL2.executeSearch(query);
 
-            // Iterate through the result set and create buttons
-            while (rs.next()) {
-                int courseId = rs.getInt("id");
-                String courseName = rs.getString("name");
+        // Clear existing buttons
+        jPanelCourses.removeAll();
+        jPanelCourses.revalidate();
+        jPanelCourses.repaint();
 
-                // Create a new button for each course
-                JButton courseButton = new JButton(courseName);
-                courseButton.addActionListener(e -> {
-                    StudentAttendanceClass attendanceClass = new StudentAttendanceClass(courseId);
-                    attendanceClass.setVisible(true);
-                });
+        // Iterate through the result set and create buttons
+        while (rs.next()) {
+            int courseId = rs.getInt("id");
+            String courseName = rs.getString("name");
 
-                // Add the button to the JPanel
-                jPanelCourses.add(courseButton);
-            }
+            // Create a new button for each course
+            JButton courseButton = new JButton(courseName);
+            courseButton.addActionListener(e -> {
+                if (attendanceClass == null) {
+                    // Check if the instance has not been created
+                    attendanceClass = new StudentAttendanceClass(courseId); // Create a new instance
+                    currentCourseId = courseId; // Set the current course ID
+                } else if (!Integer.toString(courseId).equals(currentCourseId)) {
+                    // If the course ID is different
+                    attendanceClass.dispose(); // Close the current JFrame
+                    attendanceClass = new StudentAttendanceClass(courseId); // Create a new instance for the new course ID
+                    currentCourseId = courseId; // Update the current course ID
+                }
 
-            // Refresh the JPanel to show the new buttons
-            jPanelCourses.revalidate();
-            jPanelCourses.repaint();
-        } catch (Exception ex) {
-            ex.printStackTrace();
+                if (!attendanceClass.isVisible()) {
+                    // Check if it's not visible
+                    attendanceClass.setVisible(true); // Make it visible
+                } else {
+                    // Bring it to the front if it's already visible
+                    attendanceClass.toFront();
+                    attendanceClass.requestFocus();
+                }
+            });
+
+            // Add the button to the JPanel
+            jPanelCourses.add(courseButton);
         }
+
+        // Refresh the JPanel to show the new buttons
+        jPanelCourses.revalidate();
+        jPanelCourses.repaint();
+    } catch (Exception ex) {
+        ex.printStackTrace();
     }
+}
 
 
     /**
