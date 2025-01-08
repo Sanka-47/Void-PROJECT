@@ -4,6 +4,8 @@ package gui;
 import java.sql.ResultSet;
 import java.util.HashMap;
 import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -14,6 +16,8 @@ import model.MySQL2;
  * @author sky
  */
 public class SubjectManagement extends javax.swing.JPanel {
+    
+    private static final Logger logger = Logger.getLogger(EmployeeSignIn.class.getName());
 
     private static HashMap<String, String> coursesMap = new HashMap<>();
     
@@ -30,22 +34,29 @@ public class SubjectManagement extends javax.swing.JPanel {
     private void loadCourses() {
 
         try {
+            logger.log(Level.INFO, "Starting to load courses from the database.");
+
             ResultSet rs = MySQL2.executeSearch("SELECT * FROM `courses`");
-            Vector vector = new Vector();
+            Vector<String> vector = new Vector<>();
             vector.add("Select");
 
             while (rs.next()) {
-                vector.add(rs.getString("name"));
-                coursesMap.put(rs.getString("name"), rs.getString("id"));
+                String courseName = rs.getString("name");
+                String courseId = rs.getString("id");
 
+                vector.add(courseName);
+                coursesMap.put(courseName, courseId);
+
+                logger.log(Level.INFO, "Loaded course: {0} with ID: {1}", new Object[]{courseName, courseId});
             }
 
             DefaultComboBoxModel model = new DefaultComboBoxModel(vector);
             jComboBox1.setModel(model);
-//             logger.info("Gender data loaded successfully.");
+
+            logger.log(Level.INFO, "Courses loaded successfully and combo box model updated.");
 
         } catch (Exception e) {
-//           logger.log(Level.SEVERE, "Error loading gender data: ", e);
+            logger.log(Level.SEVERE, "Error occurred while loading courses.", e);
             e.printStackTrace();
         }
 
@@ -53,26 +64,32 @@ public class SubjectManagement extends javax.swing.JPanel {
     private void loadSubjectTable() {
         
         try {
-            
+            logger.log(Level.INFO, "Starting to load subjects from the database.");
+
             ResultSet resultSet = MySQL2.executeSearch("SELECT * FROM `subject` "
                     + "INNER JOIN `courses` ON `subject`.`courses_id` = `courses`.`id` ORDER BY `subject`.`id` ASC");
-            
-            DefaultTableModel dtm = (DefaultTableModel)jTable1.getModel();
+
+            DefaultTableModel dtm = (DefaultTableModel) jTable1.getModel();
             dtm.setRowCount(0);
-            
+
             while (resultSet.next()) {
-                Vector vector = new Vector();
+                Vector<String> vector = new Vector<>();
                 vector.add(resultSet.getString("id"));
                 vector.add(resultSet.getString("name"));
                 vector.add(resultSet.getString("description"));
                 vector.add(resultSet.getString("courses.name"));
-                
+
                 dtm.addRow(vector);
                 jTable1.setModel(dtm);
-                
+
+                logger.log(Level.INFO, "Loaded subject: {0}, Description: {1}, Course: {2}",
+                        new Object[]{resultSet.getString("name"), resultSet.getString("description"), resultSet.getString("courses.name")});
             }
-            
+
+            logger.log(Level.INFO, "Subjects loaded successfully into the table.");
+
         } catch (Exception e) {
+            logger.log(Level.SEVERE, "Error occurred while loading subjects.", e);
             e.printStackTrace();
         }
         
@@ -284,20 +301,24 @@ public class SubjectManagement extends javax.swing.JPanel {
             String courseId = coursesMap.get(stream);
             
             try {
-                
-                Integer integer = MySQL2.executeIUD("INSERT INTO `subject` "
-                        + "(`name`,`description`,`courses_id`)"
-                        + "VALUES ('"+ subject +"','"+ description +"','"+ courseId +"')");
-                
-                
-                JOptionPane.showMessageDialog(this, "Subject registration success!", "Confirmation", JOptionPane.INFORMATION_MESSAGE);
-                
-                loadSubjectTable();
-//                reset();
-                
-            } catch (Exception e) {
-                e.printStackTrace();
-            }    
+            logger.log(Level.INFO, "Starting to register a new subject: {0}", subject);
+
+            Integer integer = MySQL2.executeIUD("INSERT INTO `subject` "
+                    + "(`name`, `description`, `courses_id`) "
+                    + "VALUES ('" + subject + "', '" + description + "', '" + courseId + "')");
+
+            JOptionPane.showMessageDialog(this, "Subject registration success!", "Confirmation", JOptionPane.INFORMATION_MESSAGE);
+
+            logger.log(Level.INFO, "Subject {0} registered successfully with description: {1} and course ID: {2}",
+                    new Object[]{subject, description, courseId});
+
+            loadSubjectTable();
+            // reset(); // Uncomment if needed
+
+        } catch (Exception e) {
+            logger.log(Level.SEVERE, "Error occurred while registering the subject: " + subject, e);
+            e.printStackTrace();
+        }    
             
         }
         
@@ -361,23 +382,26 @@ public class SubjectManagement extends javax.swing.JPanel {
                 String courseId = coursesMap.get(stream);
 
                 try {
+            logger.log(Level.INFO, "Starting to update subject with ID: {0}", id);
 
-                        Integer integer = MySQL2.executeIUD("UPDATE `subject` SET "
-                                + "`name` = '" + subject + "',"
-                                + "`description` = '" + description + "',"
-                                + "`courses_id` = '" + courseId + "'"
-                                + "WHERE `id` = '" + id +"'");
+            Integer integer = MySQL2.executeIUD("UPDATE `subject` SET "
+                    + "`name` = '" + subject + "',"
+                    + "`description` = '" + description + "',"
+                    + "`courses_id` = '" + courseId + "'"
+                    + "WHERE `id` = '" + id + "'");
 
-                        JOptionPane.showMessageDialog(this, "Success!", "Confirmation", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Success!", "Confirmation", JOptionPane.INFORMATION_MESSAGE);
 
-                        loadSubjectTable();
-                        reset();
+            logger.log(Level.INFO, "Subject with ID {0} updated successfully. New name: {1}, description: {2}, course ID: {3}",
+                    new Object[]{id, subject, description, courseId});
 
-                        
+            loadSubjectTable();
+            reset();
 
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
+        } catch (Exception e) {
+            logger.log(Level.SEVERE, "Error occurred while updating the subject with ID: " + id, e);
+            e.printStackTrace();
+        }
             }
          }
     }//GEN-LAST:event_jButton2ActionPerformed
@@ -397,20 +421,22 @@ public class SubjectManagement extends javax.swing.JPanel {
             String id = String.valueOf(jTable1.getValueAt(selectedRow, 0));
             
             try {
+            logger.log(Level.INFO, "Starting to delete subject with ID: {0}", id);
 
-                        Integer integer = MySQL2.executeIUD("DELETE FROM `subject` "
-                                + "WHERE `id` = '"+ id +"'");
+            Integer integer = MySQL2.executeIUD("DELETE FROM `subject` "
+                    + "WHERE `id` = '" + id + "'");
 
-                        JOptionPane.showMessageDialog(this, "Success!", "Confirmation", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Success!", "Confirmation", JOptionPane.INFORMATION_MESSAGE);
 
-                        loadSubjectTable();
-                        reset();
+            logger.log(Level.INFO, "Subject with ID {0} deleted successfully.", id);
 
-                        
+            loadSubjectTable();
+            reset();
 
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
+        } catch (Exception e) {
+            logger.log(Level.SEVERE, "Error occurred while deleting the subject with ID: " + id, e);
+            e.printStackTrace();
+        }
          
         }    
     }//GEN-LAST:event_jButton3ActionPerformed
