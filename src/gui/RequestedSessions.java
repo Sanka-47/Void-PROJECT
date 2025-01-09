@@ -45,7 +45,7 @@ public class RequestedSessions extends javax.swing.JPanel {
                     + "tutor.first_name, tutor.last_name, "
                     + "request_sessions.title, request_sessions.date, "
                     + "request_sessions.start_time, request_sessions.id, request_sessions.end_time, "
-                    + "request_sessions.hallnumber, request_sessions.approve_status, "
+                    + "request_sessions.hallnumber, request_sessions.approve_status,request_sessions.reason,request_sessions.type,  "
                     + "courses.name "
                     + "FROM request_sessions "
                     + "INNER JOIN tutor ON request_sessions.tutor_id = tutor.id "
@@ -68,6 +68,8 @@ public class RequestedSessions extends javax.swing.JPanel {
                 vector.add(resultSet.getString("start_time")); // Start Time
                 vector.add(resultSet.getString("end_time")); // End Time
                 vector.add(resultSet.getString("hallnumber")); // Hall Number
+                vector.add(resultSet.getString("reason"));
+                vector.add(resultSet.getString("type"));
                 vector.add(resultSet.getString("approve_status")); // Hall Number
                 model.addRow(vector);
             }
@@ -105,11 +107,11 @@ public class RequestedSessions extends javax.swing.JPanel {
 
             },
             new String [] {
-                "ID", "Requested By", "Course", "Title", "Date", "Start time", "End Time", "Hall Number", "Approval Status"
+                "ID", "Tutor", "Course", "Title", "Date", "Start time", "End Time", "Hall Number", "Reason", "Type", "Approval Status"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false, false
+                false, false, false, false, false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -124,7 +126,7 @@ public class RequestedSessions extends javax.swing.JPanel {
         });
         jScrollPane1.setViewportView(jTable1);
         if (jTable1.getColumnModel().getColumnCount() > 0) {
-            jTable1.getColumnModel().getColumn(0).setResizable(false);
+            jTable1.getColumnModel().getColumn(0).setMinWidth(20);
             jTable1.getColumnModel().getColumn(1).setResizable(false);
             jTable1.getColumnModel().getColumn(2).setResizable(false);
             jTable1.getColumnModel().getColumn(3).setResizable(false);
@@ -133,6 +135,8 @@ public class RequestedSessions extends javax.swing.JPanel {
             jTable1.getColumnModel().getColumn(6).setResizable(false);
             jTable1.getColumnModel().getColumn(7).setResizable(false);
             jTable1.getColumnModel().getColumn(8).setResizable(false);
+            jTable1.getColumnModel().getColumn(9).setResizable(false);
+            jTable1.getColumnModel().getColumn(10).setResizable(false);
         }
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N

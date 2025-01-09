@@ -8,17 +8,24 @@ package gui;
 import com.formdev.flatlaf.intellijthemes.FlatArcIJTheme;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.GridBagLayout;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.swing.BorderFactory;
+import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
+import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
 import model.Notification;
 import model.NotificationManager;
 
@@ -28,7 +35,7 @@ import model.NotificationManager;
  */
 public class Notifications extends javax.swing.JFrame {
 
-      Map<Integer, NotificationDetails> notificationDetailsMap = new HashMap<>();
+    Map<Integer, NotificationDetails> notificationDetailsMap = new HashMap<>();
 
     public Notifications(int tutorId) {
         initComponents();
@@ -45,60 +52,108 @@ public class Notifications extends javax.swing.JFrame {
 
         // Clear the parent container
         notificationsPanel.removeAll();
+        notificationsPanel.setBackground(Color.WHITE);
 
         // Set layout for the notifications panel
         notificationsPanel.setLayout(new BoxLayout(notificationsPanel, BoxLayout.Y_AXIS));
 
+        // Create a scrollable view
+        JScrollPane scrollPane = new JScrollPane(notificationsPanel);
+        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        scrollPane.setBorder(BorderFactory.createLineBorder(new Color(200, 200, 200), 1));
+        scrollPane.setBackground(Color.WHITE);
+        scrollPane.getViewport().setBackground(Color.WHITE);
+        scrollPane.setPreferredSize(new Dimension(800, 600));
+
+        // Add title with minimal top gap
+        JPanel titlePanel = new JPanel();
+        titlePanel.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 10));
+        titlePanel.setBackground(Color.WHITE);
+        JLabel titleLabel = new JLabel("Notifications");
+        titleLabel.setFont(new Font("Segoe UI", Font.BOLD, 32));
+        titlePanel.add(titleLabel);
+        notificationsPanel.add(titlePanel);
+
+        notificationsPanel.add(Box.createRigidArea(new Dimension(0, 10))); // Reduced spacing
+
         // If there are no notifications, show a default message
         if (notifications.isEmpty()) {
-            JLabel noNotificationLabel = new JLabel("<html><b>No classes scheduled for today.</b></html>");
+            JLabel noNotificationLabel = new JLabel("No classes scheduled.");
+            noNotificationLabel.setHorizontalAlignment(SwingConstants.CENTER);
+            noNotificationLabel.setFont(new Font("Segoe UI", Font.PLAIN, 14));
             notificationsPanel.add(noNotificationLabel);
         } else {
+            JPanel contentPanel = new JPanel();
+            contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.Y_AXIS));
+            contentPanel.setBackground(Color.WHITE);
+            contentPanel.setBorder(BorderFactory.createEmptyBorder(0, 20, 0, 20));
+
             for (Notification notification : notifications) {
+                // Create notification panel
                 JPanel notificationBox = new JPanel();
+                notificationBox.setLayout(new BorderLayout());
+                notificationBox.setPreferredSize(new Dimension(1000, 60));
+                notificationBox.setMaximumSize(new Dimension(1000, 60));
+                notificationBox.setBackground(Color.WHITE);
 
-                // Set the preferred size for the notification box
-                notificationBox.setPreferredSize(new Dimension(800, 100)); // Wider and taller box
-//            notificationBox.setMaximumSize(new Dimension(400, 100)); // Ensure consistent size
+                // Rounded border for notification panel
+                notificationBox.setBorder(BorderFactory.createCompoundBorder(
+                        BorderFactory.createEmptyBorder(0, 0, 8, 0),
+                        BorderFactory.createLineBorder(new Color(200, 200, 200), 1, true) // Rounded corners
+                ));
 
-                // Create a label for the notification details
-                JLabel notificationLabel = new JLabel("<html>" + notification.getDetails() + "</html>");
-                notificationLabel.setVerticalAlignment(SwingConstants.CENTER);
-                notificationLabel.setFont(new Font("Arial", Font.PLAIN, 20));
+                JLabel notificationLabel = new JLabel(notification.getDetails());
+                notificationLabel.setFont(new Font("Segoe UI", Font.PLAIN, 18));
+                notificationLabel.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 0));
 
-                // Create a "More Info" button
                 JButton moreInfoButton = new JButton("More Info");
+                moreInfoButton.setPreferredSize(new Dimension(100, 30));
+                moreInfoButton.setFont(new Font("Segoe UI", Font.PLAIN, 12));
+                moreInfoButton.setForeground(Color.WHITE);
+                // Updated color to match the "Student Progress" header blue
+                moreInfoButton.setBackground(new Color(63, 81, 181)); // Rich blue color
+                moreInfoButton.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
+                moreInfoButton.setFocusPainted(false);
+                moreInfoButton.setHorizontalAlignment(SwingConstants.CENTER);
 
-               moreInfoButton.addActionListener(e -> {
+                JPanel buttonWrapper = new JPanel(new GridBagLayout());
+                buttonWrapper.setBackground(Color.WHITE);
+                buttonWrapper.add(moreInfoButton);
+
+                JPanel buttonPanel = new JPanel(new BorderLayout());
+                buttonPanel.setBackground(Color.WHITE);
+                buttonPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 10));
+                buttonPanel.add(buttonWrapper, BorderLayout.CENTER);
+
+                moreInfoButton.addActionListener(e -> {
                     int classId = notification.getClassId();
-
                     if (!notificationDetailsMap.containsKey(classId)) {
-                        // Create a new instance and store it in the map
-                        NotificationDetails tw = new NotificationDetails(classId);
-                        notificationDetailsMap.put(classId, tw);
-                        tw.setVisible(true);
+                        NotificationDetails details = new NotificationDetails(classId);
+                        notificationDetailsMap.put(classId, details);
+                        details.setVisible(true);
                     } else {
-                        // Retrieve the existing instance
-                        NotificationDetails tw = notificationDetailsMap.get(classId);
-
-                        if (!tw.isVisible()) {
-                            tw.setVisible(true); // Show it if it's not visible
+                        NotificationDetails details = notificationDetailsMap.get(classId);
+                        if (!details.isVisible()) {
+                            details.setVisible(true);
                         } else {
-                            tw.toFront(); // Bring it to the front if already visible
-                            tw.requestFocus();
+                            details.toFront();
+                            details.requestFocus();
                         }
                     }
                 });
-                // Add components to the notification box
-                notificationBox.add(notificationLabel, BorderLayout.CENTER);
-                notificationBox.add(moreInfoButton, BorderLayout.EAST);
 
-                // Add the notification box to the parent panel
-                notificationsPanel.add(notificationBox);
+                notificationBox.add(notificationLabel, BorderLayout.WEST);
+                notificationBox.add(buttonPanel, BorderLayout.EAST);
+
+                contentPanel.add(notificationBox);
             }
+
+            notificationsPanel.add(contentPanel);
         }
 
-        // Refresh the parent container
+        jScrollPane1.setViewportView(scrollPane);
+
         notificationsPanel.revalidate();
         notificationsPanel.repaint();
     }
@@ -113,56 +168,20 @@ public class Notifications extends javax.swing.JFrame {
     private void initComponents() {
 
         jScrollBar1 = new javax.swing.JScrollBar();
-        jLabel1 = new javax.swing.JLabel();
         notificationsPanel = new javax.swing.JPanel();
-        detailsLabel = new javax.swing.JLabel();
-        moreInfoBtn = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-
-        jLabel1.setFont(new java.awt.Font("Century Gothic", 1, 36)); // NOI18N
-        jLabel1.setText("Notifications");
-
-        notificationsPanel.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-
-        detailsLabel.setBackground(new java.awt.Color(204, 204, 204));
-        detailsLabel.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        detailsLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        detailsLabel.setText("notification here");
-        detailsLabel.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-
-        moreInfoBtn.setText("More Info");
-        moreInfoBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                moreInfoBtnActionPerformed(evt);
-            }
-        });
 
         javax.swing.GroupLayout notificationsPanelLayout = new javax.swing.GroupLayout(notificationsPanel);
         notificationsPanel.setLayout(notificationsPanelLayout);
         notificationsPanelLayout.setHorizontalGroup(
             notificationsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, notificationsPanelLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(moreInfoBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(23, 23, 23))
-            .addGroup(notificationsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, notificationsPanelLayout.createSequentialGroup()
-                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(detailsLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 928, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(168, 168, 168)))
+            .addGap(0, 0, Short.MAX_VALUE)
         );
         notificationsPanelLayout.setVerticalGroup(
             notificationsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(notificationsPanelLayout.createSequentialGroup()
-                .addGap(61, 61, 61)
-                .addComponent(moreInfoBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(460, Short.MAX_VALUE))
-            .addGroup(notificationsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(notificationsPanelLayout.createSequentialGroup()
-                    .addGap(40, 40, 40)
-                    .addComponent(detailsLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(449, Short.MAX_VALUE)))
+            .addGap(0, 60, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -170,45 +189,26 @@ public class Notifications extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(499, Short.MAX_VALUE)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 259, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(492, 492, 492))
-            .addGroup(layout.createSequentialGroup()
                 .addGap(51, 51, 51)
-                .addComponent(notificationsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 1103, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1099, Short.MAX_VALUE)
+                    .addComponent(notificationsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(40, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(50, 50, 50)
                 .addComponent(notificationsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(44, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 625, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
- private NotificationDetails tw;
-    private void moreInfoBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_moreInfoBtnActionPerformed
-        int selectedClassId = 1; // Replace with logic to get the actual Class ID
-
-        if (tw == null) {
-            // Check if the instance has not been created
-            tw = new NotificationDetails(selectedClassId); // Create a new instance
-        }
-
-        if (!tw.isVisible()) {
-            // Check if it's not visible
-            tw.setVisible(true); // Make it visible
-        } else {
-            // Bring it to the front if it's already visible
-            tw.toFront();
-            tw.requestFocus();
-        }
-    }//GEN-LAST:event_moreInfoBtnActionPerformed
+    private NotificationDetails tw;
 
     /**
      * @param args the command line arguments
@@ -221,10 +221,8 @@ public class Notifications extends javax.swing.JFrame {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel detailsLabel;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollBar jScrollBar1;
-    private javax.swing.JButton moreInfoBtn;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JPanel notificationsPanel;
     // End of variables declaration//GEN-END:variables
 }

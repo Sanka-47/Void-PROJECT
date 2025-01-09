@@ -63,7 +63,7 @@ public class AdminSignIn extends javax.swing.JFrame {
         jLabel2.setText("Admin Sign In");
 
         jLabel3.setFont(new java.awt.Font("Century Gothic", 1, 16)); // NOI18N
-        jLabel3.setText("Mobile");
+        jLabel3.setText("NIC");
 
         jTextField1.setPreferredSize(new java.awt.Dimension(64, 38));
 
@@ -180,20 +180,20 @@ public class AdminSignIn extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
 
-        String mobile = jTextField1.getText();
+        String nic = jTextField1.getText();
         String password = String.valueOf(jPasswordField1.getPassword());
-        if (mobile.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Please enter your mobile!", "Warning", JOptionPane.WARNING_MESSAGE);
-            logger.log(Level.WARNING, "Mobile field is empty");
-        } else if (!mobile.matches("^07[01245678]{1}[0-9]{7}$")) {
-            JOptionPane.showMessageDialog(this, "Please enter a valid mobile!", "Warning", JOptionPane.WARNING_MESSAGE);
-            logger.log(Level.WARNING, "Invalid mobile format: {0}", mobile);
+        if (nic.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please enter your NIC", "Warning", JOptionPane.WARNING_MESSAGE);
+            logger.log(Level.WARNING, "NIC field is empty");
+        } else if (!nic.matches("^(([5,6,7,8,9]{1})([0-9]{1})([0,1,2,3,5,6,7,8]{1})([0-9]{6})([v|V|x|X]))|(([1,2]{1})([0,9]{1})([0-9]{2})([0,1,2,3,5,6,7,8]{1})([0-9]{7}))")) {
+            JOptionPane.showMessageDialog(this, "Please enter your valid NIC number!", "Warning", JOptionPane.WARNING_MESSAGE);
+            logger.log(Level.WARNING, "Invalid NIC format: {0}", nic);
         } else if (password.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Please enter your password!", "Warning", JOptionPane.WARNING_MESSAGE);
             logger.log(Level.WARNING, "Password field is empty");
         } else {
             try {
-                ResultSet resultSet = MySQL2.executeSearch("SELECT * FROM `employee` WHERE `contact_info` = '" + mobile + "' AND `password` = '" + password + "' AND `roles_id`='2'");
+                ResultSet resultSet = MySQL2.executeSearch("SELECT * FROM `employee` WHERE WHERE `nic` = '" + nic + "' AND `password` = '" + password + "' AND `roles_id`='2'");
                 if (resultSet.next()) {
                     String fName = resultSet.getString("first_name") + " " + resultSet.getString("last_name");
                     String adminID = resultSet.getString("employee.id");
@@ -205,7 +205,7 @@ public class AdminSignIn extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(this, "Incorrect mobile or password", "Warning", JOptionPane.WARNING_MESSAGE);
                     jTextField1.setText("");
                     jPasswordField1.setText("");
-                    logger.log(Level.WARNING, "Incorrect mobile or password for mobile: {0}", mobile);
+                    logger.log(Level.WARNING, "Incorrect mobile or password for mobile: {0}", nic);
                 }
             } catch (Exception e) {
                 logger.log(Level.SEVERE, "An error occurred", e);
