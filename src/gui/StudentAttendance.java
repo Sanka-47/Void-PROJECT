@@ -11,13 +11,12 @@ import javax.swing.table.DefaultTableModel;
 import model.MySQL2;
 
 public class StudentAttendance extends javax.swing.JPanel {
-
-    private UpdateStudentAttendance updateAttendance;
+    
+    private TutorDashboard parent;
 
     public StudentAttendance() {
         initComponents();
         loadTable();
-        this.updateAttendance = new UpdateStudentAttendance();
 
         DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
         renderer.setHorizontalAlignment(SwingConstants.CENTER);
@@ -30,10 +29,11 @@ public class StudentAttendance extends javax.swing.JPanel {
             String sort = String.valueOf(jComboBox1.getSelectedItem());
             String searchText = jTextField1.getText().toLowerCase();
 
-            String query = "SELECT attendance.id, attendance.date, attendance.status, student.first_name, student.last_name, class.name "
+            String query = "SELECT `attendance`.`id`, `attendance`.`date`, `student`.`first_name`, `student`.`last_name`, `class`.`name`, `attendance_status`.`status` "
                     + "FROM attendance "
                     + "INNER JOIN student ON attendance.student_nic = student.nic "
-                    + "INNER JOIN class ON attendance.class_id = class.id ";
+                    + "INNER JOIN class ON attendance.class_id = class.id "
+                    + "INNER JOIN `attendance_status` ON `attendance`.`attendance_status_id` = `attendance_status`.`id` ";
 
             if (!searchText.isEmpty()) {
                 query += "WHERE (LOWER(attendance.id) LIKE '%" + searchText + "%' "
@@ -78,9 +78,9 @@ public class StudentAttendance extends javax.swing.JPanel {
                 Vector<String> vector = new Vector<>();
                 vector.add(resultSet.getString("attendance.id"));
                 vector.add(resultSet.getString("date"));
-                vector.add(resultSet.getString("status"));
                 vector.add(resultSet.getString("first_name") + " " + resultSet.getString("last_name"));
                 vector.add(resultSet.getString("name"));
+                vector.add(resultSet.getString("attendance_status.status"));
 
                 model.addRow(vector);
             }
@@ -122,7 +122,7 @@ public class StudentAttendance extends javax.swing.JPanel {
                 {null, null, null, null, null}
             },
             new String [] {
-                "Attendance ID", "Date", "Status", "Student Name", "Class Name"
+                "Attendance ID", "Date", "Student Name", "Class Name", "Status"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -149,14 +149,14 @@ public class StudentAttendance extends javax.swing.JPanel {
         });
 
         jButton3.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
-        jButton3.setText("Delete");
+        jButton3.setText("Clear All");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton3ActionPerformed(evt);
             }
         });
 
-        jLabel2.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
+        jLabel2.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
         jLabel2.setText("Double click relevant row to 'Update' the row");
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Class Name ASC", "Class Name DESC", "Status ASC", "Status DESC", " " }));
@@ -242,9 +242,9 @@ public class StudentAttendance extends javax.swing.JPanel {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(20, 20, 20)
                         .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 77, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 83, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap(84, Short.MAX_VALUE)
+                        .addContainerGap(90, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jDateChooser2, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -258,7 +258,7 @@ public class StudentAttendance extends javax.swing.JPanel {
                                 .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(jLabel3)))
                         .addGap(11, 11, 11)))
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 358, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 363, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel2)
@@ -267,10 +267,6 @@ public class StudentAttendance extends javax.swing.JPanel {
                 .addGap(32, 32, 32))
         );
     }// </editor-fold>//GEN-END:initComponents
-
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
 
@@ -287,34 +283,38 @@ public class StudentAttendance extends javax.swing.JPanel {
 
         String Id = String.valueOf(jTable1.getValueAt(row, 0));
         String Date = String.valueOf(jTable1.getValueAt(row, 1));
-        String Status = String.valueOf(jTable1.getValueAt(row, 2));
-        String StudentName = String.valueOf(jTable1.getValueAt(row, 3));
-        String ClassName = String.valueOf(jTable1.getValueAt(row, 4));
+        String StudentName = String.valueOf(jTable1.getValueAt(row, 2));
+        String ClassName = String.valueOf(jTable1.getValueAt(row, 3));
+        String Status = String.valueOf(jTable1.getValueAt(row, 4));
 //        String Email = String.valueOf(jTable1.getValueAt(row, 6));
 //        String Gender = String.valueOf(jTable1.getValueAt(row, 7));
 
         if (evt.getClickCount() == 2) {
-//            switchToRegistration();
-//            if (updateStudent == null) {
-//                updateStudent = new StudentRegistration();
-//            }
-            updateAttendance.getjLabel7().setText(Id);
-            updateAttendance.getjTextField2().setText(Date);
-            updateAttendance.getjTextField2().setText(Status);
-            updateAttendance.getjComboBox1().setSelectedItem(StudentName);
-            updateAttendance.getjComboBox2().setSelectedItem(ClassName);
 
+            AddStudentAttendanceJDialog ASA = new AddStudentAttendanceJDialog(parent, true);
+            
+            ASA.setID(Id);
             SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 
             try {
                 Date dateofBirth = formatter.parse((Date));
-                updateAttendance.getjDateChooser1().setDate(dateofBirth);
+                ASA.getjDateChooser1().setDate(dateofBirth);
+                ASA.getjDateChooser1().setEnabled(false);
                 System.out.println("Converted Date: " + dateofBirth);
             } catch (Exception e) {
                 System.out.println("Error converting Object to Date: " + e.getMessage());
             }
-
-            updateAttendance.setVisible(true);
+            
+            ASA.getjComboBox1().setSelectedItem(Status);
+            ASA.getjComboBox2().setSelectedItem(StudentName);
+            ASA.getjComboBox2().setEnabled(false);
+            ASA.getjComboBox3().setSelectedItem(ClassName);
+            ASA.getjComboBox3().setEnabled(false);
+            
+            ASA.getjButton1().setEnabled(false);
+            ASA.getjButton2().setEnabled(true);
+            
+            ASA.setVisible(true);
 //            switchToRegistration();
         }
 
@@ -322,8 +322,12 @@ public class StudentAttendance extends javax.swing.JPanel {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
 
-        AddStudentAttendance addStudentAttendance = new AddStudentAttendance();
-        addStudentAttendance.setVisible(true);
+//        ASA addStudentAttendance = new ASA();
+//        addStudentAttendance.setVisible(true);
+        
+        AddStudentAttendanceJDialog ASA = new AddStudentAttendanceJDialog(parent, true);
+        ASA.setVisible(true);
+        loadTable();
 
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -338,6 +342,15 @@ public class StudentAttendance extends javax.swing.JPanel {
     private void jTextField1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField1KeyReleased
         loadTable();
     }//GEN-LAST:event_jTextField1KeyReleased
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+
+        jComboBox1.setSelectedIndex(0);
+        jTextField1.setText("");
+        jDateChooser1.setDate(null);
+        jDateChooser2.setDate(null);
+        loadTable();
+    }//GEN-LAST:event_jButton3ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

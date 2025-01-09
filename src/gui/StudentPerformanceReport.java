@@ -28,30 +28,27 @@ import net.sf.jasperreports.view.JasperViewer;
  */
 public class StudentPerformanceReport extends javax.swing.JPanel {
 
-   private UpdateStudentReport updateReport;
-   
+    private TutorDashboard parent;
+
     private String grade;
-    
+
     public StudentPerformanceReport() {
-        this.updateReport = new UpdateStudentReport();
         initComponents();
         loadTable();
-        
+
         DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
         renderer.setHorizontalAlignment(SwingConstants.CENTER);
-        
+
         jTable1.setDefaultRenderer(Object.class, renderer);
     }
 
- private void loadTable() {
-        
-        try {
-            
-           // String sort = String.valueOf(jComboBox1.getSelectedItem());
-            
-            String query = "SELECT * FROM grades INNER JOIN student ON grades.student_nic = student.nic" 
-                   + " INNER JOIN assignment ON grades.assignment_id = assignment.id ";
+    private void loadTable() {
 
+        try {
+
+            // String sort = String.valueOf(jComboBox1.getSelectedItem());
+            String query = "SELECT * FROM grades INNER JOIN student ON grades.student_nic = student.nic"
+                    + " INNER JOIN assignment ON grades.assignment_id = assignment.id ";
 
             ResultSet resultSet = MySQL2.executeSearch(query);
 
@@ -65,16 +62,16 @@ public class StudentPerformanceReport extends javax.swing.JPanel {
                 vector.add(resultSet.getString("grades.comments"));
                 vector.add(resultSet.getString("student.first_name") + " " + resultSet.getString("student.last_name"));
                 vector.add(resultSet.getString("assignment.title"));
-              
+
                 model.addRow(vector);
-                
+
             }
 
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -186,38 +183,32 @@ public class StudentPerformanceReport extends javax.swing.JPanel {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
 
-         AddStudentPerformanceReport addStudentPerformanceReport = new AddStudentPerformanceReport();
-        addStudentPerformanceReport.setVisible(true);
-        
+        AddStudentPerformanceReportJDialog ASR = new AddStudentPerformanceReportJDialog(parent, true);
+        ASR.setVisible(true);
+        loadTable();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
 
-  try {
-        
-            int option = JOptionPane.showConfirmDialog(this, "Are you sure you want to delete this row?", "Message",
+        try {
+
+            int option = JOptionPane.showConfirmDialog(this, "Are you sure you want to delete this row with Report ID:" + grade + "?", "Message",
                     JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE);
 
-                if (option == JOptionPane.YES_OPTION) {
+            if (option == JOptionPane.YES_OPTION) {
 
-                    MySQL2.executeIUD("DELETE FROM grades WHERE grades.id = '"+grade+"' ");
-                    
-                } else {
+                MySQL2.executeIUD("DELETE FROM grades WHERE grades.id = '" + grade + "' ");
 
-                    JOptionPane.showMessageDialog(this, "Row not deleted", "Information", JOptionPane.INFORMATION_MESSAGE);
+            }
 
-                }
-            
-        
+            loadTable();
 
-         loadTable();
-        
         } catch (Exception e) {
-            
+
             e.printStackTrace();
-            
+
         }
-        
+
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
@@ -241,28 +232,27 @@ public class StudentPerformanceReport extends javax.swing.JPanel {
 //        String Email = String.valueOf(jTable1.getValueAt(row, 6));
 //        String Gender = String.valueOf(jTable1.getValueAt(row, 7));
 
-        if (evt.getClickCount() == 1){
-        
+        if (evt.getClickCount() == 1) {
             grade = gradeId;
-            
         }
 
         if (evt.getClickCount() == 2) {
-//            switchToRegistration();
-//            if (updateStudent == null) {
-//                updateStudent = new StudentRegistration();
-//            }
+
+            AddStudentPerformanceReportJDialog ASR = new AddStudentPerformanceReportJDialog(parent, true);
+
+            ASR.getjLabel7().setText(gradeId);
+            ASR.getjTextField1().setText(Grade);
+            ASR.getjTextField2().setText(Comments);
+            ASR.getjComboBox1().setSelectedItem(StudentName);
+            ASR.getjComboBox2().setSelectedItem(AssignmentName);
             
-            updateReport.getjLabel7().setText(gradeId);
-            updateReport.getjTextField1().setText(Grade);
-            updateReport.getjTextField2().setText(Comments);
-            updateReport.getjComboBox1().setSelectedItem(StudentName);
-            updateReport.getjComboBox2().setSelectedItem(AssignmentName);
-              updateReport.setVisible(true);
-//            switchToRegistration();
-            
-        }             
-        
+            ASR.getjButton1().setEnabled(false);
+            ASR.getjButton2().setEnabled(true);
+
+            ASR.setVisible(true);
+
+        }
+
     }//GEN-LAST:event_jTable1MouseClicked
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed

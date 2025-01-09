@@ -189,11 +189,11 @@ public class AdminSignIn extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Please enter your valid NIC number!", "Warning", JOptionPane.WARNING_MESSAGE);
             logger.log(Level.WARNING, "Invalid NIC format: {0}", nic);
         } else if (password.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Please enter your password!", "Warning", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Please enter your password", "Warning", JOptionPane.WARNING_MESSAGE);
             logger.log(Level.WARNING, "Password field is empty");
         } else {
             try {
-                ResultSet resultSet = MySQL2.executeSearch("SELECT * FROM `employee` WHERE WHERE `nic` = '" + nic + "' AND `password` = '" + password + "' AND `roles_id`='2'");
+                ResultSet resultSet = MySQL2.executeSearch("SELECT * FROM `employee` WHERE `nic` = '" + nic + "' AND `password` = '" + password + "' AND `roles_id`='2'");
                 if (resultSet.next()) {
                     String fName = resultSet.getString("first_name") + " " + resultSet.getString("last_name");
                     String adminID = resultSet.getString("employee.id");
@@ -205,7 +205,7 @@ public class AdminSignIn extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(this, "Incorrect mobile or password", "Warning", JOptionPane.WARNING_MESSAGE);
                     jTextField1.setText("");
                     jPasswordField1.setText("");
-                    logger.log(Level.WARNING, "Incorrect mobile or password for mobile: {0}", nic);
+                    logger.log(Level.WARNING, "Incorrect mobile or password for nic:{0} ", nic);
                 }
             } catch (Exception e) {
                 logger.log(Level.SEVERE, "An error occurred", e);
@@ -214,16 +214,18 @@ public class AdminSignIn extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        
         String nic = jTextField1.getText();
+        
         if (nic.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Please enter your NIC", "Warning", JOptionPane.WARNING_MESSAGE);
             logger.log(Level.WARNING, "NIC field is empty");
-        } else if (!nic.matches("^(([5,6,7,8,9]{1})([0-9]{1})([0,1,2,3,5,6,7,8]{1})([0-9]{6})([v|V|x|X]))|(([1,2]{1})([0,9]{1})([0,9]{2})([0,1,2,3,5,6,7,8]{1})([0,9]{7}))")) {
+        } else if (!nic.matches("^(([5,6,7,8,9]{1})([0-9]{1})([0,1,2,3,5,6,7,8]{1})([0-9]{6})([v|V|x|X]))|(([1,2]{1})([0,9]{1})([0-9]{2})([0,1,2,3,5,6,7,8]{1})([0-9]{7}))")) {
             JOptionPane.showMessageDialog(this, "Please enter your valid NIC number!", "Warning", JOptionPane.WARNING_MESSAGE);
             logger.log(Level.WARNING, "Invalid NIC format: {0}", nic);
         } else {
             try {
-                ResultSet resultSet = MySQL2.executeSearch("SELECT `email` FROM `tutor` WHERE `nic` = '" + nic + "'");
+                ResultSet resultSet = MySQL2.executeSearch("SELECT `email` FROM `employee` WHERE `nic` = '" + nic + "'");
                 if (resultSet.next()) {
                     this.email = resultSet.getString("email");
                     ForgotPassword forgotPassword = new ForgotPassword(this, true, email, 1);
