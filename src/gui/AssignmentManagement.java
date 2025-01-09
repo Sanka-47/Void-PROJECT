@@ -26,7 +26,8 @@ import javax.swing.JLabel;
 
 public class AssignmentManagement extends javax.swing.JPanel {
 
-    private UpdateAssignmentJFrame updateStudent;
+    private TutorDashboard parent;
+
     private String assignment;
     private String course;
     private int tutorId;
@@ -34,9 +35,8 @@ public class AssignmentManagement extends javax.swing.JPanel {
     public AssignmentManagement(int tutorID) {
         this.tutorId = tutorID;
         initComponents();
-        loadTable("Select");
+        loadTable();
 //        loadCourses();
-        this.updateStudent = new UpdateAssignmentJFrame();
 
         DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
         renderer.setHorizontalAlignment(SwingConstants.CENTER);
@@ -48,108 +48,28 @@ public class AssignmentManagement extends javax.swing.JPanel {
     private static HashMap<String, String> tutorMap = new HashMap<>();
 
     // Example sortAscending method
-    private void sortAscending() {
-        // Assuming you have a data model for your JTable, such as DefaultTableModel
-        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-        TableRowSorter<TableModel> sorter = new TableRowSorter<>(model);
-        jTable1.setRowSorter(sorter);
-
-        // Set the sorting order on the desired column (e.g., column 0)
-        sorter.setComparator(0, Comparator.naturalOrder());
-        sorter.sort();
-    }
-
+//    private void sortAscending() {
+//        // Assuming you have a data model for your JTable, such as DefaultTableModel
+//        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+//        TableRowSorter<TableModel> sorter = new TableRowSorter<>(model);
+//        jTable1.setRowSorter(sorter);
+//
+//        // Set the sorting order on the desired column (e.g., column 0)
+//        sorter.setComparator(0, Comparator.naturalOrder());
+//        sorter.sort();
+//    }
 // Example sortDescending method
-    private void sortDescending() {
-        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-        TableRowSorter<TableModel> sorter = new TableRowSorter<>(model);
-        jTable1.setRowSorter(sorter);
+//    private void sortDescending() {
+//        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+//        TableRowSorter<TableModel> sorter = new TableRowSorter<>(model);
+//        jTable1.setRowSorter(sorter);
+//
+//        // Set the sorting order on the desired column (e.g., column 0)
+//        sorter.setComparator(0, Comparator.reverseOrder());
+//        sorter.sort();
+//    }
+    private void loadTable() {
 
-        // Set the sorting order on the desired column (e.g., column 0)
-        sorter.setComparator(0, Comparator.reverseOrder());
-        sorter.sort();
-    }
-
-    private void loadTable(String column) {
-
-//        try {
-//            String TID = String.valueOf(tutorId);
-//            String query = "";
-//            String searchText = jTextField1.getText().toLowerCase();
-//
-//            // Check if we need to search by title or filter by course
-//            if (column == null || column.equals("Select")) {
-//                query = "SELECT * FROM `assignment` INNER JOIN `tutor` ON `assignment`.`tutor_id` = `tutor`.`id`"
-//                        + " INNER JOIN `courses` ON `assignment`.`courses_id` = `courses`.`id` WHERE `tutor`.`id` = '" + TID + "'";
-//            } else if (column.equals("Select") || column.isEmpty()) {
-//                query = "SELECT * FROM `assignment` INNER JOIN `tutor` ON `assignment`.`tutor_id` = `tutor`.`id`"
-//                        + " INNER JOIN `courses` ON `assignment`.`courses_id` = `courses`.`id` WHERE `tutor`.`id` = '" + TID + "'";
-//            } else { // search by title
-//                query = "SELECT * FROM `assignment` INNER JOIN `tutor` ON `assignment`.`tutor_id` = `tutor`.`id`"
-//                        + " INNER JOIN `courses` ON `assignment`.`courses_id` = `courses`.`id` WHERE `assignment`.`title` LIKE '%" + column + "%' AND `tutor`.`id` = '" + TID + "'";
-//            }
-//
-//            if (column != null) {
-//                if (query.contains("WHERE")) {
-//                    query += "AND ";
-//                } else {
-//                    query += "WHERE ";
-//                }
-//            }
-//
-//            if (!searchText.isEmpty()) {
-//                query += "WHERE (LOWER(assignment.title) LIKE '%" + searchText + "%' "
-//                        + "OR LOWER(courses.name) LIKE '%" + searchText + "%' "
-//                        + "OR LOWER(tutor.first_name) LIKE '%" + searchText + "%' "
-//                        + "OR LOWER(tutor.last_name) LIKE '%" + searchText + "%') ";
-//            }
-//
-//            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-//
-//            if (jDateChooser1.getDate() != null || jDateChooser2.getDate() != null) {
-//                if (query.contains("WHERE")) {
-//                    query += "AND ";
-//                } else {
-//                    query += "WHERE ";
-//                }
-//
-//                if (jDateChooser1.getDate() != null && jDateChooser2.getDate() != null) {
-//                    query += "assignment.due_date BETWEEN '" + format.format(jDateChooser1.getDate()) + "' AND '" + format.format(jDateChooser2.getDate()) + "' ";
-//                } else if (jDateChooser1.getDate() != null) {
-//                    query += "assignment.due_date >= '" + format.format(jDateChooser1.getDate()) + "' ";
-//                } else {
-//                    query += "assignment.due_date <= '" + format.format(jDateChooser2.getDate()) + "' ";
-//                }
-//            }
-//
-//            ResultSet rs = MySQL2.executeSearch(query);
-//            System.out.println(query);
-//
-//            DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-//
-//            model.setRowCount(0);
-//
-//            while (rs.next()) {
-//                Vector<Object> vectorE = new Vector<>();
-//                vectorE.add(rs.getString("id"));
-//                vectorE.add(rs.getString("title"));
-//                vectorE.add(rs.getString("description"));
-//                vectorE.add(rs.getString("due_date"));
-//                String fullname = rs.getString("tutor.first_name") + " " + rs.getString("tutor.last_name");
-//                String coursename = rs.getString("courses.name");
-//                vectorE.add(fullname);
-//                vectorE.add(coursename);
-//                tutorMap.put(fullname, rs.getString("tutor_id"));
-//                courseMap.put(coursename, rs.getString("courses_id"));
-//
-//                model.addRow(vectorE);
-//            }
-//
-//            jTable1.setModel(model);
-//
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
         try {
             String TID = String.valueOf(tutorId);
             StringBuilder query = new StringBuilder();
@@ -164,13 +84,7 @@ public class AssignmentManagement extends javax.swing.JPanel {
                     .append("WHERE `tutor`.`id` = '").append(TID).append("' ");
 
             hasCondition = true;
-            // Search by column
-//            if (column != null && !column.equals("Select") && !column.isEmpty()) {
-//                query.append("AND `assignment`.`title` LIKE '%").append(column).append("%' ");
-//                hasCondition = true;
-//            }
 
-            // Search by general text
             if (!searchText.isEmpty()) {
                 query.append(hasCondition ? "AND " : "WHERE ");
                 query.append("(LOWER(`assignment`.`title`) LIKE '%").append(searchText).append("%' ")
@@ -230,30 +144,6 @@ public class AssignmentManagement extends javax.swing.JPanel {
         }
     }
 
-//    private void loadCourses() {
-//
-//        try {
-//
-//            Vector<String> vector = new Vector<>();
-//            vector.add("Select");
-//
-//            ResultSet resultSet = MySQL2.executeSearch("SELECT * FROM courses");
-//
-//            while (resultSet.next()) {
-//                vector.add(resultSet.getString("name"));
-//                courseMap.put(resultSet.getString("name"), resultSet.getString("id"));
-//
-//                course = resultSet.getString("name");
-//
-//            }
-//
-//            jComboBox1.setModel(new DefaultComboBoxModel<>(vector));
-//
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//    }
-
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -275,7 +165,7 @@ public class AssignmentManagement extends javax.swing.JPanel {
         jLabel1.setFont(new java.awt.Font("Century Gothic", 1, 28)); // NOI18N
         jLabel1.setText("Assignments");
 
-        jButton5.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
+        jButton5.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
         jButton5.setText("Add");
         jButton5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -283,7 +173,7 @@ public class AssignmentManagement extends javax.swing.JPanel {
             }
         });
 
-        jButton6.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
+        jButton6.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
         jButton6.setText("Delete");
         jButton6.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -291,7 +181,7 @@ public class AssignmentManagement extends javax.swing.JPanel {
             }
         });
 
-        jLabel2.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
+        jLabel2.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
         jLabel2.setText("Double click relevant row to 'Update' the row");
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
@@ -344,48 +234,44 @@ public class AssignmentManagement extends javax.swing.JPanel {
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton6)
-                .addGap(455, 455, 455))
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGap(39, 39, 39)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton6)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jButton5))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                        .addGap(39, 39, 39)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel1)
-                                    .addComponent(jLabel2))
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 232, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 207, Short.MAX_VALUE)
-                                .addComponent(jLabel7)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(26, 26, 26)
-                                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jDateChooser2, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton2)))))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 232, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 207, Short.MAX_VALUE)
+                        .addComponent(jLabel7)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(26, 26, 26)
+                        .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jDateChooser2, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton2)))
                 .addGap(41, 41, 41))
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel1)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(42, Short.MAX_VALUE)
-                .addComponent(jLabel1)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(12, 12, 12)
+                        .addGap(24, 24, 24)
+                        .addComponent(jLabel1)
+                        .addGap(28, 28, 28)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                 .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -397,24 +283,26 @@ public class AssignmentManagement extends javax.swing.JPanel {
                                     .addComponent(jLabel6)
                                     .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGap(90, 90, 90)
                         .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton5)
-                    .addComponent(jLabel2))
-                .addGap(42, 42, 42)
-                .addComponent(jButton6)
-                .addGap(34, 34, 34))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel2))
+                    .addComponent(jButton5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(47, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
 
-        AddAssignmentJFrame addAssignmentJFrame = new AddAssignmentJFrame();
-        addAssignmentJFrame.setVisible(true);
+//        AAJ addAssignmentJFrame = new AAJ();
+//        addAssignmentJFrame.setVisible(true);
+        AddAssignmentJDialog AAJ = new AddAssignmentJDialog(parent, true);
+        AAJ.setVisible(true);
 
     }//GEN-LAST:event_jButton5ActionPerformed
 
@@ -430,13 +318,9 @@ public class AssignmentManagement extends javax.swing.JPanel {
 //                MySQL2.executeIUD("DELETE * FROM assignment WHERE assignment.id = '" + assignment + "' ");
                 MySQL2.executeIUD("DELETE FROM assignment WHERE id = '" + assignment + "' ");
 
-            } else {
-
-                JOptionPane.showMessageDialog(this, "Row not deleted", "Information", JOptionPane.INFORMATION_MESSAGE);
-
             }
 
-            loadTable("Select");
+            loadTable();
 
         } catch (Exception e) {
 
@@ -472,33 +356,40 @@ public class AssignmentManagement extends javax.swing.JPanel {
 //            if (updateStudent == null) {
 //                updateStudent = new StudentRegistration();
 //            }
-            updateStudent.getjTextLabel8().setText(Id);
-            updateStudent.getjTextField1().setText(Name);
-            updateStudent.getjTextField2().setText(Description);
-            updateStudent.getjComboBox1().setSelectedItem(TutorName);
-            updateStudent.getjComboBox2().setSelectedItem(CourseName);
+
+            AddAssignmentJDialog AAJ = new AddAssignmentJDialog(parent, true);
+
+            AAJ.setID(Id);
+            AAJ.getjTextField1().setText(Name);
+            AAJ.getjTextField2().setText(Description);
+            AAJ.getjComboBox1().setSelectedItem(TutorName);
+            AAJ.getjComboBox1().setEnabled(false);
+            AAJ.getjComboBox2().setSelectedItem(CourseName);
 
             SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 
             try {
                 Date dateofBirth = formatter.parse((DueDate));
-                updateStudent.getjDateChooser1().setDate(dateofBirth);
+                AAJ.getjDateChooser1().setDate(dateofBirth);
             } catch (Exception e) {
                 System.out.println("Error converting Object to Date: " + e.getMessage());
             }
+            
+            AAJ.getjButton1().setEnabled(false);
+            AAJ.getjButton2().setEnabled(true);
 
-            updateStudent.setVisible(true);
+            AAJ.setVisible(true);
 //            switchToRegistration();
         }
 
     }//GEN-LAST:event_jTable1MouseClicked
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        loadTable(course);
+        loadTable();
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jTextField1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField1KeyReleased
-        loadTable(course);
+        loadTable();
     }//GEN-LAST:event_jTextField1KeyReleased
 
 
@@ -518,4 +409,3 @@ public class AssignmentManagement extends javax.swing.JPanel {
     private javax.swing.JTextField jTextField1;
     // End of variables declaration//GEN-END:variables
 }
-

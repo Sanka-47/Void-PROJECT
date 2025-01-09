@@ -172,7 +172,7 @@ public class EmployeeSignIn extends javax.swing.JFrame {
             logger.log(Level.WARNING, "Password field is empty");
         } else {
             try {
-                ResultSet resultSet = MySQL2.executeSearch("SELECT * FROM `employee` WHERE `nic` = '" + nic + "' AND `password`='" + password + "'");
+                ResultSet resultSet = MySQL2.executeSearch("SELECT * FROM `employee` WHERE `nic` = '" + nic + "' AND `password`='" + password + "' AND `roles_id`='1'");
                 if (resultSet.next()) {
                     String fName = resultSet.getString("first_name");
                     String lName = resultSet.getString("last_name");
@@ -202,7 +202,7 @@ public class EmployeeSignIn extends javax.swing.JFrame {
             logger.log(Level.WARNING, "Invalid NIC format: {0}", nic);
         } else {
             try {
-                ResultSet resultSet = MySQL2.executeSearch("SELECT `email` FROM `tutor` WHERE `nic` = '" + nic + "'");
+                ResultSet resultSet = MySQL2.executeSearch("SELECT `email` FROM `employee` WHERE `nic` = '" + nic + "' AND `roles_id`='1'");
                 if (resultSet.next()) {
                     this.email = resultSet.getString("email");
                     ForgotPassword forgotPassword = new ForgotPassword(this, true, email, 2);
