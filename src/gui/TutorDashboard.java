@@ -528,6 +528,7 @@ public class TutorDashboard extends javax.swing.JFrame implements DashboardInter
             // Check if the instance has not been created
             n = new Notifications(tutorID); // Create a new instance
         }
+        
 
         if (!n.isVisible()) {
             // Check if it's not visible

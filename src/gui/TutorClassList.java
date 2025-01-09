@@ -3,8 +3,10 @@ package gui;
 import java.sql.ResultSet;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Vector;
 import java.util.logging.Level;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -14,6 +16,7 @@ import model.MySQL2;
 public class TutorClassList extends javax.swing.JPanel {
 
     private DashboardInterface parent;
+    private static HashMap<String, String> courseMap = new HashMap<>();
 
     private String mobile;
 
@@ -25,6 +28,7 @@ public class TutorClassList extends javax.swing.JPanel {
 //        this.addSession = new AddSession();
         initComponents();
         loadTable();
+        loadCourses();
 
         DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
         renderer.setHorizontalAlignment(SwingConstants.CENTER);
@@ -118,6 +122,24 @@ public class TutorClassList extends javax.swing.JPanel {
                 model.addRow(vector);
 
                 jLabel4.setText(resultSet.getString("tutor.first_name") + " " + (resultSet.getString("tutor.last_name")));
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void loadCourses() {
+
+        try {
+            ResultSet resultSet = MySQL2.executeSearch("SELECT * FROM `courses`");
+
+            Vector<String> vector = new Vector<>();
+            vector.add("Select");
+
+            while (resultSet.next()) {
+                vector.add(resultSet.getString("name"));
+                courseMap.put(resultSet.getString("name"), resultSet.getString("id"));
             }
 
         } catch (Exception e) {
@@ -320,35 +342,42 @@ public class TutorClassList extends javax.swing.JPanel {
     private void cancelBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelBtnActionPerformed
         // Check if the text field (jTextField2) is empty
         if (jTextField2.getText().trim().isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Please fill in the required text field to cancel the session.");
+            JOptionPane.showMessageDialog(this, "Please provide a reason for requesting session cancellation.");
             return; // Exit the method if the text field is empty
         }
 
         int selectedRow = jTable1.getSelectedRow();
         if (selectedRow != -1) {
-            String id = (String) jTable1.getValueAt(selectedRow, 0); // Get 'id' from selected row
-            String reason = jTextField2.getText().trim(); // Get reason from jTextField2
+            String classId = (String) jTable1.getValueAt(selectedRow, 0); // Class ID is in column 0
+            String className = (String) jTable1.getValueAt(selectedRow, 1); // Class Name is in column 1
+            String date = (String) jTable1.getValueAt(selectedRow, 2); // Date is in column 2
+            String startTime = (String) jTable1.getValueAt(selectedRow, 3); // Start Time is in column 3
+            String endTime = (String) jTable1.getValueAt(selectedRow, 4); // End Time is in column 4
+            String hallNumber = (String) jTable1.getValueAt(selectedRow, 5); // Hall Number is in column 5
+            String course = (String) jTable1.getValueAt(selectedRow, 7); // Hall Number is in column 5
+            String reason = jTextField2.getText().trim(); // Reason provided in text field
+            int tutorId = this.tutorId; // Replace with the actual tutor's ID from your application
+           // Replace if the Course ID needs to be dynamically set
 
             try {
-                // Step 1: Update class_status_id to '3' (Cancelled)
-                String query = "UPDATE class SET class_status_id = '3' WHERE `id` = '" + id + "'";
+                // Insert cancellation request into the `request_sessions` table
+                String query = "INSERT INTO request_sessions (title, date, start_time, end_time, hallnumber, tutor_id, approve_status, reason, courses_id, type) "
+                        + "VALUES ('" + className + "', '" + date + "', '" + startTime + "', '" + endTime + "', '" + hallNumber + "', '" + tutorId + "', 'Pending', '" + reason + "', " + courseMap.get(course) + ", 'Cancel')";
                 MySQL2.executeIUD(query);
 
-                // Step 2: Insert cancellation details into tutor_cancelled_sessions table
-                String insertQuery = "INSERT INTO tutor_cancelled_sessions (class_id, reason) VALUES ('" + id + "', '" + reason + "')";
-                MySQL2.executeIUD(insertQuery);
-
-                // Step 3: Reload table data
+                // Reload table data
                 loadTable();
-                JOptionPane.showMessageDialog(this, "Session cancelled and logged successfully!");
+                JOptionPane.showMessageDialog(this, "Cancellation request sent to admin successfully!");
 
-                // Step 4: Disable buttons after action
+                // Disable button and clear text field after action
                 cancelBtn.setEnabled(false);
                 jTextField2.setText("");
             } catch (Exception e) {
                 e.printStackTrace();
-                JOptionPane.showMessageDialog(this, "Error while cancelling session.");
+                JOptionPane.showMessageDialog(this, "Error while sending cancellation request.");
             }
+        } else {
+            JOptionPane.showMessageDialog(this, "Please select a session to cancel.");
         }
 
     }//GEN-LAST:event_cancelBtnActionPerformed

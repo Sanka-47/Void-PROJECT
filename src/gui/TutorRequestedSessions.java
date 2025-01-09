@@ -32,7 +32,7 @@ public class TutorRequestedSessions extends javax.swing.JPanel {
                     + "tutor.first_name, tutor.last_name, "
                     + "request_sessions.title, request_sessions.date, "
                     + "request_sessions.start_time, request_sessions.id, request_sessions.end_time, "
-                    + "request_sessions.hallnumber, request_sessions.approve_status, "
+                    + "request_sessions.hallnumber, request_sessions.approve_status,request_sessions.type, "
                     + "courses.name,request_sessions.reason "
                     + "FROM request_sessions "
                     + "INNER JOIN tutor ON request_sessions.tutor_id = tutor.id "
@@ -54,6 +54,7 @@ public class TutorRequestedSessions extends javax.swing.JPanel {
                 vector.add(resultSet.getString("start_time")); // Start Time
                 vector.add(resultSet.getString("end_time")); // End Time
                 vector.add(resultSet.getString("hallnumber")); // Hall Number
+                vector.add(resultSet.getString("type")); // Hall Number
                 vector.add(resultSet.getString("approve_status")); // Hall Number
                 vector.add(resultSet.getString("reason")); // Hall Number
                 model.addRow(vector);
@@ -81,11 +82,11 @@ public class TutorRequestedSessions extends javax.swing.JPanel {
 
             },
             new String [] {
-                "ID", "Course", "Title", "Date", "Start time", "End Time", "Hall Number", "Approval Status", "Reason"
+                "ID", "Course", "Title", "Date", "Start time", "End Time", "Hall Number", "Type", "Approval Status", "Reason"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false, true
+                false, false, false, false, false, false, false, true, false, true
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -100,8 +101,8 @@ public class TutorRequestedSessions extends javax.swing.JPanel {
         });
         jScrollPane1.setViewportView(jTable1);
         if (jTable1.getColumnModel().getColumnCount() > 0) {
-            jTable1.getColumnModel().getColumn(7).setMinWidth(100);
-            jTable1.getColumnModel().getColumn(8).setMinWidth(200);
+            jTable1.getColumnModel().getColumn(8).setMinWidth(100);
+            jTable1.getColumnModel().getColumn(9).setMinWidth(200);
         }
 
         jLabel1.setFont(new java.awt.Font("Century Gothic", 1, 24)); // NOI18N
