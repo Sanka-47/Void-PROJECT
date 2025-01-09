@@ -6,6 +6,8 @@ import com.formdev.flatlaf.FlatLightLaf;
 import com.formdev.flatlaf.themes.FlatMacDarkLaf;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.logging.Level;
@@ -25,6 +27,7 @@ public class AdminDashboard extends javax.swing.JFrame implements DashboardInter
     private String fName;
     private String lName;
     private String mobile;
+    private Thread dateThread;
 
     public AdminDashboard(String fName, String adminID) {
         initComponents();
@@ -34,7 +37,18 @@ public class AdminDashboard extends javax.swing.JFrame implements DashboardInter
         this.fName = fName;
         this.lName = lName;
 
+        // Add window listener to handle window closing
+        addWindowListener(new WindowAdapter() {
+            public void windowClosing(WindowEvent e) {
+                // Interrupt the thread to stop it
+                if (dateThread != null && dateThread.isAlive()) {
+                    dateThread.interrupt();
+                }
+                dispose();
+            }
+        });
     }
+
 
     public void switchPanel(JPanel panel) {
         jPanel4.removeAll();
@@ -47,23 +61,28 @@ public class AdminDashboard extends javax.swing.JFrame implements DashboardInter
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
-                while (true) {
+                while (!Thread.currentThread().isInterrupted()) {
                     Date date = new Date();
                     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
                     String fdate = dateFormat.format(date);
                     jLabel6.setText(fdate);
                     try {
                         Thread.sleep(1000);
-                        logger.log(Level.INFO, "Date and time updated to: {0}", fdate);
+                    } catch (InterruptedException e) {
+                        // Re-interrupt the thread and break the loop
+                        Thread.currentThread().interrupt();
                     } catch (Exception e) {
                         logger.log(Level.SEVERE, "An error occurred while updating date and time", e);
                     }
                 }
             }
         };
-        Thread thread = new Thread(runnable);
-        thread.start();
+        dateThread = new Thread(runnable);
+        dateThread.start();
     }
+
+    
+    
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
