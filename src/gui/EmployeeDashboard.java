@@ -28,7 +28,7 @@ public class EmployeeDashboard extends javax.swing.JFrame implements DashboardIn
     private String mobile;
     private Thread dateThread;
 
-    private static final Logger logger = Logger.getLogger(EmployeeSignIn.class.getName());
+//    private static final Logger logger = Logger.getLogger(EmployeeSignIn.class.getName());
 
    public EmployeeDashboard(String fName, String lName) {
         initComponents();
@@ -73,7 +73,7 @@ public class EmployeeDashboard extends javax.swing.JFrame implements DashboardIn
                         // Re-interrupt the thread and break the loop
                         Thread.currentThread().interrupt();
                     } catch (Exception e) {
-                        logger.log(Level.SEVERE, "An error occurred while updating date and time", e);
+//                        logger.log(Level.SEVERE, "An error occurred while updating date and time", e);
                     }
                 }
             }

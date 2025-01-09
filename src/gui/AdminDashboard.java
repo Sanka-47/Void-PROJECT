@@ -20,7 +20,7 @@ import javax.swing.UnsupportedLookAndFeelException;
 
 public class AdminDashboard extends javax.swing.JFrame implements DashboardInterface {
 
-    private static final Logger logger = Logger.getLogger(AdminSignIn.class.getName());
+//    private static final Logger logger = Logger.getLogger(AdminSignIn.class.getName());
     
     
     private String adminID;
@@ -72,7 +72,7 @@ public class AdminDashboard extends javax.swing.JFrame implements DashboardInter
                         // Re-interrupt the thread and break the loop
                         Thread.currentThread().interrupt();
                     } catch (Exception e) {
-                        logger.log(Level.SEVERE, "An error occurred while updating date and time", e);
+//                        logger.log(Level.SEVERE, "An error occurred while updating date and time", e);
                     }
                 }
             }
