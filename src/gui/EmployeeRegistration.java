@@ -22,7 +22,7 @@ import javax.swing.JTextField;
  */
 public class EmployeeRegistration extends javax.swing.JPanel {
     
-        private static final Logger logger = Logger.getLogger(TutorSignIn.class.getName());
+//        private static final Logger logger = Logger.getLogger(TutorSignIn.class.getName());
 
 
     private AdminDashboard parent;
@@ -131,7 +131,7 @@ public class EmployeeRegistration extends javax.swing.JPanel {
     private void loadGender() {
 
         try {
-            logger.log(Level.INFO, "Starting to load genders from the database.");
+//            logger.log(Level.INFO, "Starting to load genders from the database.");
 
             ResultSet resultSet = MySQL2.executeSearch("SELECT * FROM `gender`");
 
@@ -145,16 +145,16 @@ public class EmployeeRegistration extends javax.swing.JPanel {
                 vector.add(genderName);
                 genderMap.put(genderName, genderId);
 
-                logger.log(Level.INFO, "Loaded gender: {0} with ID: {1}", new Object[]{genderName, genderId});
+//                logger.log(Level.INFO, "Loaded gender: {0} with ID: {1}", new Object[]{genderName, genderId});
             }
 
             DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>(vector);
             jComboBox1.setModel(model);
 
-            logger.log(Level.INFO, "Genders successfully loaded into the combo box.");
+//            logger.log(Level.INFO, "Genders successfully loaded into the combo box.");
 
         } catch (Exception e) {
-            logger.log(Level.SEVERE, "Error occurred while loading genders.", e);
+//            logger.log(Level.SEVERE, "Error occurred while loading genders.", e);
         }
 
     }
@@ -162,7 +162,7 @@ public class EmployeeRegistration extends javax.swing.JPanel {
     private void loadRole() {
 
         try {
-            logger.log(Level.INFO, "Starting to load roles from the database.");
+//            logger.log(Level.INFO, "Starting to load roles from the database.");
 
             ResultSet resultSet = MySQL2.executeSearch("SELECT * FROM `roles`");
 
@@ -176,16 +176,16 @@ public class EmployeeRegistration extends javax.swing.JPanel {
                 vector.add(roleName);
                 roleMap.put(roleName, roleId);
 
-                logger.log(Level.INFO, "Loaded role: {0} with ID: {1}", new Object[]{roleName, roleId});
+//                logger.log(Level.INFO, "Loaded role: {0} with ID: {1}", new Object[]{roleName, roleId});
             }
 
             DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>(vector);
             jComboBox2.setModel(model);
 
-            logger.log(Level.INFO, "Roles successfully loaded into the combo box.");
+//            logger.log(Level.INFO, "Roles successfully loaded into the combo box.");
 
         } catch (Exception e) {
-            logger.log(Level.SEVERE, "Error occurred while loading roles.", e);
+//            logger.log(Level.SEVERE, "Error occurred while loading roles.", e);
         }
 
     }
@@ -448,16 +448,16 @@ public class EmployeeRegistration extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(this, "Please Enter Valid Email", "Warning", JOptionPane.WARNING_MESSAGE);
         } else {
             try {
-            logger.log(Level.INFO, "Starting employee registration process for NIC: {0}", nic);
+//            logger.log(Level.INFO, "Starting employee registration process for NIC: {0}", nic);
 
             int genderId = genderMap.get(Gender);
             int roleId = roleMap.get(role);
-            logger.log(Level.INFO, "Resolved gender ID: {0} and role ID: {1}", new Object[]{genderId, roleId});
+//            logger.log(Level.INFO, "Resolved gender ID: {0} and role ID: {1}", new Object[]{genderId, roleId});
 
             ResultSet rs = MySQL2.executeSearch("SELECT * FROM `employee` WHERE `nic`='" + nic + "'");
             if (rs.next()) {
                 JOptionPane.showMessageDialog(this, "This NIC number is already registered", "Warning", JOptionPane.WARNING_MESSAGE);
-                logger.log(Level.WARNING, "NIC already registered: {0}", nic);
+//                logger.log(Level.WARNING, "NIC already registered: {0}", nic);
             } else {
                 int result = MySQL2.executeIUD("INSERT INTO `employee`"
                         + "(`first_name`,`last_name`,`contact_info`,`roles_id`,`gender_id`,`password`,`nic`)"
@@ -465,14 +465,14 @@ public class EmployeeRegistration extends javax.swing.JPanel {
 
                 if (result > 0) {
                     JOptionPane.showMessageDialog(this, "Employee registration success!", "Confirmation", JOptionPane.INFORMATION_MESSAGE);
-                    logger.log(Level.INFO, "Employee registered successfully with NIC: {0}", nic);
+//                    logger.log(Level.INFO, "Employee registered successfully with NIC: {0}", nic);
                     reset();
                 } else {
-                    logger.log(Level.WARNING, "Failed to register employee with NIC: {0}", nic);
+//                    logger.log(Level.WARNING, "Failed to register employee with NIC: {0}", nic);
                 }
             }
         } catch (Exception e) {
-            logger.log(Level.SEVERE, "Error occurred during employee registration for NIC: " + nic, e);
+//            logger.log(Level.SEVERE, "Error occurred during employee registration for NIC: " + nic, e);
         }
         }
     }//GEN-LAST:event_jButton1ActionPerformed
@@ -488,76 +488,76 @@ public class EmployeeRegistration extends javax.swing.JPanel {
         String email = jTextField5.getText();
 
          try {
-            logger.log(Level.INFO, "Starting employee update process for NIC: {0}", nic);
+//            logger.log(Level.INFO, "Starting employee update process for NIC: {0}", nic);
 
             // Validate inputs
             if (FirstName.isEmpty()) {
                 JOptionPane.showMessageDialog(this, "Please Enter First Name", "Warning", JOptionPane.WARNING_MESSAGE);
-                logger.log(Level.WARNING, "First Name is empty.");
+//                logger.log(Level.WARNING, "First Name is empty.");
                 return;
             } else if (FirstName.length() > 30) {
                 JOptionPane.showMessageDialog(this, "First Name is too long (maximum 30 characters)", "Warning", JOptionPane.WARNING_MESSAGE);
-                logger.log(Level.WARNING, "First Name exceeds the character limit: {0}", FirstName);
+//                logger.log(Level.WARNING, "First Name exceeds the character limit: {0}", FirstName);
                 return;
             } else if (!FirstName.matches("^[A-Za-z]+$")) {
                 JOptionPane.showMessageDialog(this, "You Can Only Use Simple And Capital Letters For First Name", "Warning", JOptionPane.WARNING_MESSAGE);
-                logger.log(Level.WARNING, "Invalid First Name: {0}", FirstName);
+//                logger.log(Level.WARNING, "Invalid First Name: {0}", FirstName);
                 return;
             }
 
             if (LastName.isEmpty()) {
                 JOptionPane.showMessageDialog(this, "Please Enter Last Name", "Warning", JOptionPane.WARNING_MESSAGE);
-                logger.log(Level.WARNING, "Last Name is empty.");
+//                logger.log(Level.WARNING, "Last Name is empty.");
                 return;
             } else if (LastName.length() > 30) {
                 JOptionPane.showMessageDialog(this, "Last Name is too long (maximum 30 characters)", "Warning", JOptionPane.WARNING_MESSAGE);
-                logger.log(Level.WARNING, "Last Name exceeds the character limit: {0}", LastName);
+//                logger.log(Level.WARNING, "Last Name exceeds the character limit: {0}", LastName);
                 return;
             } else if (!LastName.matches("^[A-Za-z]+$")) {
                 JOptionPane.showMessageDialog(this, "You Can Only Use Simple And Capital Letters For Last Name", "Warning", JOptionPane.WARNING_MESSAGE);
-                logger.log(Level.WARNING, "Invalid Last Name: {0}", LastName);
+//                logger.log(Level.WARNING, "Invalid Last Name: {0}", LastName);
                 return;
             }
 
             if (Mobile.isEmpty()) {
                 JOptionPane.showMessageDialog(this, "Please Enter Mobile Number", "Warning", JOptionPane.WARNING_MESSAGE);
-                logger.log(Level.WARNING, "Mobile number is empty.");
+//                logger.log(Level.WARNING, "Mobile number is empty.");
                 return;
             } else if (!Mobile.matches("^07[01245678]{1}[0-9]{7}$")) {
                 JOptionPane.showMessageDialog(this, "Please Enter A Valid Mobile Number", "Warning", JOptionPane.WARNING_MESSAGE);
-                logger.log(Level.WARNING, "Invalid Mobile Number: {0}", Mobile);
+//                logger.log(Level.WARNING, "Invalid Mobile Number: {0}", Mobile);
                 return;
             }
 
             if (nic.isEmpty()) {
                 JOptionPane.showMessageDialog(this, "Please Enter NIC", "Warning", JOptionPane.WARNING_MESSAGE);
-                logger.log(Level.WARNING, "NIC is empty.");
+//                logger.log(Level.WARNING, "NIC is empty.");
                 return;
             } else if (!nic.matches("^(([5,6,7,8,9]{1})([0-9]{1})([0,1,2,3,5,6,7,8]{1})([0-9]{6})([v|V|x|X]))|(([1,2]{1})([0,9]{1})([0-9]{2})([0,1,2,3,5,6,7,8]{1})([0-9]{7}))")) {
                 JOptionPane.showMessageDialog(this, "Please Enter Valid NIC", "Warning", JOptionPane.WARNING_MESSAGE);
-                logger.log(Level.WARNING, "Invalid NIC: {0}", nic);
+//                logger.log(Level.WARNING, "Invalid NIC: {0}", nic);
                 return;
             }
 
             if (Gender.matches("Select")) {
                 JOptionPane.showMessageDialog(this, "Please Enter Your Gender", "Warning", JOptionPane.WARNING_MESSAGE);
-                logger.log(Level.WARNING, "Gender not selected.");
+//                logger.log(Level.WARNING, "Gender not selected.");
                 return;
             }
 
             if (role.matches("Select")) {
                 JOptionPane.showMessageDialog(this, "Please Enter Your Role", "Warning", JOptionPane.WARNING_MESSAGE);
-                logger.log(Level.WARNING, "Role not selected.");
+//                logger.log(Level.WARNING, "Role not selected.");
                 return;
             }
 
             if (email.isEmpty()) {
                 JOptionPane.showMessageDialog(this, "Please Enter Email", "Warning", JOptionPane.WARNING_MESSAGE);
-                logger.log(Level.WARNING, "Email is empty.");
+//                logger.log(Level.WARNING, "Email is empty.");
                 return;
             } else if (!email.matches("^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$")) {
                 JOptionPane.showMessageDialog(this, "Please Enter Valid Email", "Warning", JOptionPane.WARNING_MESSAGE);
-                logger.log(Level.WARNING, "Invalid Email: {0}", email);
+//                logger.log(Level.WARNING, "Invalid Email: {0}", email);
                 return;
             }
 
@@ -565,7 +565,7 @@ public class EmployeeRegistration extends javax.swing.JPanel {
             int genderId = genderMap.get(Gender);
             int roleId = roleMap.get(role);
 
-            logger.log(Level.INFO, "Resolved gender ID: {0}, role ID: {1} for NIC: {2}", new Object[]{genderId, roleId, nic});
+//            logger.log(Level.INFO, "Resolved gender ID: {0}, role ID: {1} for NIC: {2}", new Object[]{genderId, roleId, nic});
 
             String query = "UPDATE `employee` SET `first_name` = '" + FirstName + "', `last_name` = '" + LastName + "', "
                     + "`contact_info` = '" + Mobile + "', `email` = '" + email + "', `roles_id` = '" + roleId + "', "
@@ -574,7 +574,7 @@ public class EmployeeRegistration extends javax.swing.JPanel {
             if (!password.isEmpty()) {
                 if (!password.matches("^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*#?&])[A-Za-z\\d@$!%*#?&]{8,}$")) {
                     JOptionPane.showMessageDialog(this, "Password must be at least 8 characters long and include a letter, a number, and a special character.", "Warning", JOptionPane.WARNING_MESSAGE);
-                    logger.log(Level.WARNING, "Invalid password for NIC: {0}", nic);
+//                    logger.log(Level.WARNING, "Invalid password for NIC: {0}", nic);
                     return;
                 }
                 query += ", `password` = '" + password + "'";
@@ -584,11 +584,12 @@ public class EmployeeRegistration extends javax.swing.JPanel {
             MySQL2.executeIUD(query);
 
             JOptionPane.showMessageDialog(this, "Successfully Updated!", "Confirmation", JOptionPane.INFORMATION_MESSAGE);
-            logger.log(Level.INFO, "Employee updated successfully for NIC: {0}", nic);
+//            logger.log(Level.INFO, "Employee updated successfully for NIC: {0}", nic);
             reset();
 
         } catch (Exception e) {
-            logger.log(Level.SEVERE, "Error occurred during employee update for NIC: " + nic, e);
+//            logger.log(Level.SEVERE, "Error occurred during employee update for NIC: " + nic, e);
+e.printStackTrace();
         }
 
     }//GEN-LAST:event_jButton2ActionPerformed
