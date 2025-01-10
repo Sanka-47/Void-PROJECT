@@ -414,7 +414,7 @@ public class EmployeeDashboard extends javax.swing.JFrame implements DashboardIn
 ////        AllStudents as = new AllStudents();
 ////        jPanel4.add(as, BorderLayout.CENTER);
 //
-        StudentPayment studentPayment = new StudentPayment();
+        StudentPayment studentPayment = new StudentPayment(fName,lName);
         studentPayment.setVisible(true);
 //        SwingUtilities.updateComponentTreeUI(jPanel4);
 

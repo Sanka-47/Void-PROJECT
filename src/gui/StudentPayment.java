@@ -64,14 +64,13 @@ public class StudentPayment extends javax.swing.JFrame {
         }
     }
 
-    private void EmptyTable() {
+  private void EmptyTable() {
         DefaultTableModel m = (DefaultTableModel) jTable1.getModel();
         m.setRowCount(0);
         this.model = m;
     }
 
     private void loadInvoiceItems() {
-
         DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
         renderer.setHorizontalAlignment(SwingConstants.CENTER);
         jTable1.setDefaultRenderer(Object.class, renderer);
@@ -79,31 +78,32 @@ public class StudentPayment extends javax.swing.JFrame {
         EmptyTable();
 
         total = 0;
+        int rowCount = 1;
 
         for (InvoiceItem invoiceItem : invoiceItemMap.values()) {
             Vector<String> vector = new Vector<>();
 
+            vector.add(String.valueOf(rowCount)); // Add row count
             vector.add(invoiceItem.getStudent_name());
             vector.add(invoiceItem.getNic());
             vector.add(invoiceItem.getSubject_name());
             vector.add(invoiceItem.getSellingPrice());
-            // Subject ID
 
-            // Student Name
-            // NIC
-            // Assuming you may need to add a total for any calculations (e.g., course fees)
             double courseFee = Double.parseDouble(invoiceItem.getSellingPrice());
             total += courseFee;
             vector.add(String.valueOf(courseFee));
 
             model.addRow(vector);
+            rowCount++;
         }
 
         totalField.setText(String.valueOf(total));
 
-// Call calculate() if it performs other operations
+        // Call calculate() if it performs other operations
         calculate();
     }
+
+
 
 //    //Student Name
 //    public JTextField getjTextField2() {
@@ -165,9 +165,9 @@ public class StudentPayment extends javax.swing.JFrame {
 //    public JTextField getjTextField4() {
 //        return jTextField4;
 //    }
-    public StudentPayment() {
+    public StudentPayment(String Fname, String Lname) {
         initComponents();
-
+employeeLable.setText(Fname+" "+Lname);
         printInvoiceButton.setEnabled(false);
 //        employeeLable.setText(Signin.getEmail());
         generateInvoiceID();
@@ -488,11 +488,11 @@ public class StudentPayment extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Student Name", "Nic", "Subject", "Course Fee"
+                "#", "Student Name", "Nic", "Subject", "Course Fee"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, true
+                true, false, false, false, true
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -830,7 +830,7 @@ if (student_name.isEmpty()) {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new StudentPayment().setVisible(true);
+                new StudentPayment("yeet","laa").setVisible(true);
             }
         });
     }

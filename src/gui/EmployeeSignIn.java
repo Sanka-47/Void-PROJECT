@@ -17,12 +17,12 @@ import model.MySQL2;
 
 public class EmployeeSignIn extends javax.swing.JFrame {
 
-    private static final Logger logger = Logger.getLogger(EmployeeSignIn.class.getName());
+//    private static final Logger logger = Logger.getLogger(EmployeeSignIn.class.getName());
     public String email;
 
     public EmployeeSignIn() {
         initComponents();
-        getLogger();
+//        getLogger();
     }
 
     @SuppressWarnings("unchecked")
@@ -145,17 +145,17 @@ public class EmployeeSignIn extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    public static Logger getLogger() {
-        try {
-            FileHandler fileHandler = new FileHandler("Employee.log", true);
-            fileHandler.setFormatter(new SimpleFormatter());
-            logger.addHandler(fileHandler);
-            logger.setUseParentHandlers(false); // Disable console logging
-        } catch (IOException e) {
-            logger.severe("Error setting up logger: " + e.getMessage());
-        }
-        return logger;
-    }
+//    public static Logger getLogger() {
+//        try {
+//            FileHandler fileHandler = new FileHandler("Employee.log", true);
+//            fileHandler.setFormatter(new SimpleFormatter());
+//            logger.addHandler(fileHandler);
+//            logger.setUseParentHandlers(false); // Disable console logging
+//        } catch (IOException e) {
+//            logger.severe("Error setting up logger: " + e.getMessage());
+//        }
+//        return logger;
+//    }
 
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -163,20 +163,20 @@ public class EmployeeSignIn extends javax.swing.JFrame {
         String password = String.valueOf(jPasswordField1.getPassword());
         if (nic.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Please enter your NIC", "Warning", JOptionPane.WARNING_MESSAGE);
-            logger.log(Level.WARNING, "NIC field is empty");
+//            logger.log(Level.WARNING, "NIC field is empty");
         } else if (!nic.matches("^(([5,6,7,8,9]{1})([0-9]{1})([0,1,2,3,5,6,7,8]{1})([0-9]{6})([v|V|x|X]))|(([1,2]{1})([0,9]{1})([0-9]{2})([0,1,2,3,5,6,7,8]{1})([0-9]{7}))")) {
             JOptionPane.showMessageDialog(this, "Please enter your valid NIC number!", "Warning", JOptionPane.WARNING_MESSAGE);
-            logger.log(Level.WARNING, "Invalid NIC format: {0}", nic);
+//            logger.log(Level.WARNING, "Invalid NIC format: {0}", nic);
         } else if (password.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Please enter your password", "Warning", JOptionPane.WARNING_MESSAGE);
-            logger.log(Level.WARNING, "Password field is empty");
+//            logger.log(Level.WARNING, "Password field is empty");
         } else {
             try {
                 ResultSet resultSet = MySQL2.executeSearch("SELECT * FROM `employee` WHERE `nic` = '" + nic + "' AND `password`='" + password + "' AND `roles_id`='1'");
                 if (resultSet.next()) {
                     String fName = resultSet.getString("first_name");
                     String lName = resultSet.getString("last_name");
-                    logger.log(Level.INFO, "User {0} {1} successfully logged in", new Object[]{fName, lName});
+//                    logger.log(Level.INFO, "User {0} {1} successfully logged in", new Object[]{fName, lName});
                     EmployeeDashboard ed = new EmployeeDashboard(fName, lName);
                     ed.setVisible(true);
                     this.dispose();
@@ -184,10 +184,10 @@ public class EmployeeSignIn extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(this, "Invalid NIC or password", "Warning", JOptionPane.WARNING_MESSAGE);
                     jTextField1.setText("");
                     jPasswordField1.setText("");
-                    logger.log(Level.WARNING, "Invalid NIC or password for NIC: {0}", nic);
+//                    logger.log(Level.WARNING, "Invalid NIC or password for NIC: {0}", nic);
                 }
             } catch (Exception e) {
-                logger.log(Level.SEVERE, "An error occurred", e);
+//                logger.log(Level.SEVERE, "An error occurred", e);
             }
         }
     }//GEN-LAST:event_jButton1ActionPerformed
@@ -196,10 +196,10 @@ public class EmployeeSignIn extends javax.swing.JFrame {
         String nic = jTextField1.getText();
         if (nic.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Please enter your NIC", "Warning", JOptionPane.WARNING_MESSAGE);
-            logger.log(Level.WARNING, "NIC field is empty");
+//            logger.log(Level.WARNING, "NIC field is empty");
         } else if (!nic.matches("^(([5,6,7,8,9]{1})([0-9]{1})([0,1,2,3,5,6,7,8]{1})([0-9]{6})([v|V|x|X]))|(([1,2]{1})([0,9]{1})([0-9]{2})([0,1,2,3,5,6,7,8]{1})([0-9]{7}))")) {
             JOptionPane.showMessageDialog(this, "Please enter your valid NIC number!", "Warning", JOptionPane.WARNING_MESSAGE);
-            logger.log(Level.WARNING, "Invalid NIC format: {0}", nic);
+//            logger.log(Level.WARNING, "Invalid NIC format: {0}", nic);
         } else {
             try {
                 ResultSet resultSet = MySQL2.executeSearch("SELECT `email` FROM `employee` WHERE `nic` = '" + nic + "' AND `roles_id`='1'");
@@ -207,15 +207,15 @@ public class EmployeeSignIn extends javax.swing.JFrame {
                     this.email = resultSet.getString("email");
                     ForgotPassword forgotPassword = new ForgotPassword(this, true, email, 2);
                     forgotPassword.setVisible(true);
-                    logger.log(Level.INFO, "Email found for NIC: {0}", nic);
+//                    logger.log(Level.INFO, "Email found for NIC: {0}", nic);
                 } else {
                     JOptionPane.showMessageDialog(this, "Invalid NIC or password", "Warning", JOptionPane.WARNING_MESSAGE);
                     jTextField1.setText("");
                     jPasswordField1.setText("");
-                    logger.log(Level.WARNING, "Invalid NIC or password for NIC: {0}", nic);
+//                    logger.log(Level.WARNING, "Invalid NIC or password for NIC: {0}", nic);
                 }
             } catch (Exception e) {
-                logger.log(Level.SEVERE, "An error occurred", e);
+//                logger.log(Level.SEVERE, "An error occurred", e);
             }
         }
     }//GEN-LAST:event_jButton2ActionPerformed
