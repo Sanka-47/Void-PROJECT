@@ -92,6 +92,7 @@ public class CourseRegistration extends javax.swing.JPanel {
                 vector.add(resultSet.getString("courses.id"));
                 vector.add(resultSet.getString("courses.name"));
                 vector.add(resultSet.getString("courses.grade_level"));
+                vector.add(resultSet.getString("courses.course_description"));
 //                vector.add(resultSet.getString("tutor.first_name") + " " + resultSet.getString("tutor.last_name"));
                 vector.add(resultSet.getString("courses.fee"));
                 vector.add(resultSet.getString("course_status.name"));
@@ -147,6 +148,8 @@ public class CourseRegistration extends javax.swing.JPanel {
         jLabel4 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
+        jLabel5 = new javax.swing.JLabel();
+        jTextField4 = new javax.swing.JTextField();
 
         jButton4.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
         jButton4.setText("Reset");
@@ -213,17 +216,17 @@ public class CourseRegistration extends javax.swing.JPanel {
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
             },
             new String [] {
-                "ID", "Course Name", "Grade Level", "Fees", "Status"
+                "ID", "Course Name", "Grade Level", "Description", "Fees", "Status"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false
+                false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -236,6 +239,14 @@ public class CourseRegistration extends javax.swing.JPanel {
             }
         });
         jScrollPane1.setViewportView(jTable1);
+
+        jLabel5.setText("Description");
+
+        jTextField4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField4ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -258,17 +269,19 @@ public class CourseRegistration extends javax.swing.JPanel {
                         .addContainerGap()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel7)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(jTextField1, javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jComboBox1, javax.swing.GroupLayout.Alignment.LEADING, 0, 257, Short.MAX_VALUE)
-                                .addComponent(jTextField2, javax.swing.GroupLayout.Alignment.LEADING))
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                 .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 260, Short.MAX_VALUE)
                                 .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, 260, Short.MAX_VALUE)
                                 .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addComponent(jLabel3)
-                            .addComponent(jLabel9))
+                            .addComponent(jLabel9)
+                            .addComponent(jLabel5)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(jTextField4, javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jTextField1, javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jComboBox1, javax.swing.GroupLayout.Alignment.LEADING, 0, 257, Short.MAX_VALUE)
+                                .addComponent(jTextField2, javax.swing.GroupLayout.Alignment.LEADING)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jScrollPane1)))
                 .addContainerGap())
@@ -289,15 +302,19 @@ public class CourseRegistration extends javax.swing.JPanel {
                         .addComponent(jLabel7)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(43, 43, 43)
+                        .addGap(18, 18, 18)
                         .addComponent(jLabel9)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(54, 54, 54)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel5)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
                         .addComponent(jLabel3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 45, Short.MAX_VALUE)
+                        .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
                         .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -305,7 +322,7 @@ public class CourseRegistration extends javax.swing.JPanel {
                         .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPane1))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 483, Short.MAX_VALUE))
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -322,6 +339,7 @@ public class CourseRegistration extends javax.swing.JPanel {
         String courseName = jTextField1.getText();
         String grade = String.valueOf(jComboBox1.getSelectedItem());
         String fee = jTextField2.getText();
+        String description = jTextField4.getText();
 
         if (courseName.isEmpty() || fee.isEmpty() || grade.equals("Select")) {
             JOptionPane.showMessageDialog(this, "All fields must be filled!", "Warning", JOptionPane.WARNING_MESSAGE);
@@ -331,7 +349,8 @@ public class CourseRegistration extends javax.swing.JPanel {
         try {
             String gradeId = gradeMap.get(grade);
             MySQL2.executeIUD("UPDATE `courses` SET `name`='" + courseName + "', `grade_level`='"
-                    + gradeId + "', `fee`='" + fee + "' WHERE `id`='" + courseId + "'");
+                    + gradeId + "',`course_description`='" + description + "', `fee`='" + fee + "' "
+                            + "WHERE `id`='" + courseId + "'");
 
             loadCourseDetails();
             reset();
@@ -349,6 +368,7 @@ public class CourseRegistration extends javax.swing.JPanel {
             String courseName = jTextField1.getText();
             Double fee = Double.parseDouble(jTextField2.getText());
             String grade = String.valueOf(jComboBox1.getSelectedItem());
+            String description = jTextField4.getText();
 
             if (courseName.isEmpty()) {
                 JOptionPane.showMessageDialog(this, "Please enter the course name", "Warning", JOptionPane.WARNING_MESSAGE);
@@ -360,8 +380,8 @@ public class CourseRegistration extends javax.swing.JPanel {
 
                 String gradeId = gradeMap.get(grade);
 
-                MySQL2.executeIUD("INSERT INTO `courses`(`name`, `grade_level`, `fee`,`course_status_id`) VALUES ('"
-                        + courseName + "', '" + gradeId + "', '" + fee + "',0)");
+                MySQL2.executeIUD("INSERT INTO `courses`(`name`, `grade_level`, `fee`,`course_description`,`course_status_id`) VALUES ('"
+                        + courseName + "', '" + gradeId + "', '" + fee + "','" + description + "',0)");
 
                 loadCourseDetails();
                 reset();
@@ -422,7 +442,8 @@ public class CourseRegistration extends javax.swing.JPanel {
 
             jTextField1.setText(String.valueOf(jTable1.getValueAt(Row, 1)));
             jComboBox1.setSelectedItem(String.valueOf(jTable1.getValueAt(Row, 2)));
-            jTextField2.setText(String.valueOf(jTable1.getValueAt(Row, 3)));
+            jTextField4.setText(String.valueOf(jTable1.getValueAt(Row, 3)));
+            jTextField2.setText(String.valueOf(jTable1.getValueAt(Row, 4)));
 
             jButton1.setEnabled(true);
             jButton2.setEnabled(false);
@@ -430,6 +451,10 @@ public class CourseRegistration extends javax.swing.JPanel {
 
         }
     }//GEN-LAST:event_jTable1MouseClicked
+
+    private void jTextField4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField4ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField4ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -443,6 +468,7 @@ public class CourseRegistration extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
@@ -450,6 +476,7 @@ public class CourseRegistration extends javax.swing.JPanel {
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
+    private javax.swing.JTextField jTextField4;
     // End of variables declaration//GEN-END:variables
 
     private void reset() {
