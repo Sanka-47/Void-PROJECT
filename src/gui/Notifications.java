@@ -50,112 +50,126 @@ public class Notifications extends javax.swing.JFrame {
         // Fetch notifications for the given tutor
         List<Notification> notifications = NotificationManager.getDailyNotifications(tutorId);
 
-        // Clear the parent container
-        notificationsPanel.removeAll();
-        notificationsPanel.setBackground(Color.WHITE);
+        // Main panel with BorderLayout to fill entire width
+        JPanel mainPanel = new JPanel(new BorderLayout()) {
+            @Override
+            public Dimension getPreferredSize() {
+                // Make sure panel fills parent width
+                Dimension size = super.getPreferredSize();
+                size.width = getParent() != null ? getParent().getWidth() : size.width;
+                return size;
+            }
+        };
+        mainPanel.setBackground(Color.WHITE);
 
-        // Set layout for the notifications panel
-        notificationsPanel.setLayout(new BoxLayout(notificationsPanel, BoxLayout.Y_AXIS));
-
-        // Create a scrollable view
-        JScrollPane scrollPane = new JScrollPane(notificationsPanel);
-        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-        scrollPane.setBorder(BorderFactory.createLineBorder(new Color(200, 200, 200), 1));
-        scrollPane.setBackground(Color.WHITE);
-        scrollPane.getViewport().setBackground(Color.WHITE);
-        scrollPane.setPreferredSize(new Dimension(800, 600));
-
-        // Add title with minimal top gap
-        JPanel titlePanel = new JPanel();
-        titlePanel.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 10));
+        // Title panel
+        JPanel titlePanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         titlePanel.setBackground(Color.WHITE);
         JLabel titleLabel = new JLabel("Notifications");
         titleLabel.setFont(new Font("Segoe UI", Font.BOLD, 32));
         titlePanel.add(titleLabel);
-        notificationsPanel.add(titlePanel);
 
-        notificationsPanel.add(Box.createRigidArea(new Dimension(0, 10))); // Reduced spacing
+        // Content panel that will stretch full width
+        JPanel contentPanel = new JPanel();
+        contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.Y_AXIS));
+        contentPanel.setBackground(Color.WHITE);
+        contentPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 20, 10));
 
-        // If there are no notifications, show a default message
         if (notifications.isEmpty()) {
             JLabel noNotificationLabel = new JLabel("No classes scheduled.");
             noNotificationLabel.setHorizontalAlignment(SwingConstants.CENTER);
             noNotificationLabel.setFont(new Font("Segoe UI", Font.PLAIN, 14));
-            notificationsPanel.add(noNotificationLabel);
+            noNotificationLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+            contentPanel.add(noNotificationLabel);
         } else {
-            JPanel contentPanel = new JPanel();
-            contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.Y_AXIS));
-            contentPanel.setBackground(Color.WHITE);
-            contentPanel.setBorder(BorderFactory.createEmptyBorder(0, 20, 0, 20));
-
             for (Notification notification : notifications) {
-                // Create notification panel
-                JPanel notificationBox = new JPanel();
-                notificationBox.setLayout(new BorderLayout());
-                notificationBox.setPreferredSize(new Dimension(1000, 60));
-                notificationBox.setMaximumSize(new Dimension(1000, 60));
-                notificationBox.setBackground(Color.WHITE);
-
-                // Rounded border for notification panel
-                notificationBox.setBorder(BorderFactory.createCompoundBorder(
-                        BorderFactory.createEmptyBorder(0, 0, 8, 0),
-                        BorderFactory.createLineBorder(new Color(200, 200, 200), 1, true) // Rounded corners
-                ));
-
-                JLabel notificationLabel = new JLabel(notification.getDetails());
-                notificationLabel.setFont(new Font("Segoe UI", Font.PLAIN, 18));
-                notificationLabel.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 0));
-
-                JButton moreInfoButton = new JButton("More Info");
-                moreInfoButton.setPreferredSize(new Dimension(100, 30));
-                moreInfoButton.setFont(new Font("Segoe UI", Font.PLAIN, 12));
-                moreInfoButton.setForeground(Color.WHITE);
-                // Updated color to match the "Student Progress" header blue
-                moreInfoButton.setBackground(new Color(63, 81, 181)); // Rich blue color
-                moreInfoButton.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
-                moreInfoButton.setFocusPainted(false);
-                moreInfoButton.setHorizontalAlignment(SwingConstants.CENTER);
-
-                JPanel buttonWrapper = new JPanel(new GridBagLayout());
-                buttonWrapper.setBackground(Color.WHITE);
-                buttonWrapper.add(moreInfoButton);
-
-                JPanel buttonPanel = new JPanel(new BorderLayout());
-                buttonPanel.setBackground(Color.WHITE);
-                buttonPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 10));
-                buttonPanel.add(buttonWrapper, BorderLayout.CENTER);
-
-                moreInfoButton.addActionListener(e -> {
-                    int classId = notification.getClassId();
-                    if (!notificationDetailsMap.containsKey(classId)) {
-                        NotificationDetails details = new NotificationDetails(classId);
-                        notificationDetailsMap.put(classId, details);
-                        details.setVisible(true);
-                    } else {
-                        NotificationDetails details = notificationDetailsMap.get(classId);
-                        if (!details.isVisible()) {
-                            details.setVisible(true);
-                        } else {
-                            details.toFront();
-                            details.requestFocus();
-                        }
-                    }
-                });
-
-                notificationBox.add(notificationLabel, BorderLayout.WEST);
-                notificationBox.add(buttonPanel, BorderLayout.EAST);
-
+                JPanel notificationBox = createNotificationBox(notification);
                 contentPanel.add(notificationBox);
+                contentPanel.add(Box.createRigidArea(new Dimension(0, 8)));
             }
-
-            notificationsPanel.add(contentPanel);
         }
 
-        jScrollPane1.setViewportView(scrollPane);
+        // Content scroll pane that fills width
+        JScrollPane contentScrollPane = new JScrollPane(contentPanel) {
+            @Override
+            public Dimension getPreferredSize() {
+                Dimension size = super.getPreferredSize();
+                size.width = getParent() != null ? getParent().getWidth() : size.width;
+                return size;
+            }
+        };
+        contentScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        contentScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        contentScrollPane.setBorder(null);
+        contentScrollPane.getViewport().setBackground(Color.WHITE);
 
-        notificationsPanel.revalidate();
-        notificationsPanel.repaint();
+        mainPanel.add(titlePanel, BorderLayout.NORTH);
+        mainPanel.add(contentScrollPane, BorderLayout.CENTER);
+
+        // Configure the main scroll pane
+        jScrollPane1.setViewportView(mainPanel);
+        jScrollPane1.setBorder(BorderFactory.createLineBorder(new Color(200, 200, 200), 1));
+        jScrollPane1.setBackground(Color.WHITE);
+        jScrollPane1.getViewport().setBackground(Color.WHITE);
+    }
+
+    private JPanel createNotificationBox(Notification notification) {
+        // Wrapper panel that will stretch full width
+        JPanel wrapperPanel = new JPanel(new BorderLayout());
+        wrapperPanel.setBackground(Color.WHITE);
+        wrapperPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 60));
+
+        // Main notification panel
+        JPanel notificationBox = new JPanel(new BorderLayout());
+        notificationBox.setBackground(Color.WHITE);
+        notificationBox.setBorder(BorderFactory.createLineBorder(new Color(200, 200, 200), 1, true));
+
+        // Notification label
+        JLabel notificationLabel = new JLabel(notification.getDetails());
+        notificationLabel.setFont(new Font("Segoe UI", Font.PLAIN, 18));
+        notificationLabel.setBorder(BorderFactory.createEmptyBorder(0, 15, 0, 0));
+
+        // Button with vertical centering
+        JButton moreInfoButton = new JButton("More Info");
+        moreInfoButton.setPreferredSize(new Dimension(100, 30));
+        moreInfoButton.setFont(new Font("Segoe UI", Font.PLAIN, 12));
+        moreInfoButton.setForeground(Color.WHITE);
+        moreInfoButton.setBackground(new Color(63, 81, 181));
+        moreInfoButton.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
+        moreInfoButton.setFocusPainted(false);
+
+        // Button action listener
+        moreInfoButton.addActionListener(e -> {
+            int classId = notification.getClassId();
+            if (!notificationDetailsMap.containsKey(classId)) {
+                NotificationDetails details = new NotificationDetails(classId);
+                notificationDetailsMap.put(classId, details);
+                details.setVisible(true);
+            } else {
+                NotificationDetails details = notificationDetailsMap.get(classId);
+                if (!details.isVisible()) {
+                    details.setVisible(true);
+                } else {
+                    details.toFront();
+                    details.requestFocus();
+                }
+            }
+        });
+
+        // Create vertically centered button panel
+        JPanel buttonPanel = new JPanel(new GridBagLayout());
+        buttonPanel.setBackground(Color.WHITE);
+        buttonPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 15));
+        buttonPanel.add(moreInfoButton);
+
+        // Add components to notification box
+        notificationBox.add(notificationLabel, BorderLayout.CENTER);
+        notificationBox.add(buttonPanel, BorderLayout.EAST);
+
+        // Add notification box to wrapper
+        wrapperPanel.add(notificationBox, BorderLayout.CENTER);
+
+        return wrapperPanel;
     }
 
     /**
