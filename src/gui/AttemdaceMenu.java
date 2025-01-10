@@ -226,7 +226,8 @@ public class AttemdaceMenu extends javax.swing.JFrame implements Runnable, Threa
 
         if (result != null) {
             try {
-                ResultSet rs = MySQL2.executeSearch("SELECT * FROM `student` WHERE `nic`= '" + result.getText() + "'");
+                ResultSet rs = MySQL2.executeSearch("SELECT * FROM `student_courses` INNER JOIN  `class` ON "
+                        + "`student_courses`.`course_id` = `class`.`courses_id` WHERE `student_nic`= '" + result.getText() + "'");
 
                 if (rs.next()) {
                     LocalDate today = LocalDate.now();
@@ -241,8 +242,8 @@ public class AttemdaceMenu extends javax.swing.JFrame implements Runnable, Threa
                         JOptionPane.showMessageDialog(this, "Attendance already marked!", "Info", JOptionPane.INFORMATION_MESSAGE);
                     } else {
                         // Insert new attendance record
-                        MySQL2.executeIUD("INSERT INTO attendance (status, student_nic, class_id, date) "
-                                + "VALUES ('Present', '" + result.getText() + "', '" + ID + "', '" + formattedDate + "')");
+                        MySQL2.executeIUD("INSERT INTO attendance ( date, student_nic, class_id,attendance_status_id) "
+                                + "VALUES ('" + formattedDate + "', '" + result.getText() + "', '" + ID + "','2' )");
                         JOptionPane.showMessageDialog(this, "Attendance Marked!", "Info", JOptionPane.INFORMATION_MESSAGE);
                     }
                 } else {

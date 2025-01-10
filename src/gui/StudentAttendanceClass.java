@@ -31,57 +31,47 @@ public class StudentAttendanceClass extends javax.swing.JFrame {
     private AttemdaceMenu attendanceMenu;
 
     private void loadClass() {
-        try {
-            String query = "SELECT * FROM `class` WHERE `courses_id` = '" + ID + "' AND `date` = CURDATE();";
+    try {
+        String query = "SELECT * FROM `class` WHERE `courses_id` = '" + ID + "' AND `date` = CURDATE();";
 
-            // Execute SQL query to retrieve courses
-            ResultSet rs = MySQL2.executeSearch(query);
+        // Execute SQL query to retrieve courses
+        ResultSet rs = MySQL2.executeSearch(query);
 
-            // Clear existing buttons
-            jPanelCourses.removeAll();
-            jPanelCourses.revalidate();
-            jPanelCourses.repaint();
+        // Clear existing buttons
+        jPanelCourses.removeAll();
+        jPanelCourses.revalidate();
+        jPanelCourses.repaint();
 
-            // Iterate through the result set and create buttons
-            while (rs.next()) {
-                int class_Id = rs.getInt("id");
-                String class_Name = rs.getString("name");
+        // Iterate through the result set and create buttons
+        while (rs.next()) {
+            int class_Id = rs.getInt("id");
+            String class_Name = rs.getString("name");
 
-                // Create a new button for each course
-                JButton courseButton = new JButton(class_Name);
-                courseButton.addActionListener(e -> {
-                    if (attendanceMenu == null) {
-                        // Check if the instance has not been created
-                        attendanceMenu = new AttemdaceMenu(class_Id); // Create a new instance
-                        currentClassId = class_Id; // Set the current class ID
-                    } else if (class_Id != currentClassId) {
-                        // If the class ID is different
-                        attendanceMenu.dispose(); // Close the current JFrame
-                        attendanceMenu = new AttemdaceMenu(class_Id); // Create a new instance for the new class ID
-                        currentClassId = class_Id; // Update the current class ID
-                    }
+            // Create a new button for each course
+            JButton courseButton = new JButton(class_Name);
+            courseButton.addActionListener(e -> {
+                // Dispose the previous instance, if it exists
+                if (attendanceMenu != null) {
+                    attendanceMenu.dispose();
+                }
 
-                    if (!attendanceMenu.isVisible()) {
-                        // Check if it's not visible
-                        attendanceMenu.setVisible(true); // Make it visible
-                    } else {
-                        // Bring it to the front if it's already visible
-                        attendanceMenu.toFront();
-                        attendanceMenu.requestFocus();
-                    }
-                });
+                // Create and show a new instance for the selected class
+                attendanceMenu = new AttemdaceMenu(class_Id);
+                attendanceMenu.setVisible(true);
+            });
 
-                // Add the button to the JPanel
-                jPanelCourses.add(courseButton);
-            }
-
-            // Refresh the JPanel to show the new buttons
-            jPanelCourses.revalidate();
-            jPanelCourses.repaint();
-        } catch (Exception ex) {
-            ex.printStackTrace();
+            // Add the button to the JPanel
+            jPanelCourses.add(courseButton);
         }
+
+        // Refresh the JPanel to show the new buttons
+        jPanelCourses.revalidate();
+        jPanelCourses.repaint();
+    } catch (Exception ex) {
+        ex.printStackTrace();
     }
+}
+
 
     /**
      * This method is called from within the constructor to initialize the form.
