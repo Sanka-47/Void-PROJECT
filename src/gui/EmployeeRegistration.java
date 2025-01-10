@@ -23,19 +23,8 @@ import javax.swing.JTextField;
 public class EmployeeRegistration extends javax.swing.JPanel {
     
 //        private static final Logger logger = Logger.getLogger(TutorSignIn.class.getName());
-
-
-    private AdminDashboard parent;
-
-    public void setAdminDashboard(AdminDashboard ad) {
-        this.parent = ad;
-    }
-
-    private EmployeeDashboard eparent;
-
-    public void setEmployeeDashboard(EmployeeDashboard ed) {
-        this.eparent = ed;
-    }
+    
+    private DashboardInterface parent;
 
     public AllEmployees allEmployees;
 
@@ -51,17 +40,9 @@ public class EmployeeRegistration extends javax.swing.JPanel {
         jButton4.setEnabled(false);
     }
 
-    private void switchToAllEmployeesAD() {
+    private void switchToAllEmployees() {
         AllEmployees allEmployees = new AllEmployees(parent); // Create AllSession panel
         parent.switchPanel(allEmployees);
-    }
-
-    private void switchToAllEmployeesED() {
-        if (eparent != null && allEmployees != null) {
-            eparent.switchPanel(allEmployees);
-        } else {
-            System.err.println("Error: EmployeeDashboard or AllEmployees is null.");
-        }
     }
 
     //First Name
@@ -600,9 +581,7 @@ e.printStackTrace();
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         if (parent != null) {
-            switchToAllEmployeesAD();
-        } else if (eparent != null) {
-            switchToAllEmployeesED();
+            switchToAllEmployees();
         } else {
             System.out.println("Null");
         }

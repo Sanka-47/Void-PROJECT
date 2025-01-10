@@ -26,6 +26,8 @@ import model.InvoiceItem;
 import model.MySQL2;
 
 public class StudentPayment extends javax.swing.JFrame {
+    
+    private StudentPayment parent;
 
     private static String code;
     private static int Subject_id;
@@ -64,13 +66,14 @@ public class StudentPayment extends javax.swing.JFrame {
         }
     }
 
-  private void EmptyTable() {
+    private void EmptyTable() {
         DefaultTableModel m = (DefaultTableModel) jTable1.getModel();
         m.setRowCount(0);
         this.model = m;
     }
 
     private void loadInvoiceItems() {
+
         DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
         renderer.setHorizontalAlignment(SwingConstants.CENTER);
         jTable1.setDefaultRenderer(Object.class, renderer);
@@ -78,32 +81,31 @@ public class StudentPayment extends javax.swing.JFrame {
         EmptyTable();
 
         total = 0;
-        int rowCount = 1;
 
         for (InvoiceItem invoiceItem : invoiceItemMap.values()) {
             Vector<String> vector = new Vector<>();
 
-            vector.add(String.valueOf(rowCount)); // Add row count
             vector.add(invoiceItem.getStudent_name());
             vector.add(invoiceItem.getNic());
             vector.add(invoiceItem.getSubject_name());
             vector.add(invoiceItem.getSellingPrice());
+            // Subject ID
 
+            // Student Name
+            // NIC
+            // Assuming you may need to add a total for any calculations (e.g., course fees)
             double courseFee = Double.parseDouble(invoiceItem.getSellingPrice());
             total += courseFee;
             vector.add(String.valueOf(courseFee));
 
             model.addRow(vector);
-            rowCount++;
         }
 
         totalField.setText(String.valueOf(total));
 
-        // Call calculate() if it performs other operations
+// Call calculate() if it performs other operations
         calculate();
     }
-
-
 
 //    //Student Name
 //    public JTextField getjTextField2() {
@@ -167,7 +169,8 @@ public class StudentPayment extends javax.swing.JFrame {
 //    }
     public StudentPayment(String Fname, String Lname) {
         initComponents();
-employeeLable.setText(Fname+" "+Lname);
+        employeeLable.setText(Fname+" "+Lname);
+
         printInvoiceButton.setEnabled(false);
 //        employeeLable.setText(Signin.getEmail());
         generateInvoiceID();
@@ -488,11 +491,11 @@ employeeLable.setText(Fname+" "+Lname);
 
             },
             new String [] {
-                "#", "Student Name", "Nic", "Subject", "Course Fee"
+                "Student Name", "Nic", "Subject", "Course Fee"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                true, false, false, false, true
+                false, false, false, true
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -656,50 +659,50 @@ employeeLable.setText(Fname+" "+Lname);
     }//GEN-LAST:event_totalFieldActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-String subject_id = String.valueOf(Subject_id);
-String nic = customerName.getText();  // Use nic directly for the query
-String student_name = StudentNameFields.getText();
-String selling_price = String.valueOf(Selling_price);
-String paymentMethodID = paymentMethodMap.get(String.valueOf(jComboBox1.getSelectedItem()));
+        String subject_id = String.valueOf(Subject_id);
+        String nic = customerName.getText();  // Use nic directly for the query
+        String student_name = StudentNameFields.getText();
+        String selling_price = String.valueOf(Selling_price);
+        String paymentMethodID = paymentMethodMap.get(String.valueOf(jComboBox1.getSelectedItem()));
 
-if (student_name.isEmpty()) {
-    JOptionPane.showMessageDialog(this, "Please select a student", "Warning", JOptionPane.WARNING_MESSAGE);
-} else if (SubjectNameField.getText().isEmpty()) {
-    JOptionPane.showMessageDialog(this, "Please enter a subject", "Warning", JOptionPane.WARNING_MESSAGE);
-} else {
-    try {
-        // Correct the query to use nic instead of student_id
-        ResultSet rs = MySQL2.executeSearch("SELECT * FROM `student` WHERE `nic` ='" + nic + "'");
-
-        if (rs.next()) {
-            // Create InvoiceItem with correct values
-            InvoiceItem invoiceItem = new InvoiceItem();
-            invoiceItem.setStudent_id(nic);  // Use nic as the student ID
-            invoiceItem.setStudent_name(student_name);
-            invoiceItem.setSubject_id(subject_id);
-            invoiceItem.setSubject_name(SubjectNameField.getText());
-            invoiceItem.setNic(nic);
-            invoiceItem.setSellingPrice(selling_price);
-
-            // Check and add/update invoice items
-            if (invoiceItemMap.get(nic + "-" + subject_id) == null) {
-                invoiceItemMap.put(nic + "-" + subject_id, invoiceItem);
-            } else {
-               JOptionPane.showMessageDialog(this, "Subject Already Added", "Info", JOptionPane.INFORMATION_MESSAGE);
-            }
-
-            // Refresh and reset
-            loadInvoiceItems();
-            jButton4.setEnabled(false);
-            jButton5.setEnabled(false);  // Disable button if required
-            reset();  // Clear the input fields
+        if (student_name.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please select a student", "Warning", JOptionPane.WARNING_MESSAGE);
+        } else if (SubjectNameField.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please enter a subject", "Warning", JOptionPane.WARNING_MESSAGE);
         } else {
-            JOptionPane.showMessageDialog(this, "Student not found", "Error", JOptionPane.ERROR_MESSAGE);
+            try {
+                // Correct the query to use nic instead of student_id
+                ResultSet rs = MySQL2.executeSearch("SELECT * FROM `student` WHERE `nic` ='" + nic + "'");
+
+                if (rs.next()) {
+                    // Create InvoiceItem with correct values
+                    InvoiceItem invoiceItem = new InvoiceItem();
+                    invoiceItem.setStudent_id(nic);  // Use nic as the student ID
+                    invoiceItem.setStudent_name(student_name);
+                    invoiceItem.setSubject_id(subject_id);
+                    invoiceItem.setSubject_name(SubjectNameField.getText());
+                    invoiceItem.setNic(nic);
+                    invoiceItem.setSellingPrice(selling_price);
+
+                    // Check and add/update invoice items
+                    if (invoiceItemMap.get(nic + "-" + subject_id) == null) {
+                        invoiceItemMap.put(nic + "-" + subject_id, invoiceItem);
+                    } else {
+                        JOptionPane.showMessageDialog(this, "Subject Already Added", "Info", JOptionPane.INFORMATION_MESSAGE);
+                    }
+
+                    // Refresh and reset
+                    loadInvoiceItems();
+                    jButton4.setEnabled(false);
+                    jButton5.setEnabled(false);  // Disable button if required
+                    reset();  // Clear the input fields
+                } else {
+                    JOptionPane.showMessageDialog(this, "Student not found", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
-    } catch (Exception e) {
-        e.printStackTrace();
-    }
-}
 
 
     }//GEN-LAST:event_jButton3ActionPerformed
@@ -804,20 +807,16 @@ if (student_name.isEmpty()) {
         PaymentMenu menu = new PaymentMenu();
         menu.setVisible(true);
         menu.setInvoice(this);
-
-
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        AllStudentsJFrame allStudents = new AllStudentsJFrame(this);
+        AllStudentsJDialog allStudents = new AllStudentsJDialog(parent, true, this);
         allStudents.setVisible(true);
-//        allStudents.setInvoice(this);
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
-        AllCourses1 allSubjects = new AllCourses1();
-        allSubjects.setVisible(true);
-        allSubjects.setInvoice(this);
+        AllCoursesJDialog allCourses = new AllCoursesJDialog(parent, true, this);
+        allCourses.setVisible(true);
     }//GEN-LAST:event_jButton6ActionPerformed
 
     /**
