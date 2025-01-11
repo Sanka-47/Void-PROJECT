@@ -174,10 +174,10 @@ public class EmployeeSignIn extends javax.swing.JFrame {
             try {
                 ResultSet resultSet = MySQL2.executeSearch("SELECT * FROM `employee` WHERE `nic` = '" + nic + "' AND `password`='" + password + "' AND `roles_id`='1'");
                 if (resultSet.next()) {
-                    String fName = resultSet.getString("first_name");
-                    String lName = resultSet.getString("last_name");
+                    String fName = resultSet.getString("first_name") + " " + resultSet.getString("last_name");
+                    String employeeId = resultSet.getString("employee.id");
 //                    logger.log(Level.INFO, "User {0} {1} successfully logged in", new Object[]{fName, lName});
-                    EmployeeDashboard ed = new EmployeeDashboard(fName, lName);
+                    EmployeeDashboard ed = new EmployeeDashboard(fName, employeeId);
                     ed.setVisible(true);
                     this.dispose();
                 } else {

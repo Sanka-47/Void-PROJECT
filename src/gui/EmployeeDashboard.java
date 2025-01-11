@@ -24,17 +24,17 @@ import javax.swing.UnsupportedLookAndFeelException;
 public class EmployeeDashboard extends javax.swing.JFrame implements DashboardInterface {
 
     private String fName;
-    private String lName;
+    private String employeeId;
     private String mobile;
     private Thread dateThread;
 
 //    private static final Logger logger = Logger.getLogger(EmployeeSignIn.class.getName());
 
-   public EmployeeDashboard(String fName, String lName) {
+   public EmployeeDashboard(String fName, String employeeId) {
         initComponents();
-        jLabel5.setText(fName + " " + lName);
+        jLabel5.setText(fName);
         this.fName = fName;
-        this.lName = lName;
+        this.employeeId = employeeId;
         loadDate();
 
         // Add window listener to handle window closing
@@ -414,7 +414,7 @@ public class EmployeeDashboard extends javax.swing.JFrame implements DashboardIn
 ////        AllStudents as = new AllStudents();
 ////        jPanel4.add(as, BorderLayout.CENTER);
 //
-        StudentPayment studentPayment = new StudentPayment(fName,lName);
+        StudentPayment studentPayment = new StudentPayment(fName,employeeId);
         studentPayment.setVisible(true);
 //        SwingUtilities.updateComponentTreeUI(jPanel4);
 
