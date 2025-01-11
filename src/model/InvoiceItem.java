@@ -2,8 +2,23 @@ package model;
 
 public class InvoiceItem {
 
+    /**
+     * @return the course_description
+     */
+    public String getCourse_description() {
+        return course_description;
+    }
+
+    /**
+     * @param course_description the course_description to set
+     */
+    public void setCourse_description(String course_description) {
+        this.course_description = course_description;
+    }
+
     private String subject_id;
     private String student_id;
+    private String course_description;
 
     private String subject_name;
 

@@ -66,6 +66,7 @@ public class AllCoursesJDialog extends javax.swing.JDialog {
                 Vector<Object> vectorE = new Vector<>();
                 vectorE.add(rs.getInt("id"));
                 vectorE.add(rs.getString("name"));
+                vectorE.add(rs.getString("course_description"));
                 vectorE.add(rs.getString("fee"));
 
                 model.addRow(vectorE); // Add row to the table model
@@ -120,11 +121,11 @@ public class AllCoursesJDialog extends javax.swing.JDialog {
 
             },
             new String [] {
-                "Id", "Name", "Price"
+                "Id", "Name", "Description", "Price"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false
+                false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -206,10 +207,12 @@ public class AllCoursesJDialog extends javax.swing.JDialog {
                     // Convert column 0 (subject ID) to an integer
                     int subjectId = Integer.parseInt(jTable1.getValueAt(row, 0).toString());
                     // Convert column 2 (selling price) to a double
-                    double selling_p = Double.parseDouble(jTable1.getValueAt(row, 2).toString());
+                    double selling_p = Double.parseDouble(jTable1.getValueAt(row, 3).toString());
+                    String description = String.valueOf(jTable1.getValueAt(row, 2));
 
                     studentPayment.setSubject_id(subjectId);
                     studentPayment.setSelling_price(selling_p);
+                    studentPayment.setDescription(description);
 
                     this.dispose();
                 } catch (NumberFormatException e) {

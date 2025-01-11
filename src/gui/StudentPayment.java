@@ -8,6 +8,7 @@ import java.sql.ResultSet;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Vector;
 import java.util.logging.FileHandler;
 import java.util.logging.Level;
@@ -24,6 +25,12 @@ import javax.swing.table.DefaultTableModel;
 import model.InvoiceItem;
 
 import model.MySQL2;
+import net.sf.jasperreports.engine.JREmptyDataSource;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.data.JRTableModelDataSource;
+import net.sf.jasperreports.view.JasperViewer;
 
 public class StudentPayment extends javax.swing.JFrame {
 
@@ -31,6 +38,7 @@ public class StudentPayment extends javax.swing.JFrame {
 
     private static String code;
     private static int Subject_id;
+    private static String description;
     private static String Student_id;
     private static double Selling_price;
 
@@ -74,40 +82,39 @@ public class StudentPayment extends javax.swing.JFrame {
 
     private void loadInvoiceItems() {
 
-    DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
-    renderer.setHorizontalAlignment(SwingConstants.CENTER);
-    jTable1.setDefaultRenderer(Object.class, renderer);
+        DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
+        renderer.setHorizontalAlignment(SwingConstants.CENTER);
+        jTable1.setDefaultRenderer(Object.class, renderer);
 
-    EmptyTable();
+        EmptyTable();
 
-    total = 0;
-    int rowCount = 1; // Counter for row numbers
+        total = 0;
+        int rowCount = 1; // Counter for row numbers
 
-    for (InvoiceItem invoiceItem : invoiceItemMap.values()) {
-        Vector<String> vector = new Vector<>();
+        for (InvoiceItem invoiceItem : invoiceItemMap.values()) {
+            Vector<String> vector = new Vector<>();
 
-        vector.add(String.valueOf(rowCount)); // Add row count as the first column
-        vector.add(invoiceItem.getSubject_name());
-        vector.add(invoiceItem.getDesc());
-        vector.add(invoiceItem.getSellingPrice());
+            vector.add(String.valueOf(rowCount)); // Add row count as the first column
+            vector.add(invoiceItem.getSubject_name());
+            vector.add(invoiceItem.getDesc());
+            vector.add(invoiceItem.getSellingPrice());
 
-        // Calculate total fees
-        double courseFee = Double.parseDouble(invoiceItem.getSellingPrice());
-        total += courseFee;
+            // Calculate total fees
+            double courseFee = Double.parseDouble(invoiceItem.getSellingPrice());
+            total += courseFee;
 
-        vector.add(String.valueOf(courseFee)); // Add course fee as a column
+            vector.add(String.valueOf(courseFee)); // Add course fee as a column
 
-        model.addRow(vector);
+            model.addRow(vector);
 
-        rowCount++; // Increment the row count
+            rowCount++; // Increment the row count
+        }
+
+        totalField.setText(String.valueOf(total));
+
+        // Call calculate() if it performs other operations
+        calculate();
     }
-
-    totalField.setText(String.valueOf(total));
-
-    // Call calculate() if it performs other operations
-    calculate();
-}
-
 
 //    //Student Name
 //    public JTextField getjTextField2() {
@@ -665,6 +672,7 @@ public class StudentPayment extends javax.swing.JFrame {
         String nic = customerName.getText();  // Use nic directly for the query
         String student_name = StudentNameFields.getText();
         String selling_price = String.valueOf(Selling_price);
+        String description = String.valueOf(Selling_price);
         String paymentMethodID = paymentMethodMap.get(String.valueOf(jComboBox1.getSelectedItem()));
 
         if (student_name.isEmpty()) {
@@ -677,8 +685,7 @@ public class StudentPayment extends javax.swing.JFrame {
                 ResultSet rs = MySQL2.executeSearch("SELECT * FROM `student` WHERE `nic` ='" + nic + "'");
 
                 if (rs.next()) {
-                    
-                    
+
                     ResultSet ds = MySQL2.executeSearch("SELECT `course_description` FROM `courses` WHERE `id`='" + subject_id + "' ");
                     ds.next();
                     // Create InvoiceItem with correct values
@@ -799,7 +806,73 @@ public class StudentPayment extends javax.swing.JFrame {
             e.printStackTrace();
         }
 
+//        //view or print report
+//        String path = "src//reports//CoursePayment.jasper";
+//        String dateTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
+//        HashMap<String, Object> params = new HashMap<>();
+//        params.put("Parameter1", invoiceNumberField.getText());
+//        params.put("Parameter3", StudentNameFields.getText());
+//        params.put("Parameter2", SubjectNameField.getText());
+//        params.put("Parameter4", employeeLable.getText());
+//        params.put("Parameter5", totalField.getText());
+//        params.put("Parameter6", jComboBox1.getSelectedItem());
+//        params.put("Parameter7", paymentField.getText());
+//        params.put("Parameter8", balanceFiled.getText());
+//        params.put("Parameter9", dateTime);
+//        
+//        JRTableModelDataSource dataSource = new JRTableModelDataSource(jTable1.getModel());
+//        JasperPrint jasperPrint = null;
+//        try {
+//            jasperPrint = JasperFillManager.fillReport(path, params, dataSource);
+//        } catch (JRException e) {
+//            e.printStackTrace();
+//        }
+//        JasperViewer.viewReport(jasperPrint, false);
+//        try {
+//
+//            InputStream filePath = StudentPayment.class.getResourceAsStream("/reports/CoursePayment.jasper");
+//            String dateTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
+//            Map<String, Object> parameters = new HashMap<>();
+//            parameters.put("QR Code", "123456789");
+//            parameters.put("Parameter1", invoiceNumberField.getText());
+//            parameters.put("Parameter3", StudentNameFields.getText());
+//            parameters.put("Parameter2", SubjectNameField.getText());
+//            parameters.put("Parameter4", employeeLable.getText());
+//            parameters.put("Parameter5", totalField.getText());
+//            parameters.put("Parameter6", jComboBox1.getSelectedItem());
+//            parameters.put("Parameter7", paymentField.getText());
+//            parameters.put("Parameter8", balanceFiled.getText());
+//            parameters.put("Parameter9", dateTime);
+//            JasperPrint fillReport = JasperFillManager.fillReport(filePath, parameters, new JREmptyDataSource());
+//            JasperViewer.viewReport(fillReport, false);
+//
+//        } catch (JRException e) {
+//            e.printStackTrace();
+//        }
 
+//view or print report
+        String path = "src//reports//CoursePayment.jasper";
+        String dateTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
+        HashMap<String, Object> params = new HashMap<>();
+        params.put("Parameter1", invoiceNumberField.getText());
+        params.put("Parameter3", StudentNameFields.getText());
+        params.put("Parameter2", SubjectNameField.getText());
+        params.put("Parameter4", employeeLable.getText());
+        params.put("Parameter5", totalField.getText());
+        params.put("Parameter6", jComboBox1.getSelectedItem());
+        params.put("Parameter7", paymentField.getText());
+        params.put("Parameter8", balanceFiled.getText());
+        params.put("Parameter9", dateTime);
+        params.put("QR Code", invoiceNumberField.getText());
+        
+        JRTableModelDataSource dataSource = new JRTableModelDataSource(jTable1.getModel());
+        JasperPrint jasperPrint = null;
+        try {
+            jasperPrint = JasperFillManager.fillReport(path, params, dataSource);
+        } catch (JRException e) {
+            e.printStackTrace();
+        }
+        JasperViewer.viewReport(jasperPrint, false);
     }//GEN-LAST:event_printInvoiceButtonActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -915,6 +988,10 @@ public class StudentPayment extends javax.swing.JFrame {
 
     public static void setStudent_id(String aStudent_id) {
         Student_id = aStudent_id;
+    }
+
+    public static void setDescription(String description) {
+        StudentPayment.description = description;
     }
 
     /**
