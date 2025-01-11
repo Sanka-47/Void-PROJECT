@@ -2,25 +2,22 @@ package model;
 
 public class InvoiceItem {
 
- private  String subject_id ;
-      private   String student_id  ;
-      
-      private  String subject_name ;
-      
-      
-      
-      private  String student_name ;
-      private  String nic ;
-      private String sellingPrice;
+    private String subject_id;
+    private String student_id;
 
-   
+    private String subject_name;
+
+    private String student_name;
+    private String nic;
+    private String sellingPrice;
+    
+    private String Desc;
 
     public void clearItem() {
-    this.student_id = "";
-    this.student_name = "";
-    this.nic = "";
-}
-
+        this.student_id = "";
+        this.student_name = "";
+        this.nic = "";
+    }
 
     /**
      * @return the subject_id
@@ -104,5 +101,19 @@ public class InvoiceItem {
      */
     public void setSubject_name(String subject_name) {
         this.subject_name = subject_name;
+    }
+
+    /**
+     * @return the Desc
+     */
+    public String getDesc() {
+        return Desc;
+    }
+
+    /**
+     * @param Desc the Desc to set
+     */
+    public void setDesc(String Desc) {
+        this.Desc = Desc;
     }
 }
