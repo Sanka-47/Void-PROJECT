@@ -41,40 +41,47 @@ public class RequestedSessions extends javax.swing.JPanel {
 
     private void loadRequestedSessions() {
         try {
+            // Corrected SQL query
             String query = "SELECT "
                     + "tutor.first_name, tutor.last_name, "
-                    + "request_sessions.title, request_sessions.date, "
+                    + "request_sessions.id, request_sessions.title, request_sessions.date, "
                     + "request_sessions.start_time, request_sessions.id, request_sessions.end_time, "
-                    + "request_sessions.hallnumber, request_sessions.approve_status,request_sessions.reason,request_sessions.type,  "
-                    + "courses.name "
+                    + "request_sessions.hallnumber, request_sessions.approve_status, "
+                    + "request_sessions.reason, request_sessions.type, request_sessions.class_id, "
+                    + "courses.name AS course_name "
                     + "FROM request_sessions "
                     + "INNER JOIN tutor ON request_sessions.tutor_id = tutor.id "
                     + "INNER JOIN courses ON request_sessions.courses_id = courses.id "
-                    + "WHERE request_sessions.approve_status = 'Pending' OR request_sessions.approve_status = 'Rejected'";
+                    + "WHERE request_sessions.approve_status = 'Pending' "
+                    + "OR request_sessions.approve_status = 'Rejected'";
 
+            // Execute the query
             ResultSet resultSet = MySQL2.executeSearch(query);
 
+            // Get the table model and clear existing rows
             DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
             model.setRowCount(0);
 
+            // Add data to the table
             while (resultSet.next()) {
                 Vector<String> vector = new Vector<>();
-                vector.add(resultSet.getString("request_sessions.id")); // Title
+                vector.add(resultSet.getString("request_sessions.id")); // Class ID
+                vector.add(resultSet.getString("request_sessions.class_id")); // Class ID
                 String requestedBy = resultSet.getString("first_name") + " " + resultSet.getString("last_name");
                 vector.add(requestedBy); // Requested By
-                vector.add(resultSet.getString("courses.name")); // Title
+                vector.add(resultSet.getString("course_name")); // Course Name
                 vector.add(resultSet.getString("title")); // Title
                 vector.add(resultSet.getString("date")); // Date
                 vector.add(resultSet.getString("start_time")); // Start Time
                 vector.add(resultSet.getString("end_time")); // End Time
                 vector.add(resultSet.getString("hallnumber")); // Hall Number
-                vector.add(resultSet.getString("reason"));
-                vector.add(resultSet.getString("type"));
-                vector.add(resultSet.getString("approve_status")); // Hall Number
+                vector.add(resultSet.getString("reason")); // Reason
+                vector.add(resultSet.getString("type")); // Type
+                vector.add(resultSet.getString("approve_status")); // Approval Status
                 model.addRow(vector);
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            e.printStackTrace(); // Log the exception for debugging
         }
     }
 
@@ -107,11 +114,11 @@ public class RequestedSessions extends javax.swing.JPanel {
 
             },
             new String [] {
-                "ID", "Tutor", "Course", "Title", "Date", "Start time", "End Time", "Hall Number", "Reason", "Type", "Approval Status"
+                "ID", "Class ID", "Tutor", "Course", "Title", "Date", "Start time", "End Time", "Hall Number", "Reason", "Type", "Approval Status"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false, false, false, false
+                true, false, false, false, false, false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -126,8 +133,8 @@ public class RequestedSessions extends javax.swing.JPanel {
         });
         jScrollPane1.setViewportView(jTable1);
         if (jTable1.getColumnModel().getColumnCount() > 0) {
-            jTable1.getColumnModel().getColumn(0).setMinWidth(20);
-            jTable1.getColumnModel().getColumn(1).setResizable(false);
+            jTable1.getColumnModel().getColumn(0).setMinWidth(10);
+            jTable1.getColumnModel().getColumn(1).setMinWidth(20);
             jTable1.getColumnModel().getColumn(2).setResizable(false);
             jTable1.getColumnModel().getColumn(3).setResizable(false);
             jTable1.getColumnModel().getColumn(4).setResizable(false);
@@ -137,6 +144,7 @@ public class RequestedSessions extends javax.swing.JPanel {
             jTable1.getColumnModel().getColumn(8).setResizable(false);
             jTable1.getColumnModel().getColumn(9).setResizable(false);
             jTable1.getColumnModel().getColumn(10).setResizable(false);
+            jTable1.getColumnModel().getColumn(11).setResizable(false);
         }
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
@@ -160,7 +168,7 @@ public class RequestedSessions extends javax.swing.JPanel {
         jLabel3.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel3.setText("Select a row to reject");
 
-        jLabel4.setText("Double click a row to schedule the session");
+        jLabel4.setText("Double click a row to schedule or cancel the session");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
