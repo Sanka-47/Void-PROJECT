@@ -502,8 +502,8 @@ public class RequestSession extends javax.swing.JPanel {
             SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 
             // Insert into the database
-            String query = "INSERT INTO request_sessions (title, date, start_time, end_time, hallnumber, tutor_id,approve_status,courses_id) "
-                         + "VALUES ('" + Title + "', '" + format.format(SessionDate) + "', '" + StartTime + "', '" + EndTime + "', '" + HallNumber + "', '" + TutorID + "','Pending','"+courseMap.get(Course)+"')";
+            String query = "INSERT INTO request_sessions (title, date, start_time, end_time, hallnumber, tutor_id,approve_status,courses_id,type) "
+                         + "VALUES ('" + Title + "', '" + format.format(SessionDate) + "', '" + StartTime + "', '" + EndTime + "', '" + HallNumber + "', '" + TutorID + "','Pending','"+courseMap.get(Course)+"','New Session')";
 
             MySQL2.executeIUD(query);
 
