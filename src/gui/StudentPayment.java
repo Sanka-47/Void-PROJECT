@@ -26,7 +26,7 @@ import model.InvoiceItem;
 import model.MySQL2;
 
 public class StudentPayment extends javax.swing.JFrame {
-    
+
     private StudentPayment parent;
 
     private static String code;
@@ -74,38 +74,40 @@ public class StudentPayment extends javax.swing.JFrame {
 
     private void loadInvoiceItems() {
 
-        DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
-        renderer.setHorizontalAlignment(SwingConstants.CENTER);
-        jTable1.setDefaultRenderer(Object.class, renderer);
+    DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
+    renderer.setHorizontalAlignment(SwingConstants.CENTER);
+    jTable1.setDefaultRenderer(Object.class, renderer);
 
-        EmptyTable();
+    EmptyTable();
 
-        total = 0;
+    total = 0;
+    int rowCount = 1; // Counter for row numbers
 
-        for (InvoiceItem invoiceItem : invoiceItemMap.values()) {
-            Vector<String> vector = new Vector<>();
+    for (InvoiceItem invoiceItem : invoiceItemMap.values()) {
+        Vector<String> vector = new Vector<>();
 
-            vector.add(invoiceItem.getStudent_name());
-            vector.add(invoiceItem.getNic());
-            vector.add(invoiceItem.getSubject_name());
-            vector.add(invoiceItem.getSellingPrice());
-            // Subject ID
+        vector.add(String.valueOf(rowCount)); // Add row count as the first column
+        vector.add(invoiceItem.getSubject_name());
+        vector.add(invoiceItem.getDesc());
+        vector.add(invoiceItem.getSellingPrice());
 
-            // Student Name
-            // NIC
-            // Assuming you may need to add a total for any calculations (e.g., course fees)
-            double courseFee = Double.parseDouble(invoiceItem.getSellingPrice());
-            total += courseFee;
-            vector.add(String.valueOf(courseFee));
+        // Calculate total fees
+        double courseFee = Double.parseDouble(invoiceItem.getSellingPrice());
+        total += courseFee;
 
-            model.addRow(vector);
-        }
+        vector.add(String.valueOf(courseFee)); // Add course fee as a column
 
-        totalField.setText(String.valueOf(total));
+        model.addRow(vector);
 
-// Call calculate() if it performs other operations
-        calculate();
+        rowCount++; // Increment the row count
     }
+
+    totalField.setText(String.valueOf(total));
+
+    // Call calculate() if it performs other operations
+    calculate();
+}
+
 
 //    //Student Name
 //    public JTextField getjTextField2() {
@@ -169,7 +171,7 @@ public class StudentPayment extends javax.swing.JFrame {
 //    }
     public StudentPayment(String Fname, String Lname) {
         initComponents();
-        employeeLable.setText(Fname+" "+Lname);
+        employeeLable.setText(Fname + " " + Lname);
 
         printInvoiceButton.setEnabled(false);
 //        employeeLable.setText(Signin.getEmail());
@@ -491,7 +493,7 @@ public class StudentPayment extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Student Name", "Nic", "Subject", "Course Fee"
+                "#", "Course Name", "Description", "Course Fee"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -675,6 +677,10 @@ public class StudentPayment extends javax.swing.JFrame {
                 ResultSet rs = MySQL2.executeSearch("SELECT * FROM `student` WHERE `nic` ='" + nic + "'");
 
                 if (rs.next()) {
+                    
+                    
+                    ResultSet ds = MySQL2.executeSearch("SELECT `course_description` FROM `courses` WHERE `id`='" + subject_id + "' ");
+                    ds.next();
                     // Create InvoiceItem with correct values
                     InvoiceItem invoiceItem = new InvoiceItem();
                     invoiceItem.setStudent_id(nic);  // Use nic as the student ID
@@ -683,6 +689,7 @@ public class StudentPayment extends javax.swing.JFrame {
                     invoiceItem.setSubject_name(SubjectNameField.getText());
                     invoiceItem.setNic(nic);
                     invoiceItem.setSellingPrice(selling_price);
+                    invoiceItem.setDesc(ds.getString("course_description"));
 
                     // Check and add/update invoice items
                     if (invoiceItemMap.get(nic + "-" + subject_id) == null) {
@@ -829,7 +836,7 @@ public class StudentPayment extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new StudentPayment("yeet","laa").setVisible(true);
+                new StudentPayment("yeet", "laa").setVisible(true);
             }
         });
     }
