@@ -15,29 +15,18 @@ import net.sf.jasperreports.engine.data.JRTableModelDataSource;
 import net.sf.jasperreports.view.JasperViewer;
 
 public class AllEmployees extends javax.swing.JPanel {
-
-    private AdminDashboard parent;
+    
+    private DashboardInterface parent;
+    
     private static HashMap<String, String> passwordMap = new HashMap<>();
-
-//    public void setAdminDashboard(AdminDashboard ad) {
-//        this.parent = ad;
-//    }
-    private EmployeeDashboard eparent;
-
-    public void setEmployeeDashboard(EmployeeDashboard ed) {
-        this.eparent = ed;
-    }
 
     public EmployeeRegistration updateEmployee;
 
-//    public void setEmployeeRegistration(EmployeeRegistration updateEmployee) {
-//        this.updateEmployee = updateEmployee;
-//    }
-    public AllEmployees(AdminDashboard parent) {
+    public AllEmployees(DashboardInterface parent) {
         this.parent = parent;
         initComponents();
         loadTable();
-        this.updateEmployee = new EmployeeRegistration(parent);
+        this.updateEmployee = new EmployeeRegistration((AdminDashboard) parent);
     }
 
     private void switchToRegistration() {
@@ -52,15 +41,19 @@ public class AllEmployees extends javax.swing.JPanel {
 
             String searchText = jTextField1.getText().toLowerCase();
 
-            String query = "SELECT * FROM `employee` "
+            String query = "SELECT `employee`.`id`, `first_name`, `last_name`, `contact_info`, `roles`.`name`, `gender`.`name`, `password`, `nic`, `email` FROM `employee` "
                     + "INNER JOIN `gender` ON `employee`.`gender_id` = `gender`.`id` "
                     + "INNER JOIN `roles` ON `employee`.`roles_id` = `roles`.`id` ";
 
             if (!searchText.isEmpty()) {
 
-                query += "WHERE LOWER(`employee`.`first_name`) LIKE '%" + searchText + "%' "
-                        + "OR LOWER(`employee`.`last_name`) LIKE '%" + searchText + "%' "
-                        + "OR LOWER(`employee`.`nic`) LIKE '%" + searchText + "%' ";
+                query += "WHERE (LOWER(`employee`.`id`) LIKE '%" + searchText + "%' "
+                        + "OR LOWER(`first_name`) LIKE '%" + searchText + "%' "
+                        + "OR LOWER(`last_name`) LIKE '%" + searchText + "%' "
+                        + "OR LOWER(`contact_info`) LIKE '%" + searchText + "%' "
+                        + "OR LOWER(`email`) LIKE '%" + searchText + "%' "
+                        + "OR LOWER(`roles`.`name`) LIKE '%" + searchText + "%' "
+                        + "OR LOWER(`nic`) LIKE '%" + searchText + "%') ";
 
             }
 
@@ -157,7 +150,7 @@ public class AllEmployees extends javax.swing.JPanel {
         });
 
         jButton1.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
-        jButton1.setText("Print Report");
+        jButton1.setText("Print");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
@@ -177,42 +170,42 @@ public class AllEmployees extends javax.swing.JPanel {
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel1)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 988, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 228, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(jLabel3)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(jLabel1)
+                                .addGap(338, 338, 338)))
+                        .addComponent(jButton1)))
                 .addContainerGap())
-            .addGroup(layout.createSequentialGroup()
-                .addGap(24, 24, 24)
-                .addComponent(jLabel2)
-                .addGap(18, 18, 18)
-                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(152, 152, 152)
-                .addComponent(jLabel3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton1)
-                .addGap(17, 17, 17))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(35, 35, 35)
+                .addGap(24, 24, 24)
                 .addComponent(jLabel1)
-                .addGap(45, 45, 45)
+                .addGap(51, 51, 51)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel2)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(7, 7, 7)
+                        .addComponent(jLabel2)))
+                .addGap(26, 26, 26)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 402, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
