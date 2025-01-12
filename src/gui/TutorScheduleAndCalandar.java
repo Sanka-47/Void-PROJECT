@@ -309,7 +309,6 @@ public class TutorScheduleAndCalandar extends javax.swing.JPanel {
 //
 //        }
 //    }
-
     private void loadTutors() {
 
         try {
@@ -696,6 +695,7 @@ public class TutorScheduleAndCalandar extends javax.swing.JPanel {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
 
+        
         String sessionID = jTextField1.getText();
         String course = String.valueOf(jComboBox1.getSelectedItem());
         String tName = String.valueOf(jComboBox2.getSelectedItem());
@@ -731,7 +731,7 @@ public class TutorScheduleAndCalandar extends javax.swing.JPanel {
         } else if (hallnumber.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Please enter the Location!", "Warning", JOptionPane.WARNING_MESSAGE);
             return;
-        }else if (price.isEmpty()) {
+        } else if (price.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Please enter the Amount!", "Warning", JOptionPane.WARNING_MESSAGE);
             return;
         }
@@ -818,8 +818,123 @@ public class TutorScheduleAndCalandar extends javax.swing.JPanel {
 //        }
     }//GEN-LAST:event_jButton10ActionPerformed
 
+
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
 
+//        String sessionID = jTextField1.getText();
+//        String course = String.valueOf(jComboBox1.getSelectedItem());
+//        String tName = String.valueOf(jComboBox2.getSelectedItem());
+//        String className = jTextField2.getText();
+//        Date date = jDateChooser1.getDate();
+//        String startTime = jFormattedTextField1.getText();
+//        String endTime = jFormattedTextField2.getText();
+//        String hallnumber = jTextField3.getText();
+////        String status = jTextField5.getText();
+//        String price = jFormattedTextField3.getText();
+//
+//        // Validation checks
+//        if (sessionID.isEmpty()) {
+//            JOptionPane.showMessageDialog(this, "Please enter the Class ID!", "Warning", JOptionPane.WARNING_MESSAGE);
+//            return;
+//        } else if (course.equals("Select") || courseMap.get(course) == null) {
+//            JOptionPane.showMessageDialog(this, "Please select a valid course!", "Warning", JOptionPane.WARNING_MESSAGE);
+//            return;
+//        } else if (tName.equals("Select") || tutorMap.get(tName) == null) {
+//            JOptionPane.showMessageDialog(this, "Please select a valid tutor!", "Warning", JOptionPane.WARNING_MESSAGE);
+//            return;
+//        } else if (className.isEmpty()) {
+//            JOptionPane.showMessageDialog(this, "Please enter the Title!", "Warning", JOptionPane.WARNING_MESSAGE);
+//            return;
+//        } else if (date == null) {
+//            JOptionPane.showMessageDialog(this, "Please enter a Date!", "Warning", JOptionPane.WARNING_MESSAGE);
+//            return;
+//        } else if (startTime.isEmpty()) {
+//            JOptionPane.showMessageDialog(this, "Please enter the class Starting time!", "Warning", JOptionPane.WARNING_MESSAGE);
+//            return;
+//        } else if (endTime.isEmpty()) {
+//            JOptionPane.showMessageDialog(this, "Please enter the class Ending time!", "Warning", JOptionPane.WARNING_MESSAGE);
+//            return;
+//        } else if (hallnumber.isEmpty()) {
+//            JOptionPane.showMessageDialog(this, "Please enter the Location!", "Warning", JOptionPane.WARNING_MESSAGE);
+//            return;
+////        } else if (status.equals("Select") || statusMap.get(status) == null) {
+////            JOptionPane.showMessageDialog(this, "Please select a valid Status!", "Warning", JOptionPane.WARNING_MESSAGE);
+////            return;
+//        } else if (price.isEmpty()) {
+//            JOptionPane.showMessageDialog(this, "Please enter the Amount!", "Warning", JOptionPane.WARNING_MESSAGE);
+//            return;
+//
+//        } else {
+//            
+////            }
+//            try {
+//                // Fetch tutor details from the database
+//                ResultSet resultSet1 = MySQL2.executeSearch("SELECT `id` FROM `tutor` WHERE `id` = '" + tutorMap.get(tName) + "'");
+//
+//                if (resultSet1.next()) {
+//                    // Format date
+//                    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+//                    String formattedDate = format.format(date);
+//
+//                    // Check for time conflicts
+//                    String query = "SELECT * FROM `class` WHERE `tutor_id` = '" + tutorMap.get(tName) + "' AND `date` = '" + formattedDate + "' "
+//                            + "AND ((`start_time` <= '" + startTime + "' AND `end_time` > '" + startTime + "') "
+//                            + "OR (`start_time` < '" + endTime + "' AND `end_time` >= '" + endTime + "') "
+//                            + "OR (`start_time` >= '" + startTime + "' AND `end_time` <= '" + endTime + "'))";
+//
+//                    ResultSet conflictCheck = MySQL2.executeSearch(query);
+//
+//                    if (conflictCheck.next()) {
+//                        JOptionPane.showMessageDialog(this, "This tutor is already scheduled for another session during this time slot. Please choose a different time.", "Warning", JOptionPane.WARNING_MESSAGE);
+//                        return;
+//                    }
+//
+//                    // Check for hall conflicts
+//                    String hallQuery = "SELECT * FROM `class` WHERE `hallnumber` = '" + hallnumber + "' AND `date` = '" + formattedDate + "' "
+//                            + "AND ((`start_time` <= '" + startTime + "' AND `end_time` > '" + startTime + "') "
+//                            + "OR (`start_time` < '" + endTime + "' AND `end_time` >= '" + endTime + "') "
+//                            + "OR (`start_time` >= '" + startTime + "' AND `end_time` <= '" + endTime + "'))";
+//
+//                    ResultSet hallConflictCheck = MySQL2.executeSearch(hallQuery);
+//
+//                    if (hallConflictCheck.next()) {
+//                        JOptionPane.showMessageDialog(this, "The selected hall is already booked during this time slot. Please choose a different location or time.", "Warning", JOptionPane.WARNING_MESSAGE);
+//                        return;
+//                    }
+//
+//                    // Output to console for debugging
+//                    System.out.println("Session ID: " + sessionID);
+//                    System.out.println("Class Name: " + className);
+//                    System.out.println("Date: " + formattedDate);
+//                    System.out.println("Start Time: " + startTime);
+//                    System.out.println("End Time: " + endTime);
+//                    System.out.println("Hall Number: " + hallnumber);
+//                    System.out.println("Price: " + price);
+//                    System.out.println("Tutor ID: " + tutorMap.get(tName));
+//                    System.out.println("Course ID: " + courseMap.get(course));
+////                    System.out.println("Status ID: " + statusMap.get(status));
+//
+//                    // Insert data into the database
+//                    MySQL2.executeIUD("INSERT INTO `class` (`id`, `name`, `date`, `start_time`, `end_time`, `hallnumber`, `amount`, `tutor_id`, `courses_id`, `class_status_id`) "
+//                            + "VALUES ('" + sessionID + "', '" + className + "', '" + formattedDate + "', '" + startTime + "', '" + endTime + "', '" + hallnumber + "', '" + price + "', "
+//                            + "'" + tutorMap.get(tName) + "', '" + courseMap.get(course) + "', 'Pending')");
+//
+//                    if (rowData != null && !rowData.isEmpty()) {
+//                        MySQL2.executeIUD("UPDATE `request_sessions` SET `approve_status` = 'Approved' WHERE `id` = '" + rowData.get(0) + "'");
+//                    }
+//
+//                    JOptionPane.showMessageDialog(this, "Class added successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
+//                    reset();
+//                    loadSessions();
+//
+//                } else {
+//                    JOptionPane.showMessageDialog(this, "The tutor's ID does not match the record in the system. Please check the tutor information and try again.", "Warning", JOptionPane.WARNING_MESSAGE);
+//                }
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//
+//        }
         String sessionID = jTextField1.getText();
         String course = String.valueOf(jComboBox1.getSelectedItem());
         String tName = String.valueOf(jComboBox2.getSelectedItem());
@@ -828,7 +943,6 @@ public class TutorScheduleAndCalandar extends javax.swing.JPanel {
         String startTime = jFormattedTextField1.getText();
         String endTime = jFormattedTextField2.getText();
         String hallnumber = jTextField3.getText();
-//        String status = jTextField5.getText();
         String price = jFormattedTextField3.getText();
 
         // Validation checks
@@ -856,54 +970,10 @@ public class TutorScheduleAndCalandar extends javax.swing.JPanel {
         } else if (hallnumber.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Please enter the Location!", "Warning", JOptionPane.WARNING_MESSAGE);
             return;
-//        } else if (status.equals("Select") || statusMap.get(status) == null) {
-//            JOptionPane.showMessageDialog(this, "Please select a valid Status!", "Warning", JOptionPane.WARNING_MESSAGE);
-//            return;
         } else if (price.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Please enter the Amount!", "Warning", JOptionPane.WARNING_MESSAGE);
             return;
-
         } else {
-
-//            try {
-//                // Fetch tutor details from the database
-//                ResultSet resultSet1 = MySQL2.executeSearch("SELECT `id` FROM `tutor` WHERE `id` = '" + tutorMap.get(tName) + "'");
-//
-//                if (resultSet1.next()) {
-//                    // Format date
-//                    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-//
-//                    // Output to console for debugging
-//                    System.out.println("Session ID: " + sessionID);
-//                    System.out.println("Class Name: " + className);
-//                    System.out.println("Date: " + format.format(date));
-//                    System.out.println("Start Time: " + startTime);
-//                    System.out.println("End Time: " + endTime);
-//                    System.out.println("Hall Number: " + hallnumber);
-//                    System.out.println("Price: " + price);
-//                    System.out.println("Tutor ID: " + tutorMap.get(tName));
-//                    System.out.println("Course ID: " + courseMap.get(course));
-//                    System.out.println("Status ID: " + statusMap.get(status));
-//
-//                    // Insert data into the database
-//                    MySQL2.executeIUD("INSERT INTO `class` (`id`, `name`, `date`, `start_time`, `end_time`, `hallnumber`, `amount`, `tutor_id`, `courses_id`, `class_status_id`) "
-//                            + "VALUES ('" + sessionID + "', '" + className + "', '" + format.format(date) + "', '" + startTime + "', '" + endTime + "', '" + hallnumber + "', '" + price + "', "
-//                            + "'" + tutorMap.get(tName) + "', '" + courseMap.get(course) + "', '" + statusMap.get(status) + "')");
-//
-//                    if (rowData != null && !rowData.isEmpty()) {
-//                        MySQL2.executeIUD("UPDATE `request_sessions` SET `approve_status` = 'Approved' WHERE `id` = '" + rowData.get(0) + "'");
-//                    }
-//
-//                    JOptionPane.showMessageDialog(this, "Class added successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
-//                    reset();
-//                    loadSessions();
-//
-//                } else {
-//                    JOptionPane.showMessageDialog(this, "The tutor's ID does not match the record in the system. Please check the tutor information and try again.", "Warning", JOptionPane.WARNING_MESSAGE);
-//                }
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            }
             try {
                 // Fetch tutor details from the database
                 ResultSet resultSet1 = MySQL2.executeSearch("SELECT `id` FROM `tutor` WHERE `id` = '" + tutorMap.get(tName) + "'");
@@ -912,6 +982,9 @@ public class TutorScheduleAndCalandar extends javax.swing.JPanel {
                     // Format date
                     SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
                     String formattedDate = format.format(date);
+
+                    // Get the status ID for "Pending" (assuming it's 1)
+                    int pendingStatusID = 1; // Adjust this if your "Pending" status ID is different
 
                     // Check for time conflicts
                     String query = "SELECT * FROM `class` WHERE `tutor_id` = '" + tutorMap.get(tName) + "' AND `date` = '" + formattedDate + "' "
@@ -949,12 +1022,11 @@ public class TutorScheduleAndCalandar extends javax.swing.JPanel {
                     System.out.println("Price: " + price);
                     System.out.println("Tutor ID: " + tutorMap.get(tName));
                     System.out.println("Course ID: " + courseMap.get(course));
-//                    System.out.println("Status ID: " + statusMap.get(status));
 
-                    // Insert data into the database
+                    // Insert data into the database with the "Pending" status ID
                     MySQL2.executeIUD("INSERT INTO `class` (`id`, `name`, `date`, `start_time`, `end_time`, `hallnumber`, `amount`, `tutor_id`, `courses_id`, `class_status_id`) "
                             + "VALUES ('" + sessionID + "', '" + className + "', '" + formattedDate + "', '" + startTime + "', '" + endTime + "', '" + hallnumber + "', '" + price + "', "
-                            + "'" + tutorMap.get(tName) + "', '" + courseMap.get(course) + "', 'Pending')");
+                            + "'" + tutorMap.get(tName) + "', '" + courseMap.get(course) + "', '" + pendingStatusID + "')");
 
                     if (rowData != null && !rowData.isEmpty()) {
                         MySQL2.executeIUD("UPDATE `request_sessions` SET `approve_status` = 'Approved' WHERE `id` = '" + rowData.get(0) + "'");
@@ -970,12 +1042,13 @@ public class TutorScheduleAndCalandar extends javax.swing.JPanel {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-
         }
     }//GEN-LAST:event_jButton8ActionPerformed
 
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
-      
+
+        jTextField1.setEditable(false);
+        
         int row = jTable1.getSelectedRow();
 
         String id = String.valueOf(jTable1.getValueAt(row, 0));
@@ -1009,7 +1082,7 @@ public class TutorScheduleAndCalandar extends javax.swing.JPanel {
 
         String amount = String.valueOf(jTable1.getValueAt(row, 8));
         jFormattedTextField3.setText(amount);
-        
+
         String status = String.valueOf(jTable1.getValueAt(row, 9));
         jTextField5.setText(status);
 
@@ -1021,7 +1094,74 @@ public class TutorScheduleAndCalandar extends javax.swing.JPanel {
     }//GEN-LAST:event_jFormattedTextField2ActionPerformed
 
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
-        // TODO add your handling code here:
+
+//        String selectedCourse = String.valueOf(jComboBox1.getSelectedItem());
+//
+//        // Check if the selected course has an assigned tutor
+//        if (courseMap.containsKey(selectedCourse)) {
+//            String assignedTutorId = courseMap.get(selectedCourse); // Get the assigned tutor ID
+//            String assignedTutorName = ""; // Initialize the tutor name
+//
+//            try {
+//                // Fetch the tutor's name based on the assigned tutor ID
+//                
+//                ResultSet rs = MySQL2.executeSearch("SELECT `name` FROM `tutor` "
+//                        + "INNER JOIN `courses` ON `courses.tutor_id` = `tutor`.`id` "
+//                        + "WHERE `id` = '" + assignedTutorId + "'");
+//                if (rs.next()) {
+//                    assignedTutorName = rs.getString("name");
+//                }
+//
+//                // Update the tutor JComboBox
+//                jComboBox2.removeAllItems();          // Clear any existing items
+//                jComboBox2.addItem(assignedTutorName); // Add the assigned tutor name
+//                jComboBox2.setEnabled(false);         // Disable editing for the tutor combo box
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//                JOptionPane.showMessageDialog(this, "Error fetching tutor information!", "Error", JOptionPane.ERROR_MESSAGE);
+//            }
+//        } else {
+//            // If no tutor is assigned, reset the tutor JComboBox
+//            jComboBox2.removeAllItems();
+//            jComboBox2.addItem("Select");
+//            jComboBox2.setEnabled(false);
+//        }
+// Get the selected course from the combobox
+        String selectedCourse = String.valueOf(jComboBox1.getSelectedItem());
+
+        // Check if the selected course has an assigned tutor
+        if (courseMap.containsKey(selectedCourse)) {
+            String assignedTutorId = courseMap.get(selectedCourse); // Get the assigned tutor ID
+            String assignedTutorName = ""; // Initialize the tutor name
+
+            try {
+                // Fetch the tutor's name based on the assigned tutor ID
+                // The query has been modified to prevent column ambiguity
+                ResultSet rs = MySQL2.executeSearch("SELECT CONCAT(first_name, ' ', last_name) AS full_name FROM tutor WHERE id = '" + assignedTutorId + "'");
+                if (rs.next()) {
+                    assignedTutorName = rs.getString("full_name");
+                }
+
+                // Update the tutor JComboBox
+//                jComboBox2.removeAllItems();          // Clear any existing items
+//                jComboBox2.addItem(assignedTutorName); // Add the assigned tutor name
+//                jComboBox2.setEnabled(false);         // Disable editing for the tutor combo box
+                jComboBox2.removeAllItems();         // Clear any existing items
+                jComboBox2.addItem(assignedTutorName); // Add the assigned tutor name
+                jComboBox2.setEnabled(false);          // Enable the tutor JComboBox for visibility
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                JOptionPane.showMessageDialog(this, "Error fetching tutor information!", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        } else {
+            // If no tutor is assigned, reset the tutor JComboBox
+            jComboBox2.removeAllItems();
+            jComboBox2.addItem("Select");
+            jComboBox2.setEditable(false);
+        }
+
+
     }//GEN-LAST:event_jComboBox1ActionPerformed
 
     private void jComboBox4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox4ActionPerformed
