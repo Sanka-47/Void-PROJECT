@@ -114,7 +114,7 @@ public class TutorScheduleAndCalandar extends javax.swing.JPanel {
                 start = jDateChooser2.getDate();
                 end = jDateChooser3.getDate();
 
-                query += "BETWEEN `class`.`date` > '" + format.format(start) + "' AND `class`.`date` < '" + format.format(end) + "' ";
+                query += "`class`.`date` BETWEEN '" + format.format(start) + "' AND '" + format.format(end) + "' ";
 
             } else if (jDateChooser2.getDate() != null && jDateChooser3.getDate() == null) {
                 start = jDateChooser2.getDate();

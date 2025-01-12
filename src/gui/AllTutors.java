@@ -47,10 +47,44 @@ public class AllTutors extends javax.swing.JPanel {
 //    }
     private void loadTable() {
         try {
-
-            ResultSet resultSet = MySQL2.executeSearch("SELECT * FROM `tutor` "
+            
+            String sort = String.valueOf(jComboBox1.getSelectedItem());
+            
+            String searchText = jTextField1.getText().toLowerCase();
+            
+            String query = "SELECT `tutor`.`id`, `first_name`, `last_name`, `qualification`, `contact_info`, "
+                    + "`gender`.`name`, `courses`.`name`, `password`, `nic`, `email` FROM `tutor` "
                     + "INNER JOIN `gender` ON `tutor`.`gender_id` = `gender`.`id` "
-                    + "INNER JOIN `courses` ON `tutor`.`courses_id` = `courses`.`id`");
+                    + "INNER JOIN `courses` ON `tutor`.`courses_id` = `courses`.`id`";
+
+            if (!searchText.isEmpty()) {
+
+                query += "WHERE (LOWER(`tutor`.`id`) LIKE '%" + searchText + "%' "
+                        + "OR LOWER(`first_name`) LIKE '%" + searchText + "%' "
+                        + "OR LOWER(`last_name`) LIKE '%" + searchText + "%' "
+                        + "OR LOWER(`qualification`) LIKE '%" + searchText + "%' "
+                        + "OR LOWER(`contact_info`) LIKE '%" + searchText + "%' "
+                        + "OR LOWER(`courses`.`name`) LIKE '%" + searchText + "%' "
+                        + "OR LOWER(`nic`) LIKE '%" + searchText + "%' "
+                        + "OR LOWER(`email`) LIKE '%" + searchText + "%') ";
+
+            }
+            
+            if (sort.equals("First Name ASC")) {
+                query += " ORDER BY `tutor`.`first_name` ASC";
+            } else if (sort.equals("First Name DESC")) {
+                query += " ORDER BY `tutor`.`first_name` DESC";
+            } else if (sort.equals("Last Name ASC")) {
+                query += " ORDER BY `tutor`.`last_name` ASC";
+            } else if (sort.equals("Last Name DESC")) {
+                query += " ORDER BY `tutor`.`last_name` DESC";
+            } else if (sort.equals("ID ASC")) {
+                query += " ORDER BY `tutor`.`id` ASC";
+            } else if (sort.equals("ID DESC")) {
+                query += " ORDER BY `tutor`.`id` DESC";
+            }
+            
+            ResultSet resultSet = MySQL2.executeSearch(query);
 
             DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
             model.setRowCount(0);
@@ -85,7 +119,7 @@ public class AllTutors extends javax.swing.JPanel {
         jTable1 = new javax.swing.JTable();
         jLabel2 = new javax.swing.JLabel();
         jComboBox1 = new javax.swing.JComboBox<>();
-        searchName = new javax.swing.JTextField();
+        jTextField1 = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
 
@@ -128,21 +162,17 @@ public class AllTutors extends javax.swing.JPanel {
             }
         });
 
-        searchName.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                searchNameActionPerformed(evt);
-            }
-        });
-        searchName.addKeyListener(new java.awt.event.KeyAdapter() {
+        jTextField1.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
-                searchNameKeyReleased(evt);
+                jTextField1KeyReleased(evt);
             }
         });
 
         jLabel3.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
-        jLabel3.setText("Search By Name or NIC:");
+        jLabel3.setText("Search ");
 
-        jButton1.setText("AllTutorsReport");
+        jButton1.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
+        jButton1.setText("Print");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
@@ -153,105 +183,49 @@ public class AllTutors extends javax.swing.JPanel {
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 989, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel1)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(438, 438, 438)
-                        .addComponent(jLabel1))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(20, 20, 20)
-                        .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 426, Short.MAX_VALUE)
                         .addComponent(jLabel3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(searchName, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(393, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jButton1))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jScrollPane1)))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(20, 20, 20)
+                .addGap(24, 24, 24)
                 .addComponent(jLabel1)
+                .addGap(51, 51, 51)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel3)
+                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel3)
-                        .addComponent(searchName, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel2)
-                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(19, 19, 19)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 421, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 402, Short.MAX_VALUE)
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
-        loadTableSort();
+        loadTable();
     }//GEN-LAST:event_jComboBox1ActionPerformed
-    private void loadTableSort() {
-        try {
-            // Get the selected sort option from the combo box
-            String sort = String.valueOf(jComboBox1.getSelectedItem());
-
-            // Default query to fetch tutor data
-            String query = "SELECT * FROM `tutor` "
-                    + "INNER JOIN `gender` ON `tutor`.`gender_id` = `gender`.`id` "
-                    + "INNER JOIN `courses` ON `tutor`.`courses_id` = `courses`.`id`";
-
-            // Modify the query based on the selected sort option
-            if (sort.equals("First Name ASC")) {
-                query += " ORDER BY `tutor`.`first_name` ASC";
-            } else if (sort.equals("First Name DESC")) {
-                query += " ORDER BY `tutor`.`first_name` DESC";
-            } else if (sort.equals("Last Name ASC")) {
-                query += " ORDER BY `tutor`.`last_name` ASC";
-            } else if (sort.equals("Last Name DESC")) {
-                query += " ORDER BY `tutor`.`last_name` DESC";
-            } else if (sort.equals("ID ASC")) {
-                query += " ORDER BY `tutor`.`id` ASC";
-            } else if (sort.equals("ID DESC")) {
-                query += " ORDER BY `tutor`.`id` DESC";
-            }
-
-            // Execute the query to fetch sorted data
-            ResultSet resultSet = MySQL2.executeSearch(query);
-
-            // Get the table model and clear the existing rows
-            DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-            model.setRowCount(0);
-
-            // Add rows to the table for each result from the query
-            while (resultSet.next()) {
-                Vector<String> vector = new Vector<>();
-                vector.add(resultSet.getString("tutor.id"));
-                vector.add(resultSet.getString("first_name"));
-                vector.add(resultSet.getString("last_name"));
-                vector.add(resultSet.getString("qualification"));
-                vector.add(resultSet.getString("contact_info"));
-                vector.add(resultSet.getString("email"));
-                vector.add(resultSet.getString("gender.name"));
-                vector.add(resultSet.getString("courses.name"));
-                vector.add(resultSet.getString("nic"));
-
-                // Store the password mapping for later use
-                passwordMap.put(resultSet.getString("password"), resultSet.getString("tutor.id"));
-
-                // Add the row to the table model
-                model.addRow(vector);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
 
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
         int row = jTable1.getSelectedRow(); // Selected row
@@ -311,15 +285,9 @@ public class AllTutors extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_jTable1MouseClicked
 
-    private void searchNameKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_searchNameKeyReleased
-        String searchText = searchName.getText().trim();
-        loadTableWithSearch(searchText);
-    }//GEN-LAST:event_searchNameKeyReleased
-
-    private void searchNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchNameActionPerformed
-//        String selectedSort = (String) jComboBox1.getSelectedItem();
-//        loadTable(selectedSort);
-    }//GEN-LAST:event_searchNameActionPerformed
+    private void jTextField1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField1KeyReleased
+        loadTable();
+    }//GEN-LAST:event_jTextField1KeyReleased
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
@@ -338,96 +306,6 @@ public class AllTutors extends javax.swing.JPanel {
 
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    private void loadTable(String sortOption) {
-        try {
-            String orderByClause = "";
-
-            switch (sortOption) {
-                case "First Name ASC":
-                    orderByClause = "ORDER BY `first_name` ASC";
-                    break;
-                case "First Name DESC":
-                    orderByClause = "ORDER BY `first_name` DESC";
-                    break;
-                case "Last Name ASC":
-                    orderByClause = "ORDER BY `last_name` ASC";
-                    break;
-                case "Last Name DESC":
-                    orderByClause = "ORDER BY `last_name` DESC";
-                    break;
-                case "ID ASC":
-                    orderByClause = "ORDER BY `tutor`.`id` ASC";
-                    break;
-                case "ID DESC":
-                    orderByClause = "ORDER BY `tutor`.`id` DESC";
-                    break;
-                default:
-                    break; // No sorting applied
-            }
-
-            ResultSet resultSet = MySQL2.executeSearch("SELECT * FROM `tutor` "
-                    + "INNER JOIN `gender` ON `tutor`.`gender_id` = `gender`.`id` "
-                    + "INNER JOIN `courses` ON `tutor`.`courses_id` = `courses`.`id` "
-                    + orderByClause);
-
-            DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-            model.setRowCount(0);
-
-            while (resultSet.next()) {
-                Vector<String> vector = new Vector<>();
-                vector.add(resultSet.getString("tutor.id"));
-                vector.add(resultSet.getString("first_name"));
-                vector.add(resultSet.getString("last_name"));
-                vector.add(resultSet.getString("qualification"));
-                vector.add(resultSet.getString("contact_info"));
-                vector.add(resultSet.getString("email"));
-                vector.add(resultSet.getString("gender.name"));
-                vector.add(resultSet.getString("courses.name"));
-                vector.add(resultSet.getString("nic"));
-                passwordMap.put(resultSet.getString("password"), resultSet.getString("tutor.id"));
-//
-                model.addRow(vector);
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void loadTableWithSearch(String searchText) {
-        try {
-            ResultSet resultSet = MySQL2.executeSearch("SELECT * FROM `tutor` "
-                    + "INNER JOIN `gender` ON `tutor`.`gender_id` = `gender`.`id` "
-                    + "INNER JOIN `courses` ON `tutor`.`courses_id` = `courses`.`id` "
-                    + "WHERE `first_name` LIKE '%" + searchText + "%' "
-                    + "OR `last_name` LIKE '%" + searchText + "%' "
-                    + "OR `nic` LIKE '%" + searchText + "%'");
-
-            DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-            model.setRowCount(0);
-
-            while (resultSet.next()) {
-                Vector<String> vector = new Vector<>();
-                vector.add(resultSet.getString("tutor.id"));
-                vector.add(resultSet.getString("first_name"));
-                vector.add(resultSet.getString("last_name"));
-                vector.add(resultSet.getString("qualification"));
-                vector.add(resultSet.getString("contact_info"));
-                vector.add(resultSet.getString("email"));
-                vector.add(resultSet.getString("gender.name"));
-                vector.add(resultSet.getString("courses.name"));
-                vector.add(resultSet.getString("nic"));
-                passwordMap.put(resultSet.getString("password"), resultSet.getString("tutor.id"));
-
-                model.addRow(vector);
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JComboBox<String> jComboBox1;
@@ -436,6 +314,6 @@ public class AllTutors extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTextField searchName;
+    private javax.swing.JTextField jTextField1;
     // End of variables declaration//GEN-END:variables
 }
