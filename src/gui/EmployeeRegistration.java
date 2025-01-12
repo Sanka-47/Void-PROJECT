@@ -396,7 +396,7 @@ public class EmployeeRegistration extends javax.swing.JPanel {
 
         if (FirstName.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Please Enter First Name", "Warning", JOptionPane.WARNING_MESSAGE);
-            jTextField2.grabFocus();
+            jTextField1.grabFocus();
         } else if (FirstName.length() > 30) {
             JOptionPane.showMessageDialog(this, "First Name is too long (maximum 30 characters)", "Warning", JOptionPane.WARNING_MESSAGE);
         } else if (!FirstName.matches("^[A-Za-z]+$")) {
