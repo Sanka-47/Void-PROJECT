@@ -20,15 +20,22 @@ import model.MySQL2;
  */
 public class EmployeeProfile extends javax.swing.JPanel {
 
+    private String employeeId;
+    
     public static HashMap<String, Integer> genderMap = new HashMap();
     public static HashMap<String, Integer> roleMap = new HashMap();
     
-    public EmployeeProfile() {
+    public EmployeeProfile(String fName, String employeeId) {
         initComponents();
         loadGender();
         loadRole();
+        this.employeeId = employeeId;
+        System.out.println(employeeId);
         jTextField5.setEnabled(false);
+        jComboBox1.setEnabled(false);
         jComboBox2.setEnabled(false);
+        loadEmployeeDetails();
+        
     }
 
     private void loadGender() {
@@ -92,6 +99,45 @@ public class EmployeeProfile extends javax.swing.JPanel {
         }
 
     }
+    
+    private void loadEmployeeDetails() {
+
+        try {
+
+            ResultSet resultSet = MySQL2.executeSearch("SELECT * FROM `employee` "
+                    + "INNER JOIN `gender` ON `employee`.`gender_id` = `gender`.`id` "
+                    + "INNER JOIN `roles` ON `employee`.`roles_id` = `roles`.`id` "
+                    + "WHERE `employee`.`id` ='"+ employeeId +"' ");
+
+            if (resultSet.next()) {
+                
+        jTextField1.setText(resultSet.getString("first_name"));
+        jTextField2.setText(resultSet.getString("last_name"));
+        jTextField3.setText(resultSet.getString("contact_info"));
+        jTextField4.setText(resultSet.getString("email"));
+        jTextField5.setText(resultSet.getString("nic"));
+
+         // Get values from result set
+            String gender = resultSet.getString("gender.name");
+            String role = resultSet.getString("roles.name");
+
+            // Set combo box selections
+            jComboBox1.setSelectedItem(gender);
+            jComboBox2.setSelectedItem(role);
+
+        // Populate password field
+        jPasswordField1.setText(resultSet.getString("password"));
+    } else {
+        System.out.println("No employee found with ID: " + employeeId);
+    }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+    
+    
     
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
