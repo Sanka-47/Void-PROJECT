@@ -39,7 +39,6 @@ public class NotificationDetails extends javax.swing.JFrame {
                 locationLabel.setText(rs.getString("hallnumber"));
                 amountLabel.setText(String.valueOf(rs.getDouble("amount")));
                 courseLabel.setText(rs.getString("course_name"));
-                feeLabel.setText(String.valueOf(rs.getDouble("course_fee")));
                 gradeLabel.setText(rs.getString("grade_level"));
                 statusLabel.setText(rs.getString("class_status"));
             } else {
@@ -65,7 +64,6 @@ public class NotificationDetails extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         dateLabel = new javax.swing.JLabel();
@@ -73,7 +71,6 @@ public class NotificationDetails extends javax.swing.JFrame {
         locationLabel = new javax.swing.JLabel();
         amountLabel = new javax.swing.JLabel();
         courseLabel = new javax.swing.JLabel();
-        feeLabel = new javax.swing.JLabel();
         gradeLabel = new javax.swing.JLabel();
         statusLabel = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
@@ -97,9 +94,6 @@ public class NotificationDetails extends javax.swing.JFrame {
         jLabel6.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel6.setText("Course Name :");
 
-        jLabel7.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabel7.setText("Fee :");
-
         jLabel8.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel8.setText("Grade : ");
 
@@ -121,9 +115,6 @@ public class NotificationDetails extends javax.swing.JFrame {
         courseLabel.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         courseLabel.setText("Course Name :");
 
-        feeLabel.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        feeLabel.setText("Fee :");
-
         gradeLabel.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         gradeLabel.setText("Grade : ");
 
@@ -142,17 +133,15 @@ public class NotificationDetails extends javax.swing.JFrame {
                     .addComponent(jLabel4)
                     .addComponent(jLabel5)
                     .addComponent(jLabel6)
-                    .addComponent(jLabel7)
                     .addComponent(jLabel8)
                     .addComponent(jLabel9))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(dateLabel)
                     .addComponent(timeLabel)
                     .addComponent(locationLabel)
                     .addComponent(amountLabel)
                     .addComponent(courseLabel)
-                    .addComponent(feeLabel)
                     .addComponent(gradeLabel)
                     .addComponent(statusLabel))
                 .addContainerGap(254, Short.MAX_VALUE))
@@ -172,9 +161,7 @@ public class NotificationDetails extends javax.swing.JFrame {
                         .addComponent(amountLabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(courseLabel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(feeLabel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(gradeLabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(statusLabel))
@@ -188,9 +175,7 @@ public class NotificationDetails extends javax.swing.JFrame {
                         .addComponent(jLabel5)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel6)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel7)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jLabel8)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel9)))
@@ -209,7 +194,7 @@ public class NotificationDetails extends javax.swing.JFrame {
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 391, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(44, Short.MAX_VALUE)
+                .addContainerGap(49, Short.MAX_VALUE)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(24, 24, 24))
         );
@@ -220,7 +205,7 @@ public class NotificationDetails extends javax.swing.JFrame {
                 .addComponent(jLabel1)
                 .addGap(18, 18, 18)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(37, Short.MAX_VALUE))
+                .addContainerGap(42, Short.MAX_VALUE))
         );
 
         pack();
@@ -239,7 +224,6 @@ public class NotificationDetails extends javax.swing.JFrame {
     private javax.swing.JLabel amountLabel;
     private javax.swing.JLabel courseLabel;
     private javax.swing.JLabel dateLabel;
-    private javax.swing.JLabel feeLabel;
     private javax.swing.JLabel gradeLabel;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -247,7 +231,6 @@ public class NotificationDetails extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
