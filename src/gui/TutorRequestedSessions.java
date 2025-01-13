@@ -5,6 +5,11 @@
  */
 package gui;
 
+import com.raven.datechooser.DateBetween;
+import com.raven.datechooser.DateChooser;
+import com.raven.datechooser.listener.DateChooserAction;
+import com.raven.datechooser.listener.DateChooserAdapter;
+import java.awt.Color;
 import java.sql.ResultSet;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -18,25 +23,50 @@ import model.MySQL2;
  */
 public class TutorRequestedSessions extends javax.swing.JPanel {
 
+    private DateChooser chDate = new DateChooser();
+
+    private String From;
+    private String To;
+
     private int tutorsId;
+
     /**
      * Creates new form TutorRequestedSessions
      */
     public TutorRequestedSessions(int tutorsId) {
         initComponents();
         this.tutorsId = tutorsId;
-        loadRequestedSessions();
+        dateChooser();
+        loadRequestedSessions("","");
     }
 
-    private void loadRequestedSessions() {
+    private void dateChooser() {
+        chDate.setTextField(jTextField2);
+        chDate.setDateSelectionMode(DateChooser.DateSelectionMode.BETWEEN_DATE_SELECTED);
+        chDate.setLabelCurrentDayVisible(false);
+        chDate.setForeground(Color.black);
+        chDate.setBackground(Color.white);
+        chDate.setDateFormat(new SimpleDateFormat("yyyy-MM-dd"));
+        chDate.addActionDateChooserListener(new DateChooserAdapter() {
+            @Override
+            public void dateBetweenChanged(DateBetween date, DateChooserAction action) {
+                SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+                From = df.format(date.getFromDate());
+                To = df.format(date.getToDate());
+                loadRequestedSessions(From, To);
+            }
+        });
+    }
+
+    private void loadRequestedSessions(String from, String to) {
         try {
-            
+
             String searchText = jTextField1.getText().toLowerCase();
-            
+
             String startTime = jFormattedTextField1.getText();
-            
+
             String endTime = jFormattedTextField2.getText();
-            
+
             String query = "SELECT "
                     + "tutor.first_name, tutor.last_name, "
                     + "request_sessions.title, request_sessions.date, "
@@ -46,57 +76,34 @@ public class TutorRequestedSessions extends javax.swing.JPanel {
                     + "FROM request_sessions "
                     + "INNER JOIN tutor ON request_sessions.tutor_id = tutor.id "
                     + "INNER JOIN courses ON request_sessions.courses_id = courses.id "
-                    + "WHERE request_sessions.tutor_id = '"+tutorsId+"'";
-            
+                    + "WHERE request_sessions.tutor_id = '" + tutorsId + "'";
+
             // Search text filtering
             if (!searchText.isEmpty()) {
                 query += "AND (LOWER(`request_sessions`.`id`) LIKE '%" + searchText + "%' "
                         + "OR LOWER(`request_sessions`.`type`) LIKE '%" + searchText + "%' "
-//                        + "OR LOWER(`class`.`date`) LIKE '%" + searchText + "%' "
+                        //                        + "OR LOWER(`class`.`date`) LIKE '%" + searchText + "%' "
                         + "OR LOWER(`request_sessions`.`hallnumber`) LIKE '%" + searchText + "%' "
                         + "OR LOWER(`courses`.`name`) LIKE '%" + searchText + "%' "
                         + "OR LOWER(`request_sessions`.`approve_status`) LIKE '%" + searchText + "%') ";
             }
-            
+
             if (!startTime.isEmpty()) {
                 query += "AND (`request_sessions`.`start_time` >= '" + startTime + "') "; // Compare start_time directly
                 System.out.println("Start Time: " + startTime);
             }
-            
+
             if (!endTime.isEmpty()) {
                 query += "AND (`request_sessions`.`end_time` <= '" + endTime + "') "; // Compare end_time directly
                 System.out.println("End Time: " + endTime);
             }
 
-            Date start = null;
-            Date end = null;
+            if (from.isEmpty() || to == null) {
 
-            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+            } else if (to.isEmpty() || from == null) {
 
-            if (jDateChooser1.getDate() != null || jDateChooser2.getDate() != null) {
-                if (query.contains("WHERE")) {
-                    query += "AND ";
-                } else {
-                    query += "WHERE ";
-                }
-            }
-
-            if (jDateChooser1.getDate() != null && jDateChooser2.getDate() != null) {
-                start = jDateChooser1.getDate();
-                end = jDateChooser2.getDate();
-
-                query += "`request_sessions`.`date` BETWEEN '" + format.format(start) + "' AND '" + format.format(end) + "' ";
-
-            } else if (jDateChooser1.getDate() != null && jDateChooser2.getDate() == null) {
-                start = jDateChooser1.getDate();
-
-                query += "`request_sessions`.`date` >= '" + format.format(start) + "' ";
-
-            } else if (jDateChooser1.getDate() == null && jDateChooser2.getDate() != null) {
-                end = jDateChooser2.getDate();
-
-                query += "`request_sessions`.`date` <= '" + format.format(end) + "' ";
-
+            } else if (from != null || to != null) {
+                query += "AND `request_sessions`.`date` > '" + from + "' AND `request_sessions`.`date` < '" + to + "' ";
             }
 
             ResultSet resultSet = MySQL2.executeSearch(query);
@@ -107,7 +114,7 @@ public class TutorRequestedSessions extends javax.swing.JPanel {
             while (resultSet.next()) {
                 Vector<String> vector = new Vector<>();
                 vector.add(resultSet.getString("request_sessions.id")); // Title
-               // Requested By
+                // Requested By
                 vector.add(resultSet.getString("courses.name")); // Title
                 vector.add(resultSet.getString("title")); // Title
                 vector.add(resultSet.getString("date")); // Date
@@ -137,16 +144,13 @@ public class TutorRequestedSessions extends javax.swing.JPanel {
         jTable1 = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jDateChooser1 = new com.toedter.calendar.JDateChooser();
-        jLabel5 = new javax.swing.JLabel();
-        jDateChooser2 = new com.toedter.calendar.JDateChooser();
-        jButton2 = new javax.swing.JButton();
         jLabel10 = new javax.swing.JLabel();
         jFormattedTextField1 = new javax.swing.JFormattedTextField();
         jLabel11 = new javax.swing.JLabel();
         jFormattedTextField2 = new javax.swing.JFormattedTextField();
         jLabel6 = new javax.swing.JLabel();
         jTextField1 = new javax.swing.JTextField();
+        jTextField2 = new javax.swing.JTextField();
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -165,11 +169,6 @@ public class TutorRequestedSessions extends javax.swing.JPanel {
             }
         });
         jTable1.getTableHeader().setReorderingAllowed(false);
-        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jTable1MouseClicked(evt);
-            }
-        });
         jScrollPane1.setViewportView(jTable1);
         if (jTable1.getColumnModel().getColumnCount() > 0) {
             jTable1.getColumnModel().getColumn(8).setMinWidth(100);
@@ -181,17 +180,6 @@ public class TutorRequestedSessions extends javax.swing.JPanel {
 
         jLabel2.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
         jLabel2.setText("Sort By Date");
-
-        jLabel5.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
-        jLabel5.setText("TO");
-
-        jButton2.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
-        jButton2.setText("Sort");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
-            }
-        });
 
         jLabel10.setText("Start Time :");
 
@@ -222,25 +210,15 @@ public class TutorRequestedSessions extends javax.swing.JPanel {
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel1)
-                .addGap(354, 354, 354))
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 980, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jDateChooser2, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton2)
-                        .addGap(32, 32, 32)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 81, Short.MAX_VALUE)
                         .addComponent(jLabel10)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jFormattedTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -248,27 +226,27 @@ public class TutorRequestedSessions extends javax.swing.JPanel {
                         .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jFormattedTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 96, Short.MAX_VALUE)
                         .addComponent(jLabel6)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel1)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(31, 31, 31)
+                .addGap(24, 24, 24)
                 .addComponent(jLabel1)
                 .addGap(51, 51, 51)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jLabel5)
-                        .addGap(11, 11, 11))
-                    .addComponent(jDateChooser1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jDateChooser2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel10)
                         .addComponent(jFormattedTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabel11)
@@ -281,41 +259,54 @@ public class TutorRequestedSessions extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
-
-    }//GEN-LAST:event_jTable1MouseClicked
-
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        loadRequestedSessions();
-    }//GEN-LAST:event_jButton2ActionPerformed
-
     private void jTextField1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField1KeyReleased
-        loadRequestedSessions();
+        if (From != null && To == null) {
+            loadRequestedSessions(From, "");
+        } else if (From == null && To != null) {
+            loadRequestedSessions("", To);
+        } else if (From != null && To != null) {
+            loadRequestedSessions(From, To);
+        } else {
+            loadRequestedSessions("", "");
+        }
     }//GEN-LAST:event_jTextField1KeyReleased
 
     private void jFormattedTextField1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jFormattedTextField1KeyReleased
-        loadRequestedSessions();
+        if (From != null && To == null) {
+            loadRequestedSessions(From, "");
+        } else if (From == null && To != null) {
+            loadRequestedSessions("", To);
+        } else if (From != null && To != null) {
+            loadRequestedSessions(From, To);
+        } else {
+            loadRequestedSessions("", "");
+        }
     }//GEN-LAST:event_jFormattedTextField1KeyReleased
 
     private void jFormattedTextField2KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jFormattedTextField2KeyReleased
-        loadRequestedSessions();
+        if (From != null && To == null) {
+            loadRequestedSessions(From, "");
+        } else if (From == null && To != null) {
+            loadRequestedSessions("", To);
+        } else if (From != null && To != null) {
+            loadRequestedSessions(From, To);
+        } else {
+            loadRequestedSessions("", "");
+        }
     }//GEN-LAST:event_jFormattedTextField2KeyReleased
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton2;
-    private com.toedter.calendar.JDateChooser jDateChooser1;
-    private com.toedter.calendar.JDateChooser jDateChooser2;
     private javax.swing.JFormattedTextField jFormattedTextField1;
     private javax.swing.JFormattedTextField jFormattedTextField2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
     private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField jTextField2;
     // End of variables declaration//GEN-END:variables
 }

@@ -1,6 +1,10 @@
 //author KAVISHA
 package gui;
 
+import com.raven.datechooser.DateBetween;
+import com.raven.datechooser.DateChooser;
+import com.raven.datechooser.listener.DateChooserAction;
+import com.raven.datechooser.listener.DateChooserAdapter;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.sql.PreparedStatement;
@@ -27,6 +31,11 @@ import javax.swing.JLabel;
 public class AssignmentManagement extends javax.swing.JPanel {
 
     private TutorDashboard parent;
+    
+    private DateChooser chDate = new DateChooser();
+    
+    private String From;
+    private String To;
 
     private String assignment;
     private String course;
@@ -35,7 +44,8 @@ public class AssignmentManagement extends javax.swing.JPanel {
     public AssignmentManagement(int tutorID) {
         this.tutorId = tutorID;
         initComponents();
-        loadTable();
+        dateChooser();
+        loadTable("", "");
 //        loadCourses();
 
         DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
@@ -46,29 +56,26 @@ public class AssignmentManagement extends javax.swing.JPanel {
 
     private static HashMap<String, String> courseMap = new HashMap<>();
     private static HashMap<String, String> tutorMap = new HashMap<>();
+    
+    private void dateChooser() {
+        chDate.setTextField(jTextField2);
+        chDate.setDateSelectionMode(DateChooser.DateSelectionMode.BETWEEN_DATE_SELECTED);
+        chDate.setLabelCurrentDayVisible(false);
+        chDate.setForeground(Color.black);
+        chDate.setBackground(Color.white);
+        chDate.setDateFormat(new SimpleDateFormat("yyyy-MM-dd"));
+        chDate.addActionDateChooserListener(new DateChooserAdapter() {
+            @Override
+            public void dateBetweenChanged(DateBetween date, DateChooserAction action) {
+                SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+                From = df.format(date.getFromDate());
+                To = df.format(date.getToDate());
+                loadTable(From, To);
+            }
+        });
+    }
 
-    // Example sortAscending method
-//    private void sortAscending() {
-//        // Assuming you have a data model for your JTable, such as DefaultTableModel
-//        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-//        TableRowSorter<TableModel> sorter = new TableRowSorter<>(model);
-//        jTable1.setRowSorter(sorter);
-//
-//        // Set the sorting order on the desired column (e.g., column 0)
-//        sorter.setComparator(0, Comparator.naturalOrder());
-//        sorter.sort();
-//    }
-// Example sortDescending method
-//    private void sortDescending() {
-//        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-//        TableRowSorter<TableModel> sorter = new TableRowSorter<>(model);
-//        jTable1.setRowSorter(sorter);
-//
-//        // Set the sorting order on the desired column (e.g., column 0)
-//        sorter.setComparator(0, Comparator.reverseOrder());
-//        sorter.sort();
-//    }
-    private void loadTable() {
+    private void loadTable(String from, String to) {
 
         try {
             String TID = String.valueOf(tutorId);
@@ -93,21 +100,13 @@ public class AssignmentManagement extends javax.swing.JPanel {
                         .append("OR LOWER(`tutor`.`last_name`) LIKE '%").append(searchText).append("%') ");
                 hasCondition = true;
             }
+            
+            if (from.isEmpty() || to == null) {
 
-            // Date filtering
-            if (jDateChooser1.getDate() != null || jDateChooser2.getDate() != null) {
-                query.append(hasCondition ? "AND " : "WHERE ");
-                if (jDateChooser1.getDate() != null && jDateChooser2.getDate() != null) {
-                    query.append("`assignment`.`due_date` BETWEEN '")
-                            .append(format.format(jDateChooser1.getDate())).append("' AND '")
-                            .append(format.format(jDateChooser2.getDate())).append("' ");
-                } else if (jDateChooser1.getDate() != null) {
-                    query.append("`assignment`.`due_date` >= '")
-                            .append(format.format(jDateChooser1.getDate())).append("' ");
-                } else {
-                    query.append("`assignment`.`due_date` <= '")
-                            .append(format.format(jDateChooser2.getDate())).append("' ");
-                }
+            } else if (to.isEmpty() || from == null) {
+
+            } else if (from != null || to != null) {
+                query.append("AND `assignment`.`due_date` > '" + from + "' AND `assignment`.`due_date` < '" + to + "' ");
             }
 
             // Execute query
@@ -156,11 +155,8 @@ public class AssignmentManagement extends javax.swing.JPanel {
         jTable1 = new javax.swing.JTable();
         jTextField1 = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
-        jDateChooser1 = new com.toedter.calendar.JDateChooser();
-        jLabel6 = new javax.swing.JLabel();
-        jDateChooser2 = new com.toedter.calendar.JDateChooser();
-        jButton2 = new javax.swing.JButton();
         jLabel7 = new javax.swing.JLabel();
+        jTextField2 = new javax.swing.JTextField();
 
         jLabel1.setFont(new java.awt.Font("Century Gothic", 1, 28)); // NOI18N
         jLabel1.setText("Assignments");
@@ -216,17 +212,6 @@ public class AssignmentManagement extends javax.swing.JPanel {
         jLabel4.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
         jLabel4.setText("Search");
 
-        jLabel6.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
-        jLabel6.setText("TO");
-
-        jButton2.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
-        jButton2.setText("Sort");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
-            }
-        });
-
         jLabel7.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
         jLabel7.setText("Sort By Date");
 
@@ -239,7 +224,7 @@ public class AssignmentManagement extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 468, Short.MAX_VALUE)
                         .addComponent(jButton6)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jButton5))
@@ -248,16 +233,10 @@ public class AssignmentManagement extends javax.swing.JPanel {
                         .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 232, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 207, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel7)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(26, 26, 26)
-                        .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jDateChooser2, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton2)))
+                        .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(41, 41, 41))
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -267,25 +246,15 @@ public class AssignmentManagement extends javax.swing.JPanel {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(24, 24, 24)
-                        .addComponent(jLabel1)
-                        .addGap(28, 28, 28)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jDateChooser2, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jLabel6)
-                                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(90, 90, 90)
-                        .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(24, 24, 24)
+                .addComponent(jLabel1)
+                .addGap(28, 28, 28)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(8, 8, 8)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -320,7 +289,7 @@ public class AssignmentManagement extends javax.swing.JPanel {
 
             }
 
-            loadTable();
+            loadTable("","");
 
         } catch (Exception e) {
 
@@ -384,28 +353,29 @@ public class AssignmentManagement extends javax.swing.JPanel {
 
     }//GEN-LAST:event_jTable1MouseClicked
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        loadTable();
-    }//GEN-LAST:event_jButton2ActionPerformed
-
     private void jTextField1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField1KeyReleased
-        loadTable();
+        if (From != null && To == null) {
+            loadTable(From, "");
+        } else if (From == null && To != null) {
+            loadTable("", To);
+        } else if (From != null && To != null) {
+            loadTable(From, To);
+        } else {
+            loadTable("", "");
+        }
     }//GEN-LAST:event_jTextField1KeyReleased
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
-    private com.toedter.calendar.JDateChooser jDateChooser1;
-    private com.toedter.calendar.JDateChooser jDateChooser2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTable1;
     private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField jTextField2;
     // End of variables declaration//GEN-END:variables
 }
