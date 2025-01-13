@@ -1,4 +1,4 @@
-//author CHANULI
+//author RUSHMA
 package gui;
 
 import java.sql.ResultSet;
@@ -34,57 +34,11 @@ public class RequestSession extends javax.swing.JPanel {
 //        loadTutors();
         loadStatus();
     }
-    
 
     private void loadTutorSchedule() {
 
-//        try {
-//            // Corrected SQL query with DISTINCT and removal of unnecessary joins
-//            ResultSet resultSet = MySQL2.executeSearch(
-//                    "SELECT DISTINCT `class`.`id`, `courses`.`name` AS course_name, "
-//                    + "`tutor`.`first_name`, `tutor`.`last_name`, `class`.`name` AS class_name, "
-//                    + "`class`.`date`, `class`.`start_time`, `class`.`end_time`, `class`.`hallnumber`, "
-//                    + "`class`.`amount`, `class_status`.`name` AS status_name "
-//                    + "FROM `class` "
-//                    + "INNER JOIN `tutor` ON `class`.`tutor_id` = `tutor`.`id` "
-//                    + "INNER JOIN `courses` ON `class`.`courses_id` = `courses`.`id` "
-//                    + "INNER JOIN `class_status` ON `class`.`class_status_id` = `class_status`.`id`"
-//            );
-//
-//            DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-//            model.setRowCount(0);
-//
-//            while (resultSet.next()) {
-//                Vector<String> vector = new Vector<>();
-//                vector.add(resultSet.getString("id"));
-//                vector.add(resultSet.getString("course_name"));
-//                vector.add(resultSet.getString("first_name") + " " + resultSet.getString("last_name"));
-//                vector.add(resultSet.getString("class_name"));
-//                vector.add(resultSet.getString("date"));
-//                vector.add(resultSet.getString("start_time"));
-//                vector.add(resultSet.getString("end_time"));
-//                vector.add(resultSet.getString("hallnumber"));
-//                vector.add(resultSet.getString("amount"));
-//                vector.add(resultSet.getString("status_name"));
-//
-//                model.addRow(vector);
-//            }
-//
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
         try {
-            // SQL query filtering sessions for the signed-in tutor
-//            ResultSet resultSet = MySQL2.executeSearch(
-//                    "SELECT DISTINCT `class`.`id`, `courses`.`name` AS course_name, "
-//                    + "`class`.`name` AS class_name, `class`.`date`, `class`.`start_time`, "
-//                    + "`class`.`end_time`, `class`.`hallnumber`, `class`.`amount`, "
-//                    + "`class_status`.`name` AS status_name "
-//                    + "FROM `class` "
-//                    + "INNER JOIN `courses` ON `class`.`courses_id` = `courses`.`id` "
-//                    + "INNER JOIN `class_status` ON `class`.`class_status_id` = `class_status`.`id` "
-//                    + "WHERE `class`.`tutor_id` = '" + tutorId + "'"
-//            );
+
             ResultSet resultSet = MySQL2.executeSearch(
                     "SELECT DISTINCT `class`.`id`, `courses`.`name` AS course_name, "
                     + "`tutor`.`first_name` AS first_name, `tutor`.`last_name` AS last_name, "
@@ -137,7 +91,7 @@ public class RequestSession extends javax.swing.JPanel {
             while (resultSet.next()) {
                 vector.add(resultSet.getString("name"));
                 courseMap.put(resultSet.getString("name"), resultSet.getString("id"));
-               courseField.setText(resultSet.getString("name"));
+                courseField.setText(resultSet.getString("name"));
 //                DefaultComboBoxModel model = new DefaultComboBoxModel(vector);
 //                jComboBox2.setModel(model);
 
@@ -147,6 +101,7 @@ public class RequestSession extends javax.swing.JPanel {
             e.printStackTrace();
         }
     }
+
     private void loadStatus() {
 
         try {
@@ -161,38 +116,12 @@ public class RequestSession extends javax.swing.JPanel {
                 statusMap.put(resultSet.getString("name"), resultSet.getString("id"));
             }
 
-
         } catch (Exception e) {
             e.printStackTrace();
 
         }
     }
 
-//    private void loadTutors() {
-//
-//        try {
-//            ResultSet resultSet = MySQL2.executeSearch("SELECT first_name, last_name, id FROM `tutor`");
-//
-//            Vector<String> vector = new Vector<>();
-//            vector.add("Select");
-//
-//            while (resultSet.next()) {
-////                vector.add(resultSet.getString("name"));
-////                tutorMap.put(resultSet.getString("name"), resultSet.getString("id"));
-//
-//                String fullName = resultSet.getString("first_name") + " " + resultSet.getString("last_name");
-//                vector.add(fullName);
-//                tutorMap.put(fullName, resultSet.getString("id"));
-//
-//                DefaultComboBoxModel model = new DefaultComboBoxModel(vector);
-//                jComboBox1.setModel(model);
-//
-//            }
-//
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//    }
     private void reset() {
         title.setText("");
         title.setText("");
@@ -397,75 +326,11 @@ public class RequestSession extends javax.swing.JPanel {
 
     private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
         reset();
-        //        String sessionID = jTextField3.getText();
-        //
-        //        if (sessionID.isEmpty()) {
-        //            JOptionPane.showMessageDialog(this, "Please enter a session ID to cancel!", "Warning", JOptionPane.WARNING_MESSAGE);
-        //            return;
-        //        }
-        //
-        //        int confirm = JOptionPane.showConfirmDialog(this, "Are you sure you want to cancel this session?", "Confirm Cancellation", JOptionPane.YES_NO_OPTION);
-        //        if (confirm == JOptionPane.NO_OPTION) {
-        //            return;
-        //        }
-        //
-        //        try {
-        //            ResultSet resultSet = MySQL2.executeSearch("SELECT `id` FROM `class` WHERE `id` = '" + sessionID + "'");
-        //
-        //            if (resultSet.next()) {
-        //
-        //                MySQL2.executeIUD("DELETE FROM `class` WHERE `id` = '" + sessionID + "'");
-        //
-        //                JOptionPane.showMessageDialog(this, "Session canceled successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
-        //
-        //                reset();
-        //                loadTutorSchedule();
-        //
-        //            } else {
-        //                JOptionPane.showMessageDialog(this, "The session ID does not exist. Please check and try again.", "Error", JOptionPane.ERROR_MESSAGE);
-        //            }
-        //
-        //        } catch (Exception e) {
-        //            e.printStackTrace();
-        //            JOptionPane.showMessageDialog(this, "An error occurred while canceling the session. Please try again.", "Error", JOptionPane.ERROR_MESSAGE);
-        //        }
+
     }//GEN-LAST:event_jButton10ActionPerformed
 
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
 
-//        int row = jTable1.getSelectedRow();
-//
-//        String id = String.valueOf(jTable1.getValueAt(row, 0));
-//        jTextField3.setText(id);
-//
-//        String courseName = String.valueOf(jTable1.getValueAt(row, 1));
-//        jTextField1.setText(courseName);
-//
-//        String tutor = String.valueOf(jTable1.getValueAt(row, 2));
-//        jTextField2.setText(tutor);
-//
-//        String date = String.valueOf(jTable1.getValueAt(row, 3));
-//        try {
-//            java.util.Date parsedDate = new SimpleDateFormat("yyyy-MM-dd").parse(date);
-//            jDateChooser1.setDate(parsedDate);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//        
-//        String startTime = String.valueOf(jTable1.getValueAt(row, 4));
-//        jFormattedTextField1.setText(startTime);
-//
-//        String endTime = String.valueOf(jTable1.getValueAt(row, 5));
-//        jFormattedTextField2.setText(endTime);
-//
-//        String hallNumber = String.valueOf(jTable1.getValueAt(row, 6));
-//        jTextField7.setText(hallNumber);
-//
-//        String amount = String.valueOf(jTable1.getValueAt(row, 7));
-//        jFormattedTextField3.setText(amount);
-//
-//        String status = String.valueOf(jTable1.getValueAt(row, 8));
-//        jComboBox3.setSelectedItem(status);
     }//GEN-LAST:event_jTable1MouseClicked
 
     private void endTimeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_endTimeActionPerformed
@@ -473,55 +338,82 @@ public class RequestSession extends javax.swing.JPanel {
     }//GEN-LAST:event_endTimeActionPerformed
 
     private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
-         // Retrieve values from the UI components
-    String Title = title.getText();
-    String Course = courseField.getText();
-    Date SessionDate = jDateChooser1.getDate();
-    String StartTime = startTime.getText();
-    String EndTime = endTime.getText();
-    String HallNumber = hallNumber.getText();
-    int TutorID = this.tutorId; // Assuming you fetch this dynamically or use a default value.
+        // Retrieve values from the UI components
+        String Title = title.getText(); // Retrieve the title
+        String Course = courseField.getText();
+        Date SessionDate = jDateChooser1.getDate();
+        String StartTime = startTime.getText();
+        String EndTime = endTime.getText();
+        String HallNumber = hallNumber.getText();
+        int TutorID = this.tutorId; // Assuming this is fetched dynamically or passed in.
 
-    // Validation
-    if (Title.isEmpty()) {
-        JOptionPane.showMessageDialog(this, "Please enter a title!", "Warning", JOptionPane.WARNING_MESSAGE);
-    } else if (SessionDate == null) {
-        JOptionPane.showMessageDialog(this, "Please select a date!", "Warning", JOptionPane.WARNING_MESSAGE);
-    } else if (StartTime.isEmpty()) {
-        JOptionPane.showMessageDialog(this, "Please enter a start time!", "Warning", JOptionPane.WARNING_MESSAGE);
-    } else if (EndTime.isEmpty()) {
-        JOptionPane.showMessageDialog(this, "Please enter an end time!", "Warning", JOptionPane.WARNING_MESSAGE);
-    } else if (HallNumber.isEmpty()) {
-        JOptionPane.showMessageDialog(this, "Please enter a hall number!", "Warning", JOptionPane.WARNING_MESSAGE);
-    } else if (Course.isEmpty()) {
-        JOptionPane.showMessageDialog(this, "Please enter the course!", "Warning", JOptionPane.WARNING_MESSAGE);
-    } else {
+        // Validation
+        if (Title.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please enter a title!", "Warning", JOptionPane.WARNING_MESSAGE);
+        } else if (SessionDate == null) {
+            JOptionPane.showMessageDialog(this, "Please select a date!", "Warning", JOptionPane.WARNING_MESSAGE);
+        } else if (SessionDate.before(new Date())) {
+            JOptionPane.showMessageDialog(this, "The session date must be a future date!", "Warning", JOptionPane.WARNING_MESSAGE);
+        } else if (StartTime.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please enter a start time!", "Warning", JOptionPane.WARNING_MESSAGE);
+        } else if (EndTime.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please enter an end time!", "Warning", JOptionPane.WARNING_MESSAGE);
+        } else if (HallNumber.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please enter a hall number!", "Warning", JOptionPane.WARNING_MESSAGE);
+        } else if (Course.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please enter the course!", "Warning", JOptionPane.WARNING_MESSAGE);
+        } else {
 
-        try {
-            // Format the date
-            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+            try {
+                // Format the date
+                SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 
-            // Insert into the database
-            String query = "INSERT INTO request_sessions (title, date, start_time, end_time, hallnumber, tutor_id,approve_status,courses_id,type) "
-                         + "VALUES ('" + Title + "', '" + format.format(SessionDate) + "', '" + StartTime + "', '" + EndTime + "', '" + HallNumber + "', '" + TutorID + "','Pending','"+courseMap.get(Course)+"','New Session')";
+                // Check if the title already exists in the class table
+                String queryCheckTitle = "SELECT COUNT(*) AS count FROM class WHERE name = '" + Title + "'";
+                ResultSet resultSet = MySQL2.executeSearch(queryCheckTitle);
 
-            MySQL2.executeIUD(query);
+                if (resultSet.next() && resultSet.getInt("count") > 0) {
+                    JOptionPane.showMessageDialog(this, "The session title already exists. Please choose a different title.", "Conflict", JOptionPane.WARNING_MESSAGE);
+                    return;
+                }
 
-            JOptionPane.showMessageDialog(this, "Session requested successfully!", "SUCCESS", JOptionPane.INFORMATION_MESSAGE);
+                // Check for conflicts in the requested slot (date, time, hallnumber)
+                String queryCheckSlot = "SELECT COUNT(*) AS count FROM class "
+                        + "WHERE date = '" + format.format(SessionDate) + "' "
+                        + "AND ((start_time <= '" + StartTime + "' AND end_time > '" + StartTime + "') "
+                        + "OR (start_time < '" + EndTime + "' AND end_time >= '" + EndTime + "')) "
+                        + "AND hallnumber = '" + HallNumber + "'";
 
-            // Clear all fields after successful insertion
-            title.setText("");
-            jDateChooser1.setDate(null);
-            startTime.setText("");
-            endTime.setText("");
-            hallNumber.setText("");
-            courseField.setText("");
+                resultSet = MySQL2.executeSearch(queryCheckSlot);
 
-        } catch (Exception e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(this, "An error occurred: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                if (resultSet.next() && resultSet.getInt("count") > 0) {
+                    JOptionPane.showMessageDialog(this, "The selected slot is already occupied. Please choose another.", "Conflict", JOptionPane.WARNING_MESSAGE);
+                    return;
+                }
+
+                // Insert into the database
+                String query = "INSERT INTO request_sessions (title, date, start_time, end_time, hallnumber, tutor_id, approve_status, courses_id, type) "
+                        + "VALUES ('" + Title + "', '" + format.format(SessionDate) + "', '" + StartTime + "', '" + EndTime + "', '" + HallNumber + "', '" + TutorID + "', 'Pending', '" + courseMap.get(Course) + "', 'New Session')";
+
+                MySQL2.executeIUD(query);
+
+                JOptionPane.showMessageDialog(this, "Session requested successfully!", "SUCCESS", JOptionPane.INFORMATION_MESSAGE);
+                TutorRequestedSessions tr = new TutorRequestedSessions(TutorID);
+                parent.switchPanel(tr);
+
+                // Clear all fields after successful insertion
+                title.setText("");
+                jDateChooser1.setDate(null);
+                startTime.setText("");
+                endTime.setText("");
+                hallNumber.setText("");
+                courseField.setText("");
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                JOptionPane.showMessageDialog(this, "An error occurred: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            }
         }
-    }
     }//GEN-LAST:event_jButton11ActionPerformed
 
     private void courseFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_courseFieldActionPerformed
