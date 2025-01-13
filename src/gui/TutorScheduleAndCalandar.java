@@ -8,6 +8,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Vector;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JFormattedTextField;
 import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -36,7 +37,11 @@ public class TutorScheduleAndCalandar extends javax.swing.JPanel {
 //        loadStatus();
         // Call this method during component initialization
         initializePlaceholder();
+        jTextField5.setText("Pending");
         jTextField5.setEditable(false);
+        jTextField1.setEditable(false);
+        setPlaceholder(jFormattedTextField1, "12.00"); // Placeholder for start time
+        setPlaceholder(jFormattedTextField2, "14.00"); // Placeholder for end time
     }
 
 // Overloaded constructor with new parameters
@@ -140,6 +145,10 @@ public class TutorScheduleAndCalandar extends javax.swing.JPanel {
                 query += "ORDER BY `courses`.`name` ASC";
             } else if (sort.equals("Subject DESC")) {
                 query += "ORDER BY `courses`.`name` DESC";
+            } else if (sort.equals("ID ASC")) {
+                query += "ORDER BY `class`.`id` ASC";
+            } else if (sort.equals("ID DESC")) {
+                query += "ORDER BY `class`.`id` DESC";
             }
 
             ResultSet resultSet = MySQL2.executeSearch(query);
@@ -497,7 +506,7 @@ public class TutorScheduleAndCalandar extends javax.swing.JPanel {
         jLabel3.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
         jLabel3.setText("Sort By :");
 
-        jComboBox4.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Hall Number ASC", "Hall Number DESC", "Tutor Name ASC", "Tutor Name DESC", "Courses ASC", "Courses DESC" }));
+        jComboBox4.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Hall Number ASC", "Hall Number DESC", "Tutor Name ASC", "Tutor Name DESC", "Courses ASC", "Courses DESC", "ID ASC", "ID DESC" }));
         jComboBox4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboBox4ActionPerformed(evt);
@@ -695,7 +704,87 @@ public class TutorScheduleAndCalandar extends javax.swing.JPanel {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
 
-        
+//        String sessionID = jTextField1.getText();
+//        String course = String.valueOf(jComboBox1.getSelectedItem());
+//        String tName = String.valueOf(jComboBox2.getSelectedItem());
+//        String className = jTextField2.getText();
+//        Date date = jDateChooser1.getDate();
+//        String startTime = jFormattedTextField1.getText();
+//        String endTime = jFormattedTextField2.getText();
+//        String hallnumber = jTextField3.getText();
+//        String status = jTextField5.getText();
+//        String price = jFormattedTextField3.getText();
+//
+//        if (sessionID.isEmpty()) {
+//            JOptionPane.showMessageDialog(this, "Please enter the Class ID!", "Warning", JOptionPane.WARNING_MESSAGE);
+//            return;
+//        } else if (course.equals("Select") || courseMap.get(course) == null) {
+//            JOptionPane.showMessageDialog(this, "Please select a valid course!", "Warning", JOptionPane.WARNING_MESSAGE);
+//            return;
+//        } else if (tName.equals("Select") || tutorMap.get(tName) == null) {
+//            JOptionPane.showMessageDialog(this, "Please select a valid tutor!", "Warning", JOptionPane.WARNING_MESSAGE);
+//            return;
+//        } else if (className.isEmpty()) {
+//            JOptionPane.showMessageDialog(this, "Please enter the Title!", "Warning", JOptionPane.WARNING_MESSAGE);
+//            return;
+//        } else if (date == null) {
+//            JOptionPane.showMessageDialog(this, "Please enter a Date!", "Warning", JOptionPane.WARNING_MESSAGE);
+//            return;
+//        } else if (startTime.isEmpty()) {
+//            JOptionPane.showMessageDialog(this, "Please enter the class Starting time!", "Warning", JOptionPane.WARNING_MESSAGE);
+//            return;
+//        } else if (endTime.isEmpty()) {
+//            JOptionPane.showMessageDialog(this, "Please enter the class Ending time!", "Warning", JOptionPane.WARNING_MESSAGE);
+//            return;
+//        } else if (hallnumber.isEmpty()) {
+//            JOptionPane.showMessageDialog(this, "Please enter the Location!", "Warning", JOptionPane.WARNING_MESSAGE);
+//            return;
+//        } else if (price.isEmpty()) {
+//            JOptionPane.showMessageDialog(this, "Please enter the Amount!", "Warning", JOptionPane.WARNING_MESSAGE);
+//            return;
+//        }
+//
+//        try {
+//            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+//
+//            System.out.println("Session ID: " + sessionID);
+//            System.out.println("Class Name: " + className);
+//            System.out.println("Date: " + format.format(date));
+//            System.out.println("Start Time: " + startTime);
+//            System.out.println("End Time: " + endTime);
+//            System.out.println("Hall Number: " + hallnumber);
+//            System.out.println("Price: " + price);
+//            System.out.println("Tutor ID: " + tutorMap.get(tName));
+//            System.out.println("Course ID: " + courseMap.get(course));
+////            System.out.println("Status ID: " + statusMap.get(status));
+//
+//            // Update the class
+//            MySQL2.executeIUD("UPDATE `class` SET `name` = '" + className + "', `date` = '" + format.format(date) + "', `start_time` = '" + startTime + "', "
+//                    + "`end_time` = '" + endTime + "', `hallnumber` = '" + hallnumber + "', `amount` = '" + price + "', `tutor_id` = '" + tutorMap.get(tName) + "', "
+//                    + "`courses_id` = '" + courseMap.get(course) + "', `class_status_id` = ' Pending ' WHERE `class`.`id` = '" + sessionID + "'");
+//
+//            // If the status is "Completed", insert data into the wallet
+//            if (statusMap.get(status).equals("2")) {
+//                System.out.println("completed check");
+//                String tutorId = tutorMap.get(tName);
+//                String courseId = courseMap.get(course);
+//                String withdrawalStatusId = "1"; // Assuming the withdrawal status is "1", you can modify based on your system's logic.
+//                String currentDate = format.format(new Date()); // Insert today's date in the wallet record
+//
+//                // Insert into wallet table
+//                MySQL2.executeIUD("INSERT INTO `wallet` (`tutor_id`, `class_id`, `withdrawal_status_id`, `date`) "
+//                        + "VALUES ('" + tutorId + "', '" + sessionID + "', '" + withdrawalStatusId + "', '" + currentDate + "')");
+//            }
+//
+//            JOptionPane.showMessageDialog(this, "Class updated successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
+//
+//            reset();
+//            loadSessions();
+//
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            JOptionPane.showMessageDialog(this, "Failed to update the class. Please try again.", "Error", JOptionPane.ERROR_MESSAGE);
+//        }
         String sessionID = jTextField1.getText();
         String course = String.valueOf(jComboBox1.getSelectedItem());
         String tName = String.valueOf(jComboBox2.getSelectedItem());
@@ -704,8 +793,10 @@ public class TutorScheduleAndCalandar extends javax.swing.JPanel {
         String startTime = jFormattedTextField1.getText();
         String endTime = jFormattedTextField2.getText();
         String hallnumber = jTextField3.getText();
-        String status = jTextField5.getText();
         String price = jFormattedTextField3.getText();
+
+        // Regex for 24-hour time format (e.g., 12.00, 14.00)
+        String timeRegex = "^([01]?\\d|2[0-3])\\.\\d{2}$";
 
         if (sessionID.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Please enter the Class ID!", "Warning", JOptionPane.WARNING_MESSAGE);
@@ -722,11 +813,11 @@ public class TutorScheduleAndCalandar extends javax.swing.JPanel {
         } else if (date == null) {
             JOptionPane.showMessageDialog(this, "Please enter a Date!", "Warning", JOptionPane.WARNING_MESSAGE);
             return;
-        } else if (startTime.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Please enter the class Starting time!", "Warning", JOptionPane.WARNING_MESSAGE);
+        } else if (!startTime.matches(timeRegex)) {
+            JOptionPane.showMessageDialog(this, "Please enter a valid Starting time in 24-hour format (e.g., 12.00)!", "Warning", JOptionPane.WARNING_MESSAGE);
             return;
-        } else if (endTime.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Please enter the class Ending time!", "Warning", JOptionPane.WARNING_MESSAGE);
+        } else if (!endTime.matches(timeRegex)) {
+            JOptionPane.showMessageDialog(this, "Please enter a valid Ending time in 24-hour format (e.g., 14.00)!", "Warning", JOptionPane.WARNING_MESSAGE);
             return;
         } else if (hallnumber.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Please enter the Location!", "Warning", JOptionPane.WARNING_MESSAGE);
@@ -737,36 +828,61 @@ public class TutorScheduleAndCalandar extends javax.swing.JPanel {
         }
 
         try {
+            // Convert times to 24-hour format and check duration
+            String[] startSplit = startTime.split("\\.");
+            String[] endSplit = endTime.split("\\.");
+
+            int startHour = Integer.parseInt(startSplit[0]);
+            int startMinute = Integer.parseInt(startSplit[1]);
+            int endHour = Integer.parseInt(endSplit[0]);
+            int endMinute = Integer.parseInt(endSplit[1]);
+
+            // Calculate duration in minutes
+            int startTotalMinutes = startHour * 60 + startMinute;
+            int endTotalMinutes = endHour * 60 + endMinute;
+
+            if (endTotalMinutes < startTotalMinutes) {
+                endTotalMinutes += 24 * 60; // Handle overnight sessions
+            }
+
+            int duration = endTotalMinutes - startTotalMinutes;
+
+            if (duration > 600) { // 10 hours = 600 minutes
+                JOptionPane.showMessageDialog(this, "The duration between start and end times cannot exceed 10 hours!", "Warning", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+
+            // Determine AM/PM
+            String startPeriod = (startHour < 12) ? "A.M" : "P.M";
+            String endPeriod = (endHour < 12) ? "A.M" : "P.M";
+
+            // Adjust hours for AM/PM display
+            if (startHour > 12) {
+                startHour -= 12;
+            }
+            if (endHour > 12) {
+                endHour -= 12;
+            }
+
+            String formattedStartTime = String.format("%02d.%02d %s", startHour, startMinute, startPeriod);
+            String formattedEndTime = String.format("%02d.%02d %s", endHour, endMinute, endPeriod);
+
             SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 
             System.out.println("Session ID: " + sessionID);
             System.out.println("Class Name: " + className);
             System.out.println("Date: " + format.format(date));
-            System.out.println("Start Time: " + startTime);
-            System.out.println("End Time: " + endTime);
+            System.out.println("Start Time: " + formattedStartTime);
+            System.out.println("End Time: " + formattedEndTime);
             System.out.println("Hall Number: " + hallnumber);
             System.out.println("Price: " + price);
             System.out.println("Tutor ID: " + tutorMap.get(tName));
             System.out.println("Course ID: " + courseMap.get(course));
-//            System.out.println("Status ID: " + statusMap.get(status));
 
             // Update the class
-            MySQL2.executeIUD("UPDATE `class` SET `name` = '" + className + "', `date` = '" + format.format(date) + "', `start_time` = '" + startTime + "', "
-                    + "`end_time` = '" + endTime + "', `hallnumber` = '" + hallnumber + "', `amount` = '" + price + "', `tutor_id` = '" + tutorMap.get(tName) + "', "
-                    + "`courses_id` = '" + courseMap.get(course) + "', `class_status_id` = ' Pending ' WHERE `class`.`id` = '" + sessionID + "'");
-
-            // If the status is "Completed", insert data into the wallet
-            if (statusMap.get(status).equals("2")) {
-                System.out.println("completed check");
-                String tutorId = tutorMap.get(tName);
-                String courseId = courseMap.get(course);
-                String withdrawalStatusId = "1"; // Assuming the withdrawal status is "1", you can modify based on your system's logic.
-                String currentDate = format.format(new Date()); // Insert today's date in the wallet record
-
-                // Insert into wallet table
-                MySQL2.executeIUD("INSERT INTO `wallet` (`tutor_id`, `class_id`, `withdrawal_status_id`, `date`) "
-                        + "VALUES ('" + tutorId + "', '" + sessionID + "', '" + withdrawalStatusId + "', '" + currentDate + "')");
-            }
+            MySQL2.executeIUD("UPDATE `class` SET `name` = '" + className + "', `date` = '" + format.format(date) + "', `start_time` = '" + formattedStartTime + "', "
+                    + "`end_time` = '" + formattedEndTime + "', `hallnumber` = '" + hallnumber + "', `amount` = '" + price + "', `tutor_id` = '" + tutorMap.get(tName) + "', "
+                    + "`courses_id` = '" + courseMap.get(course) + "' WHERE `class`.`id` = '" + sessionID + "'");
 
             JOptionPane.showMessageDialog(this, "Class updated successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
 
@@ -818,124 +934,127 @@ public class TutorScheduleAndCalandar extends javax.swing.JPanel {
 //        }
     }//GEN-LAST:event_jButton10ActionPerformed
 
+    private void setPlaceholder(JFormattedTextField textField, String placeholder) {
+        textField.setForeground(Color.GRAY); // Set placeholder text color
+        textField.setText(placeholder);
+
+        textField.addFocusListener(new java.awt.event.FocusListener() {
+            @Override
+            public void focusGained(java.awt.event.FocusEvent e) {
+                if (textField.getText().equals(placeholder)) {
+                    textField.setText("");
+                    textField.setForeground(Color.BLACK); // Change text color to black when user starts typing
+                }
+            }
+
+            @Override
+            public void focusLost(java.awt.event.FocusEvent e) {
+                if (textField.getText().isEmpty()) {
+                    textField.setForeground(Color.GRAY); // Reset text color to gray
+                    textField.setText(placeholder);
+                }
+            }
+        });
+    }
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
+//
+        //        String course = String.valueOf(jComboBox1.getSelectedItem());
+        //        String tName = String.valueOf(jComboBox2.getSelectedItem());
+        //        String className = jTextField2.getText();
+        //        Date date = jDateChooser1.getDate();
+        //        String startTime = jFormattedTextField1.getText();
+        //        String endTime = jFormattedTextField2.getText();
+        //        String hallnumber = jTextField3.getText();
+        //        String price = jFormattedTextField3.getText();
+        //
+        //        // Validation checks
+        //        if (course.equals("Select") || courseMap.get(course) == null) {
+        //            JOptionPane.showMessageDialog(this, "Please select a valid course!", "Warning", JOptionPane.WARNING_MESSAGE);
+        //            return;
+        //        } else if (tName.equals("Select") || tutorMap.get(tName) == null) {
+        //            JOptionPane.showMessageDialog(this, "Please select a valid tutor!", "Warning", JOptionPane.WARNING_MESSAGE);
+        //            return;
+        //        } else if (className.isEmpty()) {
+        //            JOptionPane.showMessageDialog(this, "Please enter the Title!", "Warning", JOptionPane.WARNING_MESSAGE);
+        //            return;
+        //        } else if (date == null) {
+        //            JOptionPane.showMessageDialog(this, "Please enter a Date!", "Warning", JOptionPane.WARNING_MESSAGE);
+        //            return;
+        //        } else if (startTime.isEmpty()) {
+        //            JOptionPane.showMessageDialog(this, "Please enter the class Starting time!", "Warning", JOptionPane.WARNING_MESSAGE);
+        //            return;
+        //        } else if (endTime.isEmpty()) {
+        //            JOptionPane.showMessageDialog(this, "Please enter the class Ending time!", "Warning", JOptionPane.WARNING_MESSAGE);
+        //            return;
+        //        } else if (hallnumber.isEmpty()) {
+        //            JOptionPane.showMessageDialog(this, "Please enter the Location!", "Warning", JOptionPane.WARNING_MESSAGE);
+        //            return;
+        //        } else if (price.isEmpty()) {
+        //            JOptionPane.showMessageDialog(this, "Please enter the Amount!", "Warning", JOptionPane.WARNING_MESSAGE);
+        //            return;
+        //        } else {
+        //            try {
+        //                // Fetch tutor details from the database
+        //                ResultSet resultSet1 = MySQL2.executeSearch("SELECT `id` FROM `tutor` WHERE `id` = '" + tutorMap.get(tName) + "'");
+        //
+        //                if (resultSet1.next()) {
+        //                    // Format date
+        //                    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        //                    String formattedDate = format.format(date);
+        //
+        //                    // Get the status ID for "Pending" (assuming it's 1)
+        //                    int pendingStatusID = 1; // Adjust this if your "Pending" status ID is different
+        //
+        //                    // Check for time conflicts
+        //                    String query = "SELECT * FROM `class` WHERE `tutor_id` = '" + tutorMap.get(tName) + "' AND `date` = '" + formattedDate + "' "
+        //                            + "AND ((`start_time` <= '" + startTime + "' AND `end_time` > '" + startTime + "') "
+        //                            + "OR (`start_time` < '" + endTime + "' AND `end_time` >= '" + endTime + "') "
+        //                            + "OR (`start_time` >= '" + startTime + "' AND `end_time` <= '" + endTime + "'))";
+        //
+        //                    ResultSet conflictCheck = MySQL2.executeSearch(query);
+        //
+        //                    if (conflictCheck.next()) {
+        //                        JOptionPane.showMessageDialog(this, "This tutor is already scheduled for another session during this time slot. Please choose a different time.", "Warning", JOptionPane.WARNING_MESSAGE);
+        //                        return;
+        //                    }
+        //
+        //                    // Check for hall conflicts
+        //                    String hallQuery = "SELECT * FROM `class` WHERE `hallnumber` = '" + hallnumber + "' AND `date` = '" + formattedDate + "' "
+        //                            + "AND ((`start_time` <= '" + startTime + "' AND `end_time` > '" + startTime + "') "
+        //                            + "OR (`start_time` < '" + endTime + "' AND `end_time` >= '" + endTime + "') "
+        //                            + "OR (`start_time` >= '" + startTime + "' AND `end_time` <= '" + endTime + "'))";
+        //
+        //                    ResultSet hallConflictCheck = MySQL2.executeSearch(hallQuery);
+        //
+        //                    if (hallConflictCheck.next()) {
+        //                        JOptionPane.showMessageDialog(this, "The selected hall is already booked during this time slot. Please choose a different location or time.", "Warning", JOptionPane.WARNING_MESSAGE);
+        //                        return;
+        //                    }
+        //
+        //                    // Insert data into the database with the "Pending" status ID
+        //                    MySQL2.executeIUD("INSERT INTO `class` (`name`, `date`, `start_time`, `end_time`, `hallnumber`, `amount`, `tutor_id`, `courses_id`, `class_status_id`) "
+        //                            + "VALUES ('" + className + "', '" + formattedDate + "', '" + startTime + "', '" + endTime + "', '" + hallnumber + "', '" + price + "', "
+        //                            + "'" + tutorMap.get(tName) + "', '" + courseMap.get(course) + "', '" + pendingStatusID + "')");
+        //
+        //                    if (rowData != null && !rowData.isEmpty()) {
+        //                        MySQL2.executeIUD("UPDATE `request_sessions` SET `approve_status` = 'Approved' WHERE `id` = '" + rowData.get(0) + "'");
+        //                    }
+        //
+        //                    JOptionPane.showMessageDialog(this, "Class added successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
+        //                    reset();
+        //                    loadSessions();
+        //
+        //                } else {
+        //                    JOptionPane.showMessageDialog(this, "The tutor's ID does not match the record in the system. Please check the tutor information and try again.", "Warning", JOptionPane.WARNING_MESSAGE);
+        //                }
+        //            } catch (Exception e) {
+        //                e.printStackTrace();
+        //            }
+        //        }
+        
+        
 
-//        String sessionID = jTextField1.getText();
-//        String course = String.valueOf(jComboBox1.getSelectedItem());
-//        String tName = String.valueOf(jComboBox2.getSelectedItem());
-//        String className = jTextField2.getText();
-//        Date date = jDateChooser1.getDate();
-//        String startTime = jFormattedTextField1.getText();
-//        String endTime = jFormattedTextField2.getText();
-//        String hallnumber = jTextField3.getText();
-////        String status = jTextField5.getText();
-//        String price = jFormattedTextField3.getText();
-//
-//        // Validation checks
-//        if (sessionID.isEmpty()) {
-//            JOptionPane.showMessageDialog(this, "Please enter the Class ID!", "Warning", JOptionPane.WARNING_MESSAGE);
-//            return;
-//        } else if (course.equals("Select") || courseMap.get(course) == null) {
-//            JOptionPane.showMessageDialog(this, "Please select a valid course!", "Warning", JOptionPane.WARNING_MESSAGE);
-//            return;
-//        } else if (tName.equals("Select") || tutorMap.get(tName) == null) {
-//            JOptionPane.showMessageDialog(this, "Please select a valid tutor!", "Warning", JOptionPane.WARNING_MESSAGE);
-//            return;
-//        } else if (className.isEmpty()) {
-//            JOptionPane.showMessageDialog(this, "Please enter the Title!", "Warning", JOptionPane.WARNING_MESSAGE);
-//            return;
-//        } else if (date == null) {
-//            JOptionPane.showMessageDialog(this, "Please enter a Date!", "Warning", JOptionPane.WARNING_MESSAGE);
-//            return;
-//        } else if (startTime.isEmpty()) {
-//            JOptionPane.showMessageDialog(this, "Please enter the class Starting time!", "Warning", JOptionPane.WARNING_MESSAGE);
-//            return;
-//        } else if (endTime.isEmpty()) {
-//            JOptionPane.showMessageDialog(this, "Please enter the class Ending time!", "Warning", JOptionPane.WARNING_MESSAGE);
-//            return;
-//        } else if (hallnumber.isEmpty()) {
-//            JOptionPane.showMessageDialog(this, "Please enter the Location!", "Warning", JOptionPane.WARNING_MESSAGE);
-//            return;
-////        } else if (status.equals("Select") || statusMap.get(status) == null) {
-////            JOptionPane.showMessageDialog(this, "Please select a valid Status!", "Warning", JOptionPane.WARNING_MESSAGE);
-////            return;
-//        } else if (price.isEmpty()) {
-//            JOptionPane.showMessageDialog(this, "Please enter the Amount!", "Warning", JOptionPane.WARNING_MESSAGE);
-//            return;
-//
-//        } else {
-//            
-////            }
-//            try {
-//                // Fetch tutor details from the database
-//                ResultSet resultSet1 = MySQL2.executeSearch("SELECT `id` FROM `tutor` WHERE `id` = '" + tutorMap.get(tName) + "'");
-//
-//                if (resultSet1.next()) {
-//                    // Format date
-//                    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-//                    String formattedDate = format.format(date);
-//
-//                    // Check for time conflicts
-//                    String query = "SELECT * FROM `class` WHERE `tutor_id` = '" + tutorMap.get(tName) + "' AND `date` = '" + formattedDate + "' "
-//                            + "AND ((`start_time` <= '" + startTime + "' AND `end_time` > '" + startTime + "') "
-//                            + "OR (`start_time` < '" + endTime + "' AND `end_time` >= '" + endTime + "') "
-//                            + "OR (`start_time` >= '" + startTime + "' AND `end_time` <= '" + endTime + "'))";
-//
-//                    ResultSet conflictCheck = MySQL2.executeSearch(query);
-//
-//                    if (conflictCheck.next()) {
-//                        JOptionPane.showMessageDialog(this, "This tutor is already scheduled for another session during this time slot. Please choose a different time.", "Warning", JOptionPane.WARNING_MESSAGE);
-//                        return;
-//                    }
-//
-//                    // Check for hall conflicts
-//                    String hallQuery = "SELECT * FROM `class` WHERE `hallnumber` = '" + hallnumber + "' AND `date` = '" + formattedDate + "' "
-//                            + "AND ((`start_time` <= '" + startTime + "' AND `end_time` > '" + startTime + "') "
-//                            + "OR (`start_time` < '" + endTime + "' AND `end_time` >= '" + endTime + "') "
-//                            + "OR (`start_time` >= '" + startTime + "' AND `end_time` <= '" + endTime + "'))";
-//
-//                    ResultSet hallConflictCheck = MySQL2.executeSearch(hallQuery);
-//
-//                    if (hallConflictCheck.next()) {
-//                        JOptionPane.showMessageDialog(this, "The selected hall is already booked during this time slot. Please choose a different location or time.", "Warning", JOptionPane.WARNING_MESSAGE);
-//                        return;
-//                    }
-//
-//                    // Output to console for debugging
-//                    System.out.println("Session ID: " + sessionID);
-//                    System.out.println("Class Name: " + className);
-//                    System.out.println("Date: " + formattedDate);
-//                    System.out.println("Start Time: " + startTime);
-//                    System.out.println("End Time: " + endTime);
-//                    System.out.println("Hall Number: " + hallnumber);
-//                    System.out.println("Price: " + price);
-//                    System.out.println("Tutor ID: " + tutorMap.get(tName));
-//                    System.out.println("Course ID: " + courseMap.get(course));
-////                    System.out.println("Status ID: " + statusMap.get(status));
-//
-//                    // Insert data into the database
-//                    MySQL2.executeIUD("INSERT INTO `class` (`id`, `name`, `date`, `start_time`, `end_time`, `hallnumber`, `amount`, `tutor_id`, `courses_id`, `class_status_id`) "
-//                            + "VALUES ('" + sessionID + "', '" + className + "', '" + formattedDate + "', '" + startTime + "', '" + endTime + "', '" + hallnumber + "', '" + price + "', "
-//                            + "'" + tutorMap.get(tName) + "', '" + courseMap.get(course) + "', 'Pending')");
-//
-//                    if (rowData != null && !rowData.isEmpty()) {
-//                        MySQL2.executeIUD("UPDATE `request_sessions` SET `approve_status` = 'Approved' WHERE `id` = '" + rowData.get(0) + "'");
-//                    }
-//
-//                    JOptionPane.showMessageDialog(this, "Class added successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
-//                    reset();
-//                    loadSessions();
-//
-//                } else {
-//                    JOptionPane.showMessageDialog(this, "The tutor's ID does not match the record in the system. Please check the tutor information and try again.", "Warning", JOptionPane.WARNING_MESSAGE);
-//                }
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            }
-//
-//        }
-        String sessionID = jTextField1.getText();
         String course = String.valueOf(jComboBox1.getSelectedItem());
         String tName = String.valueOf(jComboBox2.getSelectedItem());
         String className = jTextField2.getText();
@@ -945,11 +1064,11 @@ public class TutorScheduleAndCalandar extends javax.swing.JPanel {
         String hallnumber = jTextField3.getText();
         String price = jFormattedTextField3.getText();
 
+        // Regex for 24-hour time format (e.g., 12.00, 14.00)
+        String timeRegex = "^([01]?\\d|2[0-3])\\.\\d{2}$";
+
         // Validation checks
-        if (sessionID.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Please enter the Class ID!", "Warning", JOptionPane.WARNING_MESSAGE);
-            return;
-        } else if (course.equals("Select") || courseMap.get(course) == null) {
+        if (course.equals("Select") || courseMap.get(course) == null) {
             JOptionPane.showMessageDialog(this, "Please select a valid course!", "Warning", JOptionPane.WARNING_MESSAGE);
             return;
         } else if (tName.equals("Select") || tutorMap.get(tName) == null) {
@@ -961,11 +1080,11 @@ public class TutorScheduleAndCalandar extends javax.swing.JPanel {
         } else if (date == null) {
             JOptionPane.showMessageDialog(this, "Please enter a Date!", "Warning", JOptionPane.WARNING_MESSAGE);
             return;
-        } else if (startTime.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Please enter the class Starting time!", "Warning", JOptionPane.WARNING_MESSAGE);
+        } else if (startTime.isEmpty() || !startTime.matches(timeRegex)) {
+            JOptionPane.showMessageDialog(this, "Please enter a valid Starting time in the format HH.mm (e.g., 12.00)!", "Warning", JOptionPane.WARNING_MESSAGE);
             return;
-        } else if (endTime.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Please enter the class Ending time!", "Warning", JOptionPane.WARNING_MESSAGE);
+        } else if (endTime.isEmpty() || !endTime.matches(timeRegex)) {
+            JOptionPane.showMessageDialog(this, "Please enter a valid Ending time in the format HH.mm (e.g., 14.00)!", "Warning", JOptionPane.WARNING_MESSAGE);
             return;
         } else if (hallnumber.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Please enter the Location!", "Warning", JOptionPane.WARNING_MESSAGE);
@@ -975,6 +1094,27 @@ public class TutorScheduleAndCalandar extends javax.swing.JPanel {
             return;
         } else {
             try {
+                // Parse the start and end times
+                SimpleDateFormat timeFormat = new SimpleDateFormat("HH.mm");
+                Date startTimeDate = timeFormat.parse(startTime);
+                Date endTimeDate = timeFormat.parse(endTime);
+
+                // Check if the duration is within 10 hours
+                long durationInMillis = endTimeDate.getTime() - startTimeDate.getTime();
+                if (durationInMillis < 0) {
+                    durationInMillis += 24 * 60 * 60 * 1000; // Handle overnight sessions
+                }
+                long durationInHours = durationInMillis / (60 * 60 * 1000);
+                if (durationInHours > 10) {
+                    JOptionPane.showMessageDialog(this, "The session duration cannot exceed 10 hours!", "Warning", JOptionPane.WARNING_MESSAGE);
+                    return;
+                }
+
+                // Convert times to AM/PM format for database
+                SimpleDateFormat amPmFormat = new SimpleDateFormat("hh.mm a");
+                String startTimeAmPm = amPmFormat.format(startTimeDate);
+                String endTimeAmPm = amPmFormat.format(endTimeDate);
+
                 // Fetch tutor details from the database
                 ResultSet resultSet1 = MySQL2.executeSearch("SELECT `id` FROM `tutor` WHERE `id` = '" + tutorMap.get(tName) + "'");
 
@@ -988,9 +1128,9 @@ public class TutorScheduleAndCalandar extends javax.swing.JPanel {
 
                     // Check for time conflicts
                     String query = "SELECT * FROM `class` WHERE `tutor_id` = '" + tutorMap.get(tName) + "' AND `date` = '" + formattedDate + "' "
-                            + "AND ((`start_time` <= '" + startTime + "' AND `end_time` > '" + startTime + "') "
-                            + "OR (`start_time` < '" + endTime + "' AND `end_time` >= '" + endTime + "') "
-                            + "OR (`start_time` >= '" + startTime + "' AND `end_time` <= '" + endTime + "'))";
+                            + "AND ((`start_time` <= '" + startTimeAmPm + "' AND `end_time` > '" + startTimeAmPm + "') "
+                            + "OR (`start_time` < '" + endTimeAmPm + "' AND `end_time` >= '" + endTimeAmPm + "') "
+                            + "OR (`start_time` >= '" + startTimeAmPm + "' AND `end_time` <= '" + endTimeAmPm + "'))";
 
                     ResultSet conflictCheck = MySQL2.executeSearch(query);
 
@@ -1001,9 +1141,9 @@ public class TutorScheduleAndCalandar extends javax.swing.JPanel {
 
                     // Check for hall conflicts
                     String hallQuery = "SELECT * FROM `class` WHERE `hallnumber` = '" + hallnumber + "' AND `date` = '" + formattedDate + "' "
-                            + "AND ((`start_time` <= '" + startTime + "' AND `end_time` > '" + startTime + "') "
-                            + "OR (`start_time` < '" + endTime + "' AND `end_time` >= '" + endTime + "') "
-                            + "OR (`start_time` >= '" + startTime + "' AND `end_time` <= '" + endTime + "'))";
+                            + "AND ((`start_time` <= '" + startTimeAmPm + "' AND `end_time` > '" + startTimeAmPm + "') "
+                            + "OR (`start_time` < '" + endTimeAmPm + "' AND `end_time` >= '" + endTimeAmPm + "') "
+                            + "OR (`start_time` >= '" + startTimeAmPm + "' AND `end_time` <= '" + endTimeAmPm + "'))";
 
                     ResultSet hallConflictCheck = MySQL2.executeSearch(hallQuery);
 
@@ -1012,20 +1152,9 @@ public class TutorScheduleAndCalandar extends javax.swing.JPanel {
                         return;
                     }
 
-                    // Output to console for debugging
-                    System.out.println("Session ID: " + sessionID);
-                    System.out.println("Class Name: " + className);
-                    System.out.println("Date: " + formattedDate);
-                    System.out.println("Start Time: " + startTime);
-                    System.out.println("End Time: " + endTime);
-                    System.out.println("Hall Number: " + hallnumber);
-                    System.out.println("Price: " + price);
-                    System.out.println("Tutor ID: " + tutorMap.get(tName));
-                    System.out.println("Course ID: " + courseMap.get(course));
-
                     // Insert data into the database with the "Pending" status ID
-                    MySQL2.executeIUD("INSERT INTO `class` (`id`, `name`, `date`, `start_time`, `end_time`, `hallnumber`, `amount`, `tutor_id`, `courses_id`, `class_status_id`) "
-                            + "VALUES ('" + sessionID + "', '" + className + "', '" + formattedDate + "', '" + startTime + "', '" + endTime + "', '" + hallnumber + "', '" + price + "', "
+                    MySQL2.executeIUD("INSERT INTO `class` (`name`, `date`, `start_time`, `end_time`, `hallnumber`, `amount`, `tutor_id`, `courses_id`, `class_status_id`) "
+                            + "VALUES ('" + className + "', '" + formattedDate + "', '" + startTimeAmPm + "', '" + endTimeAmPm + "', '" + hallnumber + "', '" + price + "', "
                             + "'" + tutorMap.get(tName) + "', '" + courseMap.get(course) + "', '" + pendingStatusID + "')");
 
                     if (rowData != null && !rowData.isEmpty()) {
@@ -1043,12 +1172,13 @@ public class TutorScheduleAndCalandar extends javax.swing.JPanel {
                 e.printStackTrace();
             }
         }
+
     }//GEN-LAST:event_jButton8ActionPerformed
 
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
 
         jTextField1.setEditable(false);
-        
+
         int row = jTable1.getSelectedRow();
 
         String id = String.valueOf(jTable1.getValueAt(row, 0));
