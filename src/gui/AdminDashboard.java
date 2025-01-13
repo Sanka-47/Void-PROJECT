@@ -6,6 +6,8 @@ import com.formdev.flatlaf.FlatLightLaf;
 import com.formdev.flatlaf.themes.FlatMacDarkLaf;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.GraphicsDevice;
+import java.awt.GraphicsEnvironment;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.swing.JPanel;
@@ -28,6 +30,10 @@ public class AdminDashboard extends javax.swing.JFrame implements DashboardInter
         this.adminID = adminID;
         this.fName = fName;
         this.lName = lName;
+        this.setExtendedState(this.MAXIMIZED_BOTH);
+
+//        GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
+//        gd.setFullScreenWindow(this);
 
     }
 
@@ -514,8 +520,8 @@ public class AdminDashboard extends javax.swing.JFrame implements DashboardInter
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         jPanel4.removeAll();
-        TutorCancelledSessions addSession = new TutorCancelledSessions(this);
-        jPanel4.add(addSession, BorderLayout.CENTER);
+        AllCompletedSessions ACS = new AllCompletedSessions();
+        jPanel4.add(ACS, BorderLayout.CENTER);
 
         SwingUtilities.updateComponentTreeUI(jPanel4);
     }//GEN-LAST:event_jButton3ActionPerformed
@@ -610,7 +616,7 @@ public class AdminDashboard extends javax.swing.JFrame implements DashboardInter
         jPanel4.removeAll();
         AllCourses ac = new AllCourses();
         jPanel4.add(ac, BorderLayout.CENTER);
-        
+
         SwingUtilities.updateComponentTreeUI(jPanel4);
     }//GEN-LAST:event_jButton15ActionPerformed
 
@@ -618,7 +624,7 @@ public class AdminDashboard extends javax.swing.JFrame implements DashboardInter
         jPanel4.removeAll();
         StudentIntakes SI = new StudentIntakes();
         jPanel4.add(SI, BorderLayout.CENTER);
-        
+
         SwingUtilities.updateComponentTreeUI(jPanel4);
     }//GEN-LAST:event_jButton16ActionPerformed
 

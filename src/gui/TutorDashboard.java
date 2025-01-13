@@ -36,6 +36,8 @@ public class TutorDashboard extends javax.swing.JFrame implements DashboardInter
         loadDate();
         jLabel5.setText(fName);
         this.tutorID = tutorID;
+        
+//        this.setExtendedState(this.MAXIMIZED_BOTH);
 
         // Add window listener to handle window closing
         addWindowListener(new WindowAdapter() {
