@@ -20,7 +20,6 @@ import model.MySQL2;
 public class StudentRegistration extends javax.swing.JPanel {
 
 //    private static final Logger logger = Logger.getLogger(TutorSignIn.class.getName());
-
     private DashboardInterface parent;
 
     public static HashMap<String, String> gender = new HashMap<>();
@@ -111,10 +110,9 @@ public class StudentRegistration extends javax.swing.JPanel {
             jComboBox1.setModel(model);
 
 //            logger.log(Level.INFO, "Genders successfully loaded into the combo box.");
-
         } catch (Exception e) {
 //            logger.log(Level.SEVERE, "An error occurred while loading genders.", e);
-        e.printStackTrace();
+            e.printStackTrace();
         }
 
     }
@@ -131,8 +129,7 @@ public class StudentRegistration extends javax.swing.JPanel {
         jButton1.setEnabled(true);
         jButton2.setEnabled(true);
         jButton3.setEnabled(false);
-        jButton4.setEnabled(true);
-//        logger.info("Form reset.");
+        jButton4.setEnabled(false);
 
     }
 
@@ -408,6 +405,8 @@ public class StudentRegistration extends javax.swing.JPanel {
                             }
                             JOptionPane.showMessageDialog(this, "Account Created Successfully", "Info", JOptionPane.INFORMATION_MESSAGE);
                             reset();
+                            AllStudents allStudents = new AllStudents(parent);
+                            parent.switchPanel(allStudents);
                         }
                     }
                 }

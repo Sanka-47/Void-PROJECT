@@ -34,7 +34,6 @@ public class AdminDashboard extends javax.swing.JFrame implements DashboardInter
 
 //        GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
 //        gd.setFullScreenWindow(this);
-
     }
 
     public void switchPanel(JPanel panel) {

@@ -18,8 +18,6 @@ import net.sf.jasperreports.view.JasperViewer;
 public class AllEmployees extends javax.swing.JPanel {
     
     private DashboardInterface parent;
-    
-    private static HashMap<String, String> passwordMap = new HashMap<>();
 
     public EmployeeRegistration updateEmployee;
 
@@ -42,7 +40,7 @@ public class AllEmployees extends javax.swing.JPanel {
 
             String searchText = jTextField1.getText().toLowerCase();
 
-            String query = "SELECT `employee`.`id`, `first_name`, `last_name`, `contact_info`, `roles`.`name`, `gender`.`name`, `password`, `nic`, `email` FROM `employee` "
+            String query = "SELECT `employee`.`id`, `first_name`, `last_name`, `contact_info`, `roles`.`name`, `gender`.`name`, `password`, `nic`, `email`, `dob`, `registration_date`  FROM `employee` "
                     + "INNER JOIN `gender` ON `employee`.`gender_id` = `gender`.`id` "
                     + "INNER JOIN `roles` ON `employee`.`roles_id` = `roles`.`id` ";
 
@@ -87,7 +85,8 @@ public class AllEmployees extends javax.swing.JPanel {
                 vector.add(resultSet.getString("roles.name"));
                 vector.add(resultSet.getString("gender.name"));
                 vector.add(resultSet.getString("nic"));
-                passwordMap.put(resultSet.getString("password"), resultSet.getString("employee.id"));
+                vector.add(resultSet.getString("dob"));
+                vector.add(resultSet.getString("registration_date"));
 
 
                 model.addRow(vector);
@@ -116,17 +115,17 @@ public class AllEmployees extends javax.swing.JPanel {
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null}
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "Employee ID", "First Name", "Last Name", "Mobile", "Email", "Role", "Gender", "NIC"
+                "Employee ID", "First Name", "Last Name", "Mobile", "Email", "Role", "Gender", "NIC", "Date of Birth", "Date of Registration"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false
+                false, false, false, false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -181,25 +180,24 @@ public class AllEmployees extends javax.swing.JPanel {
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 228, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(jLabel3)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(jLabel1)
-                                .addGap(338, 338, 338)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 472, Short.MAX_VALUE)
+                        .addComponent(jLabel3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jButton1)))
                 .addContainerGap())
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel1)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(24, 24, 24)
                 .addComponent(jLabel1)
-                .addGap(51, 51, 51)
+                .addGap(50, 50, 50)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -234,6 +232,7 @@ public class AllEmployees extends javax.swing.JPanel {
         String Role = String.valueOf(jTable1.getValueAt(row, 5));
         String Gender = String.valueOf(jTable1.getValueAt(row, 6));
         String NIC = String.valueOf(jTable1.getValueAt(row, 7));
+        String DOB = String.valueOf(jTable1.getValueAt(row, 8));
 
         if (evt.getClickCount() == 2) {
 
@@ -243,18 +242,20 @@ public class AllEmployees extends javax.swing.JPanel {
             updateEmployee.getjTextField4().setText(NIC);
             updateEmployee.getjComboBox1().setSelectedItem(Gender);
             updateEmployee.getjComboBox2().setSelectedItem(Role);
-            String password = passwordMap.get(EmployeeID);
-            System.out.println("dsa" + password);
-            if (password != null && !password.isEmpty()) {
-                updateEmployee.getjPasswordField1().setText(password);
-            } else {
-                updateEmployee.getjPasswordField1().setText(""); // Clear if no password is set
-            }
-            updateEmployee.getjPasswordField1().setVisible(false);
-            updateEmployee.getjLabel8().setVisible(false);
             updateEmployee.getjTextField5().setText(Email);
+            
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 
-            updateEmployee.getjLabel8().setVisible(false);
+            try {
+                Date dateofBirth = formatter.parse((DOB));
+                updateEmployee.getjDateChooser1().setDate(dateofBirth);
+                System.out.println("Converted Date: " + dateofBirth);
+            } catch (Exception e) {
+                System.out.println("Error converting Object to Date: " + e.getMessage());
+            }
+            
+            updateEmployee.getjTextField4().setEnabled(false);
+            updateEmployee.getjPasswordField1().setEnabled(false);
             updateEmployee.getjButton1().setEnabled(false);
             updateEmployee.getjButton2().setEnabled(true);
             updateEmployee.getjButton3().setEnabled(true);
