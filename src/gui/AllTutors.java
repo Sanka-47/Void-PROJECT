@@ -16,8 +16,6 @@ import net.sf.jasperreports.view.JasperViewer;
 
 public class AllTutors extends javax.swing.JPanel {
 
-    private static HashMap<String, String> passwordMap = new HashMap<>();
-
     private DashboardInterface parent;
 
 //    public void setAdminDashboard(AdminDashboard ad) {
@@ -53,7 +51,7 @@ public class AllTutors extends javax.swing.JPanel {
             String searchText = jTextField1.getText().toLowerCase();
             
             String query = "SELECT `tutor`.`id`, `first_name`, `last_name`, `qualification`, `contact_info`, "
-                    + "`gender`.`name`, `courses`.`name`, `password`, `nic`, `email` FROM `tutor` "
+                    + "`gender`.`name`, `courses`.`name`, `password`, `nic`, `email`, `dob`, `registration_date` FROM `tutor` "
                     + "INNER JOIN `gender` ON `tutor`.`gender_id` = `gender`.`id` "
                     + "INNER JOIN `courses` ON `tutor`.`courses_id` = `courses`.`id`";
 
@@ -100,7 +98,8 @@ public class AllTutors extends javax.swing.JPanel {
                 vector.add(resultSet.getString("gender.name"));
                 vector.add(resultSet.getString("courses.name"));
                 vector.add(resultSet.getString("nic"));
-                passwordMap.put(resultSet.getString("password"), resultSet.getString("tutor.id"));
+                vector.add(resultSet.getString("dob"));
+                vector.add(resultSet.getString("registration_date"));
 
                 model.addRow(vector);
             }
@@ -128,17 +127,17 @@ public class AllTutors extends javax.swing.JPanel {
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null}
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "Tutor ID", "First Name", "Last Name", "Qualification", "Mobile", "Email", "Gender", "Course", "NIC"
+                "Tutor ID", "First Name", "Last Name", "Qualification", "Mobile", "Email", "Gender", "Course", "NIC", "Date of Birth", "Registration Date"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false, false
+                false, false, false, false, false, false, false, false, false, true, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -248,6 +247,7 @@ public class AllTutors extends javax.swing.JPanel {
         String Gender = String.valueOf(jTable1.getValueAt(row, 6));
         String Course = String.valueOf(jTable1.getValueAt(row, 7));
         String NIC = String.valueOf(jTable1.getValueAt(row, 8));
+        String DOB = String.valueOf(jTable1.getValueAt(row, 9));
 
         if (evt.getClickCount() == 2) {
             // Populate fields
@@ -259,21 +259,22 @@ public class AllTutors extends javax.swing.JPanel {
             updateTutor.getjComboBox2().setSelectedItem(Gender);
             updateTutor.getjTextField5().setText(Mobile);
             updateTutor.getjTextField6().setText(Email);
+            
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 
-            // Optional password field (can remain empty)
-            String password = passwordMap.get(TutorID);
-            if (password != null && !password.isEmpty()) {
-                updateTutor.getjPasswordField1().setText(password);
-            } else {
-                updateTutor.getjPasswordField1().setText(""); // Clear if no password is set
+            try {
+                Date dateofBirth = formatter.parse((DOB));
+                updateTutor.getjDateChooser1().setDate(dateofBirth);
+                System.out.println("Converted Date: " + dateofBirth);
+            } catch (Exception e) {
+                System.out.println("Error converting Object to Date: " + e.getMessage());
             }
-            updateTutor.getjPasswordField1().setVisible(false);
-            updateTutor.getjLabel5().setVisible(false);// Hide if not required
 
             // Disable buttons/fields as needed
+            updateTutor.getjTextField3().setEnabled(false);
+            updateTutor.getjPasswordField1().setEnabled(false);
             updateTutor.getjButton1().setEnabled(false);
             updateTutor.getjButton2().setEnabled(true);
-            updateTutor.getjTextField3().setEnabled(false);
             updateTutor.getjButton3().setEnabled(true);
             updateTutor.getjButton4().setEnabled(true);
 

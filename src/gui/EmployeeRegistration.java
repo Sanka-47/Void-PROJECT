@@ -5,6 +5,8 @@ import com.toedter.calendar.JDateChooser;
 import javax.swing.JOptionPane;
 import model.MySQL2;
 import java.sql.ResultSet;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Vector;
 import java.util.logging.Level;
@@ -21,9 +23,8 @@ import javax.swing.JTextField;
  * @author sky
  */
 public class EmployeeRegistration extends javax.swing.JPanel {
-    
+
 //        private static final Logger logger = Logger.getLogger(TutorSignIn.class.getName());
-    
     private DashboardInterface parent;
 
     public AllEmployees allEmployees;
@@ -88,6 +89,11 @@ public class EmployeeRegistration extends javax.swing.JPanel {
     public JTextField getjTextField5() {
         return jTextField5;
     }
+    
+    //Date of Birth
+    public JDateChooser getjDateChooser1() {
+        return jDateChooser1;
+    }
 
     //Register
     public JButton getjButton1() {
@@ -133,7 +139,6 @@ public class EmployeeRegistration extends javax.swing.JPanel {
             jComboBox1.setModel(model);
 
 //            logger.log(Level.INFO, "Genders successfully loaded into the combo box.");
-
         } catch (Exception e) {
 //            logger.log(Level.SEVERE, "Error occurred while loading genders.", e);
         }
@@ -164,7 +169,6 @@ public class EmployeeRegistration extends javax.swing.JPanel {
             jComboBox2.setModel(model);
 
 //            logger.log(Level.INFO, "Roles successfully loaded into the combo box.");
-
         } catch (Exception e) {
 //            logger.log(Level.SEVERE, "Error occurred while loading roles.", e);
         }
@@ -180,6 +184,9 @@ public class EmployeeRegistration extends javax.swing.JPanel {
         jComboBox1.setSelectedItem("Select");
         jComboBox2.setSelectedItem("Select");
         jPasswordField1.setText("");
+        jTextField4.setEnabled(true);
+        jPasswordField1.setEnabled(true);
+        jDateChooser1.setDate(null);
         jTextField1.grabFocus();
         jButton1.setEnabled(true);
         jButton2.setEnabled(false);
@@ -213,6 +220,8 @@ public class EmployeeRegistration extends javax.swing.JPanel {
         jLabel9 = new javax.swing.JLabel();
         jTextField5 = new javax.swing.JTextField();
         jLabel10 = new javax.swing.JLabel();
+        jLabel11 = new javax.swing.JLabel();
+        jDateChooser1 = new com.toedter.calendar.JDateChooser();
 
         jLabel1.setFont(new java.awt.Font("Century Gothic", 1, 28)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -297,33 +306,39 @@ public class EmployeeRegistration extends javax.swing.JPanel {
         jLabel10.setFont(new java.awt.Font("Copperplate Gothic Light", 0, 14)); // NOI18N
         jLabel10.setText("© 2024 VOID. All rights reserved.");
 
+        jLabel11.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
+        jLabel11.setText("Date of Birth");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap(110, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel4)
                             .addComponent(jLabel6)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(jLabel8)))
-                        .addGap(16, 16, 16)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jPasswordField1)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 233, Short.MAX_VALUE)
-                            .addComponent(jTextField3)))
-                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 136, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 323, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 323, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabel8))
+                            .addComponent(jLabel11))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(11, 11, 11)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(jTextField1)
+                                    .addComponent(jTextField3, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jComboBox1, javax.swing.GroupLayout.Alignment.LEADING, 0, 223, Short.MAX_VALUE)
+                                    .addComponent(jPasswordField1, javax.swing.GroupLayout.Alignment.LEADING)))))
+                    .addComponent(jButton1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 140, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -331,55 +346,65 @@ public class EmployeeRegistration extends javax.swing.JPanel {
                             .addComponent(jLabel7)
                             .addComponent(jLabel9))
                         .addGap(16, 16, 16)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jTextField2, javax.swing.GroupLayout.DEFAULT_SIZE, 233, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jComboBox2, 0, 230, Short.MAX_VALUE)
+                            .addComponent(jTextField5)
                             .addComponent(jTextField4)
-                            .addComponent(jComboBox2, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jTextField5))))
+                            .addComponent(jTextField2)))
+                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(110, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 308, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(4, 4, 4)
+                        .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(23, Short.MAX_VALUE)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(32, Short.MAX_VALUE)
+                .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 56, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2)
                     .addComponent(jLabel3)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(32, 32, 32)
+                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(28, 28, 28)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel5))
-                .addGap(32, 32, 32)
+                .addGap(28, 28, 28)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(32, 32, 32)
+                .addGap(28, 28, 28)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel8)
                     .addComponent(jLabel9)
-                    .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 56, Short.MAX_VALUE)
+                    .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(28, 28, 28)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jDateChooser1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 50, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
                 .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -393,6 +418,10 @@ public class EmployeeRegistration extends javax.swing.JPanel {
         String role = String.valueOf(jComboBox2.getSelectedItem());
         String password = String.valueOf(jPasswordField1.getPassword());
         String email = jTextField5.getText();
+        Date dob = jDateChooser1.getDate();
+        Date date = new Date();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd ");
+        String fdate = dateFormat.format(date);
 
         if (FirstName.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Please Enter First Name", "Warning", JOptionPane.WARNING_MESSAGE);
@@ -427,34 +456,37 @@ public class EmployeeRegistration extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(this, "Please Enter Email", "Warning", JOptionPane.WARNING_MESSAGE);
         } else if (!email.matches("^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$")) {
             JOptionPane.showMessageDialog(this, "Please Enter Valid Email", "Warning", JOptionPane.WARNING_MESSAGE);
+        } else if (dob == null) {
+            JOptionPane.showMessageDialog(this, "Please enter the date of birth!", "Warning", JOptionPane.WARNING_MESSAGE);
         } else {
             try {
 //            logger.log(Level.INFO, "Starting employee registration process for NIC: {0}", nic);
 
-            int genderId = genderMap.get(Gender);
-            int roleId = roleMap.get(role);
+                int genderId = genderMap.get(Gender);
+                int roleId = roleMap.get(role);
 //            logger.log(Level.INFO, "Resolved gender ID: {0} and role ID: {1}", new Object[]{genderId, roleId});
 
-            ResultSet rs = MySQL2.executeSearch("SELECT * FROM `employee` WHERE `nic`='" + nic + "'");
-            if (rs.next()) {
-                JOptionPane.showMessageDialog(this, "This NIC number is already registered", "Warning", JOptionPane.WARNING_MESSAGE);
+                ResultSet rs = MySQL2.executeSearch("SELECT * FROM `employee` WHERE `nic`='" + nic + "'");
+                if (rs.next()) {
+                    JOptionPane.showMessageDialog(this, "This NIC number is already registered", "Warning", JOptionPane.WARNING_MESSAGE);
 //                logger.log(Level.WARNING, "NIC already registered: {0}", nic);
-            } else {
-                int result = MySQL2.executeIUD("INSERT INTO `employee`"
-                        + "(`first_name`,`last_name`,`contact_info`,`roles_id`,`gender_id`,`password`,`nic`)"
-                        + "VALUES ('" + FirstName + "','" + LastName + "','" + Mobile + "','" + roleId + "','" + genderId + "','" + password + "','" + nic + "')");
-
-                if (result > 0) {
-                    JOptionPane.showMessageDialog(this, "Employee registration success!", "Confirmation", JOptionPane.INFORMATION_MESSAGE);
-//                    logger.log(Level.INFO, "Employee registered successfully with NIC: {0}", nic);
-                    reset();
                 } else {
+                    int result = MySQL2.executeIUD("INSERT INTO `employee`"
+                            + "(`first_name`,`last_name`,`contact_info`,`roles_id`,`gender_id`,`password`,`nic`,`email`,`dob`,`registration_date`)"
+                            + "VALUES ('" + FirstName + "','" + LastName + "','" + Mobile + "','" + roleId + "','" + genderId + "','" + password + "',"
+                                    + "'" + email + "','" + nic + "', '" + dateFormat.format(dob) + "', '" + fdate + "')");
+
+                    if (result > 0) {
+                        JOptionPane.showMessageDialog(this, "Employee registration success!", "Confirmation", JOptionPane.INFORMATION_MESSAGE);
+//                    logger.log(Level.INFO, "Employee registered successfully with NIC: {0}", nic);
+                        reset();
+                    } else {
 //                    logger.log(Level.WARNING, "Failed to register employee with NIC: {0}", nic);
+                    }
                 }
-            }
-        } catch (Exception e) {
+            } catch (Exception e) {
 //            logger.log(Level.SEVERE, "Error occurred during employee registration for NIC: " + nic, e);
-        }
+            }
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -467,110 +499,59 @@ public class EmployeeRegistration extends javax.swing.JPanel {
         String role = String.valueOf(jComboBox2.getSelectedItem());
         String password = String.valueOf(jPasswordField1.getPassword());
         String email = jTextField5.getText();
+        Date dob = jDateChooser1.getDate();
+        Date date = new Date();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd ");
 
-         try {
-//            logger.log(Level.INFO, "Starting employee update process for NIC: {0}", nic);
+        if (FirstName.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please Enter First Name", "Warning", JOptionPane.WARNING_MESSAGE);
+            jTextField1.grabFocus();
+        } else if (FirstName.length() > 30) {
+            JOptionPane.showMessageDialog(this, "First Name is too long (maximum 30 characters)", "Warning", JOptionPane.WARNING_MESSAGE);
+        } else if (!FirstName.matches("^[A-Za-z]+$")) {
+            JOptionPane.showMessageDialog(this, "You Can Only Use Simple And Capital Letters For First Name", "Warning", JOptionPane.WARNING_MESSAGE);
+        } else if (LastName.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please Enter Last Name", "Warning", JOptionPane.WARNING_MESSAGE);
+        } else if (LastName.length() > 30) {
+            JOptionPane.showMessageDialog(this, "Last Name is too long (maximum 30 characters)", "Warning", JOptionPane.WARNING_MESSAGE);
+        } else if (!LastName.matches("^[A-Za-z]+$")) {
+            JOptionPane.showMessageDialog(this, "You Can Only Use Simple And Capital Letters For Last Name", "Warning", JOptionPane.WARNING_MESSAGE);
+        } else if (Mobile.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please Enter Mobile Number", "Warning", JOptionPane.WARNING_MESSAGE);
+        } else if (!Mobile.matches("^07[01245678]{1}[0-9]{7}$")) {
+            JOptionPane.showMessageDialog(this, "Please Enter A Valid Mobile Number", "Warning", JOptionPane.WARNING_MESSAGE);
+        } else if (nic.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please Enter NIC", "Warning", JOptionPane.WARNING_MESSAGE);
+        } else if (!nic.matches("^(([5,6,7,8,9]{1})([0-9]{1})([0,1,2,3,5,6,7,8]{1})([0-9]{6})([v|V|x|X]))|(([1,2]{1})([0,9]{1})([0-9]{2})([0,1,2,3,5,6,7,8]{1})([0-9]{7}))")) {
+            JOptionPane.showMessageDialog(this, "Please Enter Valid NIC", "Warning", JOptionPane.WARNING_MESSAGE);
+        } else if (Gender.matches("Select")) {
+            JOptionPane.showMessageDialog(this, "Please Enter Your Gender", "Warning", JOptionPane.WARNING_MESSAGE);
+        } else if (role.matches("Select")) {
+            JOptionPane.showMessageDialog(this, "Please Enter Your Role", "Warning", JOptionPane.WARNING_MESSAGE);
+        } else if (email.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please Enter Email", "Warning", JOptionPane.WARNING_MESSAGE);
+        } else if (!email.matches("^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$")) {
+            JOptionPane.showMessageDialog(this, "Please Enter Valid Email", "Warning", JOptionPane.WARNING_MESSAGE);
+        } else if (dob == null) {
+            JOptionPane.showMessageDialog(this, "Please enter the date of birth!", "Warning", JOptionPane.WARNING_MESSAGE);
+        } else {
 
-            // Validate inputs
-            if (FirstName.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Please Enter First Name", "Warning", JOptionPane.WARNING_MESSAGE);
-//                logger.log(Level.WARNING, "First Name is empty.");
-                return;
-            } else if (FirstName.length() > 30) {
-                JOptionPane.showMessageDialog(this, "First Name is too long (maximum 30 characters)", "Warning", JOptionPane.WARNING_MESSAGE);
-//                logger.log(Level.WARNING, "First Name exceeds the character limit: {0}", FirstName);
-                return;
-            } else if (!FirstName.matches("^[A-Za-z]+$")) {
-                JOptionPane.showMessageDialog(this, "You Can Only Use Simple And Capital Letters For First Name", "Warning", JOptionPane.WARNING_MESSAGE);
-//                logger.log(Level.WARNING, "Invalid First Name: {0}", FirstName);
-                return;
-            }
+            try {
+                // Prepare for update
+                int genderId = genderMap.get(Gender);
+                int roleId = roleMap.get(role);
 
-            if (LastName.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Please Enter Last Name", "Warning", JOptionPane.WARNING_MESSAGE);
-//                logger.log(Level.WARNING, "Last Name is empty.");
-                return;
-            } else if (LastName.length() > 30) {
-                JOptionPane.showMessageDialog(this, "Last Name is too long (maximum 30 characters)", "Warning", JOptionPane.WARNING_MESSAGE);
-//                logger.log(Level.WARNING, "Last Name exceeds the character limit: {0}", LastName);
-                return;
-            } else if (!LastName.matches("^[A-Za-z]+$")) {
-                JOptionPane.showMessageDialog(this, "You Can Only Use Simple And Capital Letters For Last Name", "Warning", JOptionPane.WARNING_MESSAGE);
-//                logger.log(Level.WARNING, "Invalid Last Name: {0}", LastName);
-                return;
-            }
+                MySQL2.executeIUD("UPDATE `employee` SET `first_name` = '" + FirstName + "', `last_name` = '" + LastName + "', "
+                        + "`contact_info` = '" + Mobile + "', `email` = '" + email + "', `roles_id` = '" + roleId + "', "
+                        + "`gender_id` = '" + genderId + "', `dob` = '" + dateFormat.format(dob) + "' WHERE `nic` = '" + nic + "'");
 
-            if (Mobile.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Please Enter Mobile Number", "Warning", JOptionPane.WARNING_MESSAGE);
-//                logger.log(Level.WARNING, "Mobile number is empty.");
-                return;
-            } else if (!Mobile.matches("^07[01245678]{1}[0-9]{7}$")) {
-                JOptionPane.showMessageDialog(this, "Please Enter A Valid Mobile Number", "Warning", JOptionPane.WARNING_MESSAGE);
-//                logger.log(Level.WARNING, "Invalid Mobile Number: {0}", Mobile);
-                return;
-            }
+                JOptionPane.showMessageDialog(this, "Successfully Updated!", "Confirmation", JOptionPane.INFORMATION_MESSAGE);
+                reset();
 
-            if (nic.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Please Enter NIC", "Warning", JOptionPane.WARNING_MESSAGE);
-//                logger.log(Level.WARNING, "NIC is empty.");
-                return;
-            } else if (!nic.matches("^(([5,6,7,8,9]{1})([0-9]{1})([0,1,2,3,5,6,7,8]{1})([0-9]{6})([v|V|x|X]))|(([1,2]{1})([0,9]{1})([0-9]{2})([0,1,2,3,5,6,7,8]{1})([0-9]{7}))")) {
-                JOptionPane.showMessageDialog(this, "Please Enter Valid NIC", "Warning", JOptionPane.WARNING_MESSAGE);
-//                logger.log(Level.WARNING, "Invalid NIC: {0}", nic);
-                return;
-            }
-
-            if (Gender.matches("Select")) {
-                JOptionPane.showMessageDialog(this, "Please Enter Your Gender", "Warning", JOptionPane.WARNING_MESSAGE);
-//                logger.log(Level.WARNING, "Gender not selected.");
-                return;
-            }
-
-            if (role.matches("Select")) {
-                JOptionPane.showMessageDialog(this, "Please Enter Your Role", "Warning", JOptionPane.WARNING_MESSAGE);
-//                logger.log(Level.WARNING, "Role not selected.");
-                return;
-            }
-
-            if (email.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Please Enter Email", "Warning", JOptionPane.WARNING_MESSAGE);
-//                logger.log(Level.WARNING, "Email is empty.");
-                return;
-            } else if (!email.matches("^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$")) {
-                JOptionPane.showMessageDialog(this, "Please Enter Valid Email", "Warning", JOptionPane.WARNING_MESSAGE);
-//                logger.log(Level.WARNING, "Invalid Email: {0}", email);
-                return;
-            }
-
-            // Prepare for update
-            int genderId = genderMap.get(Gender);
-            int roleId = roleMap.get(role);
-
-//            logger.log(Level.INFO, "Resolved gender ID: {0}, role ID: {1} for NIC: {2}", new Object[]{genderId, roleId, nic});
-
-            String query = "UPDATE `employee` SET `first_name` = '" + FirstName + "', `last_name` = '" + LastName + "', "
-                    + "`contact_info` = '" + Mobile + "', `email` = '" + email + "', `roles_id` = '" + roleId + "', "
-                    + "`gender_id` = '" + genderId + "'";
-
-            if (!password.isEmpty()) {
-                if (!password.matches("^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*#?&])[A-Za-z\\d@$!%*#?&]{8,}$")) {
-                    JOptionPane.showMessageDialog(this, "Password must be at least 8 characters long and include a letter, a number, and a special character.", "Warning", JOptionPane.WARNING_MESSAGE);
-//                    logger.log(Level.WARNING, "Invalid password for NIC: {0}", nic);
-                    return;
-                }
-                query += ", `password` = '" + password + "'";
-            }
-
-            query += " WHERE `nic` = '" + nic + "'";
-            MySQL2.executeIUD(query);
-
-            JOptionPane.showMessageDialog(this, "Successfully Updated!", "Confirmation", JOptionPane.INFORMATION_MESSAGE);
-//            logger.log(Level.INFO, "Employee updated successfully for NIC: {0}", nic);
-            reset();
-
-        } catch (Exception e) {
+            } catch (Exception e) {
 //            logger.log(Level.SEVERE, "Error occurred during employee update for NIC: " + nic, e);
-e.printStackTrace();
+                e.printStackTrace();
+            }
         }
 
     }//GEN-LAST:event_jButton2ActionPerformed
@@ -599,8 +580,10 @@ e.printStackTrace();
     private javax.swing.JButton jButton4;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JComboBox<String> jComboBox2;
+    private com.toedter.calendar.JDateChooser jDateChooser1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
