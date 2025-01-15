@@ -26,7 +26,7 @@ public class AdminDashboard extends javax.swing.JFrame implements DashboardInter
     public AdminDashboard(String fName, String adminID) {
         initComponents();
         loadDate();
-        jLabel5.setText(fName);
+        jButton18.setText(fName);
         this.adminID = adminID;
         this.fName = fName;
         this.lName = lName;
@@ -79,8 +79,8 @@ public class AdminDashboard extends javax.swing.JFrame implements DashboardInter
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
+        jButton18 = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         jPanel3 = new javax.swing.JPanel();
@@ -132,12 +132,16 @@ public class AdminDashboard extends javax.swing.JFrame implements DashboardInter
         jLabel4.setFont(new java.awt.Font("Century Gothic", 1, 16)); // NOI18N
         jLabel4.setText("Welcome");
 
-        jLabel5.setFont(new java.awt.Font("Century Gothic", 1, 16)); // NOI18N
-        jLabel5.setText("First Name");
-
         jLabel6.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
         jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
         jLabel6.setText("Time");
+
+        jButton18.setText("jButton18");
+        jButton18.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton18ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -149,7 +153,7 @@ public class AdminDashboard extends javax.swing.JFrame implements DashboardInter
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel5)
+                .addComponent(jButton18)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -174,8 +178,8 @@ public class AdminDashboard extends javax.swing.JFrame implements DashboardInter
                 .addGap(38, 38, 38)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
-                    .addComponent(jLabel5)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton18))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -633,6 +637,14 @@ public class AdminDashboard extends javax.swing.JFrame implements DashboardInter
         this.dispose();
     }//GEN-LAST:event_jButton17ActionPerformed
 
+    private void jButton18ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton18ActionPerformed
+        jPanel4.removeAll();
+        EmployeeProfile ep = new EmployeeProfile(fName,adminID);
+        jPanel4.add(ep, BorderLayout.CENTER);
+
+        SwingUtilities.updateComponentTreeUI(jPanel4);
+    }//GEN-LAST:event_jButton18ActionPerformed
+
     public static void main(String args[]) throws UnsupportedLookAndFeelException {
         UIManager.setLookAndFeel(new FlatLightLaf());
         UIManager.put("Button.background", Color.decode("#4E4ACF"));
@@ -667,6 +679,7 @@ public class AdminDashboard extends javax.swing.JFrame implements DashboardInter
     private javax.swing.JButton jButton15;
     private javax.swing.JButton jButton16;
     private javax.swing.JButton jButton17;
+    private javax.swing.JButton jButton18;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
@@ -683,7 +696,6 @@ public class AdminDashboard extends javax.swing.JFrame implements DashboardInter
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
