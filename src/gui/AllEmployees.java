@@ -1,6 +1,10 @@
 //author KAVISHKA
 package gui;
 
+import com.raven.datechooser.DateBetween;
+import com.raven.datechooser.DateChooser;
+import com.raven.datechooser.listener.DateChooserAction;
+import com.raven.datechooser.listener.DateChooserAdapter;
 import java.awt.Color;
 import java.sql.ResultSet;
 import java.text.SimpleDateFormat;
@@ -16,27 +20,53 @@ import net.sf.jasperreports.engine.data.JRTableModelDataSource;
 import net.sf.jasperreports.view.JasperViewer;
 
 public class AllEmployees extends javax.swing.JPanel {
-    
+
     private DashboardInterface parent;
 
     public EmployeeRegistration updateEmployee;
 
+    private DateChooser chDate = new DateChooser();
+
+    private String From;
+    private String To;
+
     public AllEmployees(DashboardInterface parent) {
         this.parent = parent;
         initComponents();
-        loadTable();
+        dateChooser();
+        loadTable("", "");
         this.updateEmployee = new EmployeeRegistration((AdminDashboard) parent);
     }
-   
+
     private void switchToRegistration() {
         parent.switchPanel(updateEmployee);
     }
 
-    private void loadTable() {
+    private void dateChooser() {
+        chDate.setTextField(jTextField2);
+        chDate.setDateSelectionMode(DateChooser.DateSelectionMode.BETWEEN_DATE_SELECTED);
+        chDate.setLabelCurrentDayVisible(false);
+        chDate.setForeground(Color.black);
+        chDate.setBackground(Color.white);
+        chDate.setDateFormat(new SimpleDateFormat("yyyy-MM-dd"));
+        chDate.addActionDateChooserListener(new DateChooserAdapter() {
+            @Override
+            public void dateBetweenChanged(DateBetween date, DateChooserAction action) {
+                SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+                From = df.format(date.getFromDate());
+                To = df.format(date.getToDate());
+                loadTable(From, To);
+            }
+        });
+    }
+
+    private void loadTable(String from, String to) {
 
         try {
 
             String sort = String.valueOf(jComboBox1.getSelectedItem());
+
+            String selectDateType = String.valueOf(jComboBox2.getSelectedItem());
 
             String searchText = jTextField1.getText().toLowerCase();
 
@@ -54,6 +84,24 @@ public class AllEmployees extends javax.swing.JPanel {
                         + "OR LOWER(`roles`.`name`) LIKE '%" + searchText + "%' "
                         + "OR LOWER(`nic`) LIKE '%" + searchText + "%') ";
 
+            }
+
+            if (selectDateType.equals("Date of Birth")) {
+                if (from != null && !from.isEmpty() && to != null && !to.isEmpty()) {
+                    if (query.contains("WHERE")) {
+                        query += "AND `dob` BETWEEN '" + from + "' AND '" + to + "' ";
+                    } else {
+                        query += "WHERE `dob` BETWEEN '" + from + "' AND '" + to + "' ";
+                    }
+                }
+            } else if (selectDateType.equals("Date of Registration")) {
+                if (from != null && !from.isEmpty() && to != null && !to.isEmpty()) {
+                    if (query.contains("WHERE")) {
+                        query += "AND `registration_date` BETWEEN '" + from + "' AND '" + to + "' ";
+                    } else {
+                        query += "WHERE `registration_date` BETWEEN '" + from + "' AND '" + to + "' ";
+                    }
+                }
             }
 
             if (sort.equals("First Name ASC")) {
@@ -88,7 +136,6 @@ public class AllEmployees extends javax.swing.JPanel {
                 vector.add(resultSet.getString("dob"));
                 vector.add(resultSet.getString("registration_date"));
 
-
                 model.addRow(vector);
             }
 
@@ -109,6 +156,10 @@ public class AllEmployees extends javax.swing.JPanel {
         jButton1 = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
         jTextField1 = new javax.swing.JTextField();
+        jLabel4 = new javax.swing.JLabel();
+        jTextField2 = new javax.swing.JTextField();
+        jComboBox2 = new javax.swing.JComboBox<>();
+        jLabel5 = new javax.swing.JLabel();
 
         jLabel1.setFont(new java.awt.Font("Century Gothic", 1, 24)); // NOI18N
         jLabel1.setText("All Employees");
@@ -168,6 +219,19 @@ public class AllEmployees extends javax.swing.JPanel {
             }
         });
 
+        jLabel4.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
+        jLabel4.setText("Sort By ");
+
+        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Date of Birth", "Date of Registration" }));
+        jComboBox2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox2ActionPerformed(evt);
+            }
+        });
+
+        jLabel5.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
+        jLabel5.setText(":");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -180,7 +244,15 @@ public class AllEmployees extends javax.swing.JPanel {
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 472, Short.MAX_VALUE)
+                        .addGap(18, 18, Short.MAX_VALUE)
+                        .addComponent(jLabel4)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 4, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, Short.MAX_VALUE)
                         .addComponent(jLabel3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -197,18 +269,21 @@ public class AllEmployees extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addGap(24, 24, 24)
                 .addComponent(jLabel1)
-                .addGap(50, 50, 50)
+                .addGap(48, 48, 48)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel5))
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel2)))
+                        .addComponent(jLabel2)
+                        .addComponent(jLabel4)
+                        .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(26, 26, 26)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 402, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 416, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -243,7 +318,7 @@ public class AllEmployees extends javax.swing.JPanel {
             updateEmployee.getjComboBox1().setSelectedItem(Gender);
             updateEmployee.getjComboBox2().setSelectedItem(Role);
             updateEmployee.getjTextField5().setText(Email);
-            
+
             SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 
             try {
@@ -253,7 +328,7 @@ public class AllEmployees extends javax.swing.JPanel {
             } catch (Exception e) {
                 System.out.println("Error converting Object to Date: " + e.getMessage());
             }
-            
+
             updateEmployee.getjTextField4().setEnabled(false);
             updateEmployee.getjPasswordField1().setEnabled(false);
             updateEmployee.getjButton1().setEnabled(false);
@@ -266,19 +341,47 @@ public class AllEmployees extends javax.swing.JPanel {
     }//GEN-LAST:event_jTable1MouseClicked
 
     private void jTextField1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField1KeyReleased
-        loadTable();
+        if (From != null && To == null) {
+            loadTable(From, "");
+        } else if (From == null && To != null) {
+            loadTable("", To);
+        } else if (From != null && To != null) {
+            loadTable(From, To);
+        } else {
+            loadTable("", "");
+        }
     }//GEN-LAST:event_jTextField1KeyReleased
 
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
-        loadTable();
+        if (From != null && To == null) {
+            loadTable(From, "");
+        } else if (From == null && To != null) {
+            loadTable("", To);
+        } else if (From != null && To != null) {
+            loadTable(From, To);
+        } else {
+            loadTable("", "");
+        }
     }//GEN-LAST:event_jComboBox1ActionPerformed
+
+    private void jComboBox2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox2ActionPerformed
+        if (From != null && To == null) {
+            loadTable(From, "");
+        } else if (From == null && To != null) {
+            loadTable("", To);
+        } else if (From != null && To != null) {
+            loadTable(From, To);
+        } else {
+            loadTable("", "");
+        }
+    }//GEN-LAST:event_jComboBox2ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         //view or print report
         String path = "src//reports//AllEmployees.jasper";
-        
+
         String dateTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
-        
+
         HashMap<String, Object> params = new HashMap<>();
         params.put("Parameter1", dateTime);
 
@@ -298,11 +401,15 @@ public class AllEmployees extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
     private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField jTextField2;
     // End of variables declaration//GEN-END:variables
 }
