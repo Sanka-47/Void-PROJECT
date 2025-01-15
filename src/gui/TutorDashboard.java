@@ -34,7 +34,7 @@ public class TutorDashboard extends javax.swing.JFrame implements DashboardInter
         initComponents();
         updateDashboard(tutorID);
         loadDate();
-        jLabel5.setText(fName);
+        jButton3.setText(fName);
         this.tutorID = tutorID;
         
 //        this.setExtendedState(this.MAXIMIZED_BOTH);
@@ -134,12 +134,12 @@ public class TutorDashboard extends javax.swing.JFrame implements DashboardInter
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         amountLabel = new javax.swing.JLabel();
         withdrawBtn = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
+        jButton3 = new javax.swing.JButton();
         jScrollPane4 = new javax.swing.JScrollPane();
         jPanel2 = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
@@ -174,9 +174,6 @@ public class TutorDashboard extends javax.swing.JFrame implements DashboardInter
         jLabel4.setFont(new java.awt.Font("Century Gothic", 1, 16)); // NOI18N
         jLabel4.setText("Welcome");
 
-        jLabel5.setFont(new java.awt.Font("Century Gothic", 1, 16)); // NOI18N
-        jLabel5.setText("First Name");
-
         jLabel6.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
         jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
         jLabel6.setText("Time");
@@ -199,6 +196,13 @@ public class TutorDashboard extends javax.swing.JFrame implements DashboardInter
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resource/VOID.png"))); // NOI18N
         jLabel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(51, 51, 255)));
 
+        jButton3.setText("jButton3");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -216,8 +220,8 @@ public class TutorDashboard extends javax.swing.JFrame implements DashboardInter
                         .addComponent(withdrawBtn))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel4)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel5)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton3)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -229,10 +233,10 @@ public class TutorDashboard extends javax.swing.JFrame implements DashboardInter
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGap(35, 35, 35)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGap(33, 33, 33)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel4)
-                    .addComponent(jLabel5))
+                    .addComponent(jButton3))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(withdrawBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -568,6 +572,13 @@ public class TutorDashboard extends javax.swing.JFrame implements DashboardInter
         SwingUtilities.updateComponentTreeUI(jPanel3);
     }//GEN-LAST:event_jButton11ActionPerformed
 
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        jPanel3.removeAll();
+        TutorProfile tp = new TutorProfile(tutorID);
+        jPanel3.add(tp, BorderLayout.CENTER);
+        SwingUtilities.updateComponentTreeUI(jPanel3);
+    }//GEN-LAST:event_jButton3ActionPerformed
+
     public static void main(String args[]) throws UnsupportedLookAndFeelException {
         UIManager.setLookAndFeel(new FlatLightLaf());
         UIManager.put("Button.background", Color.decode("#4E4ACF"));
@@ -594,6 +605,7 @@ public class TutorDashboard extends javax.swing.JFrame implements DashboardInter
     private javax.swing.JButton jButton10;
     private javax.swing.JButton jButton11;
     private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
@@ -605,7 +617,6 @@ public class TutorDashboard extends javax.swing.JFrame implements DashboardInter
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;

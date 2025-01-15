@@ -4,9 +4,6 @@ package gui;
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
-
-
-
 import java.sql.ResultSet;
 import java.util.HashMap;
 import java.util.Vector;
@@ -21,10 +18,10 @@ import model.MySQL2;
 public class EmployeeProfile extends javax.swing.JPanel {
 
     private String employeeId;
-    
+
     public static HashMap<String, Integer> genderMap = new HashMap();
     public static HashMap<String, Integer> roleMap = new HashMap();
-    
+
     public EmployeeProfile(String fName, String employeeId) {
         initComponents();
         loadGender();
@@ -35,9 +32,25 @@ public class EmployeeProfile extends javax.swing.JPanel {
         jComboBox1.setEnabled(false);
         jComboBox2.setEnabled(false);
         loadEmployeeDetails();
-        
+
     }
 
+    private void AdminProfile() {
+
+        try {
+//            logger.log(Level.INFO, "Starting to load genders from the database.");
+
+            ResultSet resultSet = MySQL2.executeSearch("SELECT * FROM `employee`");
+
+                            String gender = resultSet.getString("gender.name");
+
+//            logger.log(Level.INFO, "Genders successfully loaded into the combo box.");
+        } catch (Exception e) {
+//            logger.log(Level.SEVERE, "Error occurred while loading genders.", e);
+        }
+
+    }
+    
     private void loadGender() {
 
         try {
@@ -62,7 +75,6 @@ public class EmployeeProfile extends javax.swing.JPanel {
             jComboBox1.setModel(model);
 
 //            logger.log(Level.INFO, "Genders successfully loaded into the combo box.");
-
         } catch (Exception e) {
 //            logger.log(Level.SEVERE, "Error occurred while loading genders.", e);
         }
@@ -93,13 +105,12 @@ public class EmployeeProfile extends javax.swing.JPanel {
             jComboBox2.setModel(model);
 
 //            logger.log(Level.INFO, "Roles successfully loaded into the combo box.");
-
         } catch (Exception e) {
 //            logger.log(Level.SEVERE, "Error occurred while loading roles.", e);
         }
 
     }
-    
+
     private void loadEmployeeDetails() {
 
         try {
@@ -107,38 +118,41 @@ public class EmployeeProfile extends javax.swing.JPanel {
             ResultSet resultSet = MySQL2.executeSearch("SELECT * FROM `employee` "
                     + "INNER JOIN `gender` ON `employee`.`gender_id` = `gender`.`id` "
                     + "INNER JOIN `roles` ON `employee`.`roles_id` = `roles`.`id` "
-                    + "WHERE `employee`.`id` ='"+ employeeId +"' ");
+                    + "WHERE `employee`.`id` ='" + employeeId + "' ");
 
             if (resultSet.next()) {
+
+                jTextField1.setText(resultSet.getString("first_name"));
+                jTextField2.setText(resultSet.getString("last_name"));
+                jTextField3.setText(resultSet.getString("contact_info"));
+                jTextField4.setText(resultSet.getString("email"));
+                jTextField5.setText(resultSet.getString("nic"));
+
+                // Get values from result set
+                String gender = resultSet.getString("gender.name");
+                String role = resultSet.getString("roles.name");
+                int roleID = resultSet.getInt("roles_id");
+                if (roleID == 2) {
+                    jLabel31.setText("Admin Profile");
+                }
                 
-        jTextField1.setText(resultSet.getString("first_name"));
-        jTextField2.setText(resultSet.getString("last_name"));
-        jTextField3.setText(resultSet.getString("contact_info"));
-        jTextField4.setText(resultSet.getString("email"));
-        jTextField5.setText(resultSet.getString("nic"));
 
-         // Get values from result set
-            String gender = resultSet.getString("gender.name");
-            String role = resultSet.getString("roles.name");
+                // Set combo box selections
+                jComboBox1.setSelectedItem(gender);
+                jComboBox2.setSelectedItem(role);
 
-            // Set combo box selections
-            jComboBox1.setSelectedItem(gender);
-            jComboBox2.setSelectedItem(role);
-
-        // Populate password field
-        jPasswordField1.setText(resultSet.getString("password"));
-    } else {
-        System.out.println("No employee found with ID: " + employeeId);
-    }
+                // Populate password field
+                jPasswordField1.setText(resultSet.getString("password"));
+            } else {
+                System.out.println("No employee found with ID: " + employeeId);
+            }
 
         } catch (Exception e) {
             e.printStackTrace();
         }
 
     }
-    
-    
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -169,8 +183,8 @@ public class EmployeeProfile extends javax.swing.JPanel {
         jLabel31.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel31.setText("Employee Profile");
 
-        jLabel1.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
-        jLabel1.setText("Frist Name");
+        jLabel1.setFont(new java.awt.Font("Century Gothic", 0, 18)); // NOI18N
+        jLabel1.setText("First Name");
 
         jTextField1.setFont(new java.awt.Font("Century Gothic", 0, 18)); // NOI18N
         jTextField1.addActionListener(new java.awt.event.ActionListener() {
@@ -179,7 +193,7 @@ public class EmployeeProfile extends javax.swing.JPanel {
             }
         });
 
-        jLabel2.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
+        jLabel2.setFont(new java.awt.Font("Century Gothic", 0, 18)); // NOI18N
         jLabel2.setText("Last Name");
 
         jTextField2.setFont(new java.awt.Font("Century Gothic", 0, 18)); // NOI18N
@@ -189,34 +203,34 @@ public class EmployeeProfile extends javax.swing.JPanel {
             }
         });
 
-        jLabel3.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
+        jLabel3.setFont(new java.awt.Font("Century Gothic", 0, 18)); // NOI18N
         jLabel3.setText("Mobile");
 
         jTextField3.setFont(new java.awt.Font("Century Gothic", 0, 18)); // NOI18N
 
-        jLabel6.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
+        jLabel6.setFont(new java.awt.Font("Century Gothic", 0, 18)); // NOI18N
         jLabel6.setText("Email");
 
         jTextField4.setFont(new java.awt.Font("Century Gothic", 0, 18)); // NOI18N
 
-        jLabel7.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
+        jLabel7.setFont(new java.awt.Font("Century Gothic", 0, 18)); // NOI18N
         jLabel7.setText("NIC");
 
         jTextField5.setFont(new java.awt.Font("Century Gothic", 0, 18)); // NOI18N
 
-        jLabel5.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
+        jLabel5.setFont(new java.awt.Font("Century Gothic", 0, 18)); // NOI18N
         jLabel5.setText("Gender");
 
         jComboBox1.setFont(new java.awt.Font("Century Gothic", 0, 18)); // NOI18N
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
-        jLabel8.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
+        jLabel8.setFont(new java.awt.Font("Century Gothic", 0, 18)); // NOI18N
         jLabel8.setText("Role");
 
         jComboBox2.setFont(new java.awt.Font("Century Gothic", 0, 18)); // NOI18N
         jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
-        jLabel4.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
+        jLabel4.setFont(new java.awt.Font("Century Gothic", 0, 18)); // NOI18N
         jLabel4.setText("Password");
 
         jPasswordField1.setFont(new java.awt.Font("Century Gothic", 0, 18)); // NOI18N
@@ -385,111 +399,85 @@ public class EmployeeProfile extends javax.swing.JPanel {
         String role = String.valueOf(jComboBox2.getSelectedItem());
         String password = String.valueOf(jPasswordField1.getPassword());
 
-        try {
-            //            logger.log(Level.INFO, "Starting employee update process for NIC: {0}", nic);
+        if (FirstName.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please Enter First Name", "Warning", JOptionPane.WARNING_MESSAGE);
+        } else if (FirstName.length() > 30) {
+            JOptionPane.showMessageDialog(this, "First Name is too long (maximum 30 characters)", "Warning", JOptionPane.WARNING_MESSAGE);
+        } else if (!FirstName.matches("^[A-Za-z]+$")) {
+            JOptionPane.showMessageDialog(this, "You Can Only Use Simple And Capital Letters For First Name", "Warning", JOptionPane.WARNING_MESSAGE);
+        } else if (LastName.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please Enter Last Name", "Warning", JOptionPane.WARNING_MESSAGE);
+        } else if (LastName.length() > 30) {
+            JOptionPane.showMessageDialog(this, "Last Name is too long (maximum 30 characters)", "Warning", JOptionPane.WARNING_MESSAGE);
+        } else if (!LastName.matches("^[A-Za-z]+$")) {
+            JOptionPane.showMessageDialog(this, "You Can Only Use Simple And Capital Letters For Last Name", "Warning", JOptionPane.WARNING_MESSAGE);
+        } else if (Mobile.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please Enter Mobile Number", "Warning", JOptionPane.WARNING_MESSAGE);
+        } else if (!Mobile.matches("^07[01245678]{1}[0-9]{7}$")) {
+            JOptionPane.showMessageDialog(this, "Please Enter A Valid Mobile Number", "Warning", JOptionPane.WARNING_MESSAGE);
+        } else if (email.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please Enter Email", "Warning", JOptionPane.WARNING_MESSAGE);
+        } else if (!email.matches("^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$")) {
+            JOptionPane.showMessageDialog(this, "Please Enter Valid Email", "Warning", JOptionPane.WARNING_MESSAGE);
+        } else if (nic.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please Enter NIC", "Warning", JOptionPane.WARNING_MESSAGE);
+        } else if (!nic.matches("^(([5,6,7,8,9]{1})([0-9]{1})([0,1,2,3,5,6,7,8]{1})([0-9]{6})([v|V|x|X]))|(([1,2]{1})([0,9]{1})([0-9]{2})([0,1,2,3,5,6,7,8]{1})([0-9]{7}))")) {
+            JOptionPane.showMessageDialog(this, "Please Enter Valid NIC", "Warning", JOptionPane.WARNING_MESSAGE);
+        } else if (Gender.matches("Select")) {
+            JOptionPane.showMessageDialog(this, "Please Enter Your Gender", "Warning", JOptionPane.WARNING_MESSAGE);
+        } else if (role.matches("Select")) {
+            JOptionPane.showMessageDialog(this, "Please Enter Your Role", "Warning", JOptionPane.WARNING_MESSAGE);
+        } else if (password.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please Enter Password", "Warning", JOptionPane.WARNING_MESSAGE);
 
-            // Validate inputs
-            if (FirstName.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Please Enter First Name", "Warning", JOptionPane.WARNING_MESSAGE);
-                //                logger.log(Level.WARNING, "First Name is empty.");
-                return;
-            } else if (FirstName.length() > 30) {
-                JOptionPane.showMessageDialog(this, "First Name is too long (maximum 30 characters)", "Warning", JOptionPane.WARNING_MESSAGE);
-                //                logger.log(Level.WARNING, "First Name exceeds the character limit: {0}", FirstName);
-                return;
-            } else if (!FirstName.matches("^[A-Za-z]+$")) {
-                JOptionPane.showMessageDialog(this, "You Can Only Use Simple And Capital Letters For First Name", "Warning", JOptionPane.WARNING_MESSAGE);
-                //                logger.log(Level.WARNING, "Invalid First Name: {0}", FirstName);
-                return;
-            }
+//            }else if (!password.matches("^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*#?&])[A-Za-z\\d@$!%*#?&]{8,}$")) {
+//                    JOptionPane.showMessageDialog(this, "Password must be at least 8 characters long and include a letter, a number, and a special character.", "Warning", JOptionPane.WARNING_MESSAGE);
+        } else {
 
-            if (LastName.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Please Enter Last Name", "Warning", JOptionPane.WARNING_MESSAGE);
-                //                logger.log(Level.WARNING, "Last Name is empty.");
-                return;
-            } else if (LastName.length() > 30) {
-                JOptionPane.showMessageDialog(this, "Last Name is too long (maximum 30 characters)", "Warning", JOptionPane.WARNING_MESSAGE);
-                //                logger.log(Level.WARNING, "Last Name exceeds the character limit: {0}", LastName);
-                return;
-            } else if (!LastName.matches("^[A-Za-z]+$")) {
-                JOptionPane.showMessageDialog(this, "You Can Only Use Simple And Capital Letters For Last Name", "Warning", JOptionPane.WARNING_MESSAGE);
-                //                logger.log(Level.WARNING, "Invalid Last Name: {0}", LastName);
-                return;
-            }
-
-            if (Mobile.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Please Enter Mobile Number", "Warning", JOptionPane.WARNING_MESSAGE);
-                //                logger.log(Level.WARNING, "Mobile number is empty.");
-                return;
-            } else if (!Mobile.matches("^07[01245678]{1}[0-9]{7}$")) {
-                JOptionPane.showMessageDialog(this, "Please Enter A Valid Mobile Number", "Warning", JOptionPane.WARNING_MESSAGE);
-                //                logger.log(Level.WARNING, "Invalid Mobile Number: {0}", Mobile);
-                return;
-            }
-            
-            if (email.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Please Enter Email", "Warning", JOptionPane.WARNING_MESSAGE);
-                //                logger.log(Level.WARNING, "Email is empty.");
-                return;
-            } else if (!email.matches("^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$")) {
-                JOptionPane.showMessageDialog(this, "Please Enter Valid Email", "Warning", JOptionPane.WARNING_MESSAGE);
-                //                logger.log(Level.WARNING, "Invalid Email: {0}", email);
-                return;
-            }
-
-            if (nic.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Please Enter NIC", "Warning", JOptionPane.WARNING_MESSAGE);
-                //                logger.log(Level.WARNING, "NIC is empty.");
-                return;
-            } else if (!nic.matches("^(([5,6,7,8,9]{1})([0-9]{1})([0,1,2,3,5,6,7,8]{1})([0-9]{6})([v|V|x|X]))|(([1,2]{1})([0,9]{1})([0-9]{2})([0,1,2,3,5,6,7,8]{1})([0-9]{7}))")) {
-                JOptionPane.showMessageDialog(this, "Please Enter Valid NIC", "Warning", JOptionPane.WARNING_MESSAGE);
-                //                logger.log(Level.WARNING, "Invalid NIC: {0}", nic);
-                return;
-            }
-
-            if (Gender.matches("Select")) {
-                JOptionPane.showMessageDialog(this, "Please Enter Your Gender", "Warning", JOptionPane.WARNING_MESSAGE);
-                //                logger.log(Level.WARNING, "Gender not selected.");
-                return;
-            }
-
-            if (role.matches("Select")) {
-                JOptionPane.showMessageDialog(this, "Please Enter Your Role", "Warning", JOptionPane.WARNING_MESSAGE);
-                //                logger.log(Level.WARNING, "Role not selected.");
-                return;
-            }
-
-            
-
-            // Prepare for update
             int genderId = genderMap.get(Gender);
             int roleId = roleMap.get(role);
 
-            //            logger.log(Level.INFO, "Resolved gender ID: {0}, role ID: {1} for NIC: {2}", new Object[]{genderId, roleId, nic});
+            try {
 
-            String query = "UPDATE `employee` SET `first_name` = '" + FirstName + "', `last_name` = '" + LastName + "', "
-            + "`contact_info` = '" + Mobile + "', `email` = '" + email + "', `roles_id` = '" + roleId + "', "
-            + "`gender_id` = '" + genderId + "'";
+                boolean canUpdate = false;
 
-            if (!password.isEmpty()) {
-                if (!password.matches("^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*#?&])[A-Za-z\\d@$!%*#?&]{8,}$")) {
-                    JOptionPane.showMessageDialog(this, "Password must be at least 8 characters long and include a letter, a number, and a special character.", "Warning", JOptionPane.WARNING_MESSAGE);
-                    //                    logger.log(Level.WARNING, "Invalid password for NIC: {0}", nic);
-                    return;
+                // Check if the email exists
+                ResultSet resultSet = MySQL2.executeSearch("SELECT * FROM `employee` "
+                        + "INNER JOIN `gender` ON `employee`.`gender_id` = `gender`.`id` "
+                        + "INNER JOIN `roles` ON `employee`.`roles_id` = `roles`.`id` "
+                        + "WHERE `employee`.`id` ='" + employeeId + "' ");
+                if (resultSet.next()) {
+
+                    if (!resultSet.getString("password").equals(password)
+                            || !resultSet.getString("first_name").equals(FirstName)
+                            || !resultSet.getString("last_name").equals(LastName)
+                            || !resultSet.getString("contact_info").equals(Mobile)
+                            || !resultSet.getString("email").equals(email)
+                            || !resultSet.getString("nic").equals(nic)
+                            || !resultSet.getString("gender.name").equals(Gender)
+                            || !resultSet.getString("roles.name").equals(role)) {
+                        canUpdate = true;
+                    } else {
+                        JOptionPane.showMessageDialog(this, "Please Change Data Before Updating", "Warning", JOptionPane.WARNING_MESSAGE);
+                    }
+                } else {
+                    canUpdate = true;
                 }
-                query += ", `password` = '" + password + "'";
+
+                if (canUpdate) {
+
+                    Integer integer = MySQL2.executeIUD("UPDATE `employee` SET `first_name` = '" + FirstName + "', `last_name` = '" + LastName + "', "
+                            + "`contact_info` = '" + Mobile + "', `email` = '" + email + "', `roles_id` = '" + roleId + "', "
+                            + "`gender_id` = '" + genderId + "', `password` = '" + password + "' WHERE `nic` = '" + nic + "'");
+
+                    JOptionPane.showMessageDialog(this, "Successfully Updated!", "Confirmation", JOptionPane.INFORMATION_MESSAGE);
+                    //            logger.log(Level.INFO, "Employee updated successfully for NIC: {0}", nic);
+                }
+
+            } catch (Exception e) {
+                //            logger.log(Level.SEVERE, "Error occurred during employee update for NIC: " + nic, e);
+                e.printStackTrace();
             }
-
-            query += " WHERE `nic` = '" + nic + "'";
-            MySQL2.executeIUD(query);
-
-            JOptionPane.showMessageDialog(this, "Successfully Updated!", "Confirmation", JOptionPane.INFORMATION_MESSAGE);
-            //            logger.log(Level.INFO, "Employee updated successfully for NIC: {0}", nic);
-            
-
-        } catch (Exception e) {
-            //            logger.log(Level.SEVERE, "Error occurred during employee update for NIC: " + nic, e);
-            e.printStackTrace();
         }
     }//GEN-LAST:event_jButton2ActionPerformed
 

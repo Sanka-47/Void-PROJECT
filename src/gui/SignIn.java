@@ -3,8 +3,6 @@ package gui;
 
 
 
-
-
 import com.formdev.flatlaf.FlatLightLaf;
 import model.MySQL2;
 import java.awt.Color;
@@ -200,14 +198,16 @@ public class SignIn extends javax.swing.JFrame {
             // Check for employee login
             ResultSet resultSetEmployee = MySQL2.executeSearch("SELECT * FROM `employee` WHERE `nic` = '" + nic + "' AND `password` = '" + password + "' AND `roles_id` = '1'");
             if (resultSetEmployee.next()) {
-                String fName = resultSetEmployee.getString("first_name");
-                String lName = resultSetEmployee.getString("last_name");
+                String fName = resultSetEmployee.getString("first_name") + " " + resultSetEmployee.getString("last_name");
+                    String employeeId = resultSetEmployee.getString("employee.id");
                 logger.log(Level.INFO, "Employee {0} successfully logged in", fName);
-                EmployeeDashboard employeeDashboard = new EmployeeDashboard(fName, lName);
+                EmployeeDashboard employeeDashboard = new EmployeeDashboard(fName, employeeId);
                 employeeDashboard.setVisible(true);
                 this.dispose();
                 return;
             }
+            
+            //admin
             ResultSet resultSetadmin = MySQL2.executeSearch("SELECT * FROM `employee` WHERE `nic` = '" + nic + "' AND `password` = '" + password + "' AND `roles_id` = '2'");
             if (resultSetadmin.next()) {
                 String fName = resultSetadmin.getString("first_name") + " " + resultSetadmin.getString("last_name");
@@ -239,6 +239,7 @@ public class SignIn extends javax.swing.JFrame {
 
         } catch (Exception e) {
             logger.log(Level.SEVERE, "An error occurred", e);
+            e.printStackTrace();
         }
     }
     }//GEN-LAST:event_jButton1ActionPerformed
