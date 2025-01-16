@@ -5,7 +5,13 @@
  */
 package gui;
 
+import com.raven.datechooser.DateBetween;
+import com.raven.datechooser.DateChooser;
+import com.raven.datechooser.listener.DateChooserAction;
+import com.raven.datechooser.listener.DateChooserAdapter;
+import java.awt.Color;
 import java.sql.ResultSet;
+import java.text.SimpleDateFormat;
 import java.util.Vector;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -17,6 +23,9 @@ import model.MySQL2;
  */
 public class RequestedSessions extends javax.swing.JPanel {
 
+    private DateChooser chDate = new DateChooser();
+    private String From;
+    private String To;
     private DashboardInterface parent;
 
     /**
@@ -25,23 +34,38 @@ public class RequestedSessions extends javax.swing.JPanel {
     public RequestedSessions(DashboardInterface parent) {
         this.parent = parent;
         initComponents();
-        loadRequestedSessions();
-        // Initially disable buttons
-//        approvebtn.setEnabled(false);
+        dateChooser();
+        loadRequestedSessions("","");
         rejectbtn.setEnabled(false);
 
-        // Add selection listener to enable buttons when a row is selected
         jTable1.getSelectionModel().addListSelectionListener(event -> {
             if (!event.getValueIsAdjusting() && jTable1.getSelectedRow() != -1) {
-//                approvebtn.setEnabled(true);
                 rejectbtn.setEnabled(true);
             }
         });
     }
 
-    private void loadRequestedSessions() {
+    private void dateChooser() {
+        chDate.setTextField(jTextField6);
+        chDate.setDateSelectionMode(DateChooser.DateSelectionMode.BETWEEN_DATE_SELECTED);
+        chDate.setLabelCurrentDayVisible(false);
+        chDate.setForeground(Color.black);
+        chDate.setBackground(Color.white);
+        chDate.setDateFormat(new SimpleDateFormat("yyyy-MM-dd"));
+        chDate.addActionDateChooserListener(new DateChooserAdapter() {
+            @Override
+            public void dateBetweenChanged(DateBetween date, DateChooserAction action) {
+                SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+                From = df.format(date.getFromDate());
+                To = df.format(date.getToDate());
+                loadRequestedSessions(From, To);
+            }
+        });
+    }
+
+    private void loadRequestedSessions(String from, String to) {
         try {
-            // Corrected SQL query
+            String sort = String.valueOf(jComboBox4.getSelectedItem());
             String query = "SELECT "
                     + "tutor.first_name, tutor.last_name, "
                     + "request_sessions.id, request_sessions.title, request_sessions.date, "
@@ -55,7 +79,31 @@ public class RequestedSessions extends javax.swing.JPanel {
                     + "WHERE request_sessions.approve_status = 'Pending' "
                     + "OR request_sessions.approve_status = 'Rejected'";
 
-            // Execute the query
+            if (from != null && !from.isEmpty() && to != null && !to.isEmpty()) {
+                if (query.contains("WHERE")) {
+                    query += " AND date BETWEEN '" + from + "' AND '" + to + "'";
+                } else {
+                    query += " WHERE date BETWEEN '" + from + "' AND '" + to + "'";
+                }
+            }
+            if (sort.equals("Hall Number ASC")) {
+                query += "ORDER BY `hallnumber` ASC ";
+            } else if (sort.equals("Hall Number DESC")) {
+                query += "ORDER BY `hallnumber` DESC";
+            } else if (sort.equals("Tutor Name ASC")) {
+                query += "ORDER BY `tutor`.`first_name` ASC";
+            } else if (sort.equals("Tutor Name DESC")) {
+                query += "ORDER BY `tutor`.`first_name` DESC";
+            } else if (sort.equals("Subject ASC")) {
+                query += "ORDER BY `courses`.`name` ASC";
+            } else if (sort.equals("Subject DESC")) {
+                query += "ORDER BY `courses`.`name` DESC";
+            } else if (sort.equals("ID ASC")) {
+                query += "ORDER BY `class`.`id` ASC";
+            } else if (sort.equals("ID DESC")) {
+                query += "ORDER BY `class`.`id` DESC";
+            }
+
             ResultSet resultSet = MySQL2.executeSearch(query);
 
             // Get the table model and clear existing rows
@@ -102,8 +150,11 @@ public class RequestedSessions extends javax.swing.JPanel {
         jTextField1 = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        jComboBox4 = new javax.swing.JComboBox<>();
+        jLabel6 = new javax.swing.JLabel();
+        jTextField6 = new javax.swing.JTextField();
 
-        setMaximumSize(new java.awt.Dimension(1004, 2586));
         setPreferredSize(new java.awt.Dimension(1004, 586));
 
         jLabel1.setFont(new java.awt.Font("Century Gothic", 1, 24)); // NOI18N
@@ -170,39 +221,74 @@ public class RequestedSessions extends javax.swing.JPanel {
 
         jLabel4.setText("Double click a row to schedule or cancel the session");
 
+        jLabel5.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
+        jLabel5.setText("Sort By :");
+
+        jComboBox4.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Hall Number ASC", "Hall Number DESC", "Tutor Name ASC", "Tutor Name DESC", "Courses ASC", "Courses DESC", "ID ASC", "ID DESC" }));
+        jComboBox4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox4ActionPerformed(evt);
+            }
+        });
+
+        jLabel6.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
+        jLabel6.setText("Sort By Date");
+
+        jTextField6.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTextField6KeyReleased(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(42, Short.MAX_VALUE)
+                .addContainerGap(46, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel4)
                             .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel4)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(13, 13, 13)
-                                        .addComponent(jLabel3)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(rejectbtn, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addGap(60, 60, 60)
-                                .addComponent(jLabel2)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 436, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 916, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(42, 42, 42))
+                                .addGap(13, 13, 13)
+                                .addComponent(jLabel3)
+                                .addGap(18, 18, 18)
+                                .addComponent(rejectbtn, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(60, 60, 60)
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 436, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(45, 45, 45))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addGap(381, 381, 381))))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(126, 126, 126)
+                .addComponent(jLabel5)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jComboBox4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(217, 217, 217)
+                .addComponent(jLabel6)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(35, 35, 35)
                 .addComponent(jLabel1)
-                .addGap(40, 40, 40)
+                .addGap(3, 3, 3)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jComboBox4, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel5)
+                    .addComponent(jTextField6, javax.swing.GroupLayout.DEFAULT_SIZE, 26, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 388, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -215,7 +301,7 @@ public class RequestedSessions extends javax.swing.JPanel {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(rejectbtn, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel3))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -284,7 +370,7 @@ public class RequestedSessions extends javax.swing.JPanel {
                 MySQL2.executeIUD(query);
 
                 // Reload table data
-                loadRequestedSessions();
+                loadRequestedSessions("","");
                 JOptionPane.showMessageDialog(this, "Session rejected successfully!");
 
                 // Disable buttons after action
@@ -302,15 +388,43 @@ public class RequestedSessions extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField1ActionPerformed
 
+    private void jComboBox4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox4ActionPerformed
+        if (From != null && To == null) {
+            loadRequestedSessions(From, "");
+        } else if (From == null && To != null) {
+            loadRequestedSessions("", To);
+        } else if (From != null && To != null) {
+            loadRequestedSessions(From, To);
+        } else {
+          loadRequestedSessions("","");
+        }
+    }//GEN-LAST:event_jComboBox4ActionPerformed
+
+    private void jTextField6KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField6KeyReleased
+        if (From != null && To == null) {
+            loadRequestedSessions(From, "");
+        } else if (From == null && To != null) {
+            loadRequestedSessions("", To);
+        } else if (From != null && To != null) {
+            loadRequestedSessions(From, To);
+        } else {
+            loadRequestedSessions("", "");
+        }
+    }//GEN-LAST:event_jTextField6KeyReleased
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JComboBox<String> jComboBox4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
     private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField jTextField6;
     private javax.swing.JButton rejectbtn;
     // End of variables declaration//GEN-END:variables
 }

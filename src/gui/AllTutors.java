@@ -56,6 +56,7 @@ public class AllTutors extends javax.swing.JPanel {
                 From = df.format(date.getFromDate());
                 To = df.format(date.getToDate());
                 loadTable(From, To);
+                
             }
         });
     }
