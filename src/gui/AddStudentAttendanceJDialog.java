@@ -12,6 +12,7 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
 import model.MySQL2;
 
 public class AddStudentAttendanceJDialog extends javax.swing.JDialog {
@@ -33,6 +34,7 @@ public class AddStudentAttendanceJDialog extends javax.swing.JDialog {
         loadStudent();
         loadClass();
         jButton2.setEnabled(false);
+        SwingUtilities.invokeLater(() -> jComboBox1.requestFocusInWindow());
     }
 
 //    //Attendance ID

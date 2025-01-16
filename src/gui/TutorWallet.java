@@ -11,6 +11,7 @@ import java.sql.ResultSet;
 import java.util.Vector;
 import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -32,6 +33,7 @@ public class TutorWallet extends javax.swing.JFrame {
     public TutorWallet(int tutorId) {
         this.tutorId = tutorId; // Store the passed tutorId
         initComponents();
+        SwingUtilities.invokeLater(() -> jTextField1.requestFocusInWindow());
         LoadWalletDetails();  // Load the wallet details using the tutorId
         DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
         renderer.setHorizontalAlignment(SwingConstants.CENTER);
@@ -49,13 +51,11 @@ public class TutorWallet extends javax.swing.JFrame {
 //        }
 //        return instance;
 //    }
-
     @Override
     public void dispose() {
         super.dispose();
         Object instance = null; // Allow new instance creation once disposed
     }
-
 
     private void LoadWalletDetails() {
         try {
@@ -257,7 +257,7 @@ public class TutorWallet extends javax.swing.JFrame {
                     + "SET `withdrawal_status_id` = 2, "
                     + "`date` = NOW() "
                     + "WHERE `withdrawal_status_id` = 1 "
-                    + "AND `tutor_id` = '"+tutorId+"';");
+                    + "AND `tutor_id` = '" + tutorId + "';");
 
             JOptionPane.showMessageDialog(this, "Withdrawed Successfully", "Info", JOptionPane.INFORMATION_MESSAGE);
             LoadWalletDetails();

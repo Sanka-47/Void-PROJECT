@@ -15,6 +15,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
 import model.MySQL2;
 
 public class AddTutor extends javax.swing.JPanel {
@@ -30,8 +31,10 @@ public class AddTutor extends javax.swing.JPanel {
         LoadGender();
         LoadCourses();
         DateChooser();
+        SwingUtilities.invokeLater(() -> jTextField1.requestFocusInWindow());
         jButton2.setEnabled(false);
         jButton4.setEnabled(false);
+        
     }
 
     //First Name
@@ -78,7 +81,7 @@ public class AddTutor extends javax.swing.JPanel {
     public JTextField getjTextField6() {
         return jTextField6;
     }
-    
+
     //Date of Birth
     public JDateChooser getjDateChooser1() {
         return jDateChooser1;
@@ -97,7 +100,6 @@ public class AddTutor extends javax.swing.JPanel {
 //    public JLabel getjLabel9() {
 //        return jLabel9;
 //    }
-
     //Clear All
     public JButton getjButton3() {
         return jButton3;
@@ -118,12 +120,19 @@ public class AddTutor extends javax.swing.JPanel {
     private void LoadCourses() {
 
         try {
+
             Vector<String> vector = new Vector<>();
             vector.add("Select");
             ResultSet resultSet = MySQL2.executeSearch("SELECT * FROM `courses`");
             while (resultSet.next()) {
-                vector.add(resultSet.getString("name"));
-                courseMap.put(resultSet.getString("name"), resultSet.getString("id"));
+                String courseName = resultSet.getString("name");
+                String courseId = resultSet.getString("id");
+                ResultSet resultSet1 = MySQL2.executeSearch("SELECT courses_id FROM `tutor` WHERE `courses_id` = '" + courseId + "' ");
+                if (!resultSet1.next()) {
+                    vector.add(resultSet.getString("name"));
+                    courseMap.put(resultSet.getString("name"), resultSet.getString("id"));
+                }
+
             }
             jComboBox1.setModel(new DefaultComboBoxModel<>(vector));
         } catch (Exception e) {
@@ -500,12 +509,11 @@ public class AddTutor extends javax.swing.JPanel {
                 JOptionPane.showMessageDialog(this, "Please enter your mobile number!", "Warning", JOptionPane.WARNING_MESSAGE);
             } else if (!mobile.matches("^07[01245678]{1}[0-9]{7}$")) {
                 JOptionPane.showMessageDialog(this, "Please enter a valid number!", "Warning", JOptionPane.WARNING_MESSAGE);
-            }
-//            else if (password.isEmpty()) {
-//                JOptionPane.showMessageDialog(this, "Please enter your Password!", "Warning", JOptionPane.WARNING_MESSAGE);
-//            } else if (!password.matches("^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*#?&])[A-Za-z\\d@$!%*#?&]{8,}$")) {
-//                JOptionPane.showMessageDialog(this, "Please type a password with a minimum of 8 characters including a number and character !", "Warning", JOptionPane.WARNING_MESSAGE);
-//            }
+            } //            else if (password.isEmpty()) {
+            //                JOptionPane.showMessageDialog(this, "Please enter your Password!", "Warning", JOptionPane.WARNING_MESSAGE);
+            //            } else if (!password.matches("^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*#?&])[A-Za-z\\d@$!%*#?&]{8,}$")) {
+            //                JOptionPane.showMessageDialog(this, "Please type a password with a minimum of 8 characters including a number and character !", "Warning", JOptionPane.WARNING_MESSAGE);
+            //            }
             else if (gender.equals("Select")) {
                 JOptionPane.showMessageDialog(this, "Please enter gender type !", "Warning", JOptionPane.WARNING_MESSAGE);
             } else if (courses.equals("Select")) {
@@ -519,7 +527,7 @@ public class AddTutor extends javax.swing.JPanel {
             } else {
                 MySQL2.executeIUD("UPDATE `tutor` SET `first_name` = '" + firstName + "', `last_name` = '" + lastName + "', `qualification` = '" + qualification + "', "
                         + "`contact_info` = '" + mobile + "',`email` = '" + email + "',`gender_id` = '" + genderMap.get(gender) + "', `courses_id` = '" + courseMap.get(courses) + "', "
-                                + "`dob` = '" + dateFormat.format(dob) + "' WHERE `nic` = '" + nic + "'");
+                        + "`dob` = '" + dateFormat.format(dob) + "' WHERE `nic` = '" + nic + "'");
                 JOptionPane.showMessageDialog(this, "Tutor Profile updated successfully!", "Info", JOptionPane.INFORMATION_MESSAGE);
                 ClearAll();
             }

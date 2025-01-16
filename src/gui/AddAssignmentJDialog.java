@@ -15,6 +15,7 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
 import model.MySQL2;
 
 public class AddAssignmentJDialog extends javax.swing.JDialog {
@@ -36,6 +37,7 @@ public class AddAssignmentJDialog extends javax.swing.JDialog {
         initComponents();
         loadTutors();
         loadCourses();
+        SwingUtilities.invokeLater(() -> jTextField1.requestFocusInWindow());
         jButton2.setEnabled(false);
     }
     

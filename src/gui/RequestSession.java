@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.Vector;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
 import model.MySQL2;
 
@@ -33,6 +34,7 @@ public class RequestSession extends javax.swing.JPanel {
         loadCourses();
 //        loadTutors();
         loadStatus();
+        SwingUtilities.invokeLater(() -> courseField.requestFocusInWindow());
     }
 
     private void loadTutorSchedule() {

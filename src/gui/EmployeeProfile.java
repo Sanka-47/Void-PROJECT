@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.Vector;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
 import model.MySQL2;
 
 /**
@@ -32,6 +33,7 @@ public class EmployeeProfile extends javax.swing.JPanel {
         jComboBox1.setEnabled(false);
         jComboBox2.setEnabled(false);
         loadEmployeeDetails();
+        SwingUtilities.invokeLater(() -> jTextField1.requestFocusInWindow());
 
     }
 

@@ -30,8 +30,10 @@ public class CourseRegistration extends javax.swing.JPanel {
         initComponents();
         loadCourseDetails();
         loadGrades();
+        SwingUtilities.invokeLater(() -> jTextField1.requestFocusInWindow());
         jButton1.setEnabled(false);
         jButton3.setEnabled(false);
+       
     }
 
     private void loadCourseDetails() {

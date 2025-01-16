@@ -20,6 +20,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import model.InvoiceItem;
@@ -78,6 +79,7 @@ public class StudentPayment extends javax.swing.JFrame {
         DefaultTableModel m = (DefaultTableModel) jTable1.getModel();
         m.setRowCount(0);
         this.model = m;
+        SwingUtilities.invokeLater(() -> StudentNameFields.requestFocusInWindow());
     }
 
     private void loadInvoiceItems() {

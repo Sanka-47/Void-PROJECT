@@ -13,6 +13,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
@@ -24,6 +25,7 @@ public class SignIn extends javax.swing.JFrame {
     public SignIn() {
         initComponents();
         getLogger();
+        SwingUtilities.invokeLater(() -> jTextField1.requestFocusInWindow());
     }
 
     @SuppressWarnings("unchecked")

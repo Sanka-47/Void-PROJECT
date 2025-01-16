@@ -11,6 +11,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
@@ -21,6 +22,7 @@ public class AdminSignIn extends javax.swing.JFrame {
 
     public AdminSignIn() {
         initComponents();
+        SwingUtilities.invokeLater(() -> jTextField1.requestFocusInWindow());
 //        getLogger();
     }
 
