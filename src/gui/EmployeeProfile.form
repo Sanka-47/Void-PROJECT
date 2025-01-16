@@ -162,9 +162,9 @@
             <Component class="javax.swing.JLabel" name="jLabel1">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Century Gothic" size="18" style="1"/>
+                  <Font name="Century Gothic" size="18" style="0"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="Frist Name"/>
+                <Property name="text" type="java.lang.String" value="First Name"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JTextField" name="jTextField1">
@@ -180,7 +180,7 @@
             <Component class="javax.swing.JLabel" name="jLabel2">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Century Gothic" size="18" style="1"/>
+                  <Font name="Century Gothic" size="18" style="0"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Last Name"/>
               </Properties>
@@ -198,7 +198,7 @@
             <Component class="javax.swing.JLabel" name="jLabel3">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Century Gothic" size="18" style="1"/>
+                  <Font name="Century Gothic" size="18" style="0"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Mobile"/>
               </Properties>
@@ -213,7 +213,7 @@
             <Component class="javax.swing.JLabel" name="jLabel6">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Century Gothic" size="18" style="1"/>
+                  <Font name="Century Gothic" size="18" style="0"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Email"/>
               </Properties>
@@ -228,7 +228,7 @@
             <Component class="javax.swing.JLabel" name="jLabel7">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Century Gothic" size="18" style="1"/>
+                  <Font name="Century Gothic" size="18" style="0"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="NIC"/>
               </Properties>
@@ -243,7 +243,7 @@
             <Component class="javax.swing.JLabel" name="jLabel5">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Century Gothic" size="18" style="1"/>
+                  <Font name="Century Gothic" size="18" style="0"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Gender"/>
               </Properties>
@@ -269,7 +269,7 @@
             <Component class="javax.swing.JLabel" name="jLabel8">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Century Gothic" size="18" style="1"/>
+                  <Font name="Century Gothic" size="18" style="0"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Role"/>
               </Properties>
@@ -295,7 +295,7 @@
             <Component class="javax.swing.JLabel" name="jLabel4">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Century Gothic" size="18" style="1"/>
+                  <Font name="Century Gothic" size="18" style="0"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Password"/>
               </Properties>
