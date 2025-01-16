@@ -1,6 +1,10 @@
 //author CHANULI
 package gui;
 
+import com.raven.datechooser.DateBetween;
+import com.raven.datechooser.DateChooser;
+import com.raven.datechooser.listener.DateChooserAction;
+import com.raven.datechooser.listener.DateChooserAdapter;
 import java.awt.Color;
 import java.sql.ResultSet;
 import java.text.SimpleDateFormat;
@@ -17,6 +21,9 @@ import model.MySQL2;
 
 public class TutorScheduleAndCalandar extends javax.swing.JPanel {
 
+    private DateChooser chDate = new DateChooser();
+    private String From;
+    private String To;
     private DashboardInterface parent;
     private Vector<String> rowData;
     private static HashMap<String, String> subjectMap = new HashMap<>();
@@ -31,9 +38,10 @@ public class TutorScheduleAndCalandar extends javax.swing.JPanel {
         DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
         renderer.setHorizontalAlignment(SwingConstants.CENTER);
         jTable1.setDefaultRenderer(Object.class, renderer);
-        loadSessions();
+        loadSessions("", "");
         loadCourses();
         loadTutors();
+        dateChooser();
 //        loadStatus();
         // Call this method during component initialization
         initializePlaceholder();
@@ -55,6 +63,24 @@ public class TutorScheduleAndCalandar extends javax.swing.JPanel {
             // Example: Set data to components
 //            someLabel.setText("Selected Data: " + rowData.get(0)); // Example for first column data
         }
+    }
+
+    private void dateChooser() {
+        chDate.setTextField(jTextField6);
+        chDate.setDateSelectionMode(DateChooser.DateSelectionMode.BETWEEN_DATE_SELECTED);
+        chDate.setLabelCurrentDayVisible(false);
+        chDate.setForeground(Color.black);
+        chDate.setBackground(Color.white);
+        chDate.setDateFormat(new SimpleDateFormat("yyyy-MM-dd"));
+        chDate.addActionDateChooserListener(new DateChooserAdapter() {
+            @Override
+            public void dateBetweenChanged(DateBetween date, DateChooserAction action) {
+                SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+                From = df.format(date.getFromDate());
+                To = df.format(date.getToDate());
+                loadSessions(From, To);
+            }
+        });
     }
 
     // Initialization Code (e.g., in the constructor or initialization method)
@@ -84,7 +110,7 @@ public class TutorScheduleAndCalandar extends javax.swing.JPanel {
         });
     }
 
-    private void loadSessions() {
+    private void loadSessions(String from, String to) {
 
         try {
 
@@ -96,43 +122,29 @@ public class TutorScheduleAndCalandar extends javax.swing.JPanel {
                     + "INNER JOIN `courses` ON `class`.`courses_id` = `courses`.`id` "
                     + "INNER JOIN `class_status` ON `class`.`class_status_id` = `class_status`.`id` ";
 
-            if (!searchText.isEmpty()) {
-                query += "WHERE (LOWER(`class`.`id`) LIKE '%" + searchText + "%' "
-                        + "OR LOWER(`class`.`name`) LIKE '%" + searchText + "%' "
-                        + "OR LOWER(`class_status`.`name`) LIKE '%" + searchText + "%') ";
+            if (!searchText.isEmpty() && !searchText.equalsIgnoreCase("id, title, or class status")) {
+                if (!query.contains("WHERE")) {
+                    query += "WHERE (LOWER(`class`.`id`) LIKE '%" + searchText + "%' "
+                            + "OR LOWER(`class`.`name`) LIKE '%" + searchText + "%' "
+                            + "OR LOWER(`class_status`.`name`) LIKE '%" + searchText + "%') ";
+                } else {
+                    query += "AND (LOWER(`class`.`id`) LIKE '%" + searchText + "%' "
+                            + "OR LOWER(`class`.`name`) LIKE '%" + searchText + "%' "
+                            + "OR LOWER(`class_status`.`name`) LIKE '%" + searchText + "%') ";
+                }
             }
-
             Date start = null;
             Date end = null;
 
             SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 
-            if (jDateChooser2.getDate() != null || jDateChooser3.getDate() != null) {
+            if (from != null && !from.isEmpty() && to != null && !to.isEmpty()) {
                 if (query.contains("WHERE")) {
-                    query += "AND ";
+                    query += " AND date BETWEEN '" + from + "' AND '" + to + "'";
                 } else {
-                    query += "WHERE ";
+                    query += " WHERE date BETWEEN '" + from + "' AND '" + to + "'";
                 }
             }
-
-            if (jDateChooser2.getDate() != null && jDateChooser3.getDate() != null) {
-                start = jDateChooser2.getDate();
-                end = jDateChooser3.getDate();
-
-                query += "`class`.`date` BETWEEN '" + format.format(start) + "' AND '" + format.format(end) + "' ";
-
-            } else if (jDateChooser2.getDate() != null && jDateChooser3.getDate() == null) {
-                start = jDateChooser2.getDate();
-
-                query += "`class`.`date` >= '" + format.format(start) + "' ";
-
-            } else if (jDateChooser2.getDate() == null && jDateChooser3.getDate() != null) {
-                end = jDateChooser3.getDate();
-
-                query += "`class`.`date` <= '" + format.format(end) + "' ";
-
-            }
-
             if (sort.equals("Hall Number ASC")) {
                 query += "ORDER BY `hallnumber` ASC ";
             } else if (sort.equals("Hall Number DESC")) {
@@ -152,7 +164,6 @@ public class TutorScheduleAndCalandar extends javax.swing.JPanel {
             }
 
             ResultSet resultSet = MySQL2.executeSearch(query);
-
             DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
             model.setRowCount(0);
 
@@ -390,14 +401,11 @@ public class TutorScheduleAndCalandar extends javax.swing.JPanel {
         jLabel3 = new javax.swing.JLabel();
         jComboBox4 = new javax.swing.JComboBox<>();
         jLabel2 = new javax.swing.JLabel();
-        jDateChooser2 = new com.toedter.calendar.JDateChooser();
-        jLabel4 = new javax.swing.JLabel();
-        jDateChooser3 = new com.toedter.calendar.JDateChooser();
-        jButton1 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jTextField4 = new javax.swing.JTextField();
         jTextField5 = new javax.swing.JTextField();
+        jTextField6 = new javax.swing.JTextField();
 
         jLabel13.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
         jLabel13.setText("Class ID");
@@ -516,17 +524,6 @@ public class TutorScheduleAndCalandar extends javax.swing.JPanel {
         jLabel2.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
         jLabel2.setText("Sort By Date");
 
-        jLabel4.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
-        jLabel4.setText("TO");
-
-        jButton1.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
-        jButton1.setText("Sort");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
-
         jLabel1.setFont(new java.awt.Font("Century Gothic", 1, 24)); // NOI18N
         jLabel1.setText("Add Schedule");
 
@@ -536,6 +533,12 @@ public class TutorScheduleAndCalandar extends javax.swing.JPanel {
         jTextField4.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 jTextField4KeyReleased(evt);
+            }
+        });
+
+        jTextField6.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTextField6KeyReleased(evt);
             }
         });
 
@@ -602,21 +605,15 @@ public class TutorScheduleAndCalandar extends javax.swing.JPanel {
                                 .addComponent(jLabel3)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jComboBox4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 44, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jLabel5)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jTextField4, javax.swing.GroupLayout.DEFAULT_SIZE, 45, Short.MAX_VALUE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, 51, Short.MAX_VALUE)
+                                .addComponent(jTextField4)
+                                .addGap(18, 18, 18)
                                 .addComponent(jLabel2)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jDateChooser2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel4)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jDateChooser3, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton1)
-                                .addContainerGap())
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(106, 106, 106))
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 756, Short.MAX_VALUE)))))
         );
         layout.setVerticalGroup(
@@ -629,11 +626,8 @@ public class TutorScheduleAndCalandar extends javax.swing.JPanel {
                         .addComponent(jComboBox4, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabel3)
                         .addComponent(jLabel5)
-                        .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jDateChooser2, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jDateChooser3, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jLabel1))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
@@ -887,7 +881,7 @@ public class TutorScheduleAndCalandar extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(this, "Class updated successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
 
             reset();
-            loadSessions();
+            loadSessions("", "");
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -1052,8 +1046,6 @@ public class TutorScheduleAndCalandar extends javax.swing.JPanel {
         //                e.printStackTrace();
         //            }
         //        }
-        
-        
 
         String course = String.valueOf(jComboBox1.getSelectedItem());
         String tName = String.valueOf(jComboBox2.getSelectedItem());
@@ -1163,7 +1155,7 @@ public class TutorScheduleAndCalandar extends javax.swing.JPanel {
 
                     JOptionPane.showMessageDialog(this, "Class added successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
                     reset();
-                    loadSessions();
+                    loadSessions("", "");
 
                 } else {
                     JOptionPane.showMessageDialog(this, "The tutor's ID does not match the record in the system. Please check the tutor information and try again.", "Warning", JOptionPane.WARNING_MESSAGE);
@@ -1295,20 +1287,43 @@ public class TutorScheduleAndCalandar extends javax.swing.JPanel {
     }//GEN-LAST:event_jComboBox1ActionPerformed
 
     private void jComboBox4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox4ActionPerformed
-        loadSessions();
+        if (From != null && To == null) {
+            loadSessions(From, "");
+        } else if (From == null && To != null) {
+            loadSessions("", To);
+        } else if (From != null && To != null) {
+            loadSessions(From, To);
+        } else {
+            loadSessions("", "");
+        }
     }//GEN-LAST:event_jComboBox4ActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        loadSessions();
-    }//GEN-LAST:event_jButton1ActionPerformed
-
     private void jTextField4KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField4KeyReleased
-        loadSessions();
+        if (From != null && To == null) {
+            loadSessions(From, "");
+        } else if (From == null && To != null) {
+            loadSessions("", To);
+        } else if (From != null && To != null) {
+            loadSessions(From, To);
+        } else {
+            loadSessions("", "");
+        }
     }//GEN-LAST:event_jTextField4KeyReleased
+
+    private void jTextField6KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField6KeyReleased
+        if (From != null && To == null) {
+            loadSessions(From, "");
+        } else if (From == null && To != null) {
+            loadSessions("", To);
+        } else if (From != null && To != null) {
+            loadSessions(From, To);
+        } else {
+            loadSessions("", "");
+        }
+    }//GEN-LAST:event_jTextField6KeyReleased
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton10;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton8;
@@ -1316,8 +1331,6 @@ public class TutorScheduleAndCalandar extends javax.swing.JPanel {
     private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JComboBox<String> jComboBox4;
     private com.toedter.calendar.JDateChooser jDateChooser1;
-    private com.toedter.calendar.JDateChooser jDateChooser2;
-    private com.toedter.calendar.JDateChooser jDateChooser3;
     private javax.swing.JFormattedTextField jFormattedTextField1;
     private javax.swing.JFormattedTextField jFormattedTextField2;
     private javax.swing.JFormattedTextField jFormattedTextField3;
@@ -1331,7 +1344,6 @@ public class TutorScheduleAndCalandar extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
@@ -1343,5 +1355,6 @@ public class TutorScheduleAndCalandar extends javax.swing.JPanel {
     private javax.swing.JTextField jTextField3;
     private javax.swing.JTextField jTextField4;
     private javax.swing.JTextField jTextField5;
+    private javax.swing.JTextField jTextField6;
     // End of variables declaration//GEN-END:variables
 }
