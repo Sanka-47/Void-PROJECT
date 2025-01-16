@@ -9,6 +9,7 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
 import model.MySQL2;
 
 public class AddStudentPerformanceReportJDialog extends javax.swing.JDialog {
@@ -20,6 +21,7 @@ public class AddStudentPerformanceReportJDialog extends javax.swing.JDialog {
         loadStudent();
         loadAssignment();
         jButton2.setEnabled(false);
+        SwingUtilities.invokeLater(() -> jTextField1.requestFocusInWindow());
     }
 
     //Grade

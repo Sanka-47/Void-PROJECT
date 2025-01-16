@@ -17,6 +17,7 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
 
 /**
  *
@@ -39,6 +40,7 @@ public class EmployeeRegistration extends javax.swing.JPanel {
         loadRole();
         jButton2.setEnabled(false);
         jButton4.setEnabled(false);
+        SwingUtilities.invokeLater(() -> jTextField1.requestFocusInWindow());
     }
 
     private void switchToAllEmployees() {

@@ -12,6 +12,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import model.MySQL2;
@@ -24,6 +25,7 @@ public class TutorSignIn extends javax.swing.JFrame {
     public TutorSignIn() {
         initComponents();
 //        getLogger();
+        SwingUtilities.invokeLater(() -> jTextField1.requestFocusInWindow());
     }
 
     @SuppressWarnings("unchecked")
@@ -169,7 +171,7 @@ public class TutorSignIn extends javax.swing.JFrame {
 //        }
 //        return logger;
 //    }
-    
+
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
 
         String nic = jTextField1.getText();

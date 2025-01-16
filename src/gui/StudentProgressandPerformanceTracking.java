@@ -7,6 +7,7 @@ import java.util.Vector;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import model.MySQL2;
@@ -18,6 +19,7 @@ public class StudentProgressandPerformanceTracking extends javax.swing.JPanel {
         loadAssignmentDetails();
         loadAssignmentTitle();
         loadassignmentID();
+        SwingUtilities.invokeLater(() -> jTextField1.requestFocusInWindow());
         DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
         renderer.setHorizontalAlignment(SwingConstants.CENTER);
 

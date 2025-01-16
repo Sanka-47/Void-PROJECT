@@ -8,6 +8,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
 import model.MySQL2;
 
@@ -25,9 +26,11 @@ public class SubjectManagement extends javax.swing.JPanel {
         initComponents();
         loadCourses();
         loadSubjectTable();
+         SwingUtilities.invokeLater(() -> jTextField1.requestFocusInWindow());
         jButton2.setEnabled(false);
         jButton3.setEnabled(false);
         jButton4.setEnabled(false);
+       
         
     }
     

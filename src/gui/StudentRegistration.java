@@ -15,6 +15,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
 import model.MySQL2;
 
 public class StudentRegistration extends javax.swing.JPanel {
@@ -33,8 +34,10 @@ public class StudentRegistration extends javax.swing.JPanel {
         initComponents();
         loadGender();
         loadIntake();
+        SwingUtilities.invokeLater(() -> jTextField1.requestFocusInWindow());
         jButton3.setEnabled(false);
         jButton4.setEnabled(false);
+       
     }
 
     //First Name

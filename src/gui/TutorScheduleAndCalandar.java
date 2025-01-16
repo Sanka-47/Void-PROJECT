@@ -15,6 +15,7 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JFormattedTextField;
 import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import model.MySQL2;
@@ -35,6 +36,7 @@ public class TutorScheduleAndCalandar extends javax.swing.JPanel {
     public TutorScheduleAndCalandar(DashboardInterface parent) {
         this.parent = parent;
         initComponents();
+         SwingUtilities.invokeLater(() -> jTextField1.requestFocusInWindow());
         DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
         renderer.setHorizontalAlignment(SwingConstants.CENTER);
         jTable1.setDefaultRenderer(Object.class, renderer);
