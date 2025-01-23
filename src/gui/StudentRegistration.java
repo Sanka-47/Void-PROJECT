@@ -1,9 +1,14 @@
 //author KAVISHKA
 package gui;
 
+import static com.mysql.cj.conf.PropertyKey.logger;
+import com.raven.datechooser.DateChooser;
+import com.raven.datechooser.listener.DateChooserAdapter;
 import com.toedter.calendar.JCalendar;
 import com.toedter.calendar.JDateChooser;
+import java.awt.Color;
 import java.sql.ResultSet;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -22,7 +27,8 @@ public class StudentRegistration extends javax.swing.JPanel {
 
 //    private static final Logger logger = Logger.getLogger(TutorSignIn.class.getName());
     private DashboardInterface parent;
-    
+
+    private DateChooser chDate = new DateChooser();
     Date date = new Date();
     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd ");
 
@@ -34,10 +40,11 @@ public class StudentRegistration extends javax.swing.JPanel {
         initComponents();
         loadGender();
         loadIntake();
+        dateChooser();
         SwingUtilities.invokeLater(() -> jTextField1.requestFocusInWindow());
         jButton3.setEnabled(false);
         jButton4.setEnabled(false);
-       
+
     }
 
     //First Name
@@ -71,8 +78,8 @@ public class StudentRegistration extends javax.swing.JPanel {
     }
 
     //Date of Birth
-    public JDateChooser getjDateChooser1() {
-        return jDateChooser1;
+    public JTextField getjTextField6() {
+        return jTextField6;
     }
 
     //Register
@@ -93,6 +100,17 @@ public class StudentRegistration extends javax.swing.JPanel {
     //Update Details
     public JButton getjButton4() {
         return jButton4;
+    }
+
+    private void dateChooser() {
+        chDate.setTextField(jTextField6);
+        chDate.setDateSelectionMode(DateChooser.DateSelectionMode.SINGLE_DATE_SELECTED);
+        chDate.setLabelCurrentDayVisible(false);
+        chDate.setForeground(Color.black);
+        chDate.setBackground(Color.white);
+        chDate.setDateFormat(new SimpleDateFormat("yyyy-MM-dd"));
+        chDate.addActionDateChooserListener(new DateChooserAdapter() {
+        });
     }
 
     private void loadGender() {
@@ -124,14 +142,14 @@ public class StudentRegistration extends javax.swing.JPanel {
         }
 
     }
-    
+
     private void loadIntake() {
-        
+
         try {
 
             ResultSet rs = MySQL2.executeSearch("SELECT `id`, `name` FROM `intake` "
                     + "WHERE `start_date` <= '" + dateFormat.format(date) + "' AND "
-                            + "`end_date` >= '" + dateFormat.format(date) + "' AND `intake_status_id` = '1' ");
+                    + "`end_date` >= '" + dateFormat.format(date) + "' AND `intake_status_id` = '1' ");
             Vector<String> vector = new Vector<>();
             vector.add("Select");
 
@@ -154,8 +172,9 @@ public class StudentRegistration extends javax.swing.JPanel {
         jTextField3.setText("");
         jTextField4.setText("");
         jTextField5.setText("");
+        jTextField6.setText("");
         jComboBox1.setSelectedIndex(0);
-        jDateChooser1.setDate(null);
+//        jDateChooser1.setDate(null);
         jComboBox1.setSelectedIndex(0);
         jButton1.setEnabled(true);
         jButton2.setEnabled(true);
@@ -182,7 +201,6 @@ public class StudentRegistration extends javax.swing.JPanel {
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jLabel8 = new javax.swing.JLabel();
-        jDateChooser1 = new com.toedter.calendar.JDateChooser();
         jLabel5 = new javax.swing.JLabel();
         jTextField4 = new javax.swing.JTextField();
         jButton3 = new javax.swing.JButton();
@@ -190,6 +208,7 @@ public class StudentRegistration extends javax.swing.JPanel {
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         jComboBox2 = new javax.swing.JComboBox<>();
+        jTextField6 = new javax.swing.JTextField();
 
         jLabel1.setFont(new java.awt.Font("Century Gothic", 1, 28)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -209,11 +228,6 @@ public class StudentRegistration extends javax.swing.JPanel {
         jLabel4.setText("Mobile");
 
         jTextField3.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
-        jTextField3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField3ActionPerformed(evt);
-            }
-        });
 
         jLabel6.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
         jLabel6.setText("Gender");
@@ -295,9 +309,9 @@ public class StudentRegistration extends javax.swing.JPanel {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addComponent(jTextField3, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jComboBox1, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jDateChooser1, javax.swing.GroupLayout.DEFAULT_SIZE, 222, Short.MAX_VALUE)
-                            .addComponent(jTextField1)))
+                            .addComponent(jComboBox1, javax.swing.GroupLayout.Alignment.LEADING, 0, 222, Short.MAX_VALUE)
+                            .addComponent(jTextField1)
+                            .addComponent(jTextField6)))
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                         .addComponent(jButton3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 320, Short.MAX_VALUE)
                         .addComponent(jButton1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
@@ -358,14 +372,15 @@ public class StudentRegistration extends javax.swing.JPanel {
                     .addComponent(jLabel6)
                     .addComponent(jLabel7)
                     .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(35, 35, 35)
+                .addGap(34, 34, 34)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel8)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(7, 7, 7)
                         .addComponent(jLabel10))
-                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel8)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 68, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -374,14 +389,10 @@ public class StudentRegistration extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 35, Short.MAX_VALUE)
                 .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
     }// </editor-fold>//GEN-END:initComponents
-
-    private void jTextField3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField3ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField3ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         String FirstName = jTextField1.getText();
@@ -390,8 +401,8 @@ public class StudentRegistration extends javax.swing.JPanel {
         String Email = jTextField4.getText();
         String Gender = String.valueOf(jComboBox1.getSelectedItem());
         String NIC = jTextField5.getText();
-        Date selectedDate = jDateChooser1.getDate();
-        
+        String selectedDate = jTextField6.getText();
+
         String fdate = dateFormat.format(date);
 
         if (FirstName.isEmpty()) {
@@ -443,13 +454,19 @@ public class StudentRegistration extends javax.swing.JPanel {
 //                            logger.log(Level.WARNING, "Email already registered: {0}", Email);
                         } else {
                             if (selectedDate != null) {
-                                SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-                                String formattedDate = format.format(selectedDate);
-//                                logger.log(Level.INFO, "Formatted date of birth: {0}", formattedDate);
+                                try {
+                                    SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd");
+                                    Date parsedDate = inputFormat.parse(selectedDate);
+                                    String formattedDOB = inputFormat.format(parsedDate);
+//                                logger.log(Level.INFO, "Formatted date of birth: {0}", formattedDOB);
 
-                                MySQL2.executeIUD(
-                                        "INSERT INTO `student`(`nic`, `first_name`, `last_name`, `dob`, `contact_info`, `registration_date`, `email`, `gender_id`) "
-                                        + "VALUES ('" + NIC + "', '" + FirstName + "', '" + LastName + "', '" + formattedDate + "', '" + Mobile + "', '" + fdate + "', '" + Email + "', '" + gender.get(Gender) + "')");
+                                    MySQL2.executeIUD(
+                                            "INSERT INTO `student`(`nic`, `first_name`, `last_name`, `dob`, `contact_info`, `registration_date`, `email`, `gender_id`) "
+                                            + "VALUES ('" + NIC + "', '" + FirstName + "', '" + LastName + "', '" + formattedDOB + "', '" + Mobile + "', '" + fdate + "', '" + Email + "', '" + gender.get(Gender) + "')");
+                                } catch (ParseException e) {
+                                    // Handle invalid date format
+                                    e.printStackTrace();
+                                }
 
 //                                logger.log(Level.INFO, "New student registered successfully with NIC: {0}", NIC);
                             }
@@ -480,7 +497,7 @@ public class StudentRegistration extends javax.swing.JPanel {
         String Email = jTextField4.getText();
         String Gender = String.valueOf(jComboBox1.getSelectedItem());
         String NIC = jTextField5.getText();
-        Date DOB = jDateChooser1.getDate();
+        String DOB = jTextField6.getText();
 
         if (FirstName.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Please Enter First Name", "Warning", JOptionPane.WARNING_MESSAGE);
@@ -514,17 +531,23 @@ public class StudentRegistration extends javax.swing.JPanel {
             try {
 //                logger.log(Level.INFO, "Starting update process for NIC: {0}", NIC);
 
-                SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-                String formattedDOB = format.format(DOB);
+                try {
+                    SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd");
+                    Date parsedDate = inputFormat.parse(DOB);
+                    String formattedDOB = inputFormat.format(parsedDate);
 //                logger.log(Level.INFO, "Formatted date of birth: {0}", formattedDOB);
 
-                MySQL2.executeIUD("UPDATE `student` SET `first_name` = '" + FirstName + "', `last_name` = '" + LastName + "', `dob` = '" + formattedDOB + "',"
-                        + " `contact_info` = '" + Mobile + "', `gender_id` = '" + gender.get(Gender) + "' WHERE `nic` = '" + NIC + "'");
+                    MySQL2.executeIUD("UPDATE `student` SET `first_name` = '" + FirstName + "', `last_name` = '" + LastName + "', `dob` = '" + formattedDOB + "',"
+                            + " `contact_info` = '" + Mobile + "', `email` = '" + Email + "',`gender_id` = '" + gender.get(Gender) + "' WHERE `nic` = '" + NIC + "'");
+                } catch (ParseException e) {
+                    // Handle invalid date format
+                    e.printStackTrace();
+                }
 
                 JOptionPane.showMessageDialog(this, "Account Updated Successfully", "Info", JOptionPane.INFORMATION_MESSAGE);
 //                logger.log(Level.INFO, "Student account updated successfully for NIC: {0}", NIC);
-
                 reset();
+                jButton4.setEnabled(true);
             } catch (Exception e) {
 //                logger.log(Level.SEVERE, "Error during student update for NIC: " + NIC, e);
                 e.printStackTrace();
@@ -545,7 +568,6 @@ public class StudentRegistration extends javax.swing.JPanel {
     private javax.swing.JButton jButton4;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JComboBox<String> jComboBox2;
-    private com.toedter.calendar.JDateChooser jDateChooser1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
@@ -561,5 +583,6 @@ public class StudentRegistration extends javax.swing.JPanel {
     private javax.swing.JTextField jTextField3;
     private javax.swing.JTextField jTextField4;
     private javax.swing.JTextField jTextField5;
+    private javax.swing.JTextField jTextField6;
     // End of variables declaration//GEN-END:variables
 }

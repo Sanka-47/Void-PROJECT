@@ -295,13 +295,13 @@ public class AllTutors extends javax.swing.JPanel {
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel2)
                         .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel4)
                         .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabel5)
-                        .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabel3)))
@@ -356,16 +356,17 @@ public class AllTutors extends javax.swing.JPanel {
             updateTutor.getjComboBox2().setSelectedItem(Gender);
             updateTutor.getjTextField5().setText(Mobile);
             updateTutor.getjTextField6().setText(Email);
+            updateTutor.getjTextField7().setText(DOB);
             
-            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-
-            try {
-                Date dateofBirth = formatter.parse((DOB));
-                updateTutor.getjDateChooser1().setDate(dateofBirth);
-                System.out.println("Converted Date: " + dateofBirth);
-            } catch (Exception e) {
-                System.out.println("Error converting Object to Date: " + e.getMessage());
-            }
+//            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+//
+//            try {
+//                Date dateofBirth = formatter.parse((DOB));
+//                updateTutor.getjDateChooser1().setDate(dateofBirth);
+//                System.out.println("Converted Date: " + dateofBirth);
+//            } catch (Exception e) {
+//                System.out.println("Error converting Object to Date: " + e.getMessage());
+//            }
 
             // Disable buttons/fields as needed
             updateTutor.getjTextField3().setEnabled(false);

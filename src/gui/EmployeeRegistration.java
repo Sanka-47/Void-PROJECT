@@ -1,10 +1,14 @@
 //author KAVISHKA
 package gui;
 
+import com.raven.datechooser.DateChooser;
+import com.raven.datechooser.listener.DateChooserAdapter;
 import com.toedter.calendar.JDateChooser;
+import java.awt.Color;
 import javax.swing.JOptionPane;
 import model.MySQL2;
 import java.sql.ResultSet;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -27,17 +31,18 @@ public class EmployeeRegistration extends javax.swing.JPanel {
 
 //        private static final Logger logger = Logger.getLogger(TutorSignIn.class.getName());
     private DashboardInterface parent;
-
+    private DateChooser chDate = new DateChooser();
     public AllEmployees allEmployees;
 
     public static HashMap<String, Integer> genderMap = new HashMap();
     public static HashMap<String, Integer> roleMap = new HashMap();
 
-    public EmployeeRegistration(AdminDashboard parent) {
+    public EmployeeRegistration(DashboardInterface parent) {
         this.parent = parent;
         initComponents();
         loadGender();
         loadRole();
+        dateChooser();
         jButton2.setEnabled(false);
         jButton4.setEnabled(false);
         SwingUtilities.invokeLater(() -> jTextField1.requestFocusInWindow());
@@ -91,10 +96,10 @@ public class EmployeeRegistration extends javax.swing.JPanel {
     public JTextField getjTextField5() {
         return jTextField5;
     }
-    
+
     //Date of Birth
-    public JDateChooser getjDateChooser1() {
-        return jDateChooser1;
+    public JTextField getjTextField6() {
+        return jTextField6;
     }
 
     //Register
@@ -115,6 +120,17 @@ public class EmployeeRegistration extends javax.swing.JPanel {
     //Back
     public JButton getjButton4() {
         return jButton4;
+    }
+
+    private void dateChooser() {
+        chDate.setTextField(jTextField6);
+        chDate.setDateSelectionMode(DateChooser.DateSelectionMode.SINGLE_DATE_SELECTED);
+        chDate.setLabelCurrentDayVisible(false);
+        chDate.setForeground(Color.black);
+        chDate.setBackground(Color.white);
+        chDate.setDateFormat(new SimpleDateFormat("yyyy-MM-dd"));
+        chDate.addActionDateChooserListener(new DateChooserAdapter() {
+        });
     }
 
     private void loadGender() {
@@ -183,12 +199,13 @@ public class EmployeeRegistration extends javax.swing.JPanel {
         jTextField3.setText("");
         jTextField4.setText("");
         jTextField5.setText("");
+        jTextField6.setText("");
         jComboBox1.setSelectedItem("Select");
         jComboBox2.setSelectedItem("Select");
         jPasswordField1.setText("");
         jTextField4.setEnabled(true);
         jPasswordField1.setEnabled(true);
-        jDateChooser1.setDate(null);
+//        jDateChooser1.setDate(null);
         jTextField1.grabFocus();
         jButton1.setEnabled(true);
         jButton2.setEnabled(false);
@@ -223,7 +240,7 @@ public class EmployeeRegistration extends javax.swing.JPanel {
         jTextField5 = new javax.swing.JTextField();
         jLabel10 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
-        jDateChooser1 = new com.toedter.calendar.JDateChooser();
+        jTextField6 = new javax.swing.JTextField();
 
         jLabel1.setFont(new java.awt.Font("Century Gothic", 1, 28)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -326,17 +343,17 @@ public class EmployeeRegistration extends javax.swing.JPanel {
                                 .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING)
                                 .addComponent(jLabel8))
                             .addComponent(jLabel11))
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(11, 11, 11)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                     .addComponent(jTextField1)
                                     .addComponent(jTextField3, javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jComboBox1, javax.swing.GroupLayout.Alignment.LEADING, 0, 223, Short.MAX_VALUE)
-                                    .addComponent(jPasswordField1, javax.swing.GroupLayout.Alignment.LEADING)))))
+                                    .addComponent(jPasswordField1, javax.swing.GroupLayout.Alignment.LEADING)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jTextField6))))
                     .addComponent(jButton1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 140, Short.MAX_VALUE)
@@ -370,7 +387,7 @@ public class EmployeeRegistration extends javax.swing.JPanel {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(32, Short.MAX_VALUE)
                 .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 56, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 55, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2)
@@ -395,9 +412,9 @@ public class EmployeeRegistration extends javax.swing.JPanel {
                     .addComponent(jLabel9)
                     .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(28, 28, 28)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jDateChooser1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 50, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -420,7 +437,7 @@ public class EmployeeRegistration extends javax.swing.JPanel {
         String role = String.valueOf(jComboBox2.getSelectedItem());
         String password = String.valueOf(jPasswordField1.getPassword());
         String email = jTextField5.getText();
-        Date dob = jDateChooser1.getDate();
+        String dob = jTextField6.getText();
         Date date = new Date();
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd ");
         String fdate = dateFormat.format(date);
@@ -473,18 +490,28 @@ public class EmployeeRegistration extends javax.swing.JPanel {
                     JOptionPane.showMessageDialog(this, "This NIC number is already registered", "Warning", JOptionPane.WARNING_MESSAGE);
 //                logger.log(Level.WARNING, "NIC already registered: {0}", nic);
                 } else {
-                    int result = MySQL2.executeIUD("INSERT INTO `employee`"
-                            + "(`first_name`,`last_name`,`contact_info`,`roles_id`,`gender_id`,`password`,`nic`,`email`,`dob`,`registration_date`)"
-                            + "VALUES ('" + FirstName + "','" + LastName + "','" + Mobile + "','" + roleId + "','" + genderId + "','" + password + "',"
-                                    + "'" + email + "','" + nic + "', '" + dateFormat.format(dob) + "', '" + fdate + "')");
 
-                    if (result > 0) {
-                        JOptionPane.showMessageDialog(this, "Employee registration success!", "Confirmation", JOptionPane.INFORMATION_MESSAGE);
+//                    try {
+//                        SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd");
+//                        Date parsedDate = inputFormat.parse(dob);
+//                        String formattedDOB = inputFormat.format(parsedDate);
+                        int result = MySQL2.executeIUD("INSERT INTO `employee`"
+                                + "(`first_name`,`last_name`,`contact_info`,`roles_id`,`gender_id`,`password`,`nic`,`email`,`dob`,`registration_date`)"
+                                + "VALUES ('" + FirstName + "','" + LastName + "','" + Mobile + "','" + roleId + "','" + genderId + "','" + password + "',"
+                                + "'" + email + "','" + nic + "', '" + dob + "', '" + fdate + "')");
+
+                        if (result > 0) {
+                            JOptionPane.showMessageDialog(this, "Employee registration success!", "Confirmation", JOptionPane.INFORMATION_MESSAGE);
 //                    logger.log(Level.INFO, "Employee registered successfully with NIC: {0}", nic);
-                        reset();
-                    } else {
+                            clearAll();
+                        } else {
 //                    logger.log(Level.WARNING, "Failed to register employee with NIC: {0}", nic);
-                    }
+                        }
+//                    } catch (ParseException e) {
+//                        // Handle invalid date format
+//                        e.printStackTrace();
+//                    }
+
                 }
             } catch (Exception e) {
 //            logger.log(Level.SEVERE, "Error occurred during employee registration for NIC: " + nic, e);
@@ -501,7 +528,7 @@ public class EmployeeRegistration extends javax.swing.JPanel {
         String role = String.valueOf(jComboBox2.getSelectedItem());
         String password = String.valueOf(jPasswordField1.getPassword());
         String email = jTextField5.getText();
-        Date dob = jDateChooser1.getDate();
+        String dob = jTextField6.getText();
         Date date = new Date();
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd ");
 
@@ -543,12 +570,21 @@ public class EmployeeRegistration extends javax.swing.JPanel {
                 int genderId = genderMap.get(Gender);
                 int roleId = roleMap.get(role);
 
-                MySQL2.executeIUD("UPDATE `employee` SET `first_name` = '" + FirstName + "', `last_name` = '" + LastName + "', "
-                        + "`contact_info` = '" + Mobile + "', `email` = '" + email + "', `roles_id` = '" + roleId + "', "
-                        + "`gender_id` = '" + genderId + "', `dob` = '" + dateFormat.format(dob) + "' WHERE `nic` = '" + nic + "'");
+//                try {
+//                    SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd");
+//                    Date parsedDate = inputFormat.parse(dob);
+//                    String formattedDOB = inputFormat.format(parsedDate);
+                    MySQL2.executeIUD("UPDATE `employee` SET `first_name` = '" + FirstName + "', `last_name` = '" + LastName + "', "
+                            + "`contact_info` = '" + Mobile + "', `email` = '" + email + "', `roles_id` = '" + roleId + "', "
+                            + "`gender_id` = '" + genderId + "', `dob` = '" + dob + "' WHERE `nic` = '" + nic + "'");
+//                } catch (ParseException e) {
+//                    // Handle invalid date format
+//                    e.printStackTrace();
+//                }
 
                 JOptionPane.showMessageDialog(this, "Successfully Updated!", "Confirmation", JOptionPane.INFORMATION_MESSAGE);
-                reset();
+                clearAll();
+                jButton4.setEnabled(true);
 
             } catch (Exception e) {
 //            logger.log(Level.SEVERE, "Error occurred during employee update for NIC: " + nic, e);
@@ -582,7 +618,6 @@ public class EmployeeRegistration extends javax.swing.JPanel {
     private javax.swing.JButton jButton4;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JComboBox<String> jComboBox2;
-    private com.toedter.calendar.JDateChooser jDateChooser1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -600,19 +635,7 @@ public class EmployeeRegistration extends javax.swing.JPanel {
     private javax.swing.JTextField jTextField3;
     private javax.swing.JTextField jTextField4;
     private javax.swing.JTextField jTextField5;
+    private javax.swing.JTextField jTextField6;
     // End of variables declaration//GEN-END:variables
-private void reset() {
-        jTextField1.setText("");
-        jTextField2.setText("");
-        jTextField3.setText("");
-        jTextField5.setText("");
-        jTextField4.setText("");
-        jComboBox1.setSelectedIndex(0);
-        jComboBox2.setSelectedIndex(0);
-        jPasswordField1.setText("");
 
-        jComboBox1.setSelectedIndex(0);
-//        logger.info("Form reset.");
-
-    }
 }

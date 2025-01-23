@@ -29,12 +29,8 @@
                           </Group>
                           <Component id="jLabel11" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" alignment="0" attributes="0">
-                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                              <Component id="jDateChooser1" min="-2" pref="222" max="-2" attributes="0"/>
-                          </Group>
-                          <Group type="102" alignment="0" attributes="0">
+                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                          <Group type="102" attributes="0">
                               <EmptySpace min="-2" pref="11" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="1" max="-2" attributes="0">
                                   <Component id="jTextField1" max="32767" attributes="0"/>
@@ -42,6 +38,10 @@
                                   <Component id="jComboBox1" alignment="0" pref="223" max="32767" attributes="0"/>
                                   <Component id="jPasswordField1" alignment="0" max="32767" attributes="0"/>
                               </Group>
+                          </Group>
+                          <Group type="102" attributes="0">
+                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                              <Component id="jTextField6" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                   </Group>
@@ -88,7 +88,7 @@
           <Group type="102" alignment="1" attributes="0">
               <EmptySpace pref="32" max="32767" attributes="0"/>
               <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
-              <EmptySpace pref="56" max="32767" attributes="0"/>
+              <EmptySpace pref="55" max="32767" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="jTextField1" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
                   <Component id="jLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -117,9 +117,9 @@
                   <Component id="jTextField5" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
               </Group>
               <EmptySpace min="-2" pref="28" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                  <Component id="jDateChooser1" alignment="1" min="-2" pref="30" max="-2" attributes="0"/>
-                  <Component id="jLabel11" max="32767" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="jLabel11" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
+                  <Component id="jTextField6" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
               </Group>
               <EmptySpace pref="50" max="32767" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
@@ -339,7 +339,7 @@
         <Property name="text" type="java.lang.String" value="Date of Birth"/>
       </Properties>
     </Component>
-    <Component class="com.toedter.calendar.JDateChooser" name="jDateChooser1">
+    <Component class="javax.swing.JTextField" name="jTextField6">
     </Component>
   </SubComponents>
 </Form>

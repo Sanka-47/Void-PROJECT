@@ -35,7 +35,7 @@ public class AllEmployees extends javax.swing.JPanel {
         initComponents();
         dateChooser();
         loadTable("", "");
-        this.updateEmployee = new EmployeeRegistration((AdminDashboard) parent);
+        this.updateEmployee = new EmployeeRegistration(parent);
     }
 
     private void switchToRegistration() {
@@ -335,16 +335,17 @@ public class AllEmployees extends javax.swing.JPanel {
             updateEmployee.getjComboBox1().setSelectedItem(Gender);
             updateEmployee.getjComboBox2().setSelectedItem(Role);
             updateEmployee.getjTextField5().setText(Email);
+            updateEmployee.getjTextField6().setText(DOB);
 
-            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-
-            try {
-                Date dateofBirth = formatter.parse((DOB));
-                updateEmployee.getjDateChooser1().setDate(dateofBirth);
-                System.out.println("Converted Date: " + dateofBirth);
-            } catch (Exception e) {
-                System.out.println("Error converting Object to Date: " + e.getMessage());
-            }
+//            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+//
+//            try {
+//                Date dateofBirth = formatter.parse((DOB));
+//                updateEmployee.getjDateChooser1().setDate(dateofBirth);
+//                System.out.println("Converted Date: " + dateofBirth);
+//            } catch (Exception e) {
+//                System.out.println("Error converting Object to Date: " + e.getMessage());
+//            }
 
             updateEmployee.getjTextField4().setEnabled(false);
             updateEmployee.getjPasswordField1().setEnabled(false);
