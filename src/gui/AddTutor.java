@@ -1,7 +1,12 @@
 //author KAVISHKA
 package gui;
 
+import com.raven.datechooser.DateBetween;
+import com.raven.datechooser.DateChooser;
+import com.raven.datechooser.listener.DateChooserAction;
+import com.raven.datechooser.listener.DateChooserAdapter;
 import com.toedter.calendar.JDateChooser;
+import java.awt.Color;
 import java.sql.ResultSet;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -21,6 +26,7 @@ import model.MySQL2;
 public class AddTutor extends javax.swing.JPanel {
 
     private DashboardInterface parent;
+    private DateChooser chDate = new DateChooser();
 
     private static HashMap<String, String> courseMap = new HashMap<>();
     private static HashMap<String, String> genderMap = new HashMap<>();
@@ -30,7 +36,7 @@ public class AddTutor extends javax.swing.JPanel {
         initComponents();
         LoadGender();
         LoadCourses();
-        DateChooser();
+        dateChooser();
         SwingUtilities.invokeLater(() -> jTextField1.requestFocusInWindow());
         jButton2.setEnabled(false);
         jButton4.setEnabled(false);
@@ -83,8 +89,8 @@ public class AddTutor extends javax.swing.JPanel {
     }
 
     //Date of Birth
-    public JDateChooser getjDateChooser1() {
-        return jDateChooser1;
+    public JTextField getjTextField7() {
+        return jTextField7;
     }
 
     //Register
@@ -110,13 +116,18 @@ public class AddTutor extends javax.swing.JPanel {
         return jButton4;
     }
 
-    public void DateChooser() {
-        Date today = new Date();
-        Date minDate = new Date(today.getTime() - (1000L * 60 * 60 * 24 * 365 * 50)); // 50 years ago
-        jDateChooser1.setSelectableDateRange(minDate, today);
-//        jDateChooser1.setDateFormatString(fdate);
-    }
 
+    private void dateChooser() {
+        chDate.setTextField(jTextField7);
+        chDate.setDateSelectionMode(DateChooser.DateSelectionMode.SINGLE_DATE_SELECTED);
+        chDate.setLabelCurrentDayVisible(false);
+        chDate.setForeground(Color.black);
+        chDate.setBackground(Color.white);
+        chDate.setDateFormat(new SimpleDateFormat("yyyy-MM-dd"));
+        chDate.addActionDateChooserListener(new DateChooserAdapter() {
+        });
+    }
+    
     private void LoadCourses() {
 
         try {
@@ -166,10 +177,11 @@ public class AddTutor extends javax.swing.JPanel {
         jTextField2.setText("");
         jTextField1.setText("");
         jTextField6.setText("");
+        jTextField7.setText("");
         jPasswordField1.setText("");
         jComboBox1.setSelectedIndex(0);
         jComboBox2.setSelectedIndex(0);
-        jDateChooser1.setDate(null);
+//        jDateChooser1.setDate(null);
         jTextField3.setEnabled(true);
         jPasswordField1.setEnabled(true);
         jButton1.setEnabled(true);
@@ -207,7 +219,7 @@ public class AddTutor extends javax.swing.JPanel {
         jLabel10 = new javax.swing.JLabel();
         jTextField6 = new javax.swing.JTextField();
         jLabel11 = new javax.swing.JLabel();
-        jDateChooser1 = new com.toedter.calendar.JDateChooser();
+        jTextField7 = new javax.swing.JTextField();
 
         jLabel1.setFont(new java.awt.Font("Century Gothic", 1, 28)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -333,7 +345,7 @@ public class AddTutor extends javax.swing.JPanel {
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                 .addComponent(jPasswordField1, javax.swing.GroupLayout.DEFAULT_SIZE, 230, Short.MAX_VALUE)
                                 .addComponent(jComboBox2, 0, 230, Short.MAX_VALUE)
-                                .addComponent(jDateChooser1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                                .addComponent(jTextField7))))
                     .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 337, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(110, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
@@ -375,25 +387,21 @@ public class AddTutor extends javax.swing.JPanel {
                     .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel8))
                 .addGap(28, 28, 28)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel10)
-                            .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel11))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 50, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
-                        .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel10)
+                    .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel11)
+                    .addComponent(jTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 50, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
+                .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -408,7 +416,7 @@ public class AddTutor extends javax.swing.JPanel {
         String mobile = jTextField5.getText();
         String password = String.valueOf(jPasswordField1.getPassword());
         String email = jTextField6.getText();
-        Date dob = jDateChooser1.getDate();
+        String dob = jTextField7.getText();
         Date date = new Date();
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd ");
         String fdate = dateFormat.format(date);
@@ -457,7 +465,7 @@ public class AddTutor extends javax.swing.JPanel {
 
                     MySQL2.executeIUD("INSERT INTO `tutor`(`first_name`,`last_name`,`qualification`,`contact_info`,`email`,`gender_id`,`password`,`nic`,`dob`,`registration_date`,`courses_id`)"
                             + "VALUES('" + firstName + "','" + lastName + "','" + qualification + "','" + mobile + "','" + email + "','" + genderMap.get(gender) + "','" + password + "',"
-                            + "'" + nic + "','" + dateFormat.format(dob) + "','" + fdate + "','" + courseMap.get(courses) + "')");
+                            + "'" + nic + "','" + dob + "','" + fdate + "','" + courseMap.get(courses) + "')");
                     JOptionPane.showMessageDialog(this, "Tutor " + firstName + " " + lastName + " successfully added!", "Warning", JOptionPane.INFORMATION_MESSAGE);
                     ClearAll();
                     AllTutors allTutors = new AllTutors(parent);
@@ -484,7 +492,7 @@ public class AddTutor extends javax.swing.JPanel {
         String mobile = jTextField5.getText();
 //        String password = String.valueOf(jPasswordField1.getPassword());
         String email = jTextField6.getText();
-        Date dob = jDateChooser1.getDate();
+        String dob = jTextField7.getText();
         Date date = new Date();
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd ");
         String fdate = dateFormat.format(date);
@@ -527,9 +535,10 @@ public class AddTutor extends javax.swing.JPanel {
             } else {
                 MySQL2.executeIUD("UPDATE `tutor` SET `first_name` = '" + firstName + "', `last_name` = '" + lastName + "', `qualification` = '" + qualification + "', "
                         + "`contact_info` = '" + mobile + "',`email` = '" + email + "',`gender_id` = '" + genderMap.get(gender) + "', `courses_id` = '" + courseMap.get(courses) + "', "
-                        + "`dob` = '" + dateFormat.format(dob) + "' WHERE `nic` = '" + nic + "'");
+                        + "`dob` = '" + dob + "' WHERE `nic` = '" + nic + "'");
                 JOptionPane.showMessageDialog(this, "Tutor Profile updated successfully!", "Info", JOptionPane.INFORMATION_MESSAGE);
                 ClearAll();
+                jButton4.setEnabled(true);
             }
 
         } catch (Exception e) {
@@ -554,7 +563,6 @@ public class AddTutor extends javax.swing.JPanel {
     private javax.swing.JButton jButton4;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JComboBox<String> jComboBox2;
-    private com.toedter.calendar.JDateChooser jDateChooser1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -574,5 +582,6 @@ public class AddTutor extends javax.swing.JPanel {
     private javax.swing.JTextField jTextField4;
     private javax.swing.JTextField jTextField5;
     private javax.swing.JTextField jTextField6;
+    private javax.swing.JTextField jTextField7;
     // End of variables declaration//GEN-END:variables
 }

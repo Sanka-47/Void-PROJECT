@@ -327,16 +327,17 @@ public class AllStudents extends javax.swing.JPanel {
             updateStudent.getjComboBox1().setSelectedItem(Gender);
             updateStudent.getjTextField5().setText(NIC);
             updateStudent.getjTextField5().setEnabled(false);
+            updateStudent.getjTextField6().setText(DOB);
 
-            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-
-            try {
-                Date dateofBirth = formatter.parse((DOB));
-                updateStudent.getjDateChooser1().setDate(dateofBirth);
-                System.out.println("Converted Date: " + dateofBirth);
-            } catch (Exception e) {
-                System.out.println("Error converting Object to Date: " + e.getMessage());
-            }
+//            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+//
+//            try {
+//                Date dateofBirth = formatter.parse((DOB));
+//                updateStudent.getjDateChooser1().setDate(dateofBirth);
+//                System.out.println("Converted Date: " + dateofBirth);
+//            } catch (Exception e) {
+//                System.out.println("Error converting Object to Date: " + e.getMessage());
+//            }
 
             updateStudent.getjButton1().setEnabled(false);
             updateStudent.getjButton2().setEnabled(true);
