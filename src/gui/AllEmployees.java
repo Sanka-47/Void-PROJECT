@@ -149,6 +149,9 @@ public class AllEmployees extends javax.swing.JPanel {
         jComboBox2.setSelectedIndex(0);
         jTextField1.setText("");
         jTextField2.setText("");
+        From = "";
+        To = "";
+        loadTable("","");
     }
 
     @SuppressWarnings("unchecked")
@@ -348,6 +351,7 @@ public class AllEmployees extends javax.swing.JPanel {
 //            }
 
             updateEmployee.getjTextField4().setEnabled(false);
+            updateEmployee.getjComboBox1().setEnabled(false);
             updateEmployee.getjPasswordField1().setEnabled(false);
             updateEmployee.getjButton1().setEnabled(false);
             updateEmployee.getjButton2().setEnabled(true);

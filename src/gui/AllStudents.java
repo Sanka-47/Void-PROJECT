@@ -139,6 +139,9 @@ public class AllStudents extends javax.swing.JPanel {
         jComboBox2.setSelectedIndex(0);
         jTextField1.setText("");
         jTextField2.setText("");
+        From = "";
+        To = "";
+        loadTable("","");
     }
 
     @SuppressWarnings("unchecked")

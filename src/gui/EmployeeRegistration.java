@@ -129,8 +129,7 @@ public class EmployeeRegistration extends javax.swing.JPanel {
         chDate.setForeground(Color.black);
         chDate.setBackground(Color.white);
         chDate.setDateFormat(new SimpleDateFormat("yyyy-MM-dd"));
-        chDate.addActionDateChooserListener(new DateChooserAdapter() {
-        });
+        
     }
 
     private void loadGender() {
