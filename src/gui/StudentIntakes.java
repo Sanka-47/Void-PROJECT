@@ -1,5 +1,8 @@
 package gui;
 
+import com.raven.datechooser.DateChooser;
+import com.raven.datechooser.listener.DateChooserAdapter;
+import java.awt.Color;
 import java.sql.ResultSet;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -15,14 +18,39 @@ public class StudentIntakes extends javax.swing.JPanel {
     
     private static HashMap<String, String> statusMap = new HashMap<>();
     
-    private String Iid;
     
+    private String Iid;
+    private DateChooser chDate = new DateChooser();
     public StudentIntakes() {
         initComponents();
         loadStatus();
         loadTable();
+        dateChooser1();
+        dateChooser2();
         Iid = "1";
         SwingUtilities.invokeLater(() -> jTextField1.requestFocusInWindow());
+    }
+    
+    private void dateChooser1() {
+        chDate.setTextField(jTextField2);
+        chDate.setDateSelectionMode(DateChooser.DateSelectionMode.SINGLE_DATE_SELECTED);
+        chDate.setLabelCurrentDayVisible(false);
+        chDate.setForeground(Color.black);
+        chDate.setBackground(Color.white);
+        chDate.setDateFormat(new SimpleDateFormat("yyyy-MM-dd"));
+        chDate.addActionDateChooserListener(new DateChooserAdapter() {
+        });
+    }
+    
+    private void dateChooser2() {
+        chDate.setTextField(jTextField3);
+        chDate.setDateSelectionMode(DateChooser.DateSelectionMode.SINGLE_DATE_SELECTED);
+        chDate.setLabelCurrentDayVisible(false);
+        chDate.setForeground(Color.black);
+        chDate.setBackground(Color.white);
+        chDate.setDateFormat(new SimpleDateFormat("yyyy-MM-dd"));
+        chDate.addActionDateChooserListener(new DateChooserAdapter() {
+        });
     }
     
     private void loadStatus() {
@@ -52,7 +80,7 @@ public class StudentIntakes extends javax.swing.JPanel {
             
             String sort = String.valueOf(jComboBox2.getSelectedItem());
             
-            String searchText = jTextField3.getText().toLowerCase();
+            String searchText = jTextField5.getText().toLowerCase();
             
             String query = "SELECT `intake`.`id`, `intake`.`name`, `start_date`, `end_date`, `capacity`, `created_at`, "
                     + "`updated_at`, `intake_status`.`name` FROM `intake` "
@@ -118,12 +146,14 @@ public class StudentIntakes extends javax.swing.JPanel {
     
     private void reset() {
         jTextField1.setText("");
-        jDateChooser1.setDate(null);
-        jDateChooser2.setDate(null);
+//        jDateChooser1.setDate(null);
+//        jDateChooser2.setDate(null);
         jTextField2.setText("");
-        jComboBox1.setSelectedItem("Select");
         jTextField3.setText("");
+        jTextField4.setText("");
+        jComboBox1.setSelectedItem("Select");
         jComboBox2.setSelectedItem("Select");
+        jTextField5.setText("");
         jTextField1.grabFocus();
         jButton1.setEnabled(true);
         jButton2.setEnabled(false);
@@ -138,9 +168,7 @@ public class StudentIntakes extends javax.swing.JPanel {
         jLabel2 = new javax.swing.JLabel();
         jTextField1 = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
-        jDateChooser1 = new com.toedter.calendar.JDateChooser();
         jLabel4 = new javax.swing.JLabel();
-        jDateChooser2 = new com.toedter.calendar.JDateChooser();
         jLabel5 = new javax.swing.JLabel();
         jTextField2 = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
@@ -153,7 +181,9 @@ public class StudentIntakes extends javax.swing.JPanel {
         jLabel7 = new javax.swing.JLabel();
         jComboBox2 = new javax.swing.JComboBox<>();
         jLabel8 = new javax.swing.JLabel();
+        jTextField5 = new javax.swing.JTextField();
         jTextField3 = new javax.swing.JTextField();
+        jTextField4 = new javax.swing.JTextField();
 
         jLabel1.setFont(new java.awt.Font("Century Gothic", 1, 24)); // NOI18N
         jLabel1.setText("Student Intakes");
@@ -238,9 +268,9 @@ public class StudentIntakes extends javax.swing.JPanel {
         jLabel8.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
         jLabel8.setText("Search");
 
-        jTextField3.addKeyListener(new java.awt.event.KeyAdapter() {
+        jTextField5.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
-                jTextField3KeyReleased(evt);
+                jTextField5KeyReleased(evt);
             }
         });
 
@@ -254,30 +284,27 @@ public class StudentIntakes extends javax.swing.JPanel {
                 .addGap(396, 396, 396))
             .addGroup(layout.createSequentialGroup()
                 .addGap(10, 10, 10)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                        .addComponent(jLabel4)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jDateChooser2, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(jLabel2)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(layout.createSequentialGroup()
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jLabel3)
-                                .addComponent(jLabel5)
-                                .addComponent(jLabel6))
-                            .addGap(27, 27, 27)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(jDateChooser1, javax.swing.GroupLayout.DEFAULT_SIZE, 132, Short.MAX_VALUE)
-                                .addComponent(jTextField2)
-                                .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(jButton3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 228, Short.MAX_VALUE))))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(jButton3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 228, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel5)
+                            .addComponent(jLabel6)
+                            .addComponent(jLabel4))
+                        .addGap(27, 27, 27)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jTextField2)
+                            .addComponent(jComboBox1, 0, 132, Short.MAX_VALUE)
+                            .addComponent(jTextField3)
+                            .addComponent(jTextField4))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 751, Short.MAX_VALUE)
@@ -289,7 +316,7 @@ public class StudentIntakes extends javax.swing.JPanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel8)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap())))
         );
         layout.setVerticalGroup(
@@ -303,29 +330,28 @@ public class StudentIntakes extends javax.swing.JPanel {
                     .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel7)
                     .addComponent(jLabel8)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(20, 20, 20)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
+                        .addGap(2, 2, 2)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel3)
+                            .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(20, 20, 20)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(8, 8, 8)
-                                .addComponent(jLabel3)))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jDateChooser2, javax.swing.GroupLayout.DEFAULT_SIZE, 33, Short.MAX_VALUE)
-                            .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(20, 20, 20)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel5)
-                            .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(20, 20, 20)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel6)
                             .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 98, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 105, Short.MAX_VALUE)
                         .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -341,8 +367,8 @@ public class StudentIntakes extends javax.swing.JPanel {
         try {
             
             String intakeName = jTextField1.getText();
-            Date startDate = jDateChooser1.getDate();
-            Date endDate = jDateChooser2.getDate();
+            String startDate = jTextField3.getText();
+            String endDate = jTextField4.getText();
             String capacity = jTextField2.getText();
             String status = String.valueOf(jComboBox1.getSelectedItem());
             
@@ -351,16 +377,16 @@ public class StudentIntakes extends javax.swing.JPanel {
                 jTextField1.grabFocus();
             } else if (startDate == null) {
                 JOptionPane.showMessageDialog(this, "Please select a start date!", "Warning", JOptionPane.WARNING_MESSAGE);
-                jDateChooser1.grabFocus();
+                jTextField2.grabFocus();
             } else if (endDate == null) {
                 JOptionPane.showMessageDialog(this, "Please select a end date!", "Warning", JOptionPane.WARNING_MESSAGE);
-                jDateChooser2.grabFocus();
+                jTextField3.grabFocus();
             } else if (capacity.isEmpty()) {
                 JOptionPane.showMessageDialog(this, "Please enter a capacity!", "Warning", JOptionPane.WARNING_MESSAGE);
-                jTextField2.grabFocus();
+                jTextField4.grabFocus();
             } else if (!capacity.matches("^\\d+$")) {
                 JOptionPane.showMessageDialog(this, "Please enter only values", "Warning", JOptionPane.WARNING_MESSAGE);
-                jTextField2.grabFocus();
+                jTextField4.grabFocus();
             } else if (status.matches("Select")) {
                 JOptionPane.showMessageDialog(this, "Please select a status!", "Warning", JOptionPane.WARNING_MESSAGE);
                 jComboBox2.grabFocus();
@@ -377,7 +403,7 @@ public class StudentIntakes extends javax.swing.JPanel {
                 String formattedDate = format.format(date);
                 System.out.println("Formatted Date: " + formattedDate);
                 MySQL2.executeIUD("INSERT INTO `intake` (`intake`.`name`, `start_date`, `end_date`, `capacity`, `created_at`, `updated_at`, `intake_status_id`) "
-                        + "VALUES ('" + intakeName + "', '" + format.format(startDate) + "', '" + format.format(endDate) + "', '" + capacity + "', '" + format.format(date) + "', '" + format.format(date) + "', '" + statusMap.get(status) + "')");
+                        + "VALUES ('" + intakeName + "', '" + startDate + "', '" + endDate + "', '" + capacity + "', '" + format.format(date) + "', '" + format.format(date) + "', '" + statusMap.get(status) + "')");
                 JOptionPane.showMessageDialog(this, "Intake successfully registered!", "Confirmation", JOptionPane.INFORMATION_MESSAGE);
                 loadTable();
                 reset();
@@ -394,8 +420,8 @@ public class StudentIntakes extends javax.swing.JPanel {
         try {
             
             String intakeName = jTextField1.getText();
-            Date startDate = jDateChooser1.getDate();
-            Date endDate = jDateChooser2.getDate();
+            String startDate = jTextField3.getText();
+            String endDate = jTextField4.getText();
             String capacity = jTextField2.getText();
             String status = String.valueOf(jComboBox1.getSelectedItem());
             
@@ -404,16 +430,16 @@ public class StudentIntakes extends javax.swing.JPanel {
                 jTextField1.grabFocus();
             } else if (startDate == null) {
                 JOptionPane.showMessageDialog(this, "Please select a start date!", "Warning", JOptionPane.WARNING_MESSAGE);
-                jDateChooser1.grabFocus();
+                jTextField2.grabFocus();
             } else if (endDate == null) {
                 JOptionPane.showMessageDialog(this, "Please select a end date!", "Warning", JOptionPane.WARNING_MESSAGE);
-                jDateChooser2.grabFocus();
+                jTextField3.grabFocus();
             } else if (capacity.isEmpty()) {
                 JOptionPane.showMessageDialog(this, "Please enter a capacity!", "Warning", JOptionPane.WARNING_MESSAGE);
-                jTextField2.grabFocus();
+                jTextField4.grabFocus();
             } else if (!capacity.matches("^\\d+$")) {
                 JOptionPane.showMessageDialog(this, "Please enter only values", "Warning", JOptionPane.WARNING_MESSAGE);
-                jTextField2.grabFocus();
+                jTextField4.grabFocus();
             } else if (status.matches("Select")) {
                 JOptionPane.showMessageDialog(this, "Please select a status!", "Warning", JOptionPane.WARNING_MESSAGE);
                 jComboBox2.grabFocus();
@@ -424,8 +450,8 @@ public class StudentIntakes extends javax.swing.JPanel {
             if (date != null) {
                 String formattedDate = format.format(date);
                 System.out.println("Formatted Date: " + formattedDate);
-                MySQL2.executeIUD("UPDATE `intake` SET `intake`.`name` = '" + intakeName + "', `start_date` = '" + format.format(startDate) + "', "
-                        + "`end_date` = '" + format.format(endDate) + "', `capacity` = '" + capacity + "', `updated_at` = '" + formattedDate + "', "
+                MySQL2.executeIUD("UPDATE `intake` SET `intake`.`name` = '" + intakeName + "', `start_date` = '" + startDate + "', "
+                        + "`end_date` = '" + endDate + "', `capacity` = '" + capacity + "', `updated_at` = '" + formattedDate + "', "
                         + "`intake_status_id` = '" + statusMap.get(status) + "' WHERE `intake`.`id` = '" + Iid + "'");
                 JOptionPane.showMessageDialog(this, "Intake successfully updated!", "Confirmation", JOptionPane.INFORMATION_MESSAGE);
                 loadTable();
@@ -463,18 +489,20 @@ public class StudentIntakes extends javax.swing.JPanel {
             jTextField1.setText(IntakeName);
             SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
             
-            try {
-                Date sDate = formatter.parse((StartDate));
-                jDateChooser1.setDate(sDate);
-                System.out.println("Converted Date: " + sDate);
-                Date eDate = formatter.parse((EndDate));
-                jDateChooser2.setDate(eDate);
-                System.out.println("Converted Date: " + eDate);
-            } catch (Exception e) {
-                System.out.println("Error converting Object to Date: " + e.getMessage());
-            }
+//            try {
+//                Date sDate = formatter.parse((StartDate));
+//                jDateChooser1.setDate(sDate);
+//                System.out.println("Converted Date: " + sDate);
+//                Date eDate = formatter.parse((EndDate));
+//                jDateChooser2.setDate(eDate);
+//                System.out.println("Converted Date: " + eDate);
+//            } catch (Exception e) {
+//                System.out.println("Error converting Object to Date: " + e.getMessage());
+//            }
             
-            jTextField2.setText(Capacity);
+            jTextField2.setText(StartDate);
+            jTextField3.setText(EndDate);
+            jTextField4.setText(Capacity);
             jComboBox1.setSelectedItem(Status);
             
             jButton1.setEnabled(false);
@@ -486,9 +514,9 @@ public class StudentIntakes extends javax.swing.JPanel {
         loadTable();
     }//GEN-LAST:event_jComboBox2ActionPerformed
 
-    private void jTextField3KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField3KeyReleased
+    private void jTextField5KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField5KeyReleased
         loadTable();
-    }//GEN-LAST:event_jTextField3KeyReleased
+    }//GEN-LAST:event_jTextField5KeyReleased
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -497,8 +525,6 @@ public class StudentIntakes extends javax.swing.JPanel {
     private javax.swing.JButton jButton3;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JComboBox<String> jComboBox2;
-    private com.toedter.calendar.JDateChooser jDateChooser1;
-    private com.toedter.calendar.JDateChooser jDateChooser2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -512,5 +538,7 @@ public class StudentIntakes extends javax.swing.JPanel {
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
+    private javax.swing.JTextField jTextField4;
+    private javax.swing.JTextField jTextField5;
     // End of variables declaration//GEN-END:variables
 }
