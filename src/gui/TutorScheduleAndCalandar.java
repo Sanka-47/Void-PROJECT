@@ -408,16 +408,24 @@ public class TutorScheduleAndCalandar extends javax.swing.JPanel {
     }
 
     private void reset() {
+        setNextSessionId();
         jComboBox2.setSelectedIndex(0);
         jComboBox1.setSelectedIndex(0);
-//        jTextField5.setText("");
+        jComboBox3.setSelectedItem("pending");
+        jComboBox3.setEnabled(false);
         jTextField2.setText("");
-        jTextField1.setText("");
         jTextField3.setText("");
         jDateChooser1.setDate(null);
         jFormattedTextField1.setText("");
         jFormattedTextField2.setText("");
         jFormattedTextField3.setText("");
+        jComboBox4.setSelectedItem("Hall Number ASC");
+        jTextField4.setText("ID, Title, or Class Status");
+        jTextField4.setForeground(Color.GRAY);
+        jTextField5.setText("");
+        From = "";
+        To = "";
+        loadSessions("","");
         jButton2.setEnabled(true);
         jButton8.setEnabled(true);
     }
@@ -458,6 +466,7 @@ public class TutorScheduleAndCalandar extends javax.swing.JPanel {
         jTextField4 = new javax.swing.JTextField();
         jTextField5 = new javax.swing.JTextField();
         jComboBox3 = new javax.swing.JComboBox<>();
+        jButton1 = new javax.swing.JButton();
 
         jLabel13.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
         jLabel13.setText("Class ID");
@@ -601,6 +610,14 @@ public class TutorScheduleAndCalandar extends javax.swing.JPanel {
 
         jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
+        jButton1.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
+        jButton1.setText("Clear All");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -672,7 +689,9 @@ public class TutorScheduleAndCalandar extends javax.swing.JPanel {
                                 .addComponent(jLabel2)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(106, 106, 106))
+                                .addGap(18, 18, 18)
+                                .addComponent(jButton1)
+                                .addGap(13, 13, 13))
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 756, Short.MAX_VALUE)))))
         );
         layout.setVerticalGroup(
@@ -686,7 +705,8 @@ public class TutorScheduleAndCalandar extends javax.swing.JPanel {
                         .addComponent(jLabel3)
                         .addComponent(jLabel5)
                         .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jButton1))
                     .addComponent(jLabel1))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
@@ -1344,8 +1364,13 @@ public class TutorScheduleAndCalandar extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField1ActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        reset();
+    }//GEN-LAST:event_jButton1ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton10;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton8;

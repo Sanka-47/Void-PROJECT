@@ -37,7 +37,7 @@ public class TutorDashboard extends javax.swing.JFrame implements DashboardInter
         jButton3.setText(fName);
         this.tutorID = tutorID;
         
-//        this.setExtendedState(this.MAXIMIZED_BOTH);
+        this.setExtendedState(this.MAXIMIZED_BOTH);
 
         // Add window listener to handle window closing
         addWindowListener(new WindowAdapter() {

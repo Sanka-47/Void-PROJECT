@@ -4,6 +4,7 @@ package gui;
 import com.formdev.flatlaf.FlatLaf;
 import com.formdev.flatlaf.FlatLightLaf;
 import com.formdev.flatlaf.themes.FlatMacDarkLaf;
+import com.raven.datechooser.DateChooser;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.GraphicsDevice;
@@ -17,6 +18,7 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
 public class AdminDashboard extends javax.swing.JFrame implements DashboardInterface {
+    private DateChooser chDate = new DateChooser();
 
     private String adminID;
     private String fName;
