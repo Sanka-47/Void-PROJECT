@@ -1,8 +1,5 @@
 package gui;
 
-
-
-
 import com.formdev.flatlaf.FlatLightLaf;
 import model.MySQL2;
 import java.awt.Color;

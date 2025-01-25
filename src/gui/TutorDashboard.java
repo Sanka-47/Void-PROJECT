@@ -58,7 +58,7 @@ public class TutorDashboard extends javax.swing.JFrame implements DashboardInter
             public void run() {
                 while (!Thread.currentThread().isInterrupted()) {
                     Date date = new Date();
-                    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+                    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd     hh:mm:ss");
                     String fdate = dateFormat.format(date);
                     jLabel6.setText(fdate);
                     try {

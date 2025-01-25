@@ -18,7 +18,6 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
 public class AdminDashboard extends javax.swing.JFrame implements DashboardInterface {
-    private DateChooser chDate = new DateChooser();
 
     private String adminID;
     private String fName;
