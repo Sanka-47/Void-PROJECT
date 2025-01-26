@@ -35,6 +35,8 @@
                       <Component id="jLabel7" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Component id="jTextField2" min="-2" pref="242" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="jButton1" min="-2" pref="86" max="-2" attributes="0"/>
                   </Group>
               </Group>
               <EmptySpace min="-2" pref="41" max="-2" attributes="0"/>
@@ -59,6 +61,7 @@
                       <Component id="jLabel4" alignment="3" min="-2" pref="32" max="-2" attributes="0"/>
                       <Component id="jLabel7" alignment="3" min="-2" pref="38" max="-2" attributes="0"/>
                   </Group>
+                  <Component id="jButton1" min="-2" pref="33" max="-2" attributes="0"/>
               </Group>
               <EmptySpace min="-2" pref="8" max="-2" attributes="0"/>
               <Component id="jScrollPane2" min="-2" pref="350" max="-2" attributes="0"/>
@@ -179,6 +182,7 @@
     </Container>
     <Component class="javax.swing.JTextField" name="jTextField1">
       <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jTextField1ActionPerformed"/>
         <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jTextField1KeyReleased"/>
       </Events>
     </Component>
@@ -199,6 +203,14 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="jTextField2">
+    </Component>
+    <Component class="javax.swing.JButton" name="jButton1">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Clear All"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton1ActionPerformed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>

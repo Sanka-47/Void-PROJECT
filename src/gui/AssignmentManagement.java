@@ -31,9 +31,9 @@ import javax.swing.JLabel;
 public class AssignmentManagement extends javax.swing.JPanel {
 
     private TutorDashboard parent;
-    
+
     private DateChooser chDate = new DateChooser();
-    
+
     private String From;
     private String To;
 
@@ -46,6 +46,7 @@ public class AssignmentManagement extends javax.swing.JPanel {
         initComponents();
         dateChooser();
         loadTable("", "");
+        loadTable("", "");
 //        loadCourses();
 
         DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
@@ -56,7 +57,7 @@ public class AssignmentManagement extends javax.swing.JPanel {
 
     private static HashMap<String, String> courseMap = new HashMap<>();
     private static HashMap<String, String> tutorMap = new HashMap<>();
-    
+
     private void dateChooser() {
         chDate.setTextField(jTextField2);
         chDate.setDateSelectionMode(DateChooser.DateSelectionMode.BETWEEN_DATE_SELECTED);
@@ -100,7 +101,7 @@ public class AssignmentManagement extends javax.swing.JPanel {
                         .append("OR LOWER(`tutor`.`last_name`) LIKE '%").append(searchText).append("%') ");
                 hasCondition = true;
             }
-            
+
             if (from.isEmpty() || to == null) {
 
             } else if (to.isEmpty() || from == null) {
@@ -112,6 +113,50 @@ public class AssignmentManagement extends javax.swing.JPanel {
             // Execute query
             ResultSet rs = MySQL2.executeSearch(query.toString());
 //            System.out.println(query); // Debugging purposes
+
+            // Update table model
+            DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+            model.setRowCount(0);
+
+            while (rs.next()) {
+                Vector<Object> vectorE = new Vector<>();
+                vectorE.add(rs.getString("id"));
+                vectorE.add(rs.getString("title"));
+                vectorE.add(rs.getString("description"));
+                vectorE.add(rs.getString("due_date"));
+                String fullname = rs.getString("tutor.first_name") + " " + rs.getString("tutor.last_name");
+                String coursename = rs.getString("courses.name");
+                vectorE.add(fullname);
+                vectorE.add(coursename);
+                tutorMap.put(fullname, rs.getString("tutor_id"));
+                courseMap.put(coursename, rs.getString("courses_id"));
+
+                model.addRow(vectorE);
+            }
+
+            jTable1.setModel(model);
+
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(this, "Database error: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void loadOriginalTable() {
+        try {
+            String TID = String.valueOf(tutorId);
+            StringBuilder query = new StringBuilder();
+
+            // Base query to fetch all assignments for the tutor
+            query.append("SELECT * FROM `assignment` ")
+                    .append("INNER JOIN `tutor` ON `assignment`.`tutor_id` = `tutor`.`id` ")
+                    .append("INNER JOIN `courses` ON `assignment`.`courses_id` = `courses`.`id` ")
+                    .append("WHERE `tutor`.`id` = '").append(TID).append("' ");
+
+            // Execute query
+            ResultSet rs = MySQL2.executeSearch(query.toString());
 
             // Update table model
             DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
@@ -157,6 +202,7 @@ public class AssignmentManagement extends javax.swing.JPanel {
         jLabel4 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jTextField2 = new javax.swing.JTextField();
+        jButton1 = new javax.swing.JButton();
 
         jLabel1.setFont(new java.awt.Font("Century Gothic", 1, 28)); // NOI18N
         jLabel1.setText("Assignments");
@@ -203,6 +249,11 @@ public class AssignmentManagement extends javax.swing.JPanel {
         });
         jScrollPane2.setViewportView(jTable1);
 
+        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField1ActionPerformed(evt);
+            }
+        });
         jTextField1.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 jTextField1KeyReleased(evt);
@@ -214,6 +265,13 @@ public class AssignmentManagement extends javax.swing.JPanel {
 
         jLabel7.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
         jLabel7.setText("Sort By Date");
+
+        jButton1.setText("Clear All");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -236,7 +294,9 @@ public class AssignmentManagement extends javax.swing.JPanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel7)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(41, 41, 41))
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -254,7 +314,8 @@ public class AssignmentManagement extends javax.swing.JPanel {
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(8, 8, 8)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
@@ -290,7 +351,7 @@ public class AssignmentManagement extends javax.swing.JPanel {
 
             }
 
-            loadTable("","");
+            loadTable("", "");
 
         } catch (Exception e) {
 
@@ -344,7 +405,7 @@ public class AssignmentManagement extends javax.swing.JPanel {
             } catch (Exception e) {
                 System.out.println("Error converting Object to Date: " + e.getMessage());
             }
-            
+
             AAJ.getjButton1().setEnabled(false);
             AAJ.getjButton2().setEnabled(true);
 
@@ -366,8 +427,25 @@ public class AssignmentManagement extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_jTextField1KeyReleased
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+
+// Clear search field and filters
+        jTextField1.setText(""); // Clear search field
+//        jDateChooserFrom.setDate(null); // Clear "from" date
+//        jDateChooserTo.setDate(null);   // Clear "to" date
+
+        // Reload the original table data
+        loadOriginalTable();
+
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField1ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
     private javax.swing.JLabel jLabel1;
