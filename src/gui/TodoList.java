@@ -22,7 +22,6 @@ public class TodoList extends javax.swing.JPanel {
      * Creates new form TodoList
      */
     // A HashMap to store tasks for each tutor
-    
     private String tutorId;
     private HashMap<String, ArrayList<Task>> tutorTasks = new HashMap<>();
 
@@ -47,7 +46,7 @@ public class TodoList extends javax.swing.JPanel {
             } catch (Exception e) {
                 e.printStackTrace(); // Handle any exceptions
             }
-        }else{
+        } else {
             JOptionPane.showMessageDialog(this, "Please enter the description to add a task");
         }
     }
@@ -78,7 +77,7 @@ public class TodoList extends javax.swing.JPanel {
     // Function to mark a task as complete
     private void markTaskComplete(String tutorId) {
         int selectedIndex = jList1.getSelectedIndex();
-         if (selectedIndex == -1) {
+        if (selectedIndex == -1) {
             JOptionPane.showMessageDialog(this, "Please select a task to mark as complete.");
             return;
         }// Get the selected task index
@@ -228,6 +227,11 @@ public class TodoList extends javax.swing.JPanel {
             }
         });
 
+        jList1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jList1MouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(jList1);
 
         chkComplete.setText("Mark as complete");
@@ -303,6 +307,27 @@ public class TodoList extends javax.swing.JPanel {
     private void chkCompleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkCompleteActionPerformed
         markTaskComplete(tutorId);
     }//GEN-LAST:event_chkCompleteActionPerformed
+
+    private void jList1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jList1MouseClicked
+        int selectedIndex = jList1.getSelectedIndex(); // Get the selected index
+        if (selectedIndex != -1) {
+            ArrayList<Task> tasks = tutorTasks.get(tutorId); // Get tasks for the current tutor
+            if (tasks != null && selectedIndex < tasks.size()) {
+                Task selectedTask = tasks.get(selectedIndex); // Get the selected task
+
+                if (selectedTask.isCompleted()) {
+                    // If the task is completed, show a message and disable editing
+                    txtTaskInput.setText(""); // Clear the text field
+                    txtTaskInput.setEnabled(false); // Disable editing
+                    JOptionPane.showMessageDialog(this, "Completed tasks cannot be edited.");
+                } else {
+                    // If the task is not completed, allow editing
+                    txtTaskInput.setText(selectedTask.getDescription()); // Set the description
+                    txtTaskInput.setEnabled(true); // Enable editing
+                }
+            }
+        }
+    }//GEN-LAST:event_jList1MouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -244,17 +244,11 @@ public class RequestSession extends javax.swing.JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jDateChooser1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(hallNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jButton11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel16, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel9)
-                    .addComponent(jLabel12)
-                    .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(jButton10, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel9, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel12, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel10)
                             .addComponent(startTime, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -264,16 +258,17 @@ public class RequestSession extends javax.swing.JPanel {
                                 .addComponent(jLabel11))
                             .addGroup(layout.createSequentialGroup()
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(endTime, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(title)
-                            .addComponent(jLabel7))
-                        .addGap(0, 0, 0))
-                    .addComponent(jLabel8)
-                    .addComponent(courseField))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 783, Short.MAX_VALUE)
+                                .addComponent(endTime))))
+                    .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel8, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel16, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(courseField, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(title, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jDateChooser1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(hallNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 705, Short.MAX_VALUE)
                 .addContainerGap())
             .addGroup(layout.createSequentialGroup()
                 .addGap(392, 392, 392)
@@ -311,13 +306,13 @@ public class RequestSession extends javax.swing.JPanel {
                 .addComponent(hallNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jButton10, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton11, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(87, 87, 87))
+                .addGap(75, 75, 75))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(26, 26, 26)
                 .addComponent(jLabel15)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 523, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -341,7 +336,7 @@ public class RequestSession extends javax.swing.JPanel {
 
     private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
         // Retrieve values from the UI components
-        String Title = title.getText(); // Retrieve the title
+        String Title = title.getText();
         String Course = courseField.getText();
         Date SessionDate = jDateChooser1.getDate();
         String StartTime = startTime.getText();
@@ -349,72 +344,114 @@ public class RequestSession extends javax.swing.JPanel {
         String HallNumber = hallNumber.getText();
         int TutorID = this.tutorId; // Assuming this is fetched dynamically or passed in.
 
+        // Regex for 24-hour time format (e.g., 12.00, 14.00)
+        String timeRegex = "^([01]?\\d|2[0-3])\\.\\d{2}$";
+
         // Validation
         if (Title.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Please enter a title!", "Warning", JOptionPane.WARNING_MESSAGE);
+            return;
         } else if (SessionDate == null) {
             JOptionPane.showMessageDialog(this, "Please select a date!", "Warning", JOptionPane.WARNING_MESSAGE);
+            return;
         } else if (SessionDate.before(new Date())) {
             JOptionPane.showMessageDialog(this, "The session date must be a future date!", "Warning", JOptionPane.WARNING_MESSAGE);
-        } else if (StartTime.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Please enter a start time!", "Warning", JOptionPane.WARNING_MESSAGE);
-        } else if (EndTime.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Please enter an end time!", "Warning", JOptionPane.WARNING_MESSAGE);
+            return;
+        } else if (StartTime.isEmpty() || !StartTime.matches(timeRegex)) {
+            JOptionPane.showMessageDialog(this, "Please enter a valid start time in the format HH.mm (e.g., 12.00)!", "Warning", JOptionPane.WARNING_MESSAGE);
+            return;
+        } else if (EndTime.isEmpty() || !EndTime.matches(timeRegex)) {
+            JOptionPane.showMessageDialog(this, "Please enter a valid end time in the format HH.mm (e.g., 14.00)!", "Warning", JOptionPane.WARNING_MESSAGE);
+            return;
         } else if (HallNumber.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Please enter a hall number!", "Warning", JOptionPane.WARNING_MESSAGE);
+            return;
         } else if (Course.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Please enter the course!", "Warning", JOptionPane.WARNING_MESSAGE);
-        } else {
+            return;
+        }
 
-            try {
-                // Format the date
-                SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            // Format the date
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            String dateString = dateFormat.format(SessionDate);
 
-                // Check if the title already exists in the class table
-                String queryCheckTitle = "SELECT COUNT(*) AS count FROM class WHERE name = '" + Title + "'";
-                ResultSet resultSet = MySQL2.executeSearch(queryCheckTitle);
+            // Parse and validate the start and end times
+            SimpleDateFormat timeFormat = new SimpleDateFormat("HH.mm");
+            Date startTimeDate = timeFormat.parse(StartTime);
+            Date endTimeDate = timeFormat.parse(EndTime);
 
-                if (resultSet.next() && resultSet.getInt("count") > 0) {
-                    JOptionPane.showMessageDialog(this, "The session title already exists. Please choose a different title.", "Conflict", JOptionPane.WARNING_MESSAGE);
-                    return;
-                }
-
-                // Check for conflicts in the requested slot (date, time, hallnumber)
-                String queryCheckSlot = "SELECT COUNT(*) AS count FROM class "
-                        + "WHERE date = '" + format.format(SessionDate) + "' "
-                        + "AND ((start_time <= '" + StartTime + "' AND end_time > '" + StartTime + "') "
-                        + "OR (start_time < '" + EndTime + "' AND end_time >= '" + EndTime + "')) "
-                        + "AND hallnumber = '" + HallNumber + "'";
-
-                resultSet = MySQL2.executeSearch(queryCheckSlot);
-
-                if (resultSet.next() && resultSet.getInt("count") > 0) {
-                    JOptionPane.showMessageDialog(this, "The selected slot is already occupied. Please choose another.", "Conflict", JOptionPane.WARNING_MESSAGE);
-                    return;
-                }
-
-                // Insert into the database
-                String query = "INSERT INTO request_sessions (title, date, start_time, end_time, hallnumber, tutor_id, approve_status, courses_id, type) "
-                        + "VALUES ('" + Title + "', '" + format.format(SessionDate) + "', '" + StartTime + "', '" + EndTime + "', '" + HallNumber + "', '" + TutorID + "', 'Pending', '" + courseMap.get(Course) + "', 'New Session')";
-
-                MySQL2.executeIUD(query);
-
-                JOptionPane.showMessageDialog(this, "Session requested successfully!", "SUCCESS", JOptionPane.INFORMATION_MESSAGE);
-                TutorRequestedSessions tr = new TutorRequestedSessions(TutorID);
-                parent.switchPanel(tr);
-
-                // Clear all fields after successful insertion
-                title.setText("");
-                jDateChooser1.setDate(null);
-                startTime.setText("");
-                endTime.setText("");
-                hallNumber.setText("");
-                courseField.setText("");
-
-            } catch (Exception e) {
-                e.printStackTrace();
-                JOptionPane.showMessageDialog(this, "An error occurred: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            // Check if the duration is within 10 hours
+            long durationInMillis = endTimeDate.getTime() - startTimeDate.getTime();
+            if (durationInMillis < 0) {
+                durationInMillis += 24 * 60 * 60 * 1000; // Handle overnight sessions
             }
+            long durationInHours = durationInMillis / (60 * 60 * 1000);
+            if (durationInHours > 10) {
+                JOptionPane.showMessageDialog(this, "The session duration cannot exceed 10 hours!", "Warning", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+
+            // Convert times to AM/PM format for database
+            SimpleDateFormat amPmFormat = new SimpleDateFormat("hh.mm a");
+            String startTimeAmPm = amPmFormat.format(startTimeDate);
+            String endTimeAmPm = amPmFormat.format(endTimeDate);
+
+            // Check if the title already exists
+            String queryCheckTitle = "SELECT COUNT(*) AS count FROM class WHERE name = '" + Title + "'";
+            ResultSet resultSet = MySQL2.executeSearch(queryCheckTitle);
+
+            if (resultSet.next() && resultSet.getInt("count") > 0) {
+                JOptionPane.showMessageDialog(this, "The session title already exists. Please choose a different title.", "Conflict", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+
+            // Check for time conflicts with the tutor
+            String tutorConflictQuery = "SELECT * FROM `class` WHERE `tutor_id` = '" + TutorID + "' AND `date` = '" + dateString + "' "
+                    + "AND ((`start_time` <= '" + startTimeAmPm + "' AND `end_time` > '" + startTimeAmPm + "') "
+                    + "OR (`start_time` < '" + endTimeAmPm + "' AND `end_time` >= '" + endTimeAmPm + "') "
+                    + "OR (`start_time` >= '" + startTimeAmPm + "' AND `end_time` <= '" + endTimeAmPm + "'))";
+            ResultSet tutorConflictCheck = MySQL2.executeSearch(tutorConflictQuery);
+
+            if (tutorConflictCheck.next()) {
+                JOptionPane.showMessageDialog(this, "The tutor is already scheduled during this time slot. Please choose a different time.", "Warning", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+
+            // Check for hall conflicts
+            String hallConflictQuery = "SELECT * FROM `class` WHERE `hallnumber` = '" + HallNumber + "' AND `date` = '" + dateString + "' "
+                    + "AND ((`start_time` <= '" + startTimeAmPm + "' AND `end_time` > '" + startTimeAmPm + "') "
+                    + "OR (`start_time` < '" + endTimeAmPm + "' AND `end_time` >= '" + endTimeAmPm + "') "
+                    + "OR (`start_time` >= '" + startTimeAmPm + "' AND `end_time` <= '" + endTimeAmPm + "'))";
+            ResultSet hallConflictCheck = MySQL2.executeSearch(hallConflictQuery);
+
+            if (hallConflictCheck.next()) {
+                JOptionPane.showMessageDialog(this, "The selected hall is already booked during this time slot. Please choose a different location or time.", "Warning", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+
+            // Insert session data into the database
+            // Insert into the database
+            String query = "INSERT INTO request_sessions (title, date, start_time, end_time, hallnumber, tutor_id, approve_status, courses_id, type) "
+                    + "VALUES ('" + Title + "', '" + format.format(SessionDate) + "', '" + StartTime + "', '" + EndTime + "', '" + HallNumber + "', '" + TutorID + "', 'Pending', '" + courseMap.get(Course) + "', 'New Session')";
+            MySQL2.executeIUD(query);
+
+            JOptionPane.showMessageDialog(this, "Session requested successfully!", "SUCCESS", JOptionPane.INFORMATION_MESSAGE);
+            TutorRequestedSessions tr = new TutorRequestedSessions(TutorID);
+            parent.switchPanel(tr);
+
+            // Clear all fields after successful insertion
+            title.setText("");
+            jDateChooser1.setDate(null);
+            startTime.setText("");
+            endTime.setText("");
+            hallNumber.setText("");
+            courseField.setText("");
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "An error occurred while adding the class. Please try again.", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_jButton11ActionPerformed
 
