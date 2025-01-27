@@ -187,7 +187,7 @@ public class EmployeePaymentHistory extends javax.swing.JPanel {
         jScrollPane1.setViewportView(jTable1);
 
         jLabel2.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
-        jLabel2.setText("Search");
+        jLabel2.setText("Search by Name or NIC");
 
         jTextField1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

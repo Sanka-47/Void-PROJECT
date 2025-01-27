@@ -126,8 +126,7 @@ public class AllTutorsWithdrawHistory extends javax.swing.JPanel {
                     int selectedRow = jTable1.getSelectedRow();
                     if (selectedRow != -1) {
                         // Get the tutor ID from the selected row
-                        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-                        int tutorId = (int) model.getValueAt(selectedRow, 0);
+                        int tutorId = Integer.parseInt(String.valueOf(jTable1. getValueAt(selectedRow, 0)));
 
                         // Open the TutorDetails panel or form
                         openTutorDetails(tutorId);
@@ -179,6 +178,11 @@ public class AllTutorsWithdrawHistory extends javax.swing.JPanel {
                 return canEdit [columnIndex];
             }
         });
+        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable1MouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(jTable1);
 
         jTextField1.addActionListener(new java.awt.event.ActionListener() {
@@ -188,7 +192,7 @@ public class AllTutorsWithdrawHistory extends javax.swing.JPanel {
         });
 
         jLabel2.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
-        jLabel2.setText("Search");
+        jLabel2.setText("Search by Name or NIC");
 
         jLabel3.setText("Double click a row to view tutor details");
 
@@ -266,6 +270,33 @@ public class AllTutorsWithdrawHistory extends javax.swing.JPanel {
             e.printStackTrace();
         }
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
+       jTable1.addMouseListener(new MouseAdapter() {
+        @Override
+        public void mouseClicked(MouseEvent e) {
+            if (e.getClickCount() == 2) { // Double-click to open details
+                int selectedRow = jTable1.getSelectedRow();
+                if (selectedRow != -1) {
+                    // Get the tutor ID from the selected row
+                    DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+                    String tutorIdStr = model.getValueAt(selectedRow, 0).toString();
+
+                    try {
+                        // Parse tutor ID to integer
+                        int tutorId = Integer.parseInt(tutorIdStr);
+
+                        // Open the TutorDetails panel or form
+                        openTutorDetails(tutorId);
+                    } catch (NumberFormatException ex) {
+                        System.err.println("Invalid tutor ID format: " + tutorIdStr);
+                        ex.printStackTrace();
+                    }
+                }
+            }
+        }
+    });
+    }//GEN-LAST:event_jTable1MouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

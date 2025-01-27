@@ -79,46 +79,46 @@ public class NotificationDetails extends javax.swing.JFrame {
 
         jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
-        jLabel2.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel2.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
         jLabel2.setText("Date : ");
 
-        jLabel3.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel3.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
         jLabel3.setText("Time :");
 
-        jLabel4.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel4.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
         jLabel4.setText("Hall Number :");
 
-        jLabel5.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel5.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
         jLabel5.setText("Amount :");
 
-        jLabel6.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel6.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
         jLabel6.setText("Course Name :");
 
-        jLabel8.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel8.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
         jLabel8.setText("Grade : ");
 
-        jLabel9.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel9.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
         jLabel9.setText("Class Status :");
 
-        dateLabel.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        dateLabel.setFont(new java.awt.Font("Century Gothic", 0, 18)); // NOI18N
         dateLabel.setText("Date : ");
 
-        timeLabel.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        timeLabel.setFont(new java.awt.Font("Century Gothic", 0, 18)); // NOI18N
         timeLabel.setText("Time :");
 
-        locationLabel.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        locationLabel.setFont(new java.awt.Font("Century Gothic", 0, 18)); // NOI18N
         locationLabel.setText("Location :");
 
-        amountLabel.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        amountLabel.setFont(new java.awt.Font("Century Gothic", 0, 18)); // NOI18N
         amountLabel.setText("Amount :");
 
-        courseLabel.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        courseLabel.setFont(new java.awt.Font("Century Gothic", 0, 18)); // NOI18N
         courseLabel.setText("Course Name :");
 
-        gradeLabel.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        gradeLabel.setFont(new java.awt.Font("Century Gothic", 0, 18)); // NOI18N
         gradeLabel.setText("Grade : ");
 
-        statusLabel.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        statusLabel.setFont(new java.awt.Font("Century Gothic", 0, 18)); // NOI18N
         statusLabel.setText("Class Status :");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -194,7 +194,7 @@ public class NotificationDetails extends javax.swing.JFrame {
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 391, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(49, Short.MAX_VALUE)
+                .addContainerGap(20, Short.MAX_VALUE)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(24, 24, 24))
         );
@@ -205,7 +205,7 @@ public class NotificationDetails extends javax.swing.JFrame {
                 .addComponent(jLabel1)
                 .addGap(18, 18, 18)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(42, Short.MAX_VALUE))
+                .addContainerGap(35, Short.MAX_VALUE))
         );
 
         pack();
