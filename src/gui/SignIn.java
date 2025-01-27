@@ -255,22 +255,37 @@ public class SignIn extends javax.swing.JFrame {
             logger.log(Level.WARNING, "Invalid NIC format: {0}", nic);
         } else {
             try {
-                ResultSet resultSet = MySQL2.executeSearch("SELECT `email` FROM `employee` WHERE `nic` = '" + nic + "'");
+                ResultSet resultSet = MySQL2.executeSearch("SELECT email FROM employee WHERE nic = '" + nic + "'");
+                ResultSet resultSettu = MySQL2.executeSearch("SELECT `email` FROM `tutor` WHERE `nic` = '" + nic + "'");
                 if (resultSet.next()) {
                     this.email = resultSet.getString("email");
                     ForgotPassword forgotPassword = new ForgotPassword(this, true, email, 1);
                     forgotPassword.setVisible(true);
                     logger.log(Level.INFO, "Email found for NIC: {0}", nic);
+//                } else {
+//                    JOptionPane.showMessageDialog(this, "Invalid NIC or password", "Warning", JOptionPane.WARNING_MESSAGE);
+//                    jTextField1.setText("");
+//                    jPasswordField1.setText("");
+//                    logger.log(Level.WARNING, "Invalid NIC or password for NIC: {0}", nic);
+                }else if (resultSettu.next()) {
+                    this.email = resultSettu.getString("email");
+                    ForgotPassword forgotPassword = new ForgotPassword(this, true, email, 3);
+                    forgotPassword.setVisible(true);
+//                    logger.log(Level.INFO, "Email found for NIC: {0}", nic);
                 } else {
                     JOptionPane.showMessageDialog(this, "Invalid NIC or password", "Warning", JOptionPane.WARNING_MESSAGE);
                     jTextField1.setText("");
                     jPasswordField1.setText("");
-                    logger.log(Level.WARNING, "Invalid NIC or password for NIC: {0}", nic);
+//                    logger.log(Level.WARNING, "Invalid NIC or password for NIC: {0}", nic);
                 }
             } catch (Exception e) {
+                e.printStackTrace();
                 logger.log(Level.SEVERE, "An error occurred", e);
             }
         }
+            
+            
+            
     }//GEN-LAST:event_jButton2ActionPerformed
 
     public static void main(String args[]) throws UnsupportedLookAndFeelException {

@@ -158,7 +158,7 @@ public class ForgotPassword extends javax.swing.JDialog {
         Properties props = new Properties();
         props.put("mail.smtp.host", "smtp.gmail.com");
         props.put("mail.smtp.port", 465);
-        props.put("mail.smtp.user", "");
+        props.put("mail.smtp.user", "gayanlmdjayawardana@gmail.com");
         props.put("mail.smtp.auth", "true");
         props.put("mail.smtp.starttls.enable", "true");
         props.put("mail.smtp.debug", "true");
@@ -175,11 +175,11 @@ public class ForgotPassword extends javax.swing.JDialog {
                 MimeMessage message = new MimeMessage(session);
                 message.setText("Your verification code is " + vCode);
                 message.setSubject("Verification Code");
-                message.setFrom(new InternetAddress(""));
+                message.setFrom(new InternetAddress("gayanlmdjayawardana@gmail.com"));
                 message.addRecipient(RecipientType.TO, new InternetAddress(email));
                 message.saveChanges();
                 Transport transport = session.getTransport("smtp");
-                transport.connect("smtp.gmail.com", "", "gafakwcqltwnspow");
+                transport.connect("smtp.gmail.com", "gayanlmdjayawardana@gmail.com", "gafakwcqltwnspow");
                 transport.sendMessage(message, message.getAllRecipients());
                 transport.close();
                 jLabel1.setText("Code Sent");
@@ -222,7 +222,9 @@ public class ForgotPassword extends javax.swing.JDialog {
                 } else if (x == 3) {
                     MySQL2.executeIUD("UPDATE `tutor` SET `password` = '" + password + "' WHERE `email` = '" + email + "'");
                     JOptionPane.showMessageDialog(this, "Successfully Updated!", "Confirmation", JOptionPane.INFORMATION_MESSAGE);
+                    
                 }
+                this.dispose();
 
             } catch (Exception e) {
                 e.printStackTrace();

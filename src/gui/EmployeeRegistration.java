@@ -206,6 +206,8 @@ public class EmployeeRegistration extends javax.swing.JPanel {
         jPasswordField1.setEnabled(true);
 //        jDateChooser1.setDate(null);
         jTextField1.grabFocus();
+        jComboBox1.setEnabled(true);
+        jComboBox2.setEnabled(true);
         jButton1.setEnabled(true);
         jButton2.setEnabled(false);
         jButton3.setEnabled(true);
@@ -497,7 +499,7 @@ public class EmployeeRegistration extends javax.swing.JPanel {
                         int result = MySQL2.executeIUD("INSERT INTO `employee`"
                                 + "(`first_name`,`last_name`,`contact_info`,`roles_id`,`gender_id`,`password`,`nic`,`email`,`dob`,`registration_date`)"
                                 + "VALUES ('" + FirstName + "','" + LastName + "','" + Mobile + "','" + roleId + "','" + genderId + "','" + password + "',"
-                                + "'" + email + "','" + nic + "', '" + dob + "', '" + fdate + "')");
+                                + "'" + nic + "','" + email + "', '" + dob + "', '" + fdate + "')");
 
                         if (result > 0) {
                             JOptionPane.showMessageDialog(this, "Employee registration success!", "Confirmation", JOptionPane.INFORMATION_MESSAGE);

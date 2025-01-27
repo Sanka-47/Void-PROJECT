@@ -63,8 +63,9 @@ public class AllStudents extends javax.swing.JPanel {
             
             String searchText = jTextField1.getText().toLowerCase();
 
-            String query = "SELECT `nic`, `first_name`, `last_name`, `dob`, `contact_info`, `registration_date`, `email`, `gender`.`name` FROM `student` "
-                    + "INNER JOIN `gender` ON `student`.`gender_id` = `gender`.`id`";
+            String query = "SELECT `nic`, `first_name`, `last_name`, `dob`, `contact_info`, `registration_date`, `email`, `gender`.`name`, `intake`.`name` FROM `student` "
+                    + "INNER JOIN `gender` ON `student`.`gender_id` = `gender`.`id`"
+                    + "INNER JOIN `intake` ON `student`.`intake_id` = `intake`.`id`";
             
             if (!searchText.isEmpty()) {
 
@@ -125,6 +126,7 @@ public class AllStudents extends javax.swing.JPanel {
                 vector.add(resultSet.getString("registration_date"));
                 vector.add(resultSet.getString("email"));
                 vector.add(resultSet.getString("gender.name"));
+                vector.add(resultSet.getString("intake.name"));
 
                 model.addRow(vector);
             }
@@ -167,17 +169,17 @@ public class AllStudents extends javax.swing.JPanel {
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null}
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "NIC", "First Name", "Last Name", "Date of Birth", "Mobile", "Registration Date", "Email", "Gender"
+                "NIC", "First Name", "Last Name", "Date of Birth", "Mobile", "Registration Date", "Email", "Gender", "Intake"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false
+                false, false, false, false, false, false, false, false, true
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -316,6 +318,7 @@ public class AllStudents extends javax.swing.JPanel {
         String RegisteredDate = String.valueOf(jTable1.getValueAt(row, 5));
         String Email = String.valueOf(jTable1.getValueAt(row, 6));
         String Gender = String.valueOf(jTable1.getValueAt(row, 7));
+        String Intake = String.valueOf(jTable1.getValueAt(row, 8));
 
         if (evt.getClickCount() == 2) {
 //            switchToRegistration();
@@ -328,6 +331,7 @@ public class AllStudents extends javax.swing.JPanel {
             updateStudent.getjTextField3().setText(Mobile);
             updateStudent.getjTextField4().setText(Email);
             updateStudent.getjComboBox1().setSelectedItem(Gender);
+            updateStudent.getjComboBox2().setSelectedItem(Intake);
             updateStudent.getjTextField5().setText(NIC);
             updateStudent.getjTextField5().setEnabled(false);
             updateStudent.getjTextField6().setText(DOB);
