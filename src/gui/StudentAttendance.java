@@ -23,12 +23,14 @@ public class StudentAttendance extends javax.swing.JPanel {
 
     private String From;
     private String To;
+    private int tutorID;
     
     // Initialize the original table model to store data for reset.
     private DefaultTableModel originalTableModel;
 
-    public StudentAttendance() {
+    public StudentAttendance(int tutorID) {
         initComponents();
+        this.tutorID = tutorID;
         dateChooser();
         loadTable("", "");
 
@@ -68,10 +70,10 @@ public class StudentAttendance extends javax.swing.JPanel {
                     + "FROM attendance "
                     + "INNER JOIN student ON attendance.student_nic = student.nic "
                     + "INNER JOIN class ON attendance.class_id = class.id "
-                    + "INNER JOIN `attendance_status` ON `attendance`.`attendance_status_id` = `attendance_status`.`id` ";
+                    + "INNER JOIN `attendance_status` ON `attendance`.`attendance_status_id` = `attendance_status`.`id` WHERE `class`.`tutor_id` = '" + tutorID + "' ";
 
             if (!searchText.isEmpty()) {
-                query += "WHERE (LOWER(attendance.id) LIKE '%" + searchText + "%' "
+                query += "AND (LOWER(attendance.id) LIKE '%" + searchText + "%' "
                         + "OR LOWER(student.first_name) LIKE '%" + searchText + "%' "
                         + "OR LOWER(student.last_name) LIKE '%" + searchText + "%') ";
             }
@@ -323,6 +325,7 @@ public class StudentAttendance extends javax.swing.JPanel {
             ASA.getjButton2().setEnabled(true);
 
             ASA.setVisible(true);
+            loadTable("","");
 //            switchToRegistration();
         }
 

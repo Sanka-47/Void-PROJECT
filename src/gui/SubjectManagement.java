@@ -26,7 +26,7 @@ public class SubjectManagement extends javax.swing.JPanel {
         initComponents();
         loadCourses();
         loadSubjectTable();
-         SwingUtilities.invokeLater(() -> jTextField1.requestFocusInWindow());
+        SwingUtilities.invokeLater(() -> jTextField1.requestFocusInWindow());
         jButton2.setEnabled(false);
         jButton3.setEnabled(false);
         jButton4.setEnabled(false);
@@ -300,8 +300,8 @@ public class SubjectManagement extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(this, "You Can Only Use Simple And Capital Letters For subject Name", "Warning", JOptionPane.WARNING_MESSAGE);
         } else if (description.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Please Enter Description", "Warning", JOptionPane.WARNING_MESSAGE);
-        } else if (description.length() > 250) {
-            JOptionPane.showMessageDialog(this, "description is too long (maximum 30 characters)", "Warning", JOptionPane.WARNING_MESSAGE);
+//        } else if (description.length() > 50) {
+//            JOptionPane.showMessageDialog(this, "description is too long (maximum 30 characters)", "Warning", JOptionPane.WARNING_MESSAGE);
         } else if (course.matches("Select")) {
             JOptionPane.showMessageDialog(this, "Please Select Your Course Name", "Warning", JOptionPane.WARNING_MESSAGE);
         } else{
@@ -321,7 +321,7 @@ public class SubjectManagement extends javax.swing.JPanel {
 //                    new Object[]{subject, description, courseId});
 
             loadSubjectTable();
-             reset(); // Uncomment if needed
+            // reset(); // Uncomment if needed
 
         } catch (Exception e) {
 //            logger.log(Level.SEVERE, "Error occurred while registering the subject: " + subject, e);
@@ -377,12 +377,12 @@ public class SubjectManagement extends javax.swing.JPanel {
                 JOptionPane.showMessageDialog(this, "Please Enter Subject Name", "Warning", JOptionPane.WARNING_MESSAGE);
             } else if (subject.length() > 30) {
                 JOptionPane.showMessageDialog(this, "Subject Name is too long (maximum 30 characters)", "Warning", JOptionPane.WARNING_MESSAGE);
-            } else if (!subject.matches("^[A-Za-z0-9 ]+$")) {
+            } else if (!subject.matches("^[A-Za-z]+$")) {
                 JOptionPane.showMessageDialog(this, "You Can Only Use Simple And Capital Letters For subject Name", "Warning", JOptionPane.WARNING_MESSAGE);
             } else if (description.isEmpty()) {
                 JOptionPane.showMessageDialog(this, "Please Enter Description", "Warning", JOptionPane.WARNING_MESSAGE);
-            } else if (description.length() > 250) {
-                JOptionPane.showMessageDialog(this, "description is too long (maximum 30 characters)", "Warning", JOptionPane.WARNING_MESSAGE);
+    //        } else if (description.length() > 50) {
+    //            JOptionPane.showMessageDialog(this, "description is too long (maximum 30 characters)", "Warning", JOptionPane.WARNING_MESSAGE);
             } else if (course.matches("Select")) {
                 JOptionPane.showMessageDialog(this, "Please Select Your Course Name", "Warning", JOptionPane.WARNING_MESSAGE);
             } else{

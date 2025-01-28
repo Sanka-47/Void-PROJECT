@@ -86,9 +86,9 @@ public class AssignmentManagement extends javax.swing.JPanel {
             boolean hasCondition = false;
 
             // Base query
-            query.append("SELECT * FROM `assignment` ")
+            query.append("SELECT `assignment`.`id`, `assignment`.`title`, `assignment`.`description`, `assignment`.`due_date`, `assignment`.`tutor_id`, `tutor`.`first_name`, `tutor`.`last_name`, `courses`.`id`, `courses`.`name` FROM `assignment` ")
                     .append("INNER JOIN `tutor` ON `assignment`.`tutor_id` = `tutor`.`id` ")
-                    .append("INNER JOIN `courses` ON `assignment`.`courses_id` = `courses`.`id` ")
+                    .append("INNER JOIN `courses` ON `tutor`.`courses_id` = `courses`.`id` ")
                     .append("WHERE `tutor`.`id` = '").append(TID).append("' ");
 
             hasCondition = true;
@@ -126,10 +126,10 @@ public class AssignmentManagement extends javax.swing.JPanel {
                 vectorE.add(rs.getString("due_date"));
                 String fullname = rs.getString("tutor.first_name") + " " + rs.getString("tutor.last_name");
                 String coursename = rs.getString("courses.name");
-                vectorE.add(fullname);
+//                vectorE.add(fullname);
                 vectorE.add(coursename);
                 tutorMap.put(fullname, rs.getString("tutor_id"));
-                courseMap.put(coursename, rs.getString("courses_id"));
+                courseMap.put(coursename, rs.getString("courses.id"));
 
                 model.addRow(vectorE);
             }
@@ -170,7 +170,7 @@ public class AssignmentManagement extends javax.swing.JPanel {
                 vectorE.add(rs.getString("due_date"));
                 String fullname = rs.getString("tutor.first_name") + " " + rs.getString("tutor.last_name");
                 String coursename = rs.getString("courses.name");
-                vectorE.add(fullname);
+//                vectorE.add(fullname);
                 vectorE.add(coursename);
                 tutorMap.put(fullname, rs.getString("tutor_id"));
                 courseMap.put(coursename, rs.getString("courses_id"));
@@ -231,11 +231,11 @@ public class AssignmentManagement extends javax.swing.JPanel {
 
             },
             new String [] {
-                "Id", "Name", "Description", "Due Date", "Tutor Name", "Course Name"
+                "Id", "Name", "Description", "Due Date", "Course Name"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false
+                false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -282,16 +282,16 @@ public class AssignmentManagement extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 468, Short.MAX_VALUE)
-                        .addComponent(jButton6)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButton5))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 232, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 212, Short.MAX_VALUE)
                         .addComponent(jLabel7)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -319,11 +319,10 @@ public class AssignmentManagement extends javax.swing.JPanel {
                 .addGap(8, 8, 8)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel2))
-                    .addComponent(jButton5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2)
+                    .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(47, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -332,7 +331,7 @@ public class AssignmentManagement extends javax.swing.JPanel {
 
 //        AAJ addAssignmentJFrame = new AAJ();
 //        addAssignmentJFrame.setVisible(true);
-        AddAssignmentJDialog AAJ = new AddAssignmentJDialog(parent, true);
+        AddAssignmentJDialog AAJ = new AddAssignmentJDialog(parent, true, tutorId);
         AAJ.setVisible(true);
 
     }//GEN-LAST:event_jButton5ActionPerformed
@@ -377,8 +376,8 @@ public class AssignmentManagement extends javax.swing.JPanel {
         String Name = String.valueOf(jTable1.getValueAt(row, 1));
         String Description = String.valueOf(jTable1.getValueAt(row, 2));
         String DueDate = String.valueOf(jTable1.getValueAt(row, 3));
-        String TutorName = String.valueOf(jTable1.getValueAt(row, 4));
-        String CourseName = String.valueOf(jTable1.getValueAt(row, 5));
+//        String TutorName = String.valueOf(jTable1.getValueAt(row, 4));
+        String CourseName = String.valueOf(jTable1.getValueAt(row, 4));
 //        String Email = String.valueOf(jTable1.getValueAt(row, 6));
 //        String Gender = String.valueOf(jTable1.getValueAt(row, 7));
 
@@ -388,28 +387,31 @@ public class AssignmentManagement extends javax.swing.JPanel {
 //                updateStudent = new StudentRegistration();
 //            }
 
-            AddAssignmentJDialog AAJ = new AddAssignmentJDialog(parent, true);
+            AddAssignmentJDialog AAJ = new AddAssignmentJDialog(parent, true, tutorId);
 
-            AAJ.setID(Id);
+//            AAJ.setID(Id);
+            AAJ.getjLabel1().setText("Update Assignments");
+            AAJ.getjLabel1().setHorizontalAlignment(SwingConstants.CENTER);
             AAJ.getjTextField1().setText(Name);
-            AAJ.getjTextField2().setText(Description);
-            AAJ.getjComboBox1().setSelectedItem(TutorName);
+            AAJ.getjTextArea1().setText(Description);
+            AAJ.getjComboBox1().setSelectedItem(CourseName);
             AAJ.getjComboBox1().setEnabled(false);
-            AAJ.getjComboBox2().setSelectedItem(CourseName);
+//            AAJ.getjComboBox2().setSelectedItem(CourseName);
 
             SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 
             try {
-                Date dateofBirth = formatter.parse((DueDate));
-                AAJ.getjDateChooser1().setDate(dateofBirth);
+                Date dueDate = formatter.parse((DueDate));
+                AAJ.getjDateChooser1().setDate(dueDate);
             } catch (Exception e) {
                 System.out.println("Error converting Object to Date: " + e.getMessage());
             }
-
+            
             AAJ.getjButton1().setEnabled(false);
             AAJ.getjButton2().setEnabled(true);
 
             AAJ.setVisible(true);
+            loadTable("","");
 //            switchToRegistration();
         }
 

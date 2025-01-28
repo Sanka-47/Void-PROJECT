@@ -499,7 +499,7 @@ public class TutorDashboard extends javax.swing.JFrame implements DashboardInter
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         jPanel3.removeAll();
-        StudentPerformanceReport addSession = new StudentPerformanceReport();
+        StudentPerformanceReport addSession = new StudentPerformanceReport(tutorID);
         jPanel3.add(addSession, BorderLayout.CENTER);
 
         SwingUtilities.updateComponentTreeUI(jPanel3);
@@ -507,7 +507,7 @@ public class TutorDashboard extends javax.swing.JFrame implements DashboardInter
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
         jPanel3.removeAll();
-        StudentAttendance addSession = new StudentAttendance();
+        StudentAttendance addSession = new StudentAttendance(tutorID);
         jPanel3.add(addSession, BorderLayout.CENTER);
 
         SwingUtilities.updateComponentTreeUI(jPanel3);

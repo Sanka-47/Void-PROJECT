@@ -326,16 +326,6 @@ public class AllStudents extends javax.swing.JPanel {
 //                updateStudent = new StudentRegistration();
             }
 
-            updateStudent.getjTextField1().setText(Firstname);
-            updateStudent.getjTextField2().setText(LastName);
-            updateStudent.getjTextField3().setText(Mobile);
-            updateStudent.getjTextField4().setText(Email);
-            updateStudent.getjComboBox1().setSelectedItem(Gender);
-            updateStudent.getjComboBox2().setSelectedItem(Intake);
-            updateStudent.getjTextField5().setText(NIC);
-            updateStudent.getjTextField5().setEnabled(false);
-            updateStudent.getjTextField6().setText(DOB);
-
 //            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 //
 //            try {
@@ -350,6 +340,26 @@ public class AllStudents extends javax.swing.JPanel {
             updateStudent.getjButton2().setEnabled(true);
             updateStudent.getjButton3().setEnabled(true);
             updateStudent.getjButton4().setEnabled(true);
+            updateStudent.loadIntake();
+            updateStudent.getjTextField1().setText(Firstname);
+            updateStudent.getjTextField2().setText(LastName);
+            updateStudent.getjTextField3().setText(Mobile);
+            updateStudent.getjTextField4().setText(Email);
+            updateStudent.getjComboBox1().setSelectedItem(Gender);
+            updateStudent.getjTextField5().setText(NIC);
+            updateStudent.getjTextField5().setEnabled(false);
+            updateStudent.getjTextField6().setText(DOB);
+            updateStudent.getjComboBox2().setSelectedItem(Intake);
+            
+            //            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+//
+//            try {
+//                Date dateofBirth = formatter.parse((DOB));
+//                updateStudent.getjDateChooser1().setDate(dateofBirth);
+//                System.out.println("Converted Date: " + dateofBirth);
+//            } catch (Exception e) {
+//                System.out.println("Error converting Object to Date: " + e.getMessage());
+//            }
 
             if (parent != null) {
                 switchToRegistration();

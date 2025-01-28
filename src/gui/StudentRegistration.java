@@ -147,13 +147,19 @@ public class StudentRegistration extends javax.swing.JPanel {
 
     }
 
-    private void loadIntake() {
+    public void loadIntake() {
 
         try {
+            
+            String query = "SELECT `id`, `name` FROM `intake` ";
+            
+            if (!jButton3.isEnabled()) {
+                query += "WHERE `start_date` <= '" + dateFormat.format(date) + "' AND "
+                    + "`end_date` >= '" + dateFormat.format(date) + "' AND `intake_status_id` = '1' ";
+            }
 
-            ResultSet rs = MySQL2.executeSearch("SELECT `id`, `name` FROM `intake` "
-                    + "WHERE `start_date` <= '" + dateFormat.format(date) + "' AND "
-                    + "`end_date` >= '" + dateFormat.format(date) + "' AND `intake_status_id` = '1' ");
+            ResultSet rs = MySQL2.executeSearch(query);
+            System.out.println(query);
             Vector<String> vector = new Vector<>();
             vector.add("Select");
 
@@ -180,12 +186,11 @@ public class StudentRegistration extends javax.swing.JPanel {
         jComboBox1.setSelectedIndex(0);
 //        jDateChooser1.setDate(null);
         jComboBox2.setSelectedIndex(0);
-        jComboBox1.setEnabled(true);
-        jComboBox2.setEnabled(true);
         jButton1.setEnabled(true);
         jButton2.setEnabled(true);
         jButton3.setEnabled(false);
         jButton4.setEnabled(false);
+        loadIntake();
 
     }
 
@@ -406,9 +411,9 @@ public class StudentRegistration extends javax.swing.JPanel {
         String Mobile = jTextField3.getText();
         String Email = jTextField4.getText();
         String Gender = String.valueOf(jComboBox1.getSelectedItem());
-        String Intake = String.valueOf(jComboBox2.getSelectedItem());
         String NIC = jTextField5.getText();
         String selectedDate = jTextField6.getText();
+        String Intake = String.valueOf(jComboBox2.getSelectedItem());
 
         String fdate = dateFormat.format(date);
 
@@ -505,9 +510,9 @@ public class StudentRegistration extends javax.swing.JPanel {
         String Mobile = jTextField3.getText();
         String Email = jTextField4.getText();
         String Gender = String.valueOf(jComboBox1.getSelectedItem());
-        String Intake = String.valueOf(jComboBox2.getSelectedItem());
         String NIC = jTextField5.getText();
         String DOB = jTextField6.getText();
+        String Intake = String.valueOf(jComboBox2.getSelectedItem());
 
         if (FirstName.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Please Enter First Name", "Warning", JOptionPane.WARNING_MESSAGE);
