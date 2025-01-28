@@ -71,6 +71,10 @@ public class StudentRegistration extends javax.swing.JPanel {
     public JComboBox<String> getjComboBox1() {
         return jComboBox1;
     }
+    //Intake
+    public JComboBox<String> getjComboBox2() {
+        return jComboBox2;
+    }
 
     //NIC
     public JTextField getjTextField5() {
@@ -175,7 +179,9 @@ public class StudentRegistration extends javax.swing.JPanel {
         jTextField6.setText("");
         jComboBox1.setSelectedIndex(0);
 //        jDateChooser1.setDate(null);
-        jComboBox1.setSelectedIndex(0);
+        jComboBox2.setSelectedIndex(0);
+        jComboBox1.setEnabled(true);
+        jComboBox2.setEnabled(true);
         jButton1.setEnabled(true);
         jButton2.setEnabled(true);
         jButton3.setEnabled(false);
@@ -400,6 +406,7 @@ public class StudentRegistration extends javax.swing.JPanel {
         String Mobile = jTextField3.getText();
         String Email = jTextField4.getText();
         String Gender = String.valueOf(jComboBox1.getSelectedItem());
+        String Intake = String.valueOf(jComboBox2.getSelectedItem());
         String NIC = jTextField5.getText();
         String selectedDate = jTextField6.getText();
 
@@ -433,6 +440,8 @@ public class StudentRegistration extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(this, "Please enter your valid NIC number!", "Warning", JOptionPane.WARNING_MESSAGE);
         } else if (selectedDate == null) {
             JOptionPane.showMessageDialog(this, "Please enter a your date of brith!", "Warning", JOptionPane.WARNING_MESSAGE);
+        } else if (Intake.matches("Select")) {
+            JOptionPane.showMessageDialog(this, "Please Enter Your Intake", "Warning", JOptionPane.WARNING_MESSAGE);
         } else {
 
             try {
@@ -461,8 +470,8 @@ public class StudentRegistration extends javax.swing.JPanel {
 //                                logger.log(Level.INFO, "Formatted date of birth: {0}", formattedDOB);
 
                                     MySQL2.executeIUD(
-                                            "INSERT INTO `student`(`nic`, `first_name`, `last_name`, `dob`, `contact_info`, `registration_date`, `email`, `gender_id`) "
-                                            + "VALUES ('" + NIC + "', '" + FirstName + "', '" + LastName + "', '" + formattedDOB + "', '" + Mobile + "', '" + fdate + "', '" + Email + "', '" + gender.get(Gender) + "')");
+                                            "INSERT INTO `student`(`nic`, `first_name`, `last_name`, `dob`, `contact_info`, `registration_date`, `email`, `gender_id`, `intake_id`) "
+                                            + "VALUES ('" + NIC + "', '" + FirstName + "', '" + LastName + "', '" + formattedDOB + "', '" + Mobile + "', '" + fdate + "', '" + Email + "', '" + gender.get(Gender) + "', '" + intakeMap.get(Intake) + "')");
                                 } catch (ParseException e) {
                                     // Handle invalid date format
                                     e.printStackTrace();
@@ -496,6 +505,7 @@ public class StudentRegistration extends javax.swing.JPanel {
         String Mobile = jTextField3.getText();
         String Email = jTextField4.getText();
         String Gender = String.valueOf(jComboBox1.getSelectedItem());
+        String Intake = String.valueOf(jComboBox2.getSelectedItem());
         String NIC = jTextField5.getText();
         String DOB = jTextField6.getText();
 
@@ -527,6 +537,8 @@ public class StudentRegistration extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(this, "Please enter your valid NIC number!", "Warning", JOptionPane.WARNING_MESSAGE);
         } else if (DOB == null) {
             JOptionPane.showMessageDialog(this, "Please select a date!", "Warning", JOptionPane.WARNING_MESSAGE);
+        } else if (Intake.matches("Select")) {
+            JOptionPane.showMessageDialog(this, "Please Enter Your Intake", "Warning", JOptionPane.WARNING_MESSAGE);
         } else {
             try {
 //                logger.log(Level.INFO, "Starting update process for NIC: {0}", NIC);
@@ -536,9 +548,10 @@ public class StudentRegistration extends javax.swing.JPanel {
                     Date parsedDate = inputFormat.parse(DOB);
                     String formattedDOB = inputFormat.format(parsedDate);
 //                logger.log(Level.INFO, "Formatted date of birth: {0}", formattedDOB);
+                    
 
                     MySQL2.executeIUD("UPDATE `student` SET `first_name` = '" + FirstName + "', `last_name` = '" + LastName + "', `dob` = '" + formattedDOB + "',"
-                            + " `contact_info` = '" + Mobile + "', `email` = '" + Email + "',`gender_id` = '" + gender.get(Gender) + "' WHERE `nic` = '" + NIC + "'");
+                            + " `contact_info` = '" + Mobile + "', `email` = '" + Email + "',`gender_id` = '" + gender.get(Gender) + "', `intake_id` = '" + intakeMap.get(Intake) + "' WHERE `nic` = '" + NIC + "'");
                 } catch (ParseException e) {
                     // Handle invalid date format
                     e.printStackTrace();
