@@ -318,7 +318,7 @@ public class TodoList extends javax.swing.JPanel {
                 if (selectedTask.isCompleted()) {
                     // If the task is completed, show a message and disable editing
                     txtTaskInput.setText(""); // Clear the text field
-                    txtTaskInput.setEnabled(false); // Disable editing
+//                    txtTaskInput.setEnabled(false); // Disable editing
                     JOptionPane.showMessageDialog(this, "Completed tasks cannot be edited.");
                 } else {
                     // If the task is not completed, allow editing
