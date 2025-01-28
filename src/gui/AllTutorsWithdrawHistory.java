@@ -36,6 +36,8 @@ public class AllTutorsWithdrawHistory extends javax.swing.JPanel {
         loadAllTutorsWithdrawHistory();
         addSearchFunctionality();
         addTableClickListener();
+//        
+
     }
 
     public void loadAllTutorsWithdrawHistory() {
@@ -51,7 +53,7 @@ public class AllTutorsWithdrawHistory extends javax.swing.JPanel {
                     + "JOIN tutor t ON th.tutor_id = t.id";
 
             ResultSet rs = MySQL2.executeSearch(query);
-            
+
             while (rs.next()) {
                 Vector<String> vector = new Vector<>();
                 vector.add(rs.getString("tutor_id"));
@@ -61,7 +63,7 @@ public class AllTutorsWithdrawHistory extends javax.swing.JPanel {
 
                 model.addRow(vector);
             }
-            
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -119,17 +121,26 @@ public class AllTutorsWithdrawHistory extends javax.swing.JPanel {
     }
 
     private void addTableClickListener() {
-        jTable1.addMouseListener(new MouseAdapter() {
+       jTable1.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 if (e.getClickCount() == 2) { // Double-click to open details
                     int selectedRow = jTable1.getSelectedRow();
                     if (selectedRow != -1) {
                         // Get the tutor ID from the selected row
-                        int tutorId = Integer.parseInt(String.valueOf(jTable1. getValueAt(selectedRow, 0)));
+                        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+                        String tutorIdStr = model.getValueAt(selectedRow, 0).toString();
 
-                        // Open the TutorDetails panel or form
-                        openTutorDetails(tutorId);
+                        try {
+                            // Parse tutor ID to integer
+                            int tutorId = Integer.parseInt(tutorIdStr);
+
+                            // Open the TutorDetails panel or form
+                            openTutorDetails(tutorId);
+                        } catch (NumberFormatException ex) {
+                            System.err.println("Invalid tutor ID format: " + tutorIdStr);
+                            ex.printStackTrace();
+                        }
                     }
                 }
             }
@@ -272,30 +283,30 @@ public class AllTutorsWithdrawHistory extends javax.swing.JPanel {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
-       jTable1.addMouseListener(new MouseAdapter() {
-        @Override
-        public void mouseClicked(MouseEvent e) {
-            if (e.getClickCount() == 2) { // Double-click to open details
-                int selectedRow = jTable1.getSelectedRow();
-                if (selectedRow != -1) {
-                    // Get the tutor ID from the selected row
-                    DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-                    String tutorIdStr = model.getValueAt(selectedRow, 0).toString();
-
-                    try {
-                        // Parse tutor ID to integer
-                        int tutorId = Integer.parseInt(tutorIdStr);
-
-                        // Open the TutorDetails panel or form
-                        openTutorDetails(tutorId);
-                    } catch (NumberFormatException ex) {
-                        System.err.println("Invalid tutor ID format: " + tutorIdStr);
-                        ex.printStackTrace();
-                    }
-                }
-            }
-        }
-    });
+//       jTable1.addMouseListener(new MouseAdapter() {
+//        @Override
+//        public void mouseClicked(MouseEvent e) {
+//            if (e.getClickCount() == 2) { // Double-click to open details
+//                int selectedRow = jTable1.getSelectedRow();
+//                if (selectedRow != -1) {
+//                    // Get the tutor ID from the selected row
+//                    DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+//                    String tutorIdStr = model.getValueAt(selectedRow, 0).toString();
+//
+//                    try {
+//                        // Parse tutor ID to integer
+//                        int tutorId = Integer.parseInt(tutorIdStr);
+//
+//                        // Open the TutorDetails panel or form
+//                        openTutorDetails(tutorId);
+//                    } catch (NumberFormatException ex) {
+//                        System.err.println("Invalid tutor ID format: " + tutorIdStr);
+//                        ex.printStackTrace();
+//                    }
+//                }
+//            }
+//        }
+//    });
     }//GEN-LAST:event_jTable1MouseClicked
 
 
