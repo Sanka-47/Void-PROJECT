@@ -368,8 +368,8 @@ public class AddStudentAttendanceJDialog extends javax.swing.JDialog {
                                 + "WHERE `attendance`.`id` = '" + ID + "'");
 
                 JOptionPane.showMessageDialog(this, "Success!", "SUCCESS", JOptionPane.INFORMATION_MESSAGE);
-
                 clearAll();
+                this.dispose();
 
             } catch (Exception e) {
                 e.printStackTrace();
