@@ -9,6 +9,7 @@ import java.sql.ResultSet;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Vector;
 import javax.swing.table.DefaultTableModel;
 import model.MySQL2;
 import net.sf.jasperreports.engine.JRException;
@@ -28,51 +29,82 @@ public class CourseRevenueReport extends javax.swing.JFrame {
      */
     public CourseRevenueReport() {
         initComponents();
-         loadCourseRevenueData();
+        loadCourseRevenueData();
     }
-    
-      private void loadCourseRevenueData() {
-        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-        model.setRowCount(0); // Clear existing rows
 
-        String query = "SELECT \n" +
-"    courses.id AS course_id,\n" +
-"    courses.name AS course_name,\n" +
-"    courses.grade_level AS grade_level,\n" +
-"    COUNT(invoice_item.id) AS student_count,\n" +
-"    IFNULL(SUM(invoice.total), 0) AS total_revenue,\n" +
-"    IFNULL(AVG(invoice.total), 0) AS avg_payment_per_student\n" +
-"FROM \n" +
-"    courses\n" +
-"LEFT JOIN \n" +
-"    class ON courses.id = class.courses_id\n" +
-"LEFT JOIN \n" +
-"    invoice_item ON invoice_item.courses_id = courses.id\n" +
-"LEFT JOIN \n" +
-"    invoice ON invoice.id = invoice_item.invoice_id\n" +
-"GROUP BY \n" +
-"    courses.id, courses.name, courses.grade_level\n" +
-"ORDER BY \n" +
-"    total_revenue DESC;";
-               
+    private void loadCourseRevenueData() {
         try {
-            ResultSet rs = MySQL2.executeSearch(query);
-            while (rs.next()) {
-                model.addRow(new Object[]{
-                    rs.getString("course_id"),
-                    rs.getString("course_name"),
-                    rs.getString("grade_level"),
-                    rs.getString("student_count"),
-                    rs.getString("total_revenue"),
-                    
-                });
+            // Get the selected sort option and search text
+            String sort = String.valueOf(jComboBox1.getSelectedItem());
+//            String searchText = jTextField1.getText().toLowerCase();
+
+            // Base query
+            String query = "SELECT \n"
+                    + "    courses.id AS course_id,\n"
+                    + "    courses.name AS course_name,\n"
+                    + "    courses.grade_level AS grade_level,\n"
+                    + "    COUNT(invoice_item.id) AS student_count,\n"
+                    + "    IFNULL(SUM(invoice.total), 0) AS total_revenue\n"
+                    + "FROM \n"
+                    + "    courses\n"
+                    + "LEFT JOIN \n"
+                    + "    class ON courses.id = class.courses_id\n"
+                    + "LEFT JOIN \n"
+                    + "    invoice_item ON invoice_item.courses_id = courses.id\n"
+                    + "LEFT JOIN \n"
+                    + "    invoice ON invoice.id = invoice_item.invoice_id\n";
+
+            // Add search filter if searchText is not empty
+//            if (!searchText.isEmpty()) {
+//                query += "WHERE LOWER(courses.id) LIKE '%" + searchText + "%' "
+//                        + "OR LOWER(courses.name) LIKE '%" + searchText + "%' "
+//                        + "OR LOWER(courses.grade_level) LIKE '%" + searchText + "%' ";
+//            }
+
+            // Add sorting based on the selected sort option
+            if (sort.equals("No. of Students ASC")) {
+                query += "GROUP BY courses.id, courses.name, courses.grade_level ORDER BY student_count ASC";
+            } else if (sort.equals("No. of Students DESC")) {
+                query += "GROUP BY courses.id, courses.name, courses.grade_level ORDER BY student_count DESC";
+            } else if (sort.equals("Course ID ASC")) {
+                query += "GROUP BY courses.id, courses.name, courses.grade_level ORDER BY course_id ASC";
+            } else if (sort.equals("Course ID DESC")) {
+                query += "GROUP BY courses.id, courses.name, courses.grade_level ORDER BY course_id DESC";
+            } else if (sort.equals("Course Name ASC")) {
+                query += "GROUP BY courses.id, courses.name, courses.grade_level ORDER BY course_name ASC";
+            } else if (sort.equals("Course Name DESC")) {
+                query += "GROUP BY courses.id, courses.name, courses.grade_level ORDER BY course_name DESC";
+            } else if (sort.equals("Total Revenue ASC")) {
+                query += "GROUP BY courses.id, courses.name, courses.grade_level ORDER BY total_revenue ASC";
+            } else if (sort.equals("Total Revenue DESC")) {
+                query += "GROUP BY courses.id, courses.name, courses.grade_level ORDER BY total_revenue DESC";
             }
-        } catch (Exception e) {
-            e.printStackTrace();
+
+            // Execute the query
+            ResultSet rs = MySQL2.executeSearch(query);
+
+            // Clear existing rows in the table
+            DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+            model.setRowCount(0);
+
+            // Populate the table with the query results
+            while (rs.next()) {
+                Vector<Object> rowData = new Vector<>();
+                rowData.add(rs.getString("course_id"));
+                rowData.add(rs.getString("course_name"));
+                rowData.add(rs.getString("grade_level"));
+                rowData.add(rs.getString("student_count"));
+                rowData.add(rs.getString("total_revenue"));
+
+                model.addRow(rowData);
+            }
+
+            jTable1.setModel(model); // Update the table model
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
     }
 
-    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -86,6 +118,8 @@ public class CourseRevenueReport extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         jButton2 = new javax.swing.JButton();
+        jComboBox1 = new javax.swing.JComboBox<>();
+        jLabel4 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -118,6 +152,16 @@ public class CourseRevenueReport extends javax.swing.JFrame {
             }
         });
 
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "No. of Students ASC", "No. of Students DESC", "Course ID ASC", "Course ID DESC", "Course Name ASC", "Course Name DESC", "Total Revenue ASC", "Total Revenue DESC" }));
+        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox1ActionPerformed(evt);
+            }
+        });
+
+        jLabel4.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
+        jLabel4.setText("Sort By :");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -125,20 +169,33 @@ public class CourseRevenueReport extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 791, Short.MAX_VALUE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel1)
-                .addGap(289, 289, 289))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 791, Short.MAX_VALUE)
+                            .addComponent(jButton2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap())
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jLabel4)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel1)
+                        .addGap(289, 289, 289))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(33, 33, 33)
-                .addComponent(jLabel1)
-                .addGap(28, 28, 28)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(21, 21, 21)
+                        .addComponent(jLabel1)
+                        .addGap(40, 40, 40))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel4))
+                        .addGap(18, 18, 18)))
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 343, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -164,6 +221,10 @@ public class CourseRevenueReport extends javax.swing.JFrame {
         }
         JasperViewer.viewReport(jasperPrint, false);
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+        loadCourseRevenueData();
+    }//GEN-LAST:event_jComboBox1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -202,7 +263,9 @@ public class CourseRevenueReport extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton2;
+    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
     // End of variables declaration//GEN-END:variables
