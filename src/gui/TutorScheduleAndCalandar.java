@@ -199,29 +199,54 @@ public class TutorScheduleAndCalandar extends javax.swing.JPanel {
             SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 
             if (from != null && !from.isEmpty() && to != null && !to.isEmpty()) {
+                System.out.println("Date filter: " + from + " to " + to); // Debugging: Check if date range is being set correctly
+                System.out.println("Date range: " + from + " to " + to); // Check if dates are passed correctly
                 if (query.contains("WHERE")) {
                     query += " AND date BETWEEN '" + from + "' AND '" + to + "'";
                 } else {
                     query += " WHERE date BETWEEN '" + from + "' AND '" + to + "'";
                 }
+            } else {
+                System.out.println("No date range provided, skipping date filter");
             }
+//            if (sort.equals("Hall Number ASC")) {
+//                query += "ORDER BY `hallnumber` ASC ";
+//            } else if (sort.equals("Hall Number DESC")) {
+//                query += "ORDER BY `hallnumber` DESC";
+//            } else if (sort.equals("Tutor Name ASC")) {
+//                query += "ORDER BY `tutor`.`first_name` ASC";
+//            } else if (sort.equals("Tutor Name DESC")) {
+//                query += "ORDER BY `tutor`.`first_name` DESC";
+//            } else if (sort.equals("Subject ASC")) {
+//                query += "ORDER BY LOWER(TRIM(`courses`.`name`)) ASC";
+//            } else if (sort.equals("Subject DESC")) {
+//                query += "ORDER BY LOWER(`courses`.`name`) DESC";
+//            } else if (sort.equals("ID ASC")) {
+//                query += "ORDER BY `class`.`id` ASC";
+//            } else if (sort.equals("ID DESC")) {
+//                query += "ORDER BY `class`.`id` DESC";
+//            }
+
+            // Sort the query based on the selected value from the combo box
             if (sort.equals("Hall Number ASC")) {
-                query += "ORDER BY `hallnumber` ASC ";
+                query += " ORDER BY `hallnumber` ASC";
             } else if (sort.equals("Hall Number DESC")) {
-                query += "ORDER BY `hallnumber` DESC";
+                query += " ORDER BY `hallnumber` DESC";
             } else if (sort.equals("Tutor Name ASC")) {
-                query += "ORDER BY `tutor`.`first_name` ASC";
+                query += " ORDER BY `tutor`.`first_name` ASC";
             } else if (sort.equals("Tutor Name DESC")) {
-                query += "ORDER BY `tutor`.`first_name` DESC";
+                query += " ORDER BY `tutor`.`first_name` DESC";
             } else if (sort.equals("Subject ASC")) {
-                query += "ORDER BY `courses`.`name` ASC";
+                query += " ORDER BY TRIM(`courses`.`name`) COLLATE utf8mb4_unicode_ci ASC";
             } else if (sort.equals("Subject DESC")) {
-                query += "ORDER BY `courses`.`name` DESC";
+                query += " ORDER BY TRIM(`courses`.`name`) COLLATE utf8mb4_unicode_ci DESC";
             } else if (sort.equals("ID ASC")) {
-                query += "ORDER BY `class`.`id` ASC";
+                query += " ORDER BY `class`.`id` ASC";
             } else if (sort.equals("ID DESC")) {
-                query += "ORDER BY `class`.`id` DESC";
+                query += " ORDER BY `class`.`id` DESC";
             }
+
+            System.out.println("Executing Query: " + query); // Ensure this is showing the correct query
 
             ResultSet resultSet = MySQL2.executeSearch(query);
             DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
@@ -240,11 +265,14 @@ public class TutorScheduleAndCalandar extends javax.swing.JPanel {
                 vector.add(resultSet.getString("amount"));
                 vector.add(resultSet.getString("class_status.name"));
 
-                model.addRow(vector);
+                System.out.println("Adding row: " + vector); // Debugging: Print each row added to the table
+                model.addRow(vector); // Add the row to the table model
             }
 
+            model.fireTableDataChanged(); // Refresh the table data
+
         } catch (Exception e) {
-            e.printStackTrace();
+            e.printStackTrace(); // Print stack trace for debugging if there's an error
         }
     }
 
@@ -479,7 +507,6 @@ public class TutorScheduleAndCalandar extends javax.swing.JPanel {
         jLabel7 = new javax.swing.JLabel();
         jTextField2 = new javax.swing.JTextField();
         jLabel9 = new javax.swing.JLabel();
-        jDateChooser1 = new com.toedter.calendar.JDateChooser();
         jLabel10 = new javax.swing.JLabel();
         jFormattedTextField1 = new javax.swing.JFormattedTextField();
         jLabel11 = new javax.swing.JLabel();
@@ -685,10 +712,8 @@ public class TutorScheduleAndCalandar extends javax.swing.JPanel {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                 .addGroup(layout.createSequentialGroup()
-                                    .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(18, 18, Short.MAX_VALUE)
+                                    .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                         .addComponent(jLabel16)
                                         .addComponent(jFormattedTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -697,7 +722,7 @@ public class TutorScheduleAndCalandar extends javax.swing.JPanel {
                                         .addGroup(layout.createSequentialGroup()
                                             .addComponent(jLabel9)
                                             .addGap(0, 0, Short.MAX_VALUE))
-                                        .addComponent(jTextField3))
+                                        .addComponent(jTextField3, javax.swing.GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE))
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                         .addGroup(layout.createSequentialGroup()
@@ -792,11 +817,9 @@ public class TutorScheduleAndCalandar extends javax.swing.JPanel {
                             .addComponent(jLabel9)
                             .addComponent(jLabel16))
                         .addGap(4, 4, 4)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jDateChooser1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(jFormattedTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jFormattedTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -843,14 +866,14 @@ public class TutorScheduleAndCalandar extends javax.swing.JPanel {
         } else if (className.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Please enter the Title!", "Warning", JOptionPane.WARNING_MESSAGE);
             return;
-        } else if (dateText.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Please enter a Date!", "Warning", JOptionPane.WARNING_MESSAGE);
-            return;
         } else if (!startTime.matches(timeRegex)) {
             JOptionPane.showMessageDialog(this, "Please enter a valid Starting time in 24-hour format (e.g., 12.00)!", "Warning", JOptionPane.WARNING_MESSAGE);
             return;
         } else if (!endTime.matches(timeRegex)) {
             JOptionPane.showMessageDialog(this, "Please enter a valid Ending time in 24-hour format (e.g., 14.00)!", "Warning", JOptionPane.WARNING_MESSAGE);
+            return;
+        } else if (dateText.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please enter a Date!", "Warning", JOptionPane.WARNING_MESSAGE);
             return;
         } else if (hallnumber.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Please enter the Location!", "Warning", JOptionPane.WARNING_MESSAGE);
@@ -1028,9 +1051,6 @@ public class TutorScheduleAndCalandar extends javax.swing.JPanel {
         } else if (className.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Please enter the Title!", "Warning", JOptionPane.WARNING_MESSAGE);
             return;
-        } else if (dateString.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Please enter a Date!", "Warning", JOptionPane.WARNING_MESSAGE);
-            return;
         } else if (startTime.isEmpty() || !startTime.matches(timeRegex)) {
             JOptionPane.showMessageDialog(this, "Please enter a valid Starting time in the format HH.mm (e.g., 12.00)!", "Warning", JOptionPane.WARNING_MESSAGE);
             return;
@@ -1039,6 +1059,9 @@ public class TutorScheduleAndCalandar extends javax.swing.JPanel {
             return;
         } else if (hallnumber.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Please enter the Location!", "Warning", JOptionPane.WARNING_MESSAGE);
+            return;
+        } else if (dateString.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please enter a Date!", "Warning", JOptionPane.WARNING_MESSAGE);
             return;
         } else if (price.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Please enter the Amount!", "Warning", JOptionPane.WARNING_MESSAGE);
@@ -1247,6 +1270,8 @@ public class TutorScheduleAndCalandar extends javax.swing.JPanel {
 
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
 
+        jButton8.setEnabled(false);
+        
         jTextField1.setEditable(false);
 
         int row = jTable1.getSelectedRow();
@@ -1455,7 +1480,6 @@ public class TutorScheduleAndCalandar extends javax.swing.JPanel {
     private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JComboBox<String> jComboBox3;
     private javax.swing.JComboBox<String> jComboBox4;
-    private com.toedter.calendar.JDateChooser jDateChooser1;
     private javax.swing.JFormattedTextField jFormattedTextField1;
     private javax.swing.JFormattedTextField jFormattedTextField2;
     private javax.swing.JFormattedTextField jFormattedTextField3;

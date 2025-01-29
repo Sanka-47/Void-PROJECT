@@ -365,7 +365,8 @@ public class CourseRegistration extends javax.swing.JPanel {
             loadCourseDetails();
             reset();
             JOptionPane.showMessageDialog(this, "Course updated successfully!");
-
+            jButton2.setEnabled(true);
+            
         } catch (Exception e) {
             e.printStackTrace();
             JOptionPane.showMessageDialog(this, "Failed to update the course.", "Error", JOptionPane.ERROR_MESSAGE);
