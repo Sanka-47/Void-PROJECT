@@ -237,7 +237,7 @@ public class AllCourses extends javax.swing.JPanel {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
 
-        String path = "src//reports//AllCourse.jasper";
+        String path = "src//reports//AllCourses.jasper";
         String dateTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
         HashMap<String, Object> params = new HashMap<>();
         params.put("Parameter1", dateTime);
