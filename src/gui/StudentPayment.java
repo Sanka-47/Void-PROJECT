@@ -271,6 +271,23 @@ public class StudentPayment extends javax.swing.JFrame {
 
     }
 
+    public void clearAll() {
+        invoiceNumberField.setText("");
+        StudentNameFields.setText("");
+        SubjectNameField.setText("");
+        customerName.setText("STUDENT NIC HERE");
+        totalField.setText("0");
+        jComboBox1.setSelectedItem("Select");
+        paymentField.setText("0");
+        balanceFiled.setText("0");
+        EmptyTable();
+        printInvoiceButton.setEnabled(false);
+        invoiceItemMap.clear();
+        generateInvoiceID();
+        jButton4.setEnabled(true);
+        jButton5.setEnabled(true);
+    }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -404,7 +421,7 @@ public class StudentPayment extends javax.swing.JFrame {
                         .addComponent(jLabel5)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addComponent(customerName, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(36, 36, 36))
+                .addContainerGap())
         );
 
         jPanel5.setBackground(new java.awt.Color(235, 235, 235));
@@ -470,11 +487,11 @@ public class StudentPayment extends javax.swing.JFrame {
                     .addComponent(jButton6)
                     .addComponent(jLabel6)
                     .addComponent(SubjectNameField, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(69, 69, 69)
+                .addGap(41, 41, 41)
                 .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addContainerGap(19, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -491,10 +508,11 @@ public class StudentPayment extends javax.swing.JFrame {
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(0, 13, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(22, 22, 22))
         );
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
@@ -627,19 +645,20 @@ public class StudentPayment extends javax.swing.JFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addGap(32, 32, 32)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1231, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1231, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(14, 14, 14)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 283, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 239, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -655,9 +674,9 @@ public class StudentPayment extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 531, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(20, 20, 20)
+                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -761,45 +780,31 @@ public class StudentPayment extends javax.swing.JFrame {
 
             //Withdraw Points
             //view or print report
-//            String path = "src//reports//minvoice.jasper";
-//            if (!customerMobile.isEmpty()) {
-//                InputStream s = this.getClass().getResourceAsStream("/reports/minvoice.jasper");
-//
-//                HashMap<String, Object> params = new HashMap<>();
-//                params.put("Parameter1", totalField.getText());
-////                params.put("Parameter2", discountField.getText());
-//                params.put("Parameter3", String.valueOf(jComboBox1.getSelectedItem()));
-//                params.put("Parameter4", paymentField.getText());
-//                params.put("Parameter5", balanceFiled.getText());
-//
-//                params.put("Parameter6", invoiceNumberField.getText());
-//                params.put("Parameter7", StudentNameFields.getText());
-//                params.put("Parameter8", employeeLable.getText());
-//                params.put("Parameter9", dateTime);
-//
-////                JRTableModelDataSource dataSource = new JRTableModelDataSource(jTable1.getModel());
-////                JasperPrint jasperPrint = JasperFillManager.fillReport(s, params, dataSource);
-////                JasperViewer.viewReport(jasperPrint, false);
-//            } else {
-//                InputStream s = this.getClass().getResourceAsStream("/reports/cinvoice.jasper");
-//
-//                HashMap<String, Object> params = new HashMap<>();
-//                params.put("Parameter1", totalField.getText());
-////                params.put("Parameter2", discountField.getText());
-//                params.put("Parameter3", String.valueOf(jComboBox1.getSelectedItem()));
-//                params.put("Parameter4", paymentField.getText());
-//                params.put("Parameter5", balanceFiled.getText());
-//
-//                params.put("Parameter6", invoiceNumberField.getText());
-//
-//                params.put("Parameter8", employeeLable.getText());
-//                params.put("Parameter9", dateTime);
-//
-////                JRTableModelDataSource dataSource = new JRTableModelDataSource(jTable1.getModel());
-////                JasperPrint jasperPrint = JasperFillManager.fillReport(s, params, dataSource);
-////                JasperViewer.viewReport(jasperPrint, false);
-//            }
+            String path = "src//reports//CoursePayment.jasper";
+//            String dateTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
+            HashMap<String, Object> params = new HashMap<>();
+            params.put("Parameter1", invoiceNumberField.getText());
+            params.put("Parameter3", StudentNameFields.getText());
+            params.put("Parameter2", SubjectNameField.getText());
+            params.put("Parameter4", employeeLable.getText());
+            params.put("Parameter5", totalField.getText());
+            params.put("Parameter6", jComboBox1.getSelectedItem());
+            params.put("Parameter7", paymentField.getText());
+            params.put("Parameter8", balanceFiled.getText());
+            params.put("Parameter9", dateTime);
+            params.put("QR Code", invoiceNumberField.getText());
+
+            JRTableModelDataSource dataSource = new JRTableModelDataSource(jTable1.getModel());
+            JasperPrint jasperPrint = null;
+            try {
+                jasperPrint = JasperFillManager.fillReport(path, params, dataSource);
+            } catch (JRException e) {
+                e.printStackTrace();
+            }
+            JasperViewer.viewReport(jasperPrint, false);
+
             reset1();
+            clearAll();
             printInvoiceButton.setEnabled(false);
             invoiceItemMap.clear();
             generateInvoiceID();
@@ -808,77 +813,11 @@ public class StudentPayment extends javax.swing.JFrame {
             e.printStackTrace();
         }
 
-//        //view or print report
-//        String path = "src//reports//CoursePayment.jasper";
-//        String dateTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
-//        HashMap<String, Object> params = new HashMap<>();
-//        params.put("Parameter1", invoiceNumberField.getText());
-//        params.put("Parameter3", StudentNameFields.getText());
-//        params.put("Parameter2", SubjectNameField.getText());
-//        params.put("Parameter4", employeeLable.getText());
-//        params.put("Parameter5", totalField.getText());
-//        params.put("Parameter6", jComboBox1.getSelectedItem());
-//        params.put("Parameter7", paymentField.getText());
-//        params.put("Parameter8", balanceFiled.getText());
-//        params.put("Parameter9", dateTime);
-//        
-//        JRTableModelDataSource dataSource = new JRTableModelDataSource(jTable1.getModel());
-//        JasperPrint jasperPrint = null;
-//        try {
-//            jasperPrint = JasperFillManager.fillReport(path, params, dataSource);
-//        } catch (JRException e) {
-//            e.printStackTrace();
-//        }
-//        JasperViewer.viewReport(jasperPrint, false);
-//        try {
-//
-//            InputStream filePath = StudentPayment.class.getResourceAsStream("/reports/CoursePayment.jasper");
-//            String dateTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
-//            Map<String, Object> parameters = new HashMap<>();
-//            parameters.put("QR Code", "123456789");
-//            parameters.put("Parameter1", invoiceNumberField.getText());
-//            parameters.put("Parameter3", StudentNameFields.getText());
-//            parameters.put("Parameter2", SubjectNameField.getText());
-//            parameters.put("Parameter4", employeeLable.getText());
-//            parameters.put("Parameter5", totalField.getText());
-//            parameters.put("Parameter6", jComboBox1.getSelectedItem());
-//            parameters.put("Parameter7", paymentField.getText());
-//            parameters.put("Parameter8", balanceFiled.getText());
-//            parameters.put("Parameter9", dateTime);
-//            JasperPrint fillReport = JasperFillManager.fillReport(filePath, parameters, new JREmptyDataSource());
-//            JasperViewer.viewReport(fillReport, false);
-//
-//        } catch (JRException e) {
-//            e.printStackTrace();
-//        }
-
-//view or print report
-        String path = "src//reports//CoursePayment.jasper";
-        String dateTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
-        HashMap<String, Object> params = new HashMap<>();
-        params.put("Parameter1", invoiceNumberField.getText());
-        params.put("Parameter3", StudentNameFields.getText());
-        params.put("Parameter2", SubjectNameField.getText());
-        params.put("Parameter4", employeeLable.getText());
-        params.put("Parameter5", totalField.getText());
-        params.put("Parameter6", jComboBox1.getSelectedItem());
-        params.put("Parameter7", paymentField.getText());
-        params.put("Parameter8", balanceFiled.getText());
-        params.put("Parameter9", dateTime);
-        params.put("QR Code", invoiceNumberField.getText());
-        
-        JRTableModelDataSource dataSource = new JRTableModelDataSource(jTable1.getModel());
-        JasperPrint jasperPrint = null;
-        try {
-            jasperPrint = JasperFillManager.fillReport(path, params, dataSource);
-        } catch (JRException e) {
-            e.printStackTrace();
-        }
-        JasperViewer.viewReport(jasperPrint, false);
     }//GEN-LAST:event_printInvoiceButtonActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         reset();
+        clearAll();
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
