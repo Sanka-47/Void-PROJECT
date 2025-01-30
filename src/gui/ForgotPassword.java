@@ -10,6 +10,7 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import javax.swing.JOptionPane;
+import javax.swing.SwingConstants;
 import model.MySQL2;
 
 public class ForgotPassword extends javax.swing.JDialog {
@@ -158,7 +159,7 @@ public class ForgotPassword extends javax.swing.JDialog {
         Properties props = new Properties();
         props.put("mail.smtp.host", "smtp.gmail.com");
         props.put("mail.smtp.port", 465);
-        props.put("mail.smtp.user", "gayanlmdjayawardana@gmail.com");
+        props.put("mail.smtp.user", ""); // Add my email address
         props.put("mail.smtp.auth", "true");
         props.put("mail.smtp.starttls.enable", "true");
         props.put("mail.smtp.debug", "true");
@@ -175,20 +176,22 @@ public class ForgotPassword extends javax.swing.JDialog {
                 MimeMessage message = new MimeMessage(session);
                 message.setText("Your verification code is " + vCode);
                 message.setSubject("Verification Code");
-                message.setFrom(new InternetAddress("gayanlmdjayawardana@gmail.com"));
+                message.setFrom(new InternetAddress("")); // Add my email address
                 message.addRecipient(RecipientType.TO, new InternetAddress(email));
                 message.saveChanges();
                 Transport transport = session.getTransport("smtp");
-                transport.connect("smtp.gmail.com", "gayanlmdjayawardana@gmail.com", "gafakwcqltwnspow");
+                transport.connect("smtp.gmail.com", "", "gafakwcqltwnspow"); // Add my email address
                 transport.sendMessage(message, message.getAllRecipients());
                 transport.close();
-                jLabel1.setText("Code Sent");
+                JOptionPane.showMessageDialog(this, "Code sent, please check your email!", "Warning", JOptionPane.INFORMATION_MESSAGE);
 
             }
 
         } catch (Exception e) {
             e.printStackTrace();
-            jLabel1.setText("Email Address not found");
+            JOptionPane.showMessageDialog(this, "Email Address is not found!", "Error", JOptionPane.ERROR_MESSAGE);
+//            jLabel1.setText("Email Address not found");
+//            jLabel1.setHorizontalAlignment(SwingConstants.LEFT);
 
         }
 

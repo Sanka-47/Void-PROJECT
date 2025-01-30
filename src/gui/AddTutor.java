@@ -128,7 +128,7 @@ public class AddTutor extends javax.swing.JPanel {
         });
     }
     
-    private void LoadCourses() {
+    void LoadCourses() {
 
         try {
 
@@ -139,7 +139,10 @@ public class AddTutor extends javax.swing.JPanel {
                 String courseName = resultSet.getString("name");
                 String courseId = resultSet.getString("id");
                 ResultSet resultSet1 = MySQL2.executeSearch("SELECT courses_id FROM `tutor` WHERE `courses_id` = '" + courseId + "' ");
-                if (!resultSet1.next()) {
+                if (!resultSet1.next() && jButton2.isEnabled()) {
+                    vector.add(resultSet.getString("name"));
+                    courseMap.put(resultSet.getString("name"), resultSet.getString("id"));
+                } else {
                     vector.add(resultSet.getString("name"));
                     courseMap.put(resultSet.getString("name"), resultSet.getString("id"));
                 }
@@ -187,6 +190,7 @@ public class AddTutor extends javax.swing.JPanel {
         jButton1.setEnabled(true);
         jButton2.setEnabled(false);
         jButton4.setEnabled(false);
+        LoadCourses();
 
     }
 
@@ -466,7 +470,7 @@ public class AddTutor extends javax.swing.JPanel {
                     MySQL2.executeIUD("INSERT INTO `tutor`(`first_name`,`last_name`,`qualification`,`contact_info`,`email`,`gender_id`,`password`,`nic`,`dob`,`registration_date`,`courses_id`)"
                             + "VALUES('" + firstName + "','" + lastName + "','" + qualification + "','" + mobile + "','" + email + "','" + genderMap.get(gender) + "','" + password + "',"
                             + "'" + nic + "','" + dob + "','" + fdate + "','" + courseMap.get(courses) + "')");
-                    JOptionPane.showMessageDialog(this, "Tutor " + firstName + " " + lastName + " successfully added!", "Warning", JOptionPane.INFORMATION_MESSAGE);
+                    JOptionPane.showMessageDialog(this, "Tutor :" + firstName + " " + lastName + " successfully added!", "Warning", JOptionPane.INFORMATION_MESSAGE);
                     ClearAll();
                     AllTutors allTutors = new AllTutors(parent);
                     parent.switchPanel(allTutors);

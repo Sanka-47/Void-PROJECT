@@ -350,6 +350,15 @@ public class AllTutors extends javax.swing.JPanel {
         String DOB = String.valueOf(jTable1.getValueAt(row, 9));
 
         if (evt.getClickCount() == 2) {
+            
+            // Disable buttons/fields as needed
+            updateTutor.getjTextField3().setEnabled(false);
+            updateTutor.getjPasswordField1().setEnabled(false);
+            updateTutor.getjButton1().setEnabled(false);
+            updateTutor.getjButton2().setEnabled(true);
+            updateTutor.getjButton3().setEnabled(true);
+            updateTutor.getjButton4().setEnabled(true);
+            updateTutor.LoadCourses();
             // Populate fields
             updateTutor.getjTextField1().setText(FirstName);
             updateTutor.getjTextField2().setText(LastName);
@@ -370,14 +379,6 @@ public class AllTutors extends javax.swing.JPanel {
 //            } catch (Exception e) {
 //                System.out.println("Error converting Object to Date: " + e.getMessage());
 //            }
-
-            // Disable buttons/fields as needed
-            updateTutor.getjTextField3().setEnabled(false);
-            updateTutor.getjPasswordField1().setEnabled(false);
-            updateTutor.getjButton1().setEnabled(false);
-            updateTutor.getjButton2().setEnabled(true);
-            updateTutor.getjButton3().setEnabled(true);
-            updateTutor.getjButton4().setEnabled(true);
 
             if (parent != null) {
                 switchToRegistrationAD();
