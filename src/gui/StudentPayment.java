@@ -316,34 +316,36 @@ public class StudentPayment extends javax.swing.JFrame {
                 MimeMessage message = new MimeMessage(session);
                 message.setSubject("Invoice from VOID Smart Edventures");
 
-                // HTML invoice content
-                message.setSubject("Invoice from VOID Smart Edventures");
-
                 // Use StringBuilder for HTML content
                 StringBuilder invoiceHtml = new StringBuilder();
                 invoiceHtml.append("<!DOCTYPE html>");
-                invoiceHtml.append("<html><head><meta charset='UTF-8'><title>Invoice</title>");
+                invoiceHtml.append("<html><head>");
+                invoiceHtml.append("<meta charset='UTF-8'>");
+                invoiceHtml.append("<title>Invoice</title>");
                 invoiceHtml.append("<style>");
                 invoiceHtml.append("body { font-family: Arial, sans-serif; padding: 20px; max-width: 800px; margin: auto; border: 2px solid #000; background: #fff; }");
-                invoiceHtml.append(".header { display: flex; justify-content: space-between; align-items: center; }");
-                invoiceHtml.append(".header h2 { font-size: 28px; }");
-                invoiceHtml.append(".company-info { text-align: right; font-size: 14px; }");
+                invoiceHtml.append("table { width: 100%; border-collapse: collapse; }");
+                invoiceHtml.append("th, td { border: 1px solid black; text-align: left; padding: 10px; }");
                 invoiceHtml.append(".invoice-info { margin-top: 20px; font-size: 16px; }");
                 invoiceHtml.append(".invoice-info span { font-weight: bold; }");
-                invoiceHtml.append(".table-container { margin-top: 20px; }");
-                invoiceHtml.append("table { width: 100%; border-collapse: collapse; }");
-                invoiceHtml.append("table, th, td { border: 1px solid black; text-align: left; padding: 10px; }");
                 invoiceHtml.append(".total-section { margin-top: 20px; font-size: 16px; text-align: right; }");
                 invoiceHtml.append(".barcode { text-align: center; font-size: 20px; margin-top: 20px; }");
                 invoiceHtml.append(".footer { margin-top: 20px; text-align: center; font-size: 14px; font-style: italic; }");
                 invoiceHtml.append("</style></head><body>");
 
-                invoiceHtml.append("<div class='header'><h2>INVOICE</h2>");
-                invoiceHtml.append("<div class='company-info'><strong>VOID Smart Edventures</strong><br>");
+// Header with Invoice Title & Company Info
+                invoiceHtml.append("<table style='width: 100%; border-collapse: collapse;'>");
+                invoiceHtml.append("<tr>");
+                invoiceHtml.append("<td style='text-align: left;'><h2>INVOICE</h2></td>");
+                invoiceHtml.append("<td style='text-align: right; font-size: 14px;'>");
+                invoiceHtml.append("<strong>VOID Smart Edventures</strong><br>");
                 invoiceHtml.append("No.10, Peradeniya Road, Kandy<br>");
                 invoiceHtml.append("Email: voidsmartedventures@gmail.com<br>");
                 invoiceHtml.append("Mobile: 081 234 5678<br><br>");
-                invoiceHtml.append("<span>Date: 2025-01-30 12:38:45</span></div></div>");
+                invoiceHtml.append("<span>Date: 2025-01-30 12:38:45</span>");
+                invoiceHtml.append("</td>");
+                invoiceHtml.append("</tr>");
+                invoiceHtml.append("</table>");
 
                 invoiceHtml.append("<div class='invoice-info'>");
                 invoiceHtml.append("<p><span>Invoice Number:</span> 1738226440473</p>");
