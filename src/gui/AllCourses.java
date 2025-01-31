@@ -80,7 +80,9 @@ public class AllCourses extends javax.swing.JPanel {
                 Vector<Object> vectorE = new Vector<>();
                 vectorE.add(rs.getString("id"));
                 vectorE.add(rs.getString("name"));
+                vectorE.add(rs.getString("course_description"));
                 vectorE.add(rs.getString("fee"));
+                
 
                 model.addRow(vectorE); // Add row to the table model
             }
@@ -114,11 +116,11 @@ public class AllCourses extends javax.swing.JPanel {
 
             },
             new String [] {
-                "Id", "Name", "Price"
+                "Id", "Name", "Description", "Price"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false
+                false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
