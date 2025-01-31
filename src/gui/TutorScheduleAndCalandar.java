@@ -1023,13 +1023,11 @@ public class TutorScheduleAndCalandar extends javax.swing.JPanel {
     }
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
-
+        
+        String sessionID = jTextField1.getText();
         String course = String.valueOf(jComboBox1.getSelectedItem());
         String tName = String.valueOf(jComboBox2.getSelectedItem());
         String className = jTextField2.getText();
-
-        // Use the date from Raven DateChooser (chDate) instead of jDateChooser
-//        Date date = sessionChDate.getSelectedDate();
         String dateString = jTextField6.getText();
 
         String startTime = jFormattedTextField1.getText();
@@ -1041,7 +1039,10 @@ public class TutorScheduleAndCalandar extends javax.swing.JPanel {
         String timeRegex = "^([01]?\\d|2[0-3])\\.\\d{2}$";
 
         // Validation checks
-        if (course.equals("Select") || courseMap.get(course) == null) {
+        if (sessionID.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please enter the Class ID!", "Warning", JOptionPane.WARNING_MESSAGE);
+            return;
+        } else if (course.equals("Select") || courseMap.get(course) == null) {
             JOptionPane.showMessageDialog(this, "Please select a valid course!", "Warning", JOptionPane.WARNING_MESSAGE);
             return;
         } else if (tName.equals("Select") || tutorMap.get(tName) == null) {
@@ -1127,8 +1128,8 @@ public class TutorScheduleAndCalandar extends javax.swing.JPanel {
                     }
 
                     // Insert data into the database with the "Pending" status ID
-                    MySQL2.executeIUD("INSERT INTO `class` (`name`, `date`, `start_time`, `end_time`, `hallnumber`, `amount`, `tutor_id`, `courses_id`, `class_status_id`) "
-                            + "VALUES ('" + className + "', '" + dateString + "', '" + startTimeAmPm + "', '" + endTimeAmPm + "', '" + hallnumber + "', '" + price + "', "
+                    MySQL2.executeIUD("INSERT INTO `class` (`id`, `name`, `date`, `start_time`, `end_time`, `hallnumber`, `amount`, `tutor_id`, `courses_id`, `class_status_id`) "
+                            + "VALUES ('" + sessionID + "', '" + className + "', '" + dateString + "', '" + startTimeAmPm + "', '" + endTimeAmPm + "', '" + hallnumber + "', '" + price + "', "
                             + "'" + tutorMap.get(tName) + "', '" + courseMap.get(course) + "', '" + pendingStatusID + "')");
 
                     if (rowData != null && !rowData.isEmpty()) {

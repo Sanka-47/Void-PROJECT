@@ -88,7 +88,7 @@ public class RequestSession extends javax.swing.JPanel {
 
         try {
             ResultSet resultSet = MySQL2.executeSearch("SELECT `courses`.`id`, `courses`.`name` FROM `courses` INNER JOIN `tutor` ON "
-                    + "courses.id = tutor.courses_id");
+                    + "courses.id = tutor.courses_id WHERE `tutor`.`id` = '" + tutorId + "'");
 
             Vector<String> vector = new Vector<>();
             vector.add("Select");
