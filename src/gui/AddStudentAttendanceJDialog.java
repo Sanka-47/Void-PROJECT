@@ -27,9 +27,12 @@ public class AddStudentAttendanceJDialog extends javax.swing.JDialog {
         this.ID = ID;
     }
     
-    public AddStudentAttendanceJDialog(java.awt.Frame parent, boolean modal) {
+    private int tutorID;
+    
+    public AddStudentAttendanceJDialog(java.awt.Frame parent, boolean modal, int tutorID) {
         super(parent, modal);
         initComponents();
+        this.tutorID = tutorID;
         loadStatus();
         loadStudent();
         loadClass();
@@ -105,10 +108,13 @@ public class AddStudentAttendanceJDialog extends javax.swing.JDialog {
             Vector<String> vector = new Vector<>();
             vector.add("Select");
 
-            ResultSet resultSet = MySQL2.executeSearch("SELECT `first_name`, `last_name`, `nic` FROM `student`");
+            ResultSet resultSet = MySQL2.executeSearch("SELECT `student`.`first_name`, `student`.`last_name`, `student`.`nic` FROM `student` "
+                    + "INNER JOIN `student_courses` ON `student`.`nic` = `student_courses`.`student_nic` "
+                    + "INNER JOIN `courses` ON `student_courses`.`courses_id` = `courses`.`id` "
+                    + "INNER JOIN `tutor` ON `courses`.`id` = `tutor`.`courses_id` WHERE `tutor`.`id` = '" + tutorID + "'");
 
             while (resultSet.next()) {
-                String fullName = resultSet.getString("first_name") + " " + resultSet.getString("last_name");
+                String fullName = resultSet.getString("student.first_name") + " " + resultSet.getString("student.last_name");
                 vector.add(fullName);
                 studentMap.put(fullName, resultSet.getString("nic"));
                 // contactMap.put(fullName, resultSet.getString("contact_info"));
@@ -258,14 +264,11 @@ public class AddStudentAttendanceJDialog extends javax.swing.JDialog {
                         .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jDateChooser1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(8, 8, 8)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jComboBox3, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE)))))
+                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(0, 55, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(

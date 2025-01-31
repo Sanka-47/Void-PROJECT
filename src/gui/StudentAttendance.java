@@ -301,7 +301,7 @@ public class StudentAttendance extends javax.swing.JPanel {
 
         if (evt.getClickCount() == 2) {
 
-            AddStudentAttendanceJDialog ASA = new AddStudentAttendanceJDialog(parent, true);
+            AddStudentAttendanceJDialog ASA = new AddStudentAttendanceJDialog(parent, true, tutorID);
 
             ASA.setID(Id);
             SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
@@ -335,7 +335,7 @@ public class StudentAttendance extends javax.swing.JPanel {
 
 //        ASA addStudentAttendance = new ASA();
 //        addStudentAttendance.setVisible(true);
-        AddStudentAttendanceJDialog ASA = new AddStudentAttendanceJDialog(parent, true);
+        AddStudentAttendanceJDialog ASA = new AddStudentAttendanceJDialog(parent, true, tutorID);
         ASA.setVisible(true);
         loadTable("", "");
     }//GEN-LAST:event_jButton1ActionPerformed
