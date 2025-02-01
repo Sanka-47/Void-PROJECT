@@ -36,7 +36,7 @@ public class TutorDashboard extends javax.swing.JFrame implements DashboardInter
         loadDate();
         jButton3.setText(fName);
         this.tutorID = tutorID;
-        
+
         this.setExtendedState(this.MAXIMIZED_BOTH);
 
         // Add window listener to handle window closing
@@ -51,7 +51,7 @@ public class TutorDashboard extends javax.swing.JFrame implements DashboardInter
         });
     }
 
-   private void loadDate() {
+    private void loadDate() {
         jLabel6.setHorizontalAlignment(SwingConstants.CENTER);
         Runnable runnable = new Runnable() {
             @Override
@@ -75,7 +75,6 @@ public class TutorDashboard extends javax.swing.JFrame implements DashboardInter
         dateThread = new Thread(runnable);
         dateThread.start();
     }
-
 
     public void switchPanel(JPanel panel) {
         jPanel3.removeAll();
@@ -534,7 +533,6 @@ public class TutorDashboard extends javax.swing.JFrame implements DashboardInter
             // Check if the instance has not been created
             n = new Notifications(tutorID); // Create a new instance
         }
-        
 
         if (!n.isVisible()) {
             // Check if it's not visible

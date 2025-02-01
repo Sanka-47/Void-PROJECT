@@ -885,6 +885,8 @@ public class StudentPayment extends javax.swing.JFrame {
                 MySQL2.executeIUD("INSERT INTO `invoice_item`(`courses_id`,`invoice_id` )"
                         + "VALUES('" + invoiceItem.getSubject_id() + "','" + invoiceID + "')");
                 //insert to invoiceItem
+                MySQL2.executeIUD("INSERT INTO `student_courses` (`enrollment_date`, `status`, `student_nic`, `courses_id`) "
+                        + "VALUES ('" + dateTime + "', 'Active', '" + studentiD + "', '" + invoiceItem.getSubject_id() + "')");
 
             }
 
