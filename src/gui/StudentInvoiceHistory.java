@@ -9,10 +9,19 @@ import java.awt.Frame;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.sql.ResultSet;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Vector;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
 import model.MySQL2;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.data.JRTableModelDataSource;
+import net.sf.jasperreports.view.JasperViewer;
 
 /**
  *
@@ -47,15 +56,16 @@ public class StudentInvoiceHistory extends javax.swing.JPanel {
             ResultSet rs = MySQL2.executeSearch(query);
 
             while (rs.next()) {
-                long invoiceId = rs.getLong("invoice_id");
-                String studentNic = rs.getString("student_nic");
-                String studentName = rs.getString("student_name");
-                String paymentDate = rs.getString("payment_date");
-                double amount = rs.getDouble("amount");
-                String paymentMethod = rs.getString("payment_method");
+                Vector<String> vector = new Vector <>();
+                vector.add(rs.getString("invoice_id"));
+                vector.add(rs.getString("student_nic"));
+                vector.add(rs.getString("student_name"));
+                vector.add(rs.getString("payment_date"));
+                vector.add(rs.getString("amount"));
+                vector.add(rs.getString("payment_method"));
 
                 // Add a row to the table
-                model.addRow(new Object[]{invoiceId, studentNic, studentName, paymentDate, amount, paymentMethod});
+                model.addRow(vector);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -123,15 +133,16 @@ public class StudentInvoiceHistory extends javax.swing.JPanel {
             ResultSet rs = MySQL2.executeSearch(query);
 
             while (rs.next()) {
-                long invoiceId = rs.getLong("invoice_id");
-                String studentNic = rs.getString("student_nic");
-                String studentName = rs.getString("student_name");
-                String paymentDate = rs.getString("payment_date");
-                double amount = rs.getDouble("amount");
-                String paymentMethod = rs.getString("payment_method");
+                Vector<String> vector = new Vector <>();
+                vector.add(rs.getString("invoice_id"));
+                vector.add(rs.getString("student_nic"));
+                vector.add(rs.getString("student_name"));
+                vector.add(rs.getString("payment_date"));
+                vector.add(rs.getString("amount"));
+                vector.add(rs.getString("payment_method"));
 
                 // Add a row to the table
-                model.addRow(new Object[]{invoiceId, studentNic, studentName, paymentDate, amount, paymentMethod});
+                model.addRow(vector);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -153,6 +164,7 @@ public class StudentInvoiceHistory extends javax.swing.JPanel {
         jTextField1 = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -186,6 +198,14 @@ public class StudentInvoiceHistory extends javax.swing.JPanel {
 
         jLabel3.setText("Double click a row to view student details");
 
+        jButton1.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
+        jButton1.setText("Print");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -197,30 +217,33 @@ public class StudentInvoiceHistory extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addGap(16, 16, 16)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 968, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel3)
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 968, Short.MAX_VALUE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel3)
-                                .addGap(0, 0, Short.MAX_VALUE)))
-                        .addGap(16, 16, 16))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton1)))
+                .addGap(16, 16, 16))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap(24, Short.MAX_VALUE)
                 .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 51, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 52, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(1, 1, 1)
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 393, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 390, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel3)
                 .addContainerGap())
@@ -233,8 +256,30 @@ public class StudentInvoiceHistory extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField1ActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        //view or print report
+        String path = "src//reports//StudentInvoiceHistory.jasper";
+        
+        String dateTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
+        
+        HashMap<String, Object> params = new HashMap<>();
+        params.put("Parameter1", dateTime);
+
+        JRTableModelDataSource dataSource = new JRTableModelDataSource(jTable1.getModel());
+
+        JasperPrint jasperPrint = null;
+        try {
+            jasperPrint = JasperFillManager.fillReport(path, params, dataSource);
+        } catch (JRException e) {
+            e.printStackTrace();
+        }
+
+        JasperViewer.viewReport(jasperPrint, false);
+    }//GEN-LAST:event_jButton1ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
