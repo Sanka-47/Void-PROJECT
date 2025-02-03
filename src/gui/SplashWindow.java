@@ -39,7 +39,7 @@ public class SplashWindow extends javax.swing.JFrame {
                 }
                 
                 splashWindow.dispose();
-                new Home().setVisible(true);
+                new SignIn().setVisible(true);
             }
         });
         t.start();
