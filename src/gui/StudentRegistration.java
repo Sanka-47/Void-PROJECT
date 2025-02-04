@@ -147,7 +147,7 @@ public class StudentRegistration extends javax.swing.JPanel {
 
     }
 
-    public void loadIntake() {
+    void loadIntake() {
 
         try {
             
