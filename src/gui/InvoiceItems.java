@@ -9,6 +9,7 @@ package gui;
 
 import java.sql.ResultSet;
 import java.util.Vector;
+import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import model.MySQL2;
 
@@ -16,21 +17,30 @@ import model.MySQL2;
  *
  * @author kalin
  */
+
 public class InvoiceItems extends javax.swing.JFrame {
 
     /**
-     * Creates new form InvoiceItem
+     * @param id the id to set
      */
-    public InvoiceItems(String nic) {
-        initComponents();
-        loadInvoiceItems(nic);
+    public void setId(String id) {
+        this.id = id;
     }
 
-    private void loadInvoiceItems(String nic) {
+    private String id;
+    
+    public InvoiceItems(String id) {
+        initComponents();
+        loadInvoiceItems(id);
+    }
+    
+    
+
+    private void loadInvoiceItems(String id) {
 
         try {
             // Execute SQL query to retrieve student data with gender information and NIC
-            ResultSet rs = MySQL2.executeSearch("SELECT * FROM `invoice` INNER JOIN `invoice_item` ON `invoice`.`id` = `invoice_item`.`invoice_id` INNER JOIN `courses` ON `invoice_item`.`courses_id`=`courses`.`id` WHERE `invoice`.`student_nic`='"+nic+"'" );
+            ResultSet rs = MySQL2.executeSearch("SELECT * FROM `invoice` INNER JOIN `invoice_item` ON `invoice`.`id` = `invoice_item`.`invoice_id` INNER JOIN `courses` ON `invoice_item`.`courses_id`=`courses`.`id` WHERE `invoice`.`id`='"+ id +"'" );
 
             // Get the table model for jTable1
             DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
@@ -69,7 +79,7 @@ public class InvoiceItems extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         jTable2 = new javax.swing.JTable();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jLabel1.setFont(new java.awt.Font("Century Gothic", 0, 36)); // NOI18N
         jLabel1.setText("Invoice Items ");
