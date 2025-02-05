@@ -377,7 +377,7 @@ public class SubjectManagement extends javax.swing.JPanel {
                 JOptionPane.showMessageDialog(this, "Please Enter Subject Name", "Warning", JOptionPane.WARNING_MESSAGE);
             } else if (subject.length() > 30) {
                 JOptionPane.showMessageDialog(this, "Subject Name is too long (maximum 30 characters)", "Warning", JOptionPane.WARNING_MESSAGE);
-            } else if (!subject.matches("^[A-Za-z]+$")) {
+            } else if (!subject.matches("^[A-Za-z0-9 ]+$")) {
                 JOptionPane.showMessageDialog(this, "You Can Only Use Simple And Capital Letters For subject Name", "Warning", JOptionPane.WARNING_MESSAGE);
             } else if (description.isEmpty()) {
                 JOptionPane.showMessageDialog(this, "Please Enter Description", "Warning", JOptionPane.WARNING_MESSAGE);

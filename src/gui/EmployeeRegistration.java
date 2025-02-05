@@ -129,7 +129,7 @@ public class EmployeeRegistration extends javax.swing.JPanel {
         chDate.setForeground(Color.black);
         chDate.setBackground(Color.white);
         chDate.setDateFormat(new SimpleDateFormat("yyyy-MM-dd"));
-        
+
     }
 
     private void loadGender() {
@@ -442,6 +442,7 @@ public class EmployeeRegistration extends javax.swing.JPanel {
         Date date = new Date();
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd ");
         String fdate = dateFormat.format(date);
+        Date currentDate = new Date();
 
         if (FirstName.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Please Enter First Name", "Warning", JOptionPane.WARNING_MESSAGE);
@@ -491,11 +492,17 @@ public class EmployeeRegistration extends javax.swing.JPanel {
                     JOptionPane.showMessageDialog(this, "This NIC number is already registered", "Warning", JOptionPane.WARNING_MESSAGE);
 //                logger.log(Level.WARNING, "NIC already registered: {0}", nic);
                 } else {
+                    
+                    SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd");
+                                    Date parsedDate = inputFormat.parse(dob);
+                                    String formattedDOB = inputFormat.format(parsedDate);
 
-//                    try {
-//                        SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd");
-//                        Date parsedDate = inputFormat.parse(dob);
-//                        String formattedDOB = inputFormat.format(parsedDate);
+                    if (parsedDate != null && parsedDate.after(currentDate)) {
+                        JOptionPane.showMessageDialog(null, "Date of birth cannot be in the future!",
+                                "Invalid Date", JOptionPane.ERROR_MESSAGE);
+//                        jTextField6.setText(""); // Clear the invalid date
+                    } else {
+
                         int result = MySQL2.executeIUD("INSERT INTO `employee`"
                                 + "(`first_name`,`last_name`,`contact_info`,`roles_id`,`gender_id`,`password`,`nic`,`email`,`dob`,`registration_date`)"
                                 + "VALUES ('" + FirstName + "','" + LastName + "','" + Mobile + "','" + roleId + "','" + genderId + "','" + password + "',"
@@ -506,12 +513,8 @@ public class EmployeeRegistration extends javax.swing.JPanel {
 //                    logger.log(Level.INFO, "Employee registered successfully with NIC: {0}", nic);
                             clearAll();
                         } else {
-//                    logger.log(Level.WARNING, "Failed to register employee with NIC: {0}", nic);
                         }
-//                    } catch (ParseException e) {
-//                        // Handle invalid date format
-//                        e.printStackTrace();
-//                    }
+                    }
 
                 }
             } catch (Exception e) {
@@ -532,6 +535,7 @@ public class EmployeeRegistration extends javax.swing.JPanel {
         String dob = jTextField6.getText();
         Date date = new Date();
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd ");
+        Date currentDate = new Date();
 
         if (FirstName.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Please Enter First Name", "Warning", JOptionPane.WARNING_MESSAGE);
@@ -571,21 +575,25 @@ public class EmployeeRegistration extends javax.swing.JPanel {
                 int genderId = genderMap.get(Gender);
                 int roleId = roleMap.get(role);
 
-//                try {
-//                    SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd");
-//                    Date parsedDate = inputFormat.parse(dob);
-//                    String formattedDOB = inputFormat.format(parsedDate);
-                    MySQL2.executeIUD("UPDATE `employee` SET `first_name` = '" + FirstName + "', `last_name` = '" + LastName + "', "
-                            + "`contact_info` = '" + Mobile + "', `email` = '" + email + "', `roles_id` = '" + roleId + "', "
-                            + "`gender_id` = '" + genderId + "', `dob` = '" + dob + "' WHERE `nic` = '" + nic + "'");
-//                } catch (ParseException e) {
-//                    // Handle invalid date format
-//                    e.printStackTrace();
-//                }
+                SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd");
+                                    Date parsedDate = inputFormat.parse(dob);
+                                    String formattedDOB = inputFormat.format(parsedDate);
+
+                    if (parsedDate != null && parsedDate.after(currentDate)) {
+                        JOptionPane.showMessageDialog(null, "Date of birth cannot be in the future!",
+                                "Invalid Date", JOptionPane.ERROR_MESSAGE);
+//                        jTextField6.setText(""); // Clear the invalid date
+                    } else {
+                MySQL2.executeIUD("UPDATE `employee` SET `first_name` = '" + FirstName + "', `last_name` = '" + LastName + "', "
+                        + "`contact_info` = '" + Mobile + "', `email` = '" + email + "', `roles_id` = '" + roleId + "', "
+                        + "`gender_id` = '" + genderId + "', `dob` = '" + dob + "' WHERE `nic` = '" + nic + "'");
+//                
 
                 JOptionPane.showMessageDialog(this, "Successfully Updated!", "Confirmation", JOptionPane.INFORMATION_MESSAGE);
                 clearAll();
                 jButton4.setEnabled(true);
+                
+                    }
 
             } catch (Exception e) {
 //            logger.log(Level.SEVERE, "Error occurred during employee update for NIC: " + nic, e);
