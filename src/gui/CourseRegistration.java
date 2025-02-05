@@ -33,7 +33,7 @@ public class CourseRegistration extends javax.swing.JPanel {
         SwingUtilities.invokeLater(() -> jTextField1.requestFocusInWindow());
         jButton1.setEnabled(false);
         jButton3.setEnabled(false);
-       
+
     }
 
     private void loadCourseDetails() {
@@ -82,7 +82,7 @@ public class CourseRegistration extends javax.swing.JPanel {
                     query += "WHERE `course_status`.`name` = 'Deactive'";
                 }
             }
-            
+
             ResultSet resultSet = MySQL2.executeSearch(query);
 
             DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
@@ -356,17 +356,22 @@ public class CourseRegistration extends javax.swing.JPanel {
             return;
         }
 
+        if (description.length() < 10 || description.length() > 255) {
+            JOptionPane.showMessageDialog(this, "Course description must be between 10 and 255 characters!", "Warning", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
         try {
             String gradeId = gradeMap.get(grade);
             MySQL2.executeIUD("UPDATE `courses` SET `name`='" + courseName + "', `grade_level`='"
                     + gradeId + "',`course_description`='" + description + "', `fee`='" + fee + "' "
-                            + "WHERE `id`='" + courseId + "'");
+                    + "WHERE `id`='" + courseId + "'");
 
             loadCourseDetails();
             reset();
             JOptionPane.showMessageDialog(this, "Course updated successfully!");
             jButton2.setEnabled(true);
-            
+
         } catch (Exception e) {
             e.printStackTrace();
             JOptionPane.showMessageDialog(this, "Failed to update the course.", "Error", JOptionPane.ERROR_MESSAGE);
@@ -387,6 +392,9 @@ public class CourseRegistration extends javax.swing.JPanel {
                 JOptionPane.showMessageDialog(this, "Please enter the course fee", "Warning", JOptionPane.WARNING_MESSAGE);
             } else if (grade.equals("Select")) {
                 JOptionPane.showMessageDialog(this, "Please select a grade", "Warning", JOptionPane.WARNING_MESSAGE);
+            } else if (description.length() < 10 || description.length() > 255) {
+                JOptionPane.showMessageDialog(this, "Course description must be between 10 and 255 characters!", "Warning", JOptionPane.WARNING_MESSAGE);
+                return;
             } else {
 
                 String gradeId = gradeMap.get(grade);
@@ -468,7 +476,7 @@ public class CourseRegistration extends javax.swing.JPanel {
     }//GEN-LAST:event_jTextField4ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-         jTextField3.setText("");  // Clear the date field
+        jTextField3.setText("");  // Clear the date field
         jComboBox2.setSelectedIndex(0);  // Reset the sorting combo box to default
 
         // Reload the original data without any filters
