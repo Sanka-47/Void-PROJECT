@@ -7,12 +7,19 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
-public class AdminReportDashboard extends javax.swing.JFrame {
+public class AdminReportDashboard extends javax.swing.JFrame implements DashboardInterface {
+    
+    public void switchPanel(JPanel panel) {
+        jPanel4.removeAll();
+        jPanel4.add(panel, BorderLayout.CENTER);
+        SwingUtilities.updateComponentTreeUI(jPanel4);
+    }
 
     public AdminReportDashboard(String fName, String lName) {
         initComponents();
@@ -297,7 +304,7 @@ public class AdminReportDashboard extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         jPanel4.removeAll();
-        InvoiceReport IR = new InvoiceReport();
+        InvoiceReport IR = new InvoiceReport(this);
         jPanel4.add(IR, BorderLayout.CENTER);
 
         SwingUtilities.updateComponentTreeUI(jPanel4);
