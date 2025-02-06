@@ -71,6 +71,7 @@ public class StudentRegistration extends javax.swing.JPanel {
     public JComboBox<String> getjComboBox1() {
         return jComboBox1;
     }
+
     //Intake
     public JComboBox<String> getjComboBox2() {
         return jComboBox2;
@@ -150,12 +151,12 @@ public class StudentRegistration extends javax.swing.JPanel {
     void loadIntake() {
 
         try {
-            
+
             String query = "SELECT `id`, `name` FROM `intake` ";
-            
+
             if (!jButton3.isEnabled()) {
                 query += "WHERE `start_date` <= '" + dateFormat.format(date) + "' AND "
-                    + "`end_date` >= '" + dateFormat.format(date) + "' AND `intake_status_id` = '1' ";
+                        + "`end_date` >= '" + dateFormat.format(date) + "' AND `intake_status_id` = '1' ";
             }
 
             ResultSet rs = MySQL2.executeSearch(query);
@@ -186,6 +187,7 @@ public class StudentRegistration extends javax.swing.JPanel {
         jComboBox1.setSelectedIndex(0);
 //        jDateChooser1.setDate(null);
         jComboBox2.setSelectedIndex(0);
+        jTextField5.setEnabled(true);
         jButton1.setEnabled(true);
         jButton2.setEnabled(true);
         jButton3.setEnabled(false);
@@ -414,7 +416,7 @@ public class StudentRegistration extends javax.swing.JPanel {
         String NIC = jTextField5.getText();
         String selectedDate = jTextField6.getText();
         String Intake = String.valueOf(jComboBox2.getSelectedItem());
-
+        Date currentDate = new Date();
         String fdate = dateFormat.format(date);
 
         if (FirstName.isEmpty()) {
@@ -472,11 +474,24 @@ public class StudentRegistration extends javax.swing.JPanel {
                                     SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd");
                                     Date parsedDate = inputFormat.parse(selectedDate);
                                     String formattedDOB = inputFormat.format(parsedDate);
+
+                                    if (parsedDate != null && parsedDate.after(currentDate)) {
+
+                                        JOptionPane.showMessageDialog(null, "Date of birth cannot be in the future!",
+                                                "Invalid Date", JOptionPane.ERROR_MESSAGE);
+//                                        jTextField6.setText(""); // Clear the invalid date
+                                    } else {
 //                                logger.log(Level.INFO, "Formatted date of birth: {0}", formattedDOB);
 
-                                    MySQL2.executeIUD(
-                                            "INSERT INTO `student`(`nic`, `first_name`, `last_name`, `dob`, `contact_info`, `registration_date`, `email`, `gender_id`, `intake_id`) "
-                                            + "VALUES ('" + NIC + "', '" + FirstName + "', '" + LastName + "', '" + formattedDOB + "', '" + Mobile + "', '" + fdate + "', '" + Email + "', '" + gender.get(Gender) + "', '" + intakeMap.get(Intake) + "')");
+                                        MySQL2.executeIUD(
+                                                "INSERT INTO `student`(`nic`, `first_name`, `last_name`, `dob`, `contact_info`, `registration_date`, `email`, `gender_id`, `intake_id`) "
+                                                + "VALUES ('" + NIC + "', '" + FirstName + "', '" + LastName + "', '" + formattedDOB + "', '" + Mobile + "', '" + fdate + "', '" + Email + "', '" + gender.get(Gender) + "', '" + intakeMap.get(Intake) + "')");
+                                        
+                                        JOptionPane.showMessageDialog(this, "Account Created Successfully", "Info", JOptionPane.INFORMATION_MESSAGE);
+                            reset();
+                            AllStudents allStudents = new AllStudents(parent);
+                            parent.switchPanel(allStudents);
+                                    }
                                 } catch (ParseException e) {
                                     // Handle invalid date format
                                     e.printStackTrace();
@@ -484,10 +499,7 @@ public class StudentRegistration extends javax.swing.JPanel {
 
 //                                logger.log(Level.INFO, "New student registered successfully with NIC: {0}", NIC);
                             }
-                            JOptionPane.showMessageDialog(this, "Account Created Successfully", "Info", JOptionPane.INFORMATION_MESSAGE);
-                            reset();
-                            AllStudents allStudents = new AllStudents(parent);
-                            parent.switchPanel(allStudents);
+                            
                         }
                     }
                 }
@@ -511,8 +523,9 @@ public class StudentRegistration extends javax.swing.JPanel {
         String Email = jTextField4.getText();
         String Gender = String.valueOf(jComboBox1.getSelectedItem());
         String NIC = jTextField5.getText();
-        String DOB = jTextField6.getText();
+        String selectedDate = jTextField6.getText();
         String Intake = String.valueOf(jComboBox2.getSelectedItem());
+        Date currentDate = new Date();
 
         if (FirstName.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Please Enter First Name", "Warning", JOptionPane.WARNING_MESSAGE);
@@ -540,7 +553,7 @@ public class StudentRegistration extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(this, "Please enter your NIC!", "Warning", JOptionPane.WARNING_MESSAGE);
         } else if (!NIC.matches("^(([5,6,7,8,9]{1})([0-9]{1})([0,1,2,3,5,6,7,8]{1})([0-9]{6})([v|V|x|X]))|(([1,2]{1})([0,9]{1})([0-9]{2})([0,1,2,3,5,6,7,8]{1})([0-9]{7}))")) {
             JOptionPane.showMessageDialog(this, "Please enter your valid NIC number!", "Warning", JOptionPane.WARNING_MESSAGE);
-        } else if (DOB == null) {
+        } else if (selectedDate == null) {
             JOptionPane.showMessageDialog(this, "Please select a date!", "Warning", JOptionPane.WARNING_MESSAGE);
         } else if (Intake.matches("Select")) {
             JOptionPane.showMessageDialog(this, "Please Enter Your Intake", "Warning", JOptionPane.WARNING_MESSAGE);
@@ -550,22 +563,30 @@ public class StudentRegistration extends javax.swing.JPanel {
 
                 try {
                     SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd");
-                    Date parsedDate = inputFormat.parse(DOB);
+                    Date parsedDate = inputFormat.parse(selectedDate);
                     String formattedDOB = inputFormat.format(parsedDate);
-//                logger.log(Level.INFO, "Formatted date of birth: {0}", formattedDOB);
-                    
 
-                    MySQL2.executeIUD("UPDATE `student` SET `first_name` = '" + FirstName + "', `last_name` = '" + LastName + "', `dob` = '" + formattedDOB + "',"
-                            + " `contact_info` = '" + Mobile + "', `email` = '" + Email + "',`gender_id` = '" + gender.get(Gender) + "', `intake_id` = '" + intakeMap.get(Intake) + "' WHERE `nic` = '" + NIC + "'");
+                    if (parsedDate != null && parsedDate.after(currentDate)) {
+                        JOptionPane.showMessageDialog(null, "Date of birth cannot be in the future!",
+                                "Invalid Date", JOptionPane.ERROR_MESSAGE);
+//                        jTextField6.setText(""); // Clear the invalid date
+                    } else {
+
+                        MySQL2.executeIUD("UPDATE `student` SET `first_name` = '" + FirstName + "', `last_name` = '" + LastName + "', `dob` = '" + formattedDOB + "',"
+                                + " `contact_info` = '" + Mobile + "', `email` = '" + Email + "',`gender_id` = '" + gender.get(Gender) + "', `intake_id` = '" + intakeMap.get(Intake) + "' WHERE `nic` = '" + NIC + "'");
+                        
+                        JOptionPane.showMessageDialog(this, "Account Updated Successfully", "Info", JOptionPane.INFORMATION_MESSAGE);
+//                logger.log(Level.INFO, "Student account updated successfully for NIC: {0}", NIC);
+                reset();
+                jButton4.setEnabled(true);
+                
+                    }
                 } catch (ParseException e) {
                     // Handle invalid date format
                     e.printStackTrace();
                 }
 
-                JOptionPane.showMessageDialog(this, "Account Updated Successfully", "Info", JOptionPane.INFORMATION_MESSAGE);
-//                logger.log(Level.INFO, "Student account updated successfully for NIC: {0}", NIC);
-                reset();
-                jButton4.setEnabled(true);
+                
             } catch (Exception e) {
 //                logger.log(Level.SEVERE, "Error during student update for NIC: " + NIC, e);
                 e.printStackTrace();
