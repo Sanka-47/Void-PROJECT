@@ -5,6 +5,8 @@ import com.formdev.flatlaf.intellijthemes.FlatArcIJTheme;
 import com.formdev.flatlaf.intellijthemes.FlatArcOrangeIJTheme;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Image;
+import java.awt.Toolkit;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.sql.ResultSet;
@@ -34,6 +36,7 @@ public class TutorDashboard extends javax.swing.JFrame implements DashboardInter
         initComponents();
         updateDashboard(tutorID);
         loadDate();
+        loadIcon();
         jButton3.setText(fName);
         this.tutorID = tutorID;
 
@@ -74,6 +77,11 @@ public class TutorDashboard extends javax.swing.JFrame implements DashboardInter
         };
         dateThread = new Thread(runnable);
         dateThread.start();
+    }
+    
+    private void loadIcon() {
+        Image image = Toolkit.getDefaultToolkit().getImage("src//resource//VOID.png");
+        this.setIconImage(image);
     }
 
     public void switchPanel(JPanel panel) {
