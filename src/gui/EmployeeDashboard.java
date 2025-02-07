@@ -6,6 +6,8 @@ import com.formdev.flatlaf.FlatLightLaf;
 import com.formdev.flatlaf.themes.FlatMacDarkLaf;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Image;
+import java.awt.Toolkit;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.IOException;
@@ -38,6 +40,7 @@ public class EmployeeDashboard extends javax.swing.JFrame implements DashboardIn
         this.employeeId = employeeId;
         System.out.println(employeeId);
         loadDate();
+        loadIcon();
 
         // Add window listener to handle window closing
         addWindowListener(new WindowAdapter() {
@@ -82,6 +85,11 @@ public class EmployeeDashboard extends javax.swing.JFrame implements DashboardIn
         };
         dateThread = new Thread(runnable);
         dateThread.start();
+    }
+     
+    private void loadIcon() {
+        Image image = Toolkit.getDefaultToolkit().getImage("src//resource//VOID.png");
+        this.setIconImage(image);
     }
 
 

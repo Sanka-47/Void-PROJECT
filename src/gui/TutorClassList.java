@@ -122,7 +122,9 @@ public class TutorClassList extends javax.swing.JPanel {
                 query += "AND `class`.`date` > '" + from + "' AND `class`.`date` < '" + to + "' ";
             }
             
-            if (status.equals("Pending")) {
+            if (status.equals("Select")) {
+                query += "";
+            } else if (status.equals("Pending")) {
                 query += "AND `class_status`.`name` = 'Pending'";
             } else if (status.equals("Completed")) {
                 query += "AND `class_status`.`name` = 'Completed'";
@@ -298,7 +300,7 @@ public class TutorClassList extends javax.swing.JPanel {
         jLabel5.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
         jLabel5.setText("Sort By Status :");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Pending", "Completed", "Cancelled", "Rescheduled" }));
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select", "Pending", "Completed", "Cancelled", "Rescheduled" }));
         jComboBox1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboBox1ActionPerformed(evt);

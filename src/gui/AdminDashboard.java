@@ -9,6 +9,8 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
+import java.awt.Image;
+import java.awt.Toolkit;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.swing.JPanel;
@@ -27,6 +29,7 @@ public class AdminDashboard extends javax.swing.JFrame implements DashboardInter
     public AdminDashboard(String fName, String adminID) {
         initComponents();
         loadDate();
+        loadIcon();
         jButton18.setText(fName);
         this.adminID = adminID;
         this.fName = fName;
@@ -41,6 +44,11 @@ public class AdminDashboard extends javax.swing.JFrame implements DashboardInter
         jPanel4.removeAll();
         jPanel4.add(panel, BorderLayout.CENTER);
         SwingUtilities.updateComponentTreeUI(jPanel4);
+    }
+    
+    private void loadIcon() {
+        Image image = Toolkit.getDefaultToolkit().getImage("src//resource//VOID.png");
+        this.setIconImage(image);
     }
 
     private void loadDate() {
