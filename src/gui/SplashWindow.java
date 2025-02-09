@@ -4,6 +4,8 @@ package gui;
 import com.formdev.flatlaf.FlatLightLaf;
 import com.formdev.flatlaf.themes.FlatMacDarkLaf;
 import java.awt.Color;
+import java.awt.Image;
+import java.awt.Toolkit;
 import javax.swing.ImageIcon;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
@@ -49,6 +51,12 @@ public class SplashWindow extends javax.swing.JFrame {
         initComponents();
         loadingAnimation();
         setBackground(new Color(0, 0, 0, 0));
+        loadIcon();
+    }
+    
+    private void loadIcon() {
+        Image image = Toolkit.getDefaultToolkit().getImage("src//resource//VOID.png");
+        this.setIconImage(image);
     }
 
     @SuppressWarnings("unchecked")

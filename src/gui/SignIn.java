@@ -3,6 +3,8 @@ package gui;
 import com.formdev.flatlaf.FlatLightLaf;
 import model.MySQL2;
 import java.awt.Color;
+import java.awt.Image;
+import java.awt.Toolkit;
 import java.io.IOException;
 import java.sql.ResultSet;
 import java.util.logging.FileHandler;
@@ -22,6 +24,7 @@ public class SignIn extends javax.swing.JFrame {
     public SignIn() {
         initComponents();
         getLogger();
+        loadIcon();
         SwingUtilities.invokeLater(() -> jTextField1.requestFocusInWindow());
     }
 
@@ -37,6 +40,11 @@ public class SignIn extends javax.swing.JFrame {
             logger.severe("Error setting up logger: " + e.getMessage());
         }
         return logger;
+    }
+    
+    private void loadIcon() {
+        Image image = Toolkit.getDefaultToolkit().getImage("src//resource//VOID.png");
+        this.setIconImage(image);
     }
 
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
