@@ -47,6 +47,9 @@ public class StudentInvoiceHistory extends javax.swing.JPanel {
     }
 
     public void loadStudentInvoicesHistory() {
+        
+        String sort = String.valueOf(jComboBox1.getSelectedItem());
+        
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
         model.setRowCount(0); // Clear the table
 
@@ -59,8 +62,23 @@ public class StudentInvoiceHistory extends javax.swing.JPanel {
                     + "pm.name AS payment_method "
                     + "FROM invoice i "
                     + "JOIN student s ON i.student_nic = s.nic "
-                    + "JOIN payment_method pm ON i.payment_method_id = pm.id";
+                    + "JOIN payment_method pm ON i.payment_method_id = pm.id ";
+            
+            if (sort.equals("Invoice ID ASC")) {
+                query += "ORDER BY `invoice_id` ASC";
+            } else if (sort.equals("Invoice ID DESC")) {
+                query += "ORDER BY `invoice_id` DESC";
+            } else if (sort.equals("Student NIC ASC")) {
+                query += "ORDER BY `student_nic` ASC";
+            } else if (sort.equals("Student NIC DESC")) {
+                query += "ORDER BY `student_nic` DESC";
+            } else if (sort.equals("Cash")) {
+                query += "WHERE `pm`.`name` = 'Cash'";
+            } else if (sort.equals("Card")) {
+                query += "WHERE `pm`.`name` = 'Card'";
+            }
 
+            System.out.println(query);
             ResultSet rs = MySQL2.executeSearch(query);
 
             while (rs.next()) {
@@ -120,6 +138,7 @@ public class StudentInvoiceHistory extends javax.swing.JPanel {
     }
 
     private void filterTable() {
+        String sort = String.valueOf(jComboBox1.getSelectedItem());
         String searchText = jTextField1.getText().toLowerCase();
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
 
@@ -136,8 +155,23 @@ public class StudentInvoiceHistory extends javax.swing.JPanel {
                     + "JOIN student s ON i.student_nic = s.nic "
                     + "JOIN payment_method pm ON i.payment_method_id = pm.id "
                     + "WHERE LOWER(i.student_nic) LIKE '%" + searchText + "%' OR "
-                    + "LOWER(CONCAT(s.first_name, ' ', s.last_name)) LIKE '%" + searchText + "%'";
+                    + "LOWER(CONCAT(s.first_name, ' ', s.last_name)) LIKE '%" + searchText + "%' ";
+            
+            if (sort.equals("Invoice ID ASC")) {
+                query += "ORDER BY `invoice_id` ASC";
+            } else if (sort.equals("Invoice ID DESC")) {
+                query += "ORDER BY `invoice_id` DESC";
+            } else if (sort.equals("Student NIC ASC")) {
+                query += "ORDER BY `student_nic` ASC";
+            } else if (sort.equals("Student NIC DESC")) {
+                query += "ORDER BY `student_nic` DESC";
+            } else if (sort.equals("Cash")) {
+                query += "AND `pm`.`name` = 'Cash'";
+            } else if (sort.equals("Card")) {
+                query += "AND `pm`.`name` = 'Card'";
+            }
 
+            System.out.println(query);
             ResultSet rs = MySQL2.executeSearch(query);
 
             while (rs.next()) {
@@ -173,8 +207,9 @@ public class StudentInvoiceHistory extends javax.swing.JPanel {
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
+        jLabel4 = new javax.swing.JLabel();
+        jComboBox1 = new javax.swing.JComboBox<>();
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -221,19 +256,21 @@ public class StudentInvoiceHistory extends javax.swing.JPanel {
             }
         });
 
-        jButton2.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
-        jButton2.setText("Detail Report");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
-            }
-        });
-
         jButton3.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
         jButton3.setText("Invoice Item");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton3ActionPerformed(evt);
+            }
+        });
+
+        jLabel4.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
+        jLabel4.setText("Sort By :");
+
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Invoice ID ASC", "Invoice ID DESC", "Student NIC ASC", "Student NIC DESC", "Cash", "Card" }));
+        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox1ActionPerformed(evt);
             }
         });
 
@@ -252,12 +289,14 @@ public class StudentInvoiceHistory extends javax.swing.JPanel {
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel4)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton2))
+                        .addComponent(jButton1))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 968, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel3)
@@ -274,8 +313,10 @@ public class StudentInvoiceHistory extends javax.swing.JPanel {
                     .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel4)
+                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(19, 19, 19)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 389, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -311,10 +352,6 @@ public class StudentInvoiceHistory extends javax.swing.JPanel {
         JasperViewer.viewReport(jasperPrint, false);
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        parent.switchPanel(invoiceReport);
-    }//GEN-LAST:event_jButton2ActionPerformed
-
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         InvoiceItems ii = new InvoiceItems(id);
         ii.setVisible(true);
@@ -322,9 +359,7 @@ public class StudentInvoiceHistory extends javax.swing.JPanel {
 
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
         if (evt.getClickCount() == 1) {
-            
-            
-            
+  
             int selectedRow = jTable1.getSelectedRow();
             
             id = String.valueOf(jTable1.getValueAt(selectedRow, 0));
@@ -333,14 +368,29 @@ public class StudentInvoiceHistory extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_jTable1MouseClicked
 
+    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+//        if (From == null && To != null) {
+//            loadInvoice(From,"");
+//        } else if (From != null && To == null) {
+//            loadInvoice("",To);
+//        } else if (From != null && To != null) {
+//            loadInvoice(From,To);
+//        } else {
+//            loadInvoice("","");
+//        }
+        loadStudentInvoicesHistory();
+        filterTable();
+    }//GEN-LAST:event_jComboBox1ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
+    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
     private javax.swing.JTextField jTextField1;
