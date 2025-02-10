@@ -7,10 +7,13 @@ import com.formdev.flatlaf.themes.FlatMacDarkLaf;
 import com.raven.datechooser.DateChooser;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.swing.JPanel;
@@ -34,6 +37,32 @@ public class AdminDashboard extends javax.swing.JFrame implements DashboardInter
         this.adminID = adminID;
         this.fName = fName;
         this.lName = lName;
+        
+        // Add a component listener to track size changes
+//        addComponentListener(new ComponentAdapter() {
+//            @Override
+//            public void componentResized(ComponentEvent e) {
+//                int width = getWidth();
+//                int height = getHeight();
+//                System.out.println("Current Size - Width: " + width + ", Height: " + height);
+//            }
+//
+//            @Override
+//            public void componentMoved(ComponentEvent e) {
+//                System.out.println("Window moved to: X=" + getX() + " Y=" + getY());
+//            }
+//
+//            @Override
+//            public void componentShown(ComponentEvent e) {
+//                System.out.println("Window is now visible");
+//            }
+//
+//            @Override
+//            public void componentHidden(ComponentEvent e) {
+//                System.out.println("Window is now hidden");
+//            }
+//        });
+        this.setMinimumSize(new Dimension(1265, 750));
         this.setExtendedState(this.MAXIMIZED_BOTH);
 
 //        GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
