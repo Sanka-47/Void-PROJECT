@@ -892,7 +892,7 @@ public class StudentPayment extends javax.swing.JFrame {
 
             //Withdraw Points
             //view or print report
-            String path = "src//reports//CoursePayment.jasper";
+            String path = "src//reports//CoursePaymentEMS.jasper";
 //            String dateTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
             HashMap<String, Object> params = new HashMap<>();
             params.put("Parameter1", invoiceNumberField.getText());

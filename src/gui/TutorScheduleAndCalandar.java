@@ -8,6 +8,7 @@ import com.raven.datechooser.listener.DateChooserAdapter;
 import com.toedter.calendar.JDateChooser;
 import java.awt.Color;
 import java.sql.ResultSet;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -1288,47 +1289,64 @@ public class TutorScheduleAndCalandar extends javax.swing.JPanel {
         String title = String.valueOf(jTable1.getValueAt(row, 3));
         jTextField2.setText(title);
 
-//        String date = String.valueOf(jTable1.getValueAt(row, 4));
-//        try {
-//            java.util.Date parsedDate = new SimpleDateFormat("yyyy-MM-dd").parse(date);
-//            jDateChooser1.setDate(parsedDate);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
         String date = String.valueOf(jTable1.getValueAt(row, 4));
         jTextField6.setText(date);
 
-//        String startTime = String.valueOf(jTable1.getValueAt(row, 5));
-//        jFormattedTextField1.setText(startTime);
-//
-//        String endTime = String.valueOf(jTable1.getValueAt(row, 6));
-//        jFormattedTextField2.setText(endTime);
-//// Format start time to HH:mm
 //        String startTime = String.valueOf(jTable1.getValueAt(row, 5)).replaceAll("[^\\d]", "");
 //        if (startTime.length() == 4) {
-//            startTime = String.format("%02d:%02d", Integer.parseInt(startTime.substring(0, 2)), Integer.parseInt(startTime.substring(2)));
+//            startTime = String.format("%02d.%02d", Integer.parseInt(startTime.substring(0, 2)), Integer.parseInt(startTime.substring(2)));
 //        }
 //        jFormattedTextField1.setText(startTime);
 //
-//        // Handle time parsing for end time (24-hour format)
+//        // Format end time to HH.mm
 //        String endTime = String.valueOf(jTable1.getValueAt(row, 6)).replaceAll("[^\\d]", "");
 //        if (endTime.length() == 4) {
-//            endTime = String.format("%02d:%02d", Integer.parseInt(endTime.substring(0, 2)), Integer.parseInt(endTime.substring(2)));
+//            endTime = String.format("%02d.%02d", Integer.parseInt(endTime.substring(0, 2)), Integer.parseInt(endTime.substring(2)));
 //        }
 //        jFormattedTextField2.setText(endTime);
-// Format start time to HH.mm
-        String startTime = String.valueOf(jTable1.getValueAt(row, 5)).replaceAll("[^\\d]", "");
-        if (startTime.length() == 4) {
-            startTime = String.format("%02d.%02d", Integer.parseInt(startTime.substring(0, 2)), Integer.parseInt(startTime.substring(2)));
-        }
-        jFormattedTextField1.setText(startTime);
 
-        // Format end time to HH.mm
-        String endTime = String.valueOf(jTable1.getValueAt(row, 6)).replaceAll("[^\\d]", "");
-        if (endTime.length() == 4) {
-            endTime = String.format("%02d.%02d", Integer.parseInt(endTime.substring(0, 2)), Integer.parseInt(endTime.substring(2)));
+String startTime = String.valueOf(jTable1.getValueAt(row, 5)).replaceAll("[^\\dA-Za-z: ]", "");
+        String endTime = String.valueOf(jTable1.getValueAt(row, 6)).replaceAll("[^\\dA-Za-z: ]", "");
+
+// Ensure a colon is added if missing between hours and minutes
+        startTime = startTime.replaceAll("(\\d{1,2})([APM]{2})", "$1:00 $2");
+        endTime = endTime.replaceAll("(\\d{1,2})([APM]{2})", "$1:00 $2");
+
+// Ensure there's a space between time and AM/PM if it's missing
+        startTime = startTime.replaceAll("(\\d{4})([APM]{2})", "$1 $2");
+        endTime = endTime.replaceAll("(\\d{4})([APM]{2})", "$1 $2");
+
+// Add a colon between hours and minutes if not present
+        startTime = startTime.replaceAll("(\\d{1,2})(\\d{2} [APM]{2})", "$1:$2");
+        endTime = endTime.replaceAll("(\\d{1,2})(\\d{2} [APM]{2})", "$1:$2");
+
+        SimpleDateFormat inputFormat = new SimpleDateFormat("hh:mm a"); // 12-hour format with AM/PM
+        SimpleDateFormat outputFormat = new SimpleDateFormat("HH:mm"); // 24-hour format
+
+        try {
+            // Parse the start time and convert to 24-hour format
+            if (!startTime.isEmpty()) {
+                java.util.Date startDate = inputFormat.parse(startTime);
+                startTime = outputFormat.format(startDate);
+            }
+
+            // Parse the end time and convert to 24-hour format
+            if (!endTime.isEmpty()) {
+                java.util.Date endDate = inputFormat.parse(endTime);
+                endTime = outputFormat.format(endDate);
+            }
+
+            // Replace the colon with a period in the formatted start and end times
+            startTime = startTime.replace(":", ".");
+            endTime = endTime.replace(":", ".");
+
+            // Set the formatted start and end times
+            jFormattedTextField1.setText(startTime);
+            jFormattedTextField2.setText(endTime);
+        } catch (ParseException e) {
+            e.printStackTrace(); // Handle the exception if time parsing fails
         }
-        jFormattedTextField2.setText(endTime);
+
 
         String hallNumber = String.valueOf(jTable1.getValueAt(row, 7));
         jTextField3.setText(hallNumber);
