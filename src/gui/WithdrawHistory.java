@@ -49,7 +49,7 @@ public class WithdrawHistory extends javax.swing.JFrame {
             model.setRowCount(0);
 
             while (rs.next()) {
-                Vector<Object> vectorE = new Vector<>();
+                Vector<String> vectorE = new Vector<>();
                 vectorE.add(rs.getString("id"));
                 vectorE.add(rs.getString("cm"));
                 vectorE.add(rs.getString("start_time"));
