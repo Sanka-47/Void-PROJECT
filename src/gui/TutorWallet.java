@@ -253,6 +253,13 @@ public class TutorWallet extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
 
         try {
+            
+            double amount = Double.parseDouble(jTextField1.getText());
+             // Insert into tutor_withdraw_history
+            String insertQuery = "INSERT INTO tutor_withdraw_history (withdraw_date, withdrawal_amount, tutor_id) "
+                    + "VALUES (CURDATE(), " + amount + ", " + tutorId + ")";
+            MySQL2.executeIUD(insertQuery);
+            
             MySQL2.executeIUD("UPDATE `wallet` "
                     + "SET `withdrawal_status_id` = 2, "
                     + "`date` = NOW() "

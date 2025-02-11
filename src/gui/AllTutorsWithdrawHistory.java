@@ -203,7 +203,7 @@ public class AllTutorsWithdrawHistory extends javax.swing.JPanel {
         });
 
         jLabel2.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
-        jLabel2.setText("Search by Name or NIC");
+        jLabel2.setText("Search by Name");
 
         jLabel3.setText("Double click a row to view tutor details");
 
