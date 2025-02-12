@@ -3,6 +3,8 @@ package gui;
 
 import com.formdev.flatlaf.themes.FlatMacDarkLaf;
 import com.formdev.flatlaf.themes.FlatMacLightLaf;
+import java.awt.Image;
+import java.awt.Toolkit;
 import java.io.InputStream;
 import java.sql.ResultSet;
 import java.text.SimpleDateFormat;
@@ -193,6 +195,12 @@ public class StudentPayment extends javax.swing.JFrame {
         generateInvoiceID();
 //        jLabel3.setText("chamika@gmail.com");
         loadPaymentMethods();
+        loadIcon();
+    }
+    
+    private void loadIcon() {
+        Image image = Toolkit.getDefaultToolkit().getImage("src//resource//VOID.png");
+        this.setIconImage(image);
     }
 
     private void generateInvoiceID() {

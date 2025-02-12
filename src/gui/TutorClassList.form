@@ -321,6 +321,9 @@
       </Events>
     </Component>
     <Component class="javax.swing.JTextField" name="jTextField5">
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jTextField5ActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="jButton2">
       <Properties>
@@ -344,12 +347,13 @@
     <Component class="javax.swing.JComboBox" name="jComboBox1">
       <Properties>
         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-          <StringArray count="5">
+          <StringArray count="6">
             <StringItem index="0" value="Select"/>
             <StringItem index="1" value="Pending"/>
             <StringItem index="2" value="Completed"/>
             <StringItem index="3" value="Cancelled"/>
             <StringItem index="4" value="Rescheduled"/>
+            <StringItem index="5" value="Today&apos;s Sessions"/>
           </StringArray>
         </Property>
       </Properties>
