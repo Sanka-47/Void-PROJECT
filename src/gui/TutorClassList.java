@@ -19,9 +19,9 @@ import javax.swing.table.DefaultTableModel;
 import model.MySQL2;
 
 public class TutorClassList extends javax.swing.JPanel {
-    
+
     private DateChooser chDate = new DateChooser();
-    
+
     private String From;
     private String To;
 
@@ -55,7 +55,7 @@ public class TutorClassList extends javax.swing.JPanel {
             }
         });
     }
-    
+
     private void dateChooser() {
         chDate.setTextField(jTextField5);
         chDate.setDateSelectionMode(DateChooser.DateSelectionMode.BETWEEN_DATE_SELECTED);
@@ -83,7 +83,7 @@ public class TutorClassList extends javax.swing.JPanel {
             String startTime = jTextField3.getText();
 
             String endTime = jTextField4.getText();
-            
+
             String status = String.valueOf(jComboBox1.getSelectedItem());
 
             // Base query
@@ -94,7 +94,6 @@ public class TutorClassList extends javax.swing.JPanel {
                     + "WHERE `tutor`.`id` = '" + TID + "' ";
 
             // Search text filtering
-            
             if (!searchText.isEmpty()) {
                 query += "AND (LOWER(`class`.`id`) LIKE '%" + searchText + "%' "
                         + "OR LOWER(`class`.`name`) LIKE '%" + searchText + "%' "
@@ -113,15 +112,33 @@ public class TutorClassList extends javax.swing.JPanel {
                 query += "AND (`class`.`end_time` <= '" + endTime + "') "; // Compare end_time directly
                 System.out.println("End Time: " + endTime);
             }
-            
-            if (!from.isEmpty() && to == null) {
-                 query += "AND `class`.`date` > '" + from + "' ";
+
+            if (status.equals("Today's Sessions")) {
+                from = null;
+                to = null;
+                Date date = new Date();
+                SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+                query += "AND `class`.`date` = '" + format.format(date) + "' ";
+            } else if (!from.isEmpty() && to == null) {
+                if (status.equals("Today's Sessions")) {
+                    jComboBox1.setSelectedItem("Select");
+                    jComboBox1.setEnabled(false);
+                }
+                query += "AND `class`.`date` > '" + from + "' ";
             } else if (!to.isEmpty() && from == null) {
+                if (status.equals("Today's Sessions")) {
+                    jComboBox1.setSelectedItem("Select");
+                    jComboBox1.setEnabled(false);
+                }
                 query += "AND `class`.`date` < '" + to + "' ";
             } else if (from != null && !from.isEmpty() && to != null && !to.isEmpty()) {
+                if (status.equals("Today's Sessions")) {
+                    jComboBox1.setSelectedItem("Select");
+                    jComboBox1.setEnabled(false);
+                }
                 query += "AND `class`.`date` > '" + from + "' AND `class`.`date` < '" + to + "' ";
             }
-            
+
             if (status.equals("Select")) {
                 query += "";
             } else if (status.equals("Pending")) {
@@ -134,6 +151,7 @@ public class TutorClassList extends javax.swing.JPanel {
                 query += "AND `class_status`.`name` = 'Rescheduled'";
             }
 
+            System.out.println(query);
             ResultSet resultSet = MySQL2.executeSearch(query);
 
             DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
@@ -160,17 +178,19 @@ public class TutorClassList extends javax.swing.JPanel {
             e.printStackTrace();
         }
     }
-    
+
     private void reset() {
         jTextField1.setText("");
         jTextField2.setText("");
         jTextField3.setText("");
         jTextField4.setText("");
         jTextField5.setText("");
+        jComboBox1.setSelectedItem("Select");
         From = "";
         To = "";
-        loadTable("","");
+        loadTable("", "");
         cancelBtn.setEnabled(false);
+        jComboBox1.setEnabled(true);
     }
 
     @SuppressWarnings("unchecked")
@@ -289,6 +309,12 @@ public class TutorClassList extends javax.swing.JPanel {
             }
         });
 
+        jTextField5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField5ActionPerformed(evt);
+            }
+        });
+
         jButton2.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
         jButton2.setText("Clear All");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
@@ -300,7 +326,7 @@ public class TutorClassList extends javax.swing.JPanel {
         jLabel5.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
         jLabel5.setText("Sort By Status :");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select", "Pending", "Completed", "Cancelled", "Rescheduled" }));
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select", "Pending", "Completed", "Cancelled", "Rescheduled", "Today's Sessions" }));
         jComboBox1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboBox1ActionPerformed(evt);
@@ -554,6 +580,13 @@ public class TutorClassList extends javax.swing.JPanel {
             loadTable("", "");
         }
     }//GEN-LAST:event_jComboBox1ActionPerformed
+
+    private void jTextField5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField5ActionPerformed
+        if (jComboBox1.getSelectedItem().equals("Today's Sessions")) {
+            jComboBox1.setSelectedItem("Select");
+            jComboBox1.setEnabled(false);
+        }
+    }//GEN-LAST:event_jTextField5ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
