@@ -564,7 +564,7 @@ public class AdminDashboard extends javax.swing.JFrame implements DashboardInter
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
         jPanel4.removeAll();
-        InvoiceReport IR = new InvoiceReport(this);
+        StudentInvoiceHistory IR = new StudentInvoiceHistory(this);
         jPanel4.add(IR, BorderLayout.CENTER);
 
         SwingUtilities.updateComponentTreeUI(jPanel4);
