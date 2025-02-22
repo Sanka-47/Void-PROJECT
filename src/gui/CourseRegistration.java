@@ -351,12 +351,20 @@ public class CourseRegistration extends javax.swing.JPanel {
         String fee = jTextField2.getText();
         String description = jTextField4.getText();
 
-        if (courseName.isEmpty() || fee.isEmpty() || grade.equals("Select")) {
-            JOptionPane.showMessageDialog(this, "All fields must be filled!", "Warning", JOptionPane.WARNING_MESSAGE);
+//        if (courseName.isEmpty() || fee.isEmpty() || grade.equals("Select")) {
+//            JOptionPane.showMessageDialog(this, "All fields must be filled!", "Warning", JOptionPane.WARNING_MESSAGE);
+//            return;
+//        }
+        if (courseName.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Course Name must be filled!", "Warning", JOptionPane.WARNING_MESSAGE);
             return;
-        }
-
-        if (description.length() < 10 || description.length() > 255) {
+        } else if (fee.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Fee must be filled!", "Warning", JOptionPane.WARNING_MESSAGE);
+            return;
+        } else if (grade.equals("Select")) {
+            JOptionPane.showMessageDialog(this, "Please select a grade!", "Warning", JOptionPane.WARNING_MESSAGE);
+            return;
+        } else if (description.length() < 10 || description.length() > 255) {
             JOptionPane.showMessageDialog(this, "Course description must be between 10 and 255 characters!", "Warning", JOptionPane.WARNING_MESSAGE);
             return;
         }
@@ -382,13 +390,14 @@ public class CourseRegistration extends javax.swing.JPanel {
 
         try {
             String courseName = jTextField1.getText();
-            Double fee = Double.parseDouble(jTextField2.getText());
+//            Double fee = Double.parseDouble(jTextField2.getText());
+            String fee = String.valueOf(jTextField2.getText());
             String grade = String.valueOf(jComboBox1.getSelectedItem());
             String description = jTextField4.getText();
 
             if (courseName.isEmpty()) {
                 JOptionPane.showMessageDialog(this, "Please enter the course name", "Warning", JOptionPane.WARNING_MESSAGE);
-            } else if (fee.isNaN()) {
+            } else if (fee.isEmpty()) {
                 JOptionPane.showMessageDialog(this, "Please enter the course fee", "Warning", JOptionPane.WARNING_MESSAGE);
             } else if (grade.equals("Select")) {
                 JOptionPane.showMessageDialog(this, "Please select a grade", "Warning", JOptionPane.WARNING_MESSAGE);
@@ -414,31 +423,63 @@ public class CourseRegistration extends javax.swing.JPanel {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+//
+//        int selectedRow = jTable1.getSelectedRow();
+//        if (selectedRow == -1) {
+//            JOptionPane.showMessageDialog(this, "Please select a course to Activate/Deactivate.", "Warning", JOptionPane.WARNING_MESSAGE);
+//            return;
+//        }
+//
+//        String courseId = jTable1.getValueAt(selectedRow, 0).toString();
+//        String currentStatus = jTable1.getValueAt(selectedRow, 4).toString();
+//
+//        try {
+//
+//            String newStatusId = currentStatus.equals("active") ? "0" : "1";
+//
+//            MySQL2.executeIUD("UPDATE `courses` SET `course_status_id`='" + newStatusId + "' WHERE `id`='" + courseId + "'");
+//
+//            loadCourseDetails();
+//            reset();
+//
+//            JOptionPane.showMessageDialog(this, "Course status changed to " + (newStatusId.equals("1") ? "Active" : "Inactive") + " successfully!");
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            JOptionPane.showMessageDialog(this, "Failed to change the course status.", "Error", JOptionPane.ERROR_MESSAGE);
+//        }
 
         int selectedRow = jTable1.getSelectedRow();
+
         if (selectedRow == -1) {
-            JOptionPane.showMessageDialog(this, "Please select a course to Activate/Deactivate.", "Warning", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Please select a course to deactivate.", "Warning", JOptionPane.WARNING_MESSAGE);
             return;
         }
 
         String courseId = jTable1.getValueAt(selectedRow, 0).toString();
-        String currentStatus = jTable1.getValueAt(selectedRow, 4).toString();
+        String currentStatus = jTable1.getValueAt(selectedRow, 5).toString().trim(); // Trim spaces
+
+        // Debugging output to check the actual stored value
+        System.out.println("Debug: Current Status Retrieved -> '" + currentStatus + "'");
+
+        // Adjust condition based on the actual table value
+        if (currentStatus.equalsIgnoreCase("Inactive") || currentStatus.equals("0")) {
+            JOptionPane.showMessageDialog(this, "The course is already deactivated.", "Info", JOptionPane.INFORMATION_MESSAGE);
+            return; // No changes needed
+        }
 
         try {
+            // Change status to "Inactive"
+            MySQL2.executeIUD("UPDATE `courses` SET `course_status_id`='0' WHERE `id`='" + courseId + "'");
 
-            String newStatusId = currentStatus.equals("active") ? "0" : "1";
-
-            MySQL2.executeIUD("UPDATE `courses` SET `course_status_id`='" + newStatusId + "' WHERE `id`='" + courseId + "'");
-
+            // Refresh table data and reset fields
             loadCourseDetails();
             reset();
 
-            JOptionPane.showMessageDialog(this, "Course status changed to " + (newStatusId.equals("1") ? "Active" : "Inactive") + " successfully!");
+            JOptionPane.showMessageDialog(this, "Course successfully deactivated!", "Success", JOptionPane.INFORMATION_MESSAGE);
         } catch (Exception e) {
             e.printStackTrace();
-            JOptionPane.showMessageDialog(this, "Failed to change the course status.", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Failed to deactivate the course.", "Error", JOptionPane.ERROR_MESSAGE);
         }
-
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
@@ -511,6 +552,7 @@ public class CourseRegistration extends javax.swing.JPanel {
         jTextField1.setText("");
         jComboBox1.setSelectedIndex(0);
         jTextField2.setText("");
+        jTextField4.setText("");
 
         jButton1.setEnabled(false);
         jButton3.setEnabled(false);

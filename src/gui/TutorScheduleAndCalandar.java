@@ -22,6 +22,8 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import model.MySQL2;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 public class TutorScheduleAndCalandar extends javax.swing.JPanel {
@@ -237,9 +239,9 @@ public class TutorScheduleAndCalandar extends javax.swing.JPanel {
                 query += " ORDER BY `tutor`.`first_name` ASC";
             } else if (sort.equals("Tutor Name DESC")) {
                 query += " ORDER BY `tutor`.`first_name` DESC";
-            } else if (sort.equals("Subject ASC")) {
+            } else if (sort.equals("Courses ASC")) {
                 query += " ORDER BY TRIM(`courses`.`name`) COLLATE utf8mb4_unicode_ci ASC";
-            } else if (sort.equals("Subject DESC")) {
+            } else if (sort.equals("Courses DESC")) {
                 query += " ORDER BY TRIM(`courses`.`name`) COLLATE utf8mb4_unicode_ci DESC";
             } else if (sort.equals("ID ASC")) {
                 query += " ORDER BY `class`.`id` ASC";
@@ -248,7 +250,6 @@ public class TutorScheduleAndCalandar extends javax.swing.JPanel {
             }
 
 //            System.out.println("Executing Query: " + query); // Ensure this is showing the correct query
-
             ResultSet resultSet = MySQL2.executeSearch(query);
             DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
             model.setRowCount(0);
@@ -1024,7 +1025,7 @@ public class TutorScheduleAndCalandar extends javax.swing.JPanel {
     }
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
-        
+
         String sessionID = jTextField1.getText();
         String course = String.valueOf(jComboBox1.getSelectedItem());
         String tName = String.valueOf(jComboBox2.getSelectedItem());
@@ -1063,6 +1064,9 @@ public class TutorScheduleAndCalandar extends javax.swing.JPanel {
             return;
         } else if (dateString.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Please enter a Date!", "Warning", JOptionPane.WARNING_MESSAGE);
+            return;
+        } else if (LocalDate.parse(dateString, DateTimeFormatter.ofPattern("yyyy-MM-dd")).isBefore(LocalDate.now())) {
+            JOptionPane.showMessageDialog(this, "Please enter a future Date!", "Warning", JOptionPane.WARNING_MESSAGE);
             return;
         } else if (price.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Please enter the Amount!", "Warning", JOptionPane.WARNING_MESSAGE);
@@ -1272,7 +1276,7 @@ public class TutorScheduleAndCalandar extends javax.swing.JPanel {
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
 
         jButton8.setEnabled(false);
-        
+
         jTextField1.setEditable(false);
 
         int row = jTable1.getSelectedRow();
@@ -1304,8 +1308,7 @@ public class TutorScheduleAndCalandar extends javax.swing.JPanel {
 //            endTime = String.format("%02d.%02d", Integer.parseInt(endTime.substring(0, 2)), Integer.parseInt(endTime.substring(2)));
 //        }
 //        jFormattedTextField2.setText(endTime);
-
-String startTime = String.valueOf(jTable1.getValueAt(row, 5)).replaceAll("[^\\dA-Za-z: ]", "");
+        String startTime = String.valueOf(jTable1.getValueAt(row, 5)).replaceAll("[^\\dA-Za-z: ]", "");
         String endTime = String.valueOf(jTable1.getValueAt(row, 6)).replaceAll("[^\\dA-Za-z: ]", "");
 
 // Ensure a colon is added if missing between hours and minutes
@@ -1346,7 +1349,6 @@ String startTime = String.valueOf(jTable1.getValueAt(row, 5)).replaceAll("[^\\dA
         } catch (ParseException e) {
             e.printStackTrace(); // Handle the exception if time parsing fails
         }
-
 
         String hallNumber = String.valueOf(jTable1.getValueAt(row, 7));
         jTextField3.setText(hallNumber);
