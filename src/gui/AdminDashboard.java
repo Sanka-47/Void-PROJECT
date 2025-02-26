@@ -33,11 +33,11 @@ public class AdminDashboard extends javax.swing.JFrame implements DashboardInter
         initComponents();
         loadDate();
         loadIcon();
-        jButton18.setText(fName);
+        jButton17.setText(fName);
         this.adminID = adminID;
         this.fName = fName;
         this.lName = lName;
-        
+
         // Add a component listener to track size changes
 //        addComponentListener(new ComponentAdapter() {
 //            @Override
@@ -69,12 +69,17 @@ public class AdminDashboard extends javax.swing.JFrame implements DashboardInter
 //        gd.setFullScreenWindow(this);
     }
 
+    @Override
     public void switchPanel(JPanel panel) {
-        jPanel4.removeAll();
-        jPanel4.add(panel, BorderLayout.CENTER);
-        SwingUtilities.updateComponentTreeUI(jPanel4);
+        try {
+            jPanel4.removeAll();
+            jPanel4.add(panel, BorderLayout.CENTER);
+            SwingUtilities.updateComponentTreeUI(jPanel4);
+        } catch (NullPointerException e) {
+            System.out.println(panel + " : is null");
+        }
     }
-    
+
     private void loadIcon() {
         Image image = Toolkit.getDefaultToolkit().getImage("src//resource//VOID.png");
         this.setIconImage(image);
@@ -95,6 +100,8 @@ public class AdminDashboard extends javax.swing.JFrame implements DashboardInter
 
                     try {
                         Thread.sleep(1000);
+                    } catch (RuntimeException e) {
+                        e.printStackTrace();
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -118,33 +125,33 @@ public class AdminDashboard extends javax.swing.JFrame implements DashboardInter
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
-        jButton18 = new javax.swing.JButton();
+        jButton17 = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         jPanel3 = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
+        jButton6 = new javax.swing.JButton();
         jButton7 = new javax.swing.JButton();
         jButton8 = new javax.swing.JButton();
         jButton9 = new javax.swing.JButton();
         jButton10 = new javax.swing.JButton();
         jButton11 = new javax.swing.JButton();
-        jButton12 = new javax.swing.JButton();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
-        jButton14 = new javax.swing.JButton();
-        jButton15 = new javax.swing.JButton();
-        jButton6 = new javax.swing.JButton();
         jButton13 = new javax.swing.JButton();
-        jButton16 = new javax.swing.JButton();
+        jButton14 = new javax.swing.JButton();
+        jButton5 = new javax.swing.JButton();
+        jButton12 = new javax.swing.JButton();
+        jButton15 = new javax.swing.JButton();
         jLabel13 = new javax.swing.JLabel();
-        jButton17 = new javax.swing.JButton();
+        jButton16 = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -173,10 +180,10 @@ public class AdminDashboard extends javax.swing.JFrame implements DashboardInter
         jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
         jLabel6.setText("Time");
 
-        jButton18.setText("jButton18");
-        jButton18.addActionListener(new java.awt.event.ActionListener() {
+        jButton17.setText("jButton18");
+        jButton17.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton18ActionPerformed(evt);
+                jButton17ActionPerformed(evt);
             }
         });
 
@@ -190,7 +197,7 @@ public class AdminDashboard extends javax.swing.JFrame implements DashboardInter
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton18)
+                .addComponent(jButton17)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -216,7 +223,7 @@ public class AdminDashboard extends javax.swing.JFrame implements DashboardInter
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton18))
+                    .addComponent(jButton17))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -244,26 +251,34 @@ public class AdminDashboard extends javax.swing.JFrame implements DashboardInter
             }
         });
 
+        jButton3.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
+        jButton3.setText("Add Student");
+        jButton3.setPreferredSize(new java.awt.Dimension(201, 26));
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+
         jButton4.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
-        jButton4.setText("Add Student");
-        jButton4.setPreferredSize(new java.awt.Dimension(201, 26));
+        jButton4.setText("All Students");
         jButton4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton4ActionPerformed(evt);
             }
         });
 
-        jButton5.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
-        jButton5.setText("All Students");
-        jButton5.addActionListener(new java.awt.event.ActionListener() {
+        jButton6.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
+        jButton6.setText("Add Tutor");
+        jButton6.setPreferredSize(new java.awt.Dimension(201, 26));
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton5ActionPerformed(evt);
+                jButton6ActionPerformed(evt);
             }
         });
 
         jButton7.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
-        jButton7.setText("Add Tutor");
-        jButton7.setPreferredSize(new java.awt.Dimension(201, 26));
+        jButton7.setText("All Tutors");
         jButton7.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton7ActionPerformed(evt);
@@ -271,7 +286,7 @@ public class AdminDashboard extends javax.swing.JFrame implements DashboardInter
         });
 
         jButton8.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
-        jButton8.setText("All Tutors");
+        jButton8.setText("Tutor Withdraw History");
         jButton8.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton8ActionPerformed(evt);
@@ -279,7 +294,7 @@ public class AdminDashboard extends javax.swing.JFrame implements DashboardInter
         });
 
         jButton9.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
-        jButton9.setText("Tutor Withdraw History");
+        jButton9.setText("Subject Management");
         jButton9.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton9ActionPerformed(evt);
@@ -287,7 +302,7 @@ public class AdminDashboard extends javax.swing.JFrame implements DashboardInter
         });
 
         jButton10.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
-        jButton10.setText("Subject Management");
+        jButton10.setText("Add Employee");
         jButton10.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton10ActionPerformed(evt);
@@ -295,18 +310,10 @@ public class AdminDashboard extends javax.swing.JFrame implements DashboardInter
         });
 
         jButton11.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
-        jButton11.setText("Add Employee");
+        jButton11.setText("All Employees");
         jButton11.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton11ActionPerformed(evt);
-            }
-        });
-
-        jButton12.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
-        jButton12.setText("All Employees");
-        jButton12.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton12ActionPerformed(evt);
             }
         });
 
@@ -328,54 +335,54 @@ public class AdminDashboard extends javax.swing.JFrame implements DashboardInter
         jLabel12.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
         jLabel12.setText("Course Management");
 
-        jButton14.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
-        jButton14.setText("Add Course");
-        jButton14.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton14ActionPerformed(evt);
-            }
-        });
-
-        jButton15.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
-        jButton15.setText("All Courses");
-        jButton15.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton15ActionPerformed(evt);
-            }
-        });
-
-        jButton6.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
-        jButton6.setText("Student Invoice History");
-        jButton6.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton6ActionPerformed(evt);
-            }
-        });
-
         jButton13.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
-        jButton13.setText("Employee Payment History");
+        jButton13.setText("Add Course");
         jButton13.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton13ActionPerformed(evt);
             }
         });
 
-        jButton16.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
-        jButton16.setText("Intakes");
-        jButton16.addActionListener(new java.awt.event.ActionListener() {
+        jButton14.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
+        jButton14.setText("All Courses");
+        jButton14.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton16ActionPerformed(evt);
+                jButton14ActionPerformed(evt);
+            }
+        });
+
+        jButton5.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
+        jButton5.setText("Student Invoice History");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
+
+        jButton12.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
+        jButton12.setText("Employee Payment History");
+        jButton12.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton12ActionPerformed(evt);
+            }
+        });
+
+        jButton15.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
+        jButton15.setText("Intakes");
+        jButton15.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton15ActionPerformed(evt);
             }
         });
 
         jLabel13.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
         jLabel13.setText("Reports");
 
-        jButton17.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
-        jButton17.setText("Admin Reports");
-        jButton17.addActionListener(new java.awt.event.ActionListener() {
+        jButton16.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
+        jButton16.setText("Admin Reports");
+        jButton16.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton17ActionPerformed(evt);
+                jButton16ActionPerformed(evt);
             }
         });
 
@@ -398,7 +405,7 @@ public class AdminDashboard extends javax.swing.JFrame implements DashboardInter
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(jButton17, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jButton16, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel3Layout.createSequentialGroup()
                                 .addGap(34, 34, 34)
@@ -413,22 +420,22 @@ public class AdminDashboard extends javax.swing.JFrame implements DashboardInter
                                 .addGap(16, 16, 16)
                                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jButton6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jButton5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jButton5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jButton4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jButton7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(jButton8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jButton9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jButton7, javax.swing.GroupLayout.DEFAULT_SIZE, 218, Short.MAX_VALUE)
+                                    .addComponent(jButton6, javax.swing.GroupLayout.DEFAULT_SIZE, 218, Short.MAX_VALUE)
                                     .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jButton10, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jButton11, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton12, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton13, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addComponent(jButton10, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton12, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jButton16, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jButton15, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton14, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 218, Short.MAX_VALUE)))
+                            .addComponent(jButton14, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jButton13, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 218, Short.MAX_VALUE)))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGap(90, 90, 90)
                         .addComponent(jLabel13)))
@@ -446,43 +453,43 @@ public class AdminDashboard extends javax.swing.JFrame implements DashboardInter
                 .addGap(31, 31, 31)
                 .addComponent(jLabel8)
                 .addGap(18, 18, 18)
+                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(51, 51, 51)
                 .addComponent(jLabel9)
                 .addGap(18, 18, 18)
+                .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(49, 49, 49)
                 .addComponent(jLabel10)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton10, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(65, 65, 65)
                 .addComponent(jLabel11)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton11, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jButton10, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton12, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jButton11, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(12, 12, 12)
-                .addComponent(jButton13, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jButton12, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(65, 65, 65)
                 .addComponent(jLabel12)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jButton13, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton14, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton15, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton16, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(59, 59, 59)
                 .addComponent(jLabel13)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton17, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jButton16, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -531,136 +538,95 @@ public class AdminDashboard extends javax.swing.JFrame implements DashboardInter
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        jPanel4.removeAll();
         TutorScheduleAndCalandar addSession = new TutorScheduleAndCalandar(this);
-        jPanel4.add(addSession, BorderLayout.CENTER);
-
-        SwingUtilities.updateComponentTreeUI(jPanel4);
+        switchPanel(addSession);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        jPanel4.removeAll();
-        RequestedSessions addSession = new RequestedSessions(this);
-        jPanel4.add(addSession, BorderLayout.CENTER);
-
-        SwingUtilities.updateComponentTreeUI(jPanel4);
+        RequestedSessions rs = new RequestedSessions(this);
+        switchPanel(rs);
     }//GEN-LAST:event_jButton2ActionPerformed
 
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        jPanel4.removeAll();
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         StudentRegistration SR = new StudentRegistration(this);
-        jPanel4.add(SR, BorderLayout.CENTER);
+        switchPanel(SR);
+    }//GEN-LAST:event_jButton3ActionPerformed
 
-        SwingUtilities.updateComponentTreeUI(jPanel4);
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        AllStudents as = new AllStudents(this);
+        switchPanel(as);
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        jPanel4.removeAll();
-        AllStudents as = new AllStudents(this);
-        jPanel4.add(as, BorderLayout.CENTER);
-
-        SwingUtilities.updateComponentTreeUI(jPanel4);
+        StudentInvoiceHistory IR = new StudentInvoiceHistory(this);
+        switchPanel(IR);
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
-        jPanel4.removeAll();
-        StudentInvoiceHistory IR = new StudentInvoiceHistory(this);
-        jPanel4.add(IR, BorderLayout.CENTER);
-
-        SwingUtilities.updateComponentTreeUI(jPanel4);
+        AddTutor at = new AddTutor(this);
+        switchPanel(at);
     }//GEN-LAST:event_jButton6ActionPerformed
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
-        jPanel4.removeAll();
-        AddTutor at = new AddTutor(this);
-        jPanel4.add(at, BorderLayout.CENTER);
-
-        SwingUtilities.updateComponentTreeUI(jPanel4);
+        AllTutors ats = new AllTutors(this);
+        switchPanel(ats);
     }//GEN-LAST:event_jButton7ActionPerformed
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
-        jPanel4.removeAll();
-        AllTutors ats = new AllTutors(this);
-        jPanel4.add(ats, BorderLayout.CENTER);
-
-        SwingUtilities.updateComponentTreeUI(jPanel4);
+        AllTutorsWithdrawHistory twh = new AllTutorsWithdrawHistory();
+        switchPanel(twh);
     }//GEN-LAST:event_jButton8ActionPerformed
 
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
-        jPanel4.removeAll();
-        AllTutorsWithdrawHistory twh = new AllTutorsWithdrawHistory();
-        jPanel4.add(twh, BorderLayout.CENTER);
-
-        SwingUtilities.updateComponentTreeUI(jPanel4);
+        SubjectManagement as1 = new SubjectManagement();
+        switchPanel(as1);
     }//GEN-LAST:event_jButton9ActionPerformed
 
     private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
-        jPanel4.removeAll();
-        SubjectManagement as1 = new SubjectManagement();
-        jPanel4.add(as1, BorderLayout.CENTER);
-
-        SwingUtilities.updateComponentTreeUI(jPanel4);
+        EmployeeRegistration em = new EmployeeRegistration(this);
+        switchPanel(em);
     }//GEN-LAST:event_jButton10ActionPerformed
 
     private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
-        jPanel4.removeAll();
-        EmployeeRegistration em = new EmployeeRegistration(this);
-        jPanel4.add(em, BorderLayout.CENTER);
-        SwingUtilities.updateComponentTreeUI(jPanel4);
+        AllEmployees allEmployees = new AllEmployees(this);
+        switchPanel(allEmployees);
     }//GEN-LAST:event_jButton11ActionPerformed
 
     private void jButton12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton12ActionPerformed
-        jPanel4.removeAll();
-        AllEmployees allEmployees = new AllEmployees(this);
-        jPanel4.add(allEmployees, BorderLayout.CENTER);
-        SwingUtilities.updateComponentTreeUI(jPanel4);
+        EmployeePaymentHistory twh = new EmployeePaymentHistory();
+        switchPanel(twh);
     }//GEN-LAST:event_jButton12ActionPerformed
 
     private void jButton13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton13ActionPerformed
-        jPanel4.removeAll();
-        EmployeePaymentHistory twh = new EmployeePaymentHistory();
-        jPanel4.add(twh, BorderLayout.CENTER);
-
-        SwingUtilities.updateComponentTreeUI(jPanel4);
+        
+        CourseRegistration cr = new CourseRegistration();
+        switchPanel(cr);
     }//GEN-LAST:event_jButton13ActionPerformed
 
     private void jButton14ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton14ActionPerformed
-        jPanel4.removeAll();
-        CourseRegistration cr = new CourseRegistration();
-        jPanel4.add(cr, BorderLayout.CENTER);
-
-        SwingUtilities.updateComponentTreeUI(jPanel4);
+        AllCourses ac = new AllCourses();
+        switchPanel(ac);
     }//GEN-LAST:event_jButton14ActionPerformed
 
     private void jButton15ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton15ActionPerformed
-        jPanel4.removeAll();
-        AllCourses ac = new AllCourses();
-        jPanel4.add(ac, BorderLayout.CENTER);
-
-        SwingUtilities.updateComponentTreeUI(jPanel4);
+        
+        StudentIntakes SI = new StudentIntakes();
+        switchPanel(SI);
     }//GEN-LAST:event_jButton15ActionPerformed
 
     private void jButton16ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton16ActionPerformed
-        jPanel4.removeAll();
-        StudentIntakes SI = new StudentIntakes();
-        jPanel4.add(SI, BorderLayout.CENTER);
-
-        SwingUtilities.updateComponentTreeUI(jPanel4);
-    }//GEN-LAST:event_jButton16ActionPerformed
-
-    private void jButton17ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton17ActionPerformed
         AdminReportDashboard adminReportDashboard = new AdminReportDashboard("bhanu", "bandara");
         adminReportDashboard.setVisible(true);
         this.dispose();
-    }//GEN-LAST:event_jButton17ActionPerformed
+    }//GEN-LAST:event_jButton16ActionPerformed
 
-    private void jButton18ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton18ActionPerformed
-        jPanel4.removeAll();
+    private void jButton17ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton17ActionPerformed
+        
         EmployeeProfile ep = new EmployeeProfile(fName, adminID);
         jPanel4.add(ep, BorderLayout.CENTER);
 
         SwingUtilities.updateComponentTreeUI(jPanel4);
-    }//GEN-LAST:event_jButton18ActionPerformed
+    }//GEN-LAST:event_jButton17ActionPerformed
 
     public static void main(String args[]) throws UnsupportedLookAndFeelException {
         UIManager.setLookAndFeel(new FlatLightLaf());
@@ -696,8 +662,8 @@ public class AdminDashboard extends javax.swing.JFrame implements DashboardInter
     private javax.swing.JButton jButton15;
     private javax.swing.JButton jButton16;
     private javax.swing.JButton jButton17;
-    private javax.swing.JButton jButton18;
     private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;

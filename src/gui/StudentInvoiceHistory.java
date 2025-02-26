@@ -288,7 +288,7 @@ public class StudentInvoiceHistory extends javax.swing.JPanel {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         //view or print report
-        String path = "src//reports//StudentInvoiceReport.jasper";
+        String path = "src//reports//StudentInvoiceHistory.jasper";
         
         String dateTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
         
