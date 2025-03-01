@@ -8,6 +8,7 @@ import com.toedter.calendar.JCalendar;
 import com.toedter.calendar.JDateChooser;
 import java.awt.Color;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -141,8 +142,10 @@ public class StudentRegistration extends javax.swing.JPanel {
             jComboBox1.setModel(model);
 
 //            logger.log(Level.INFO, "Genders successfully loaded into the combo box.");
-        } catch (Exception e) {
+        } catch (SQLException e) {
 //            logger.log(Level.SEVERE, "An error occurred while loading genders.", e);
+            e.printStackTrace();
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
@@ -172,6 +175,8 @@ public class StudentRegistration extends javax.swing.JPanel {
             DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>(vector);
             jComboBox2.setModel(model);
 
+        } catch (SQLException e) {
+            e.printStackTrace();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -454,55 +459,51 @@ public class StudentRegistration extends javax.swing.JPanel {
             try {
 //                logger.log(Level.INFO, "Starting registration process for NIC: {0}", NIC);
 
-                ResultSet rs = MySQL2.executeSearch("SELECT * FROM `student` WHERE `nic`='" + NIC + "'");
+                ResultSet rs = MySQL2.executeSearch("SELECT * FROM `student` WHERE `nic`='" + NIC + "' OR `contact_info`='" + Mobile + "' OR `email`='" + Email + "'");
+
                 if (rs.next()) {
-                    JOptionPane.showMessageDialog(this, "This NIC number is already registered", "Warning", JOptionPane.WARNING_MESSAGE);
+                    if (rs.getString("nic").equals(NIC)) {
+                        JOptionPane.showMessageDialog(this, "This NIC number is already registered", "Warning", JOptionPane.WARNING_MESSAGE);
 //                    logger.log(Level.WARNING, "NIC already registered: {0}", NIC);
-                } else {
-                    rs = MySQL2.executeSearch("SELECT * FROM `student` WHERE `contact_info`='" + Mobile + "'");
-                    if (rs.next()) {
-                        JOptionPane.showMessageDialog(this, "This mobile number is already registered", "Warning", JOptionPane.WARNING_MESSAGE);
+                    } else if (rs.getString("contact_info").equals(Mobile)) {
+                        JOptionPane.showMessageDialog(this, "This mobile number is already registered!", "Warning", JOptionPane.WARNING_MESSAGE);
 //                        logger.log(Level.WARNING, "Mobile number already registered: {0}", Mobile);
-                    } else {
-                        rs = MySQL2.executeSearch("SELECT * FROM `student` WHERE `email`='" + Email + "'");
-                        if (rs.next()) {
-                            JOptionPane.showMessageDialog(this, "Student Already Registered", "Warning", JOptionPane.WARNING_MESSAGE);
+                    } else if (rs.getString("email").equals(Email)) {
+                        JOptionPane.showMessageDialog(this, "Student has been already registered with this email!", "Warning", JOptionPane.WARNING_MESSAGE);
 //                            logger.log(Level.WARNING, "Email already registered: {0}", Email);
-                        } else {
-                            if (selectedDate != null) {
-                                try {
-                                    SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd");
-                                    Date parsedDate = inputFormat.parse(selectedDate);
-                                    String formattedDOB = inputFormat.format(parsedDate);
+                    }
+                } else {
 
-                                    if (parsedDate != null && parsedDate.after(currentDate)) {
+                    SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd");
+                    Date parsedDate = inputFormat.parse(selectedDate);
+                    String formattedDOB = inputFormat.format(parsedDate);
 
-                                        JOptionPane.showMessageDialog(null, "Date of birth cannot be in the future!",
-                                                "Invalid Date", JOptionPane.ERROR_MESSAGE);
-//                                        jTextField6.setText(""); // Clear the invalid date
-                                    } else {
-//                                logger.log(Level.INFO, "Formatted date of birth: {0}", formattedDOB);
+                    if (parsedDate != null && parsedDate.after(currentDate)) {
+                        JOptionPane.showMessageDialog(null, "Date of birth cannot be in the future!", "Invalid Date", JOptionPane.ERROR_MESSAGE);
+//                      jTextField6.setText(""); // Clear the invalid date
+                    } else {
+//                      logger.log(Level.INFO, "Formatted date of birth: {0}", formattedDOB);
 
-                                        MySQL2.executeIUD(
-                                                "INSERT INTO `student`(`nic`, `first_name`, `last_name`, `dob`, `contact_info`, `registration_date`, `email`, `gender_id`, `intake_id`) "
-                                                + "VALUES ('" + NIC + "', '" + FirstName + "', '" + LastName + "', '" + formattedDOB + "', '" + Mobile + "', '" + fdate + "', '" + Email + "', '" + gender.get(Gender) + "', '" + intakeMap.get(Intake) + "')");
-                                        
-                                        JOptionPane.showMessageDialog(this, "Account Created Successfully", "Info", JOptionPane.INFORMATION_MESSAGE);
-                            reset();
-                            AllStudents allStudents = new AllStudents(parent);
-                            parent.switchPanel(allStudents);
-                                    }
-                                } catch (ParseException e) {
-                                    // Handle invalid date format
-                                    e.printStackTrace();
-                                }
+                        MySQL2.executeIUD("INSERT INTO `student`(`nic`, `first_name`, `last_name`, `dob`, `contact_info`, `registration_date`, `email`, `gender_id`, `intake_id`) "
+                                + "VALUES ('" + NIC + "', '" + FirstName + "', '" + LastName + "', '" + formattedDOB + "', '" + Mobile + "', '" + fdate + "', '" + Email + "', '" + gender.get(Gender) + "', '" + intakeMap.get(Intake) + "')");
+
+                        JOptionPane.showMessageDialog(this, "Account Created Successfully", "Info", JOptionPane.INFORMATION_MESSAGE);
+                        reset();
+                        AllStudents allStudents = new AllStudents(parent);
+                        parent.switchPanel(allStudents);
+                    }
 
 //                                logger.log(Level.INFO, "New student registered successfully with NIC: {0}", NIC);
-                            }
-                            
-                        }
-                    }
                 }
+
+            } catch (NullPointerException e) {
+                // Handle invalid date format
+                e.printStackTrace();
+            } catch (ParseException e) {
+                // Handle invalid date format
+                e.printStackTrace();
+            } catch (SQLException e) {
+                e.printStackTrace();
             } catch (Exception e) {
 //                logger.log(Level.SEVERE, "Error during student registration", e);
                 e.printStackTrace();
@@ -574,19 +575,18 @@ public class StudentRegistration extends javax.swing.JPanel {
 
                         MySQL2.executeIUD("UPDATE `student` SET `first_name` = '" + FirstName + "', `last_name` = '" + LastName + "', `dob` = '" + formattedDOB + "',"
                                 + " `contact_info` = '" + Mobile + "', `email` = '" + Email + "',`gender_id` = '" + gender.get(Gender) + "', `intake_id` = '" + intakeMap.get(Intake) + "' WHERE `nic` = '" + NIC + "'");
-                        
+
                         JOptionPane.showMessageDialog(this, "Account Updated Successfully", "Info", JOptionPane.INFORMATION_MESSAGE);
 //                logger.log(Level.INFO, "Student account updated successfully for NIC: {0}", NIC);
-                reset();
-                jButton4.setEnabled(true);
-                
+                        reset();
+                        jButton4.setEnabled(true);
+
                     }
                 } catch (ParseException e) {
                     // Handle invalid date format
                     e.printStackTrace();
                 }
 
-                
             } catch (Exception e) {
 //                logger.log(Level.SEVERE, "Error during student update for NIC: " + NIC, e);
                 e.printStackTrace();
@@ -596,7 +596,13 @@ public class StudentRegistration extends javax.swing.JPanel {
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         AllStudents allStudents = new AllStudents(parent);
-        parent.switchPanel(allStudents);
+        try {
+            parent.switchPanel(allStudents);
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }//GEN-LAST:event_jButton4ActionPerformed
 
 
