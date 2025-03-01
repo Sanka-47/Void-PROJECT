@@ -180,7 +180,8 @@ public class AdminDashboard extends javax.swing.JFrame implements DashboardInter
         jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
         jLabel6.setText("Time");
 
-        jButton17.setText("jButton18");
+        jButton17.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
+        jButton17.setText("jButton17");
         jButton17.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton17ActionPerformed(evt);
@@ -495,7 +496,7 @@ public class AdminDashboard extends javax.swing.JFrame implements DashboardInter
 
         jScrollPane2.setViewportView(jPanel3);
 
-        jPanel4.setBackground(new java.awt.Color(44, 62, 80));
+        jPanel4.setBackground(new java.awt.Color(78, 74, 207));
         jPanel4.setPreferredSize(new java.awt.Dimension(1000, 581));
         jPanel4.setLayout(new java.awt.BorderLayout());
 
@@ -598,7 +599,6 @@ public class AdminDashboard extends javax.swing.JFrame implements DashboardInter
     }//GEN-LAST:event_jButton12ActionPerformed
 
     private void jButton13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton13ActionPerformed
-        
         CourseRegistration cr = new CourseRegistration();
         switchPanel(cr);
     }//GEN-LAST:event_jButton13ActionPerformed
@@ -609,7 +609,6 @@ public class AdminDashboard extends javax.swing.JFrame implements DashboardInter
     }//GEN-LAST:event_jButton14ActionPerformed
 
     private void jButton15ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton15ActionPerformed
-        
         StudentIntakes SI = new StudentIntakes();
         switchPanel(SI);
     }//GEN-LAST:event_jButton15ActionPerformed
@@ -621,13 +620,10 @@ public class AdminDashboard extends javax.swing.JFrame implements DashboardInter
     }//GEN-LAST:event_jButton16ActionPerformed
 
     private void jButton17ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton17ActionPerformed
-        
         EmployeeProfile ep = new EmployeeProfile(fName, adminID);
-        jPanel4.add(ep, BorderLayout.CENTER);
-
-        SwingUtilities.updateComponentTreeUI(jPanel4);
+        switchPanel(ep);
     }//GEN-LAST:event_jButton17ActionPerformed
-
+    
     public static void main(String args[]) throws UnsupportedLookAndFeelException {
         UIManager.setLookAndFeel(new FlatLightLaf());
         UIManager.put("Button.background", Color.decode("#4E4ACF"));
@@ -647,11 +643,11 @@ public class AdminDashboard extends javax.swing.JFrame implements DashboardInter
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new AdminDashboard("", "").setVisible(true);
+                new AdminDashboard("Trent Boult", "1").setVisible(true);
             }
         });
     }
-
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton10;
