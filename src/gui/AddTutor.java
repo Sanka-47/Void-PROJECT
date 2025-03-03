@@ -8,6 +8,7 @@ import com.raven.datechooser.listener.DateChooserAdapter;
 import com.toedter.calendar.JDateChooser;
 import java.awt.Color;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -149,6 +150,8 @@ public class AddTutor extends javax.swing.JPanel {
 
             }
             jComboBox1.setModel(new DefaultComboBoxModel<>(vector));
+        } catch (SQLException e) {
+            e.printStackTrace();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -166,6 +169,8 @@ public class AddTutor extends javax.swing.JPanel {
                 genderMap.put(resultSet.getString("name"), resultSet.getString("id"));
             }
             jComboBox2.setModel(new DefaultComboBoxModel<>(vector));
+        } catch (SQLException e) {
+            e.printStackTrace();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -479,6 +484,8 @@ public class AddTutor extends javax.swing.JPanel {
 
             }
 
+        } catch (SQLException e) {
+            e.printStackTrace();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -545,6 +552,8 @@ public class AddTutor extends javax.swing.JPanel {
                 jButton4.setEnabled(true);
             }
 
+        } catch (SQLException e) {
+            e.printStackTrace();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -556,7 +565,14 @@ public class AddTutor extends javax.swing.JPanel {
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         AllTutors allTutors = new AllTutors(parent);
-        parent.switchPanel(allTutors);
+        
+        try {
+            parent.switchPanel(allTutors);
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }//GEN-LAST:event_jButton4ActionPerformed
 
 
