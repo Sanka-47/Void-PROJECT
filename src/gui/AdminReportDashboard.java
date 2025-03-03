@@ -345,7 +345,7 @@ public class AdminReportDashboard extends javax.swing.JFrame implements Dashboar
     }//GEN-LAST:event_jButton23ActionPerformed
 
     private void jButton24ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton24ActionPerformed
-        TotoalTutorPayment totoalTutorPayment = new TotoalTutorPayment();
+        TotalTutorPayment totoalTutorPayment = new TotalTutorPayment();
         totoalTutorPayment.setVisible(true);
     }//GEN-LAST:event_jButton24ActionPerformed
 
