@@ -1,1 +1,1 @@
-a fully 
+a fully functional 
