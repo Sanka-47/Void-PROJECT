@@ -1,1 +1,1 @@
-a fully functional institute management 
+a fully functional institute management s
