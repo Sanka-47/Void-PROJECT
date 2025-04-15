@@ -1,2 +1,2 @@
-a fully functional institute management system build using java
+ fully functional institute management system build using java
 
