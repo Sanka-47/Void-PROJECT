@@ -603,33 +603,41 @@ public class TutorClassList extends javax.swing.JPanel {
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         int selectedRow = jTable1.getSelectedRow();
 
-        if (selectedRow != -1) {
-            // Retrieve the class/session ID from the table
-            String classId = (String) jTable1.getValueAt(selectedRow, 0); // Assuming ID is in column 0
+    if (selectedRow != -1) {
+        String classId = (String) jTable1.getValueAt(selectedRow, 0); // Session ID
+        String sessionDate = (String) jTable1.getValueAt(selectedRow, 2); // Assuming date is in column 2 (format: yyyy-MM-dd)
 
-            int confirmation = JOptionPane.showConfirmDialog(this,
-                    "Are you sure you want to mark this session as completed?",
-                    "Confirm Completion", JOptionPane.YES_NO_OPTION);
+        // Get today's date
+        java.time.LocalDate today = java.time.LocalDate.now();
 
-            if (confirmation == JOptionPane.YES_OPTION) {
-                try {
-                    // Update the status of the session in the database to 'Completed'
-                    String query = "UPDATE class SET class_status_id = 2 WHERE id = '" + classId + "'";
-                    MySQL2.executeIUD(query);
+        // Convert sessionDate string to LocalDate
+        java.time.LocalDate sessionLocalDate = java.time.LocalDate.parse(sessionDate);
 
-                    // Optionally reload the table to reflect changes
-                    loadTable("", "");
-
-                    JOptionPane.showMessageDialog(this, "Session marked as completed successfully!");
-
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    JOptionPane.showMessageDialog(this, "Error while completing the session.");
-                }
-            }
-        } else {
-            JOptionPane.showMessageDialog(this, "Please select a session to mark as completed.");
+        if (!sessionLocalDate.isEqual(today)) {
+            JOptionPane.showMessageDialog(this, "Only today's sessions can be marked as completed.");
+            return;
         }
+
+        int confirmation = JOptionPane.showConfirmDialog(this,
+                "Are you sure you want to mark this session as completed?",
+                "Confirm Completion", JOptionPane.YES_NO_OPTION);
+
+        if (confirmation == JOptionPane.YES_OPTION) {
+            try {
+                String query = "UPDATE class SET class_status_id = 2 WHERE id = '" + classId + "'";
+                MySQL2.executeIUD(query);
+
+                loadTable("", "");
+
+                JOptionPane.showMessageDialog(this, "Session marked as completed successfully!");
+            } catch (Exception e) {
+                e.printStackTrace();
+                JOptionPane.showMessageDialog(this, "Error while completing the session.");
+            }
+        }
+    } else {
+        JOptionPane.showMessageDialog(this, "Please select a session to mark as completed.");
+    }
     }//GEN-LAST:event_jButton3ActionPerformed
 
 
