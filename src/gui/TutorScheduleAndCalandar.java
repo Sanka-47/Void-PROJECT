@@ -1037,6 +1037,14 @@ public class TutorScheduleAndCalandar extends javax.swing.JPanel {
         String hallnumber = jTextField3.getText();
         String price = jFormattedTextField3.getText();
 
+        // 1) Parse the user input (dd-MM-yyyy)
+        DateTimeFormatter inputFmt = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        LocalDate localDate = LocalDate.parse(dateString, inputFmt);   // ← parsed OK
+
+        // 2) Re-format to ISO for the DB (yyyy-MM-dd)
+        DateTimeFormatter dbFmt = DateTimeFormatter.ISO_LOCAL_DATE;       // same as "yyyy-MM-dd"
+        String isoDateString = localDate.format(dbFmt);                // e.g. "2025-05-17"
+
         // Regex for 24-hour time format (e.g., 12.00, 14.00)
         String timeRegex = "^([01]?\\d|2[0-3])\\.\\d{2}$";
 
@@ -1065,7 +1073,8 @@ public class TutorScheduleAndCalandar extends javax.swing.JPanel {
         } else if (dateString.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Please enter a Date!", "Warning", JOptionPane.WARNING_MESSAGE);
             return;
-        } else if (LocalDate.parse(dateString, DateTimeFormatter.ofPattern("yyyy-MM-dd")).isBefore(LocalDate.now())) {
+//        } else if (LocalDate.parse(dateString, DateTimeFormatter.ofPattern("yyyy-MM-dd")).isBefore(LocalDate.now())) {
+        } else if (LocalDate.parse(dateString, DateTimeFormatter.ofPattern("dd-MM-yyyy")).isBefore(LocalDate.now())) {
             JOptionPane.showMessageDialog(this, "Please enter a future Date!", "Warning", JOptionPane.WARNING_MESSAGE);
             return;
         } else if (price.isEmpty()) {
@@ -1074,7 +1083,8 @@ public class TutorScheduleAndCalandar extends javax.swing.JPanel {
         } else {
             try {
                 // Parse and validate the date
-                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+//                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
                 Date date = dateFormat.parse(dateString);
 
                 // Parse the start and end times
@@ -1107,7 +1117,7 @@ public class TutorScheduleAndCalandar extends javax.swing.JPanel {
                     int pendingStatusID = 1; // Adjust this if your "Pending" status ID is different
 
                     // Check for time conflicts
-                    String query = "SELECT * FROM `class` WHERE `tutor_id` = '" + tutorMap.get(tName) + "' AND `date` = '" + dateString + "' "
+                    String query = "SELECT * FROM `class` WHERE `tutor_id` = '" + tutorMap.get(tName) + "' AND `date` = '" + isoDateString + "' "
                             + "AND ((`start_time` <= '" + startTimeAmPm + "' AND `end_time` > '" + startTimeAmPm + "') "
                             + "OR (`start_time` < '" + endTimeAmPm + "' AND `end_time` >= '" + endTimeAmPm + "') "
                             + "OR (`start_time` >= '" + startTimeAmPm + "' AND `end_time` <= '" + endTimeAmPm + "'))";
@@ -1120,7 +1130,7 @@ public class TutorScheduleAndCalandar extends javax.swing.JPanel {
                     }
 
                     // Check for hall conflicts
-                    String hallQuery = "SELECT * FROM `class` WHERE `hallnumber` = '" + hallnumber + "' AND `date` = '" + dateString + "' "
+                    String hallQuery = "SELECT * FROM `class` WHERE `hallnumber` = '" + hallnumber + "' AND `date` = '" + isoDateString + "' "
                             + "AND ((`start_time` <= '" + startTimeAmPm + "' AND `end_time` > '" + startTimeAmPm + "') "
                             + "OR (`start_time` < '" + endTimeAmPm + "' AND `end_time` >= '" + endTimeAmPm + "') "
                             + "OR (`start_time` >= '" + startTimeAmPm + "' AND `end_time` <= '" + endTimeAmPm + "'))";
@@ -1134,7 +1144,7 @@ public class TutorScheduleAndCalandar extends javax.swing.JPanel {
 
                     // Insert data into the database with the "Pending" status ID
                     MySQL2.executeIUD("INSERT INTO `class` (`id`, `name`, `date`, `start_time`, `end_time`, `hallnumber`, `amount`, `tutor_id`, `courses_id`, `class_status_id`) "
-                            + "VALUES ('" + sessionID + "', '" + className + "', '" + dateString + "', '" + startTimeAmPm + "', '" + endTimeAmPm + "', '" + hallnumber + "', '" + price + "', "
+                            + "VALUES ('" + sessionID + "', '" + className + "', '" + isoDateString + "', '" + startTimeAmPm + "', '" + endTimeAmPm + "', '" + hallnumber + "', '" + price + "', "
                             + "'" + tutorMap.get(tName) + "', '" + courseMap.get(course) + "', '" + pendingStatusID + "')");
 
                     if (rowData != null && !rowData.isEmpty()) {
