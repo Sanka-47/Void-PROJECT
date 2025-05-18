@@ -30,14 +30,18 @@ public class TutorDashboard extends javax.swing.JFrame implements DashboardInter
 
     private Thread dateThread;
 //    private static final Logger logger = Logger.getLogger(TutorSignIn.class.getName());
-    private int tutorID;
+    private int tutorID = 1;
 
     public TutorDashboard(String fName, int tutorID) {
         initComponents();
         updateDashboard(tutorID);
         loadDate();
         loadIcon();
-        jButton3.setText(fName);
+        if (fName.isEmpty()){
+            jButton3.setText("Sanka Konara");
+        } else {
+            jButton3.setText(fName);
+        }
         this.tutorID = tutorID;
 
         this.setExtendedState(this.MAXIMIZED_BOTH);
@@ -84,6 +88,7 @@ public class TutorDashboard extends javax.swing.JFrame implements DashboardInter
         this.setIconImage(image);
     }
 
+    @Override
     public void switchPanel(JPanel panel) {
         jPanel3.removeAll();
         jPanel3.add(panel, BorderLayout.CENTER);
@@ -483,6 +488,7 @@ public class TutorDashboard extends javax.swing.JFrame implements DashboardInter
         jPanel3.removeAll();
         TutorClassList tutorClassList = new TutorClassList(this, tutorID);
         jPanel3.add(tutorClassList, BorderLayout.CENTER);
+        updateDashboard(tutorID);
 
         SwingUtilities.updateComponentTreeUI(jPanel3);
 
@@ -492,6 +498,7 @@ public class TutorDashboard extends javax.swing.JFrame implements DashboardInter
         jPanel3.removeAll();
         AssignmentManagement addSession = new AssignmentManagement(tutorID);
         jPanel3.add(addSession, BorderLayout.CENTER);
+        updateDashboard(tutorID);
 
         SwingUtilities.updateComponentTreeUI(jPanel3);
     }//GEN-LAST:event_jButton2ActionPerformed
@@ -500,6 +507,7 @@ public class TutorDashboard extends javax.swing.JFrame implements DashboardInter
         jPanel3.removeAll();
         RescheduleSessions addSession = new RescheduleSessions();
         jPanel3.add(addSession, BorderLayout.CENTER);
+        updateDashboard(tutorID);
 
         SwingUtilities.updateComponentTreeUI(jPanel3);
     }//GEN-LAST:event_jButton4ActionPerformed
@@ -508,6 +516,7 @@ public class TutorDashboard extends javax.swing.JFrame implements DashboardInter
         jPanel3.removeAll();
         StudentPerformanceReport addSession = new StudentPerformanceReport(tutorID);
         jPanel3.add(addSession, BorderLayout.CENTER);
+        updateDashboard(tutorID);
 
         SwingUtilities.updateComponentTreeUI(jPanel3);
     }//GEN-LAST:event_jButton5ActionPerformed
@@ -516,6 +525,7 @@ public class TutorDashboard extends javax.swing.JFrame implements DashboardInter
         jPanel3.removeAll();
         StudentAttendance addSession = new StudentAttendance(tutorID);
         jPanel3.add(addSession, BorderLayout.CENTER);
+        updateDashboard(tutorID);
 
         SwingUtilities.updateComponentTreeUI(jPanel3);
     }//GEN-LAST:event_jButton6ActionPerformed
@@ -524,6 +534,7 @@ public class TutorDashboard extends javax.swing.JFrame implements DashboardInter
         jPanel3.removeAll();
         StudentProgressandPerformanceTracking spapt = new StudentProgressandPerformanceTracking("send", "real name");
         jPanel3.add(spapt, BorderLayout.CENTER);
+        updateDashboard(tutorID);
         SwingUtilities.updateComponentTreeUI(jPanel3);
     }//GEN-LAST:event_jButton7ActionPerformed
 
@@ -531,6 +542,7 @@ public class TutorDashboard extends javax.swing.JFrame implements DashboardInter
         jPanel3.removeAll();
         TodoList addSession = new TodoList(tutorID);
         jPanel3.add(addSession, BorderLayout.CENTER);
+        updateDashboard(tutorID);
         SwingUtilities.updateComponentTreeUI(jPanel3);
     }//GEN-LAST:event_jButton8ActionPerformed
     private Notifications n;
@@ -550,7 +562,7 @@ public class TutorDashboard extends javax.swing.JFrame implements DashboardInter
             n.toFront();
             n.requestFocus();
         }
-
+        updateDashboard(tutorID);
     }//GEN-LAST:event_jButton9ActionPerformed
     private TutorWallet tw;
     private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
@@ -568,13 +580,14 @@ public class TutorDashboard extends javax.swing.JFrame implements DashboardInter
             tw.toFront();
             tw.requestFocus();
         }
-
+        updateDashboard(tutorID);
     }//GEN-LAST:event_jButton10ActionPerformed
 
     private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
         jPanel3.removeAll();
         TutorRequestedSessions addSession = new TutorRequestedSessions(tutorID);
         jPanel3.add(addSession, BorderLayout.CENTER);
+        updateDashboard(tutorID);
         SwingUtilities.updateComponentTreeUI(jPanel3);
     }//GEN-LAST:event_jButton11ActionPerformed
 
@@ -582,6 +595,7 @@ public class TutorDashboard extends javax.swing.JFrame implements DashboardInter
         jPanel3.removeAll();
         TutorProfile tp = new TutorProfile(tutorID);
         jPanel3.add(tp, BorderLayout.CENTER);
+        updateDashboard(tutorID);
         SwingUtilities.updateComponentTreeUI(jPanel3);
     }//GEN-LAST:event_jButton3ActionPerformed
 
