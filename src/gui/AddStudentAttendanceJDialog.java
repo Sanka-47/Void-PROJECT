@@ -74,9 +74,9 @@ public class AddStudentAttendanceJDialog extends javax.swing.JDialog {
         return jButton2;
     }
 
-    private static HashMap<String, String> statusMap = new HashMap<>();
-    private static HashMap<String, String> classMap = new HashMap<>();
-    private static HashMap<String, String> studentMap = new HashMap<>();
+    private HashMap<String, String> statusMap = new HashMap<>();
+    private HashMap<String, String> classMap = new HashMap<>();
+    private HashMap<String, String> studentMap = new HashMap<>();
 
     private void loadStatus() {
 
@@ -135,7 +135,7 @@ public class AddStudentAttendanceJDialog extends javax.swing.JDialog {
             Vector<String> vector = new Vector<>();
             vector.add("Select");
 
-            ResultSet resultSet = MySQL2.executeSearch("SELECT * FROM class");
+            ResultSet resultSet = MySQL2.executeSearch("SELECT `id`, `name` FROM `class` WHERE `tutor_id` = '" + tutorID + "'");
 
             while (resultSet.next()) {
                 vector.add(resultSet.getString("name"));
