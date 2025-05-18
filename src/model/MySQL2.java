@@ -14,7 +14,7 @@ public class MySQL2 {
             Class.forName("com.mysql.cj.jdbc.Driver");
 
 
-            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/void(database)", "root", "Indusenu1710");
+            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/void(database)", "root", "Rushma@123");
 //KALINDUprado47
         }
     }

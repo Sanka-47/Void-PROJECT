@@ -208,7 +208,7 @@ public class ForgotPassword extends javax.swing.JDialog {
         } else if (!email.matches("^(?=.{1,64}@)[\\p{L}0-9_-]+(\\.[\\p{L}0-9_-]+)*@[^-][\\p{L}0-9-]+(\\.[\\p{L}0-9-]+)*(\\.[\\p{L}]{2,})$")) {
             JOptionPane.showMessageDialog(this, "Invalid email address!", "Warning", JOptionPane.WARNING_MESSAGE);
         } else if (vc.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Please enter your first name!", "Warning", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Please enter your verification code", "Warning", JOptionPane.WARNING_MESSAGE);
         } else if (!vc.contains(vCode)) {
             JOptionPane.showMessageDialog(this, "Oops!, you have entered the wrong code!", "Warning", JOptionPane.WARNING_MESSAGE);
         } else if (password.isEmpty()) {
