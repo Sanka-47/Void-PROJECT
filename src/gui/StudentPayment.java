@@ -1,29 +1,21 @@
 //author SANKA
 package gui;
 
-import com.formdev.flatlaf.themes.FlatMacDarkLaf;
 import com.formdev.flatlaf.themes.FlatMacLightLaf;
 import java.awt.Image;
 import java.awt.Toolkit;
-import java.io.InputStream;
 import java.sql.ResultSet;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Map;
 import java.util.Properties;
 import java.util.Vector;
-import java.util.logging.FileHandler;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import java.util.logging.SimpleFormatter;
 import javax.mail.Message;
 import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
@@ -34,7 +26,6 @@ import javax.swing.table.DefaultTableModel;
 import model.InvoiceItem;
 
 import model.MySQL2;
-import net.sf.jasperreports.engine.JREmptyDataSource;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
@@ -147,7 +138,7 @@ public class StudentPayment extends javax.swing.JFrame {
 
     //Student NIC
     public JLabel getNICLabel() {
-        return customerName;
+        return studentID;
     }
 
     //stock id
@@ -197,7 +188,7 @@ public class StudentPayment extends javax.swing.JFrame {
         loadPaymentMethods();
         loadIcon();
     }
-    
+
     private void loadIcon() {
         Image image = Toolkit.getDefaultToolkit().getImage("src//resource//VOID.png");
         this.setIconImage(image);
@@ -289,7 +280,7 @@ public class StudentPayment extends javax.swing.JFrame {
         invoiceNumberField.setText("");
         StudentNameFields.setText("");
         SubjectNameField.setText("");
-        customerName.setText("STUDENT NIC HERE");
+        studentID.setText("STUDENT NIC HERE");
         totalField.setText("0");
         jComboBox1.setSelectedItem("Select");
         paymentField.setText("0");
@@ -300,110 +291,6 @@ public class StudentPayment extends javax.swing.JFrame {
         generateInvoiceID();
         jButton4.setEnabled(true);
         jButton5.setEnabled(true);
-    }
-
-    private void sendInvoice(String email) {
-
-        Properties props = new Properties();
-        props.put("mail.smtp.host", "smtp.gmail.com");
-        props.put("mail.smtp.port", 465);
-        props.put("mail.smtp.user", "gayanlmdjayawardana@gmail.com"); // Add my email address
-        props.put("mail.smtp.auth", "true");
-        props.put("mail.smtp.starttls.enable", "true");
-        props.put("mail.smtp.debug", "true");
-        props.put("mail.smtp.socketFactory.port", 465);
-        props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
-        props.put("mail.smtp.socketFactory.fallback", "false");
-
-        try {
-
-//            ResultSet resultSet = MySQL2.executeSearch("SELECT * FROM `employee` WHERE `email` = '' AND `roles_id`='2'");
-            {
-                Session session = Session.getDefaultInstance(props, null);
-                session.setDebug(true);
-                MimeMessage message = new MimeMessage(session);
-                message.setSubject("Invoice from VOID Smart Edventures");
-
-                // Use StringBuilder for HTML content
-                StringBuilder invoiceHtml = new StringBuilder();
-                invoiceHtml.append("<!DOCTYPE html>");
-                invoiceHtml.append("<html><head>");
-                invoiceHtml.append("<meta charset='UTF-8'>");
-                invoiceHtml.append("<title>Invoice</title>");
-                invoiceHtml.append("<style>");
-                invoiceHtml.append("body { font-family: Arial, sans-serif; padding: 20px; max-width: 800px; margin: auto; border: 2px solid #000; background: #fff; }");
-                invoiceHtml.append("table { width: 100%; border-collapse: collapse; }");
-                invoiceHtml.append("th, td { border: 1px solid black; text-align: left; padding: 10px; }");
-                invoiceHtml.append(".invoice-info { margin-top: 20px; font-size: 16px; }");
-                invoiceHtml.append(".invoice-info span { font-weight: bold; }");
-                invoiceHtml.append(".total-section { margin-top: 20px; font-size: 16px; text-align: right; }");
-                invoiceHtml.append(".barcode { text-align: center; font-size: 20px; margin-top: 20px; }");
-                invoiceHtml.append(".footer { margin-top: 20px; text-align: center; font-size: 14px; font-style: italic; }");
-                invoiceHtml.append("</style></head><body>");
-
-// Header with Invoice Title & Company Info
-                invoiceHtml.append("<table style='width: 100%; border-collapse: collapse;'>");
-                invoiceHtml.append("<tr>");
-                invoiceHtml.append("<td style='text-align: left;'><h2>INVOICE</h2></td>");
-                invoiceHtml.append("<td style='text-align: right; font-size: 14px;'>");
-                invoiceHtml.append("<strong>VOID Smart Edventures</strong><br>");
-                invoiceHtml.append("No.10, Peradeniya Road, Kandy<br>");
-                invoiceHtml.append("Email: voidsmartedventures@gmail.com<br>");
-                invoiceHtml.append("Mobile: 081 234 5678<br><br>");
-                invoiceHtml.append("<span>Date: 2025-01-30 12:38:45</span>");
-                invoiceHtml.append("</td>");
-                invoiceHtml.append("</tr>");
-                invoiceHtml.append("</table>");
-
-                invoiceHtml.append("<div class='invoice-info'>");
-                invoiceHtml.append("<p><span>Invoice Number:</span> 1738226440473</p>");
-                invoiceHtml.append("<p><span>Student:</span> Sadeesh Ahangama</p>");
-                invoiceHtml.append("<p><span>Employee:</span> ______________________</p>");
-                invoiceHtml.append("</div>");
-
-                invoiceHtml.append("<div class='table-container'><table>");
-                invoiceHtml.append("<tr><th>#</th><th>Course Name</th><th>Description</th><th>Course Fee</th></tr>");
-                invoiceHtml.append("<tr><td>1</td><td>Vue (Front-End)</td><td>Learn to build interactive and dynamic.</td><td>17000.00</td></tr>");
-                invoiceHtml.append("<tr><td>2</td><td>React (Front-End)</td><td>Learn to build interactive and dynamic.</td><td>17000.00</td></tr>");
-                invoiceHtml.append("<tr><td>3</td><td>HTML, CSS, JavaScript</td><td>Learn to build dynamic web pages.</td><td>15000.00</td></tr>");
-                invoiceHtml.append("<tr><td>4</td><td>PHP (Web Back-End)</td><td>Back-end scripting for web servers.</td><td>11000.00</td></tr>");
-                invoiceHtml.append("<tr><td>5</td><td>TypeScript (Front-End)</td><td>A strongly typed superset of JavaScript.</td><td>17000.00</td></tr>");
-                invoiceHtml.append("<tr><td>6</td><td>Angular (Front-End)</td><td>Learn to build interactive and dynamic.</td><td>17000.00</td></tr>");
-                invoiceHtml.append("</table></div>");
-
-                invoiceHtml.append("<div class='total-section'>");
-                invoiceHtml.append("<p><strong>Total:</strong> 94000.00</p>");
-                invoiceHtml.append("<p><strong>Payment Method:</strong> Card</p>");
-                invoiceHtml.append("<p><strong>Payment:</strong> 94000.00</p>");
-                invoiceHtml.append("<p><strong>Balance:</strong> 0.00</p>");
-                invoiceHtml.append("</div>");
-
-                invoiceHtml.append("<div class='barcode'>|| ||||| ||| |||| | ||||</div>");
-
-                invoiceHtml.append("<div class='footer'>© 2024 VOID. All rights reserved.<br>Thank You!</div>");
-
-                invoiceHtml.append("</body></html>");
-
-                message.setContent(invoiceHtml.toString(), "text/html; charset=utf-8");
-
-                message.setFrom(new InternetAddress("gayanlmdjayawardana@gmail.com")); // Add my email address
-                message.addRecipient(Message.RecipientType.TO, new InternetAddress(email));
-                message.saveChanges();
-                Transport transport = session.getTransport("smtp");
-                transport.connect("smtp.gmail.com", "gayanlmdjayawardana@gmail.com", "gafakwcqltwnspow"); // Add my email address
-                transport.sendMessage(message, message.getAllRecipients());
-                transport.close();
-                JOptionPane.showMessageDialog(this, "Code sent, please check your email!", "Warning", JOptionPane.INFORMATION_MESSAGE);
-
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(this, "Email Address is not found!", "Error", JOptionPane.ERROR_MESSAGE);
-//            jLabel1.setText("Email Address not found");
-//            jLabel1.setHorizontalAlignment(SwingConstants.LEFT);
-
-        }
     }
 
     @SuppressWarnings("unchecked")
@@ -420,7 +307,7 @@ public class StudentPayment extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         StudentNameFields = new javax.swing.JTextField();
         jButton4 = new javax.swing.JButton();
-        customerName = new javax.swing.JLabel();
+        studentID = new javax.swing.JLabel();
         jButton5 = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
         jButton2 = new javax.swing.JButton();
@@ -475,11 +362,11 @@ public class StudentPayment extends javax.swing.JFrame {
             }
         });
 
-        customerName.setFont(new java.awt.Font("Poppins", 3, 14)); // NOI18N
-        customerName.setForeground(new java.awt.Color(131, 44, 46));
-        customerName.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        customerName.setText("STUDENT NIC HERE");
-        customerName.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255)));
+        studentID.setFont(new java.awt.Font("Poppins", 3, 14)); // NOI18N
+        studentID.setForeground(new java.awt.Color(131, 44, 46));
+        studentID.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        studentID.setText("STUDENT NIC HERE");
+        studentID.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255)));
 
         jButton5.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jButton5.setText("Scan QR");
@@ -496,7 +383,7 @@ public class StudentPayment extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
                 .addGap(76, 76, 76)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(customerName, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(studentID, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel1)
@@ -538,7 +425,7 @@ public class StudentPayment extends javax.swing.JFrame {
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addComponent(jLabel5)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addComponent(customerName, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(studentID, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -808,7 +695,7 @@ public class StudentPayment extends javax.swing.JFrame {
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         String subject_id = String.valueOf(Subject_id);
-        String nic = customerName.getText();  // Use nic directly for the query
+        String nic = studentID.getText();  // Use nic directly for the query
         String student_name = StudentNameFields.getText();
         String selling_price = String.valueOf(Selling_price);
         String description = String.valueOf(Selling_price);
@@ -821,35 +708,47 @@ public class StudentPayment extends javax.swing.JFrame {
         } else {
             try {
                 // Correct the query to use nic instead of student_id
-                ResultSet rs = MySQL2.executeSearch("SELECT * FROM `student` WHERE `nic` ='" + nic + "'");
+                ResultSet rs = MySQL2.executeSearch("SELECT `nic` FROM `student` WHERE `nic` ='" + nic + "'");
+
+                ResultSet rs1 = MySQL2.executeSearch("SELECT `nic`, `student_nic`, `invoice`.`id`, `courses_id` FROM `student` INNER JOIN `invoice` ON `student`.`nic` = `invoice`.`student_nic` INNER JOIN `invoice_item` ON `invoice`.`id` = `invoice_item`.`invoice_id` WHERE `invoice`.`student_nic` = '" + nic + "' AND `invoice_item`.`courses_id` = '" + Subject_id + "'");
 
                 if (rs.next()) {
 
-                    ResultSet ds = MySQL2.executeSearch("SELECT `course_description` FROM `courses` WHERE `id`='" + subject_id + "' ");
-                    ds.next();
-                    // Create InvoiceItem with correct values
-                    InvoiceItem invoiceItem = new InvoiceItem();
-                    invoiceItem.setStudent_id(nic);  // Use nic as the student ID
-                    invoiceItem.setStudent_name(student_name);
-                    invoiceItem.setSubject_id(subject_id);
-                    invoiceItem.setSubject_name(SubjectNameField.getText());
-                    invoiceItem.setNic(nic);
-                    invoiceItem.setSellingPrice(selling_price);
-                    invoiceItem.setDesc(ds.getString("course_description"));
+                    if (rs1.next()) {
 
-                    // Check and add/update invoice items
-                    if (invoiceItemMap.get(nic + "-" + subject_id) == null) {
-                        invoiceItemMap.put(nic + "-" + subject_id, invoiceItem);
+                        JOptionPane.showMessageDialog(this, "Student has already purchased the course!", "Warning", JOptionPane.WARNING_MESSAGE);
+                        
                     } else {
-                        JOptionPane.showMessageDialog(this, "Subject Already Added", "Info", JOptionPane.INFORMATION_MESSAGE);
+                        ResultSet ds = MySQL2.executeSearch("SELECT `course_description` FROM `courses` WHERE `id`='" + subject_id + "' ");
+                        ds.next();
+                        // Create InvoiceItem with correct values
+                        InvoiceItem invoiceItem = new InvoiceItem();
+                        invoiceItem.setStudent_id(nic);  // Use nic as the student ID
+                        invoiceItem.setStudent_name(student_name);
+                        invoiceItem.setSubject_id(subject_id);
+                        invoiceItem.setSubject_name(SubjectNameField.getText());
+                        invoiceItem.setNic(nic);
+                        invoiceItem.setSellingPrice(selling_price);
+                        invoiceItem.setDesc(ds.getString("course_description"));
+
+                        // Check and add/update invoice items
+                        if (invoiceItemMap.get(nic + "-" + subject_id) == null) {
+                            invoiceItemMap.put(nic + "-" + subject_id, invoiceItem);
+                        } else {
+                            JOptionPane.showMessageDialog(this, "Subject Already Added", "Info", JOptionPane.INFORMATION_MESSAGE);
+                        }
+
+                        // Refresh and reset
+                        loadInvoiceItems();
+                        jButton4.setEnabled(false);
+                        jButton5.setEnabled(false);  // Disable button if required
+                        reset();  // Clear the input fields
+                        
+//                        JOptionPane.showMessageDialog(this, "Student has already purchased the course!", "Warning", JOptionPane.WARNING_MESSAGE);
                     }
 
-                    // Refresh and reset
-                    loadInvoiceItems();
-                    jButton4.setEnabled(false);
-                    jButton5.setEnabled(false);  // Disable button if required
-                    reset();  // Clear the input fields
                 } else {
+                    
                     JOptionPane.showMessageDialog(this, "Student not found", "Error", JOptionPane.ERROR_MESSAGE);
                 }
             } catch (Exception e) {
@@ -875,11 +774,15 @@ public class StudentPayment extends javax.swing.JFrame {
         try {
 
             String invoiceID = invoiceNumberField.getText();
-            String studentiD = customerName.getText();
-            String employeeEmail = employeeLable.getText();
-            String dateTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
+            String studentiD = studentID.getText();
+            String student_name = StudentNameFields.getText();
+            String employeeName = employeeLable.getText();
+            String totalAmount = totalField.getText();
+            String paymentMethod = String.valueOf(jComboBox1.getSelectedItem());
+            String paymentMethodID = paymentMethodMap.get(paymentMethod);
             String paidAmount = paymentField.getText();
-            String paymentMethodID = paymentMethodMap.get(String.valueOf(jComboBox1.getSelectedItem()));
+            String balance = balanceFiled.getText();
+            String dateTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
 
             //insert to invoice
             if (!studentiD.isEmpty()) {
@@ -903,15 +806,15 @@ public class StudentPayment extends javax.swing.JFrame {
             String path = "src//reports//CoursePaymentEMS.jasper";
 //            String dateTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
             HashMap<String, Object> params = new HashMap<>();
-            params.put("Parameter1", invoiceNumberField.getText());
-            params.put("Parameter3", StudentNameFields.getText());
-            params.put("Parameter2", SubjectNameField.getText());
-            params.put("Parameter4", employeeLable.getText());
-            params.put("Parameter5", totalField.getText());
-            params.put("Parameter6", jComboBox1.getSelectedItem());
-            params.put("Parameter7", paymentField.getText());
-            params.put("Parameter8", balanceFiled.getText());
-            params.put("Parameter9", dateTime);
+            params.put("Parameter1", invoiceID);
+            params.put("Parameter2", student_name);
+            params.put("Parameter3", employeeName);
+            params.put("Parameter4", totalAmount);
+            params.put("Parameter5", paymentMethod);
+            params.put("Parameter6", paidAmount);
+            params.put("Parameter7", balance);
+            params.put("Parameter8", dateTime);
+
             params.put("QR Code", invoiceNumberField.getText());
 
             JRTableModelDataSource dataSource = new JRTableModelDataSource(jTable1.getModel());
@@ -922,7 +825,111 @@ public class StudentPayment extends javax.swing.JFrame {
                 e.printStackTrace();
             }
             JasperViewer.viewReport(jasperPrint, false);
-            sendInvoice("gayanlmdjayawardana@gmail.com");
+            Properties props = new Properties();
+            props.put("mail.smtp.host", "smtp.gmail.com");
+            props.put("mail.smtp.port", 465);
+            props.put("mail.smtp.user", "gayanlmdjayawardana@gmail.com"); // Add my email address
+            props.put("mail.smtp.auth", "true");
+            props.put("mail.smtp.starttls.enable", "true");
+            props.put("mail.smtp.debug", "true");
+            props.put("mail.smtp.socketFactory.port", 465);
+            props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+            props.put("mail.smtp.socketFactory.fallback", "false");
+
+            try {
+
+//            ResultSet resultSet = MySQL2.executeSearch("SELECT * FROM `employee` WHERE `email` = '' AND `roles_id`='2'");
+                {
+                    Session session = Session.getDefaultInstance(props, null);
+                    session.setDebug(true);
+                    MimeMessage message = new MimeMessage(session);
+                    message.setSubject("Invoice from VOID Smart Edventures");
+
+                    // Use StringBuilder for HTML content
+                    StringBuilder invoiceHtml = new StringBuilder();
+                    invoiceHtml.append("<!DOCTYPE html>");
+                    invoiceHtml.append("<html><head>");
+                    invoiceHtml.append("<meta charset='UTF-8'>");
+                    invoiceHtml.append("<title>Invoice</title>");
+                    invoiceHtml.append("<style>");
+                    invoiceHtml.append("body { font-family: Arial, sans-serif; padding: 20px; max-width: 800px; margin: auto; border: 2px solid #000; background: #fff; }");
+                    invoiceHtml.append("table { width: 100%; border-collapse: collapse; }");
+                    invoiceHtml.append("th, td { border: 1px solid black; text-align: left; padding: 10px; }");
+                    invoiceHtml.append(".invoice-info { margin-top: 20px; font-size: 16px; }");
+                    invoiceHtml.append(".invoice-info span { font-weight: bold; }");
+                    invoiceHtml.append(".total-section { margin-top: 20px; font-size: 16px; text-align: right; }");
+                    invoiceHtml.append(".barcode { text-align: center; font-size: 20px; margin-top: 20px; }");
+                    invoiceHtml.append(".footer { margin-top: 20px; text-align: center; font-size: 14px; font-style: italic; }");
+                    invoiceHtml.append("</style></head><body>");
+
+// Header with Invoice Title & Company Info
+                    invoiceHtml.append("<table style='width: 100%; border-collapse: collapse;'>");
+                    invoiceHtml.append("<tr>");
+                    invoiceHtml.append("<td style='text-align: left;'><h2>INVOICE</h2></td>");
+                    invoiceHtml.append("<td style='text-align: right; font-size: 14px;'>");
+                    invoiceHtml.append("<strong>VOID Smart Edventures</strong><br>");
+                    invoiceHtml.append("No.10, Peradeniya Road, Kandy<br>");
+                    invoiceHtml.append("Email: voidsmartedventures@gmail.com<br>");
+                    invoiceHtml.append("Mobile: 081 234 5678<br><br>");
+                    invoiceHtml.append("<span>Date: ").append(dateTime).append("</span>");
+                    invoiceHtml.append("</td>");
+                    invoiceHtml.append("</tr>");
+                    invoiceHtml.append("</table>");
+
+                    invoiceHtml.append("<div class='invoice-info'>");
+                    invoiceHtml.append("<p><span>Invoice Number: </span>").append(invoiceID).append("</p>");
+                    invoiceHtml.append("<p><span>Student: </span>").append(student_name).append("</p>");
+                    invoiceHtml.append("<p><span>Employee: </span>").append(employeeName).append("</p>");
+                    invoiceHtml.append("</div>");
+
+                    invoiceHtml.append("<div class='table-container'><table>");
+                    invoiceHtml.append("<tr><th>#</th><th>Course Name</th><th>Description</th><th>Course Fee</th></tr>");
+
+                    int i = 0;
+
+                    for (InvoiceItem invoiceItem : invoiceItemMap.values()) {
+                        i++;
+                        invoiceHtml.append("<tr><td>").append(i).append("</td><td>").append(invoiceItem.getSubject_name()).append("</td><td>").append(invoiceItem.getDesc()).append("</td><td>").append(invoiceItem.getSellingPrice()).append("</td></tr>");
+                    }
+//                    invoiceHtml.append("<tr><td>1</td><td>Vue (Front-End)</td><td>Learn to build interactive and dynamic.</td><td>17000.00</td></tr>");
+//                    invoiceHtml.append("<tr><td>2</td><td>React (Front-End)</td><td>Learn to build interactive and dynamic.</td><td>17000.00</td></tr>");
+//                    invoiceHtml.append("<tr><td>3</td><td>HTML, CSS, JavaScript</td><td>Learn to build dynamic web pages.</td><td>15000.00</td></tr>");
+//                    invoiceHtml.append("<tr><td>4</td><td>PHP (Web Back-End)</td><td>Back-end scripting for web servers.</td><td>11000.00</td></tr>");
+//                    invoiceHtml.append("<tr><td>5</td><td>TypeScript (Front-End)</td><td>A strongly typed superset of JavaScript.</td><td>17000.00</td></tr>");
+//                    invoiceHtml.append("<tr><td>6</td><td>Angular (Front-End)</td><td>Learn to build interactive and dynamic.</td><td>17000.00</td></tr>");
+                    invoiceHtml.append("</table></div>");
+
+                    invoiceHtml.append("<div class='total-section'>");
+                    invoiceHtml.append("<p><strong>Total: </strong>Rs.").append(totalAmount).append("</p>");
+                    invoiceHtml.append("<p><strong>Payment Method: </strong>").append(paymentMethod).append("</p>");
+                    invoiceHtml.append("<p><strong>Payment: </strong>Rs.").append(paidAmount).append("</p>");
+                    invoiceHtml.append("<p><strong>Balance: </strong>Rs.").append(balance).append("</p>");
+                    invoiceHtml.append("</div>");
+
+                    invoiceHtml.append("<div class='footer'>© 2024 VOID. All rights reserved.<br>Thank You!</div>");
+
+                    invoiceHtml.append("</body></html>");
+
+                    message.setContent(invoiceHtml.toString(), "text/html; charset=utf-8");
+
+                    message.setFrom(new InternetAddress("gayanlmdjayawardana@gmail.com")); // Add my email address
+                    message.addRecipient(Message.RecipientType.TO, new InternetAddress("gayanlmdjayawardana@gmail.com"));
+                    message.saveChanges();
+                    Transport transport = session.getTransport("smtp");
+                    transport.connect("smtp.gmail.com", "gayanlmdjayawardana@gmail.com", "nprb ztii ypcf opnx"); // Add my email address
+                    transport.sendMessage(message, message.getAllRecipients());
+                    transport.close();
+                    JOptionPane.showMessageDialog(this, "Code sent, please check your email!", "Warning", JOptionPane.INFORMATION_MESSAGE);
+
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                JOptionPane.showMessageDialog(this, "Email Address is not found!", "Error", JOptionPane.ERROR_MESSAGE);
+//            jLabel1.setText("Email Address not found");
+//            jLabel1.setHorizontalAlignment(SwingConstants.LEFT);
+
+            }
             reset1();
             clearAll();
             printInvoiceButton.setEnabled(false);
@@ -979,7 +986,6 @@ public class StudentPayment extends javax.swing.JFrame {
     private javax.swing.JTextField StudentNameFields;
     private javax.swing.JTextField SubjectNameField;
     private javax.swing.JFormattedTextField balanceFiled;
-    private javax.swing.JLabel customerName;
     private javax.swing.JLabel employeeLable;
     private javax.swing.JTextField invoiceNumberField;
     private javax.swing.JButton jButton2;
@@ -1006,6 +1012,7 @@ public class StudentPayment extends javax.swing.JFrame {
     private javax.swing.JTable jTable1;
     private javax.swing.JFormattedTextField paymentField;
     private javax.swing.JButton printInvoiceButton;
+    private javax.swing.JLabel studentID;
     private javax.swing.JFormattedTextField totalField;
     // End of variables declaration//GEN-END:variables
 

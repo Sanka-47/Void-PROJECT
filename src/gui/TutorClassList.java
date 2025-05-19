@@ -26,7 +26,7 @@ public class TutorClassList extends javax.swing.JPanel {
     private String To;
 
     private DashboardInterface parent;
-    private static HashMap<String, String> courseMap = new HashMap<>();
+    private HashMap<String, String> courseMap;
 
     private String mobile;
 
@@ -35,6 +35,7 @@ public class TutorClassList extends javax.swing.JPanel {
     public TutorClassList(DashboardInterface parent, int TutorID) {
         this.parent = parent;
         this.tutorId = TutorID;
+        this.courseMap = new HashMap<>();
 //        this.addSession = new AddSession();
         initComponents();
         dateChooser();

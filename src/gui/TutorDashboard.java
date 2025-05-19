@@ -30,7 +30,7 @@ public class TutorDashboard extends javax.swing.JFrame implements DashboardInter
 
     private Thread dateThread;
 //    private static final Logger logger = Logger.getLogger(TutorSignIn.class.getName());
-    private int tutorID = 1;
+    private int tutorID;
 
     public TutorDashboard(String fName, int tutorID) {
         initComponents();
