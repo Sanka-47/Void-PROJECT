@@ -891,12 +891,7 @@ public class StudentPayment extends javax.swing.JFrame {
                         i++;
                         invoiceHtml.append("<tr><td>").append(i).append("</td><td>").append(invoiceItem.getSubject_name()).append("</td><td>").append(invoiceItem.getDesc()).append("</td><td>").append(invoiceItem.getSellingPrice()).append("</td></tr>");
                     }
-//                    invoiceHtml.append("<tr><td>1</td><td>Vue (Front-End)</td><td>Learn to build interactive and dynamic.</td><td>17000.00</td></tr>");
-//                    invoiceHtml.append("<tr><td>2</td><td>React (Front-End)</td><td>Learn to build interactive and dynamic.</td><td>17000.00</td></tr>");
-//                    invoiceHtml.append("<tr><td>3</td><td>HTML, CSS, JavaScript</td><td>Learn to build dynamic web pages.</td><td>15000.00</td></tr>");
-//                    invoiceHtml.append("<tr><td>4</td><td>PHP (Web Back-End)</td><td>Back-end scripting for web servers.</td><td>11000.00</td></tr>");
-//                    invoiceHtml.append("<tr><td>5</td><td>TypeScript (Front-End)</td><td>A strongly typed superset of JavaScript.</td><td>17000.00</td></tr>");
-//                    invoiceHtml.append("<tr><td>6</td><td>Angular (Front-End)</td><td>Learn to build interactive and dynamic.</td><td>17000.00</td></tr>");
+                    
                     invoiceHtml.append("</table></div>");
 
                     invoiceHtml.append("<div class='total-section'>");

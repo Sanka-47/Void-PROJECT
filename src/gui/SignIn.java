@@ -15,6 +15,7 @@ import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
+import model.SecurePasswordFacade;
 
 public class SignIn extends javax.swing.JFrame {
 
@@ -41,7 +42,7 @@ public class SignIn extends javax.swing.JFrame {
         }
         return logger;
     }
-    
+
     private void loadIcon() {
         Image image = Toolkit.getDefaultToolkit().getImage("src//resource//VOID.png");
         this.setIconImage(image);
@@ -189,72 +190,76 @@ public class SignIn extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
 
         String nic = jTextField1.getText();
-    String password = String.valueOf(jPasswordField1.getPassword());
-    
-    if (nic.isEmpty()) {
-        JOptionPane.showMessageDialog(this, "Please enter your NIC", "Warning", JOptionPane.WARNING_MESSAGE);
-        logger.log(Level.WARNING, "NIC field is empty");
-    } else if (!nic.matches("^(([5,6,7,8,9]{1})([0-9]{1})([0,1,2,3,5,6,7,8]{1})([0-9]{6})([v|V|x|X]))|(([1,2]{1})([0,9]{1})([0-9]{2})([0,1,2,3,5,6,7,8]{1})([0-9]{7}))")) {
-        JOptionPane.showMessageDialog(this, "Please enter your valid NIC number!", "Warning", JOptionPane.WARNING_MESSAGE);
-        logger.log(Level.WARNING, "Invalid NIC format: {0}", nic);
-    } else if (password.isEmpty()) {
-        JOptionPane.showMessageDialog(this, "Please enter your password", "Warning", JOptionPane.WARNING_MESSAGE);
-        logger.log(Level.WARNING, "Password field is empty");
-    } else {
-        try {
-            // Check for employee login
-            ResultSet resultSetEmployee = MySQL2.executeSearch("SELECT * FROM `employee` WHERE `nic` = '" + nic + "' AND `password` = '" + password + "' AND `roles_id` = '1'");
-            if (resultSetEmployee.next()) {
-                String fName = resultSetEmployee.getString("first_name") + " " + resultSetEmployee.getString("last_name");
+        String password = String.valueOf(jPasswordField1.getPassword());
+
+        if (nic.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please enter your NIC", "Warning", JOptionPane.WARNING_MESSAGE);
+            logger.log(Level.WARNING, "NIC field is empty");
+        } else if (!nic.matches("^(([5,6,7,8,9]{1})([0-9]{1})([0,1,2,3,5,6,7,8]{1})([0-9]{6})([v|V|x|X]))|(([1,2]{1})([0,9]{1})([0-9]{2})([0,1,2,3,5,6,7,8]{1})([0-9]{7}))")) {
+            JOptionPane.showMessageDialog(this, "Please enter your valid NIC number!", "Warning", JOptionPane.WARNING_MESSAGE);
+            logger.log(Level.WARNING, "Invalid NIC format: {0}", nic);
+        } else if (password.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please enter your password", "Warning", JOptionPane.WARNING_MESSAGE);
+            logger.log(Level.WARNING, "Password field is empty");
+        } else {
+            try {
+
+                SecurePasswordFacade spf = new SecurePasswordFacade();
+                // Check for employee login
+                ResultSet resultSetEmployee = MySQL2.executeSearch("SELECT * FROM `employee` WHERE `nic` = '" + nic + "' AND `password` = '" + spf.encryptToFile(password, 6) + "' AND `roles_id` = '1'");
+                if (resultSetEmployee.next()) {
+                    String fName = resultSetEmployee.getString("first_name") + " " + resultSetEmployee.getString("last_name");
                     String employeeId = resultSetEmployee.getString("employee.id");
-                logger.log(Level.INFO, "Employee {0} successfully logged in", fName);
-                EmployeeDashboard employeeDashboard = new EmployeeDashboard(fName, employeeId);
-                employeeDashboard.setVisible(true);
-                this.dispose();
-                return;
-            }
-            
-            //admin
-            ResultSet resultSetadmin = MySQL2.executeSearch("SELECT * FROM `employee` WHERE `nic` = '" + nic + "' AND `password` = '" + password + "' AND `roles_id` = '2'");
-            if (resultSetadmin.next()) {
-                String fName = resultSetadmin.getString("first_name") + " " + resultSetadmin.getString("last_name");
-                String adminID = resultSetadmin.getString("employee.id");
-                logger.log(Level.INFO, "Employee {0} successfully logged in", fName);
-                AdminDashboard adminDashboard = new AdminDashboard(fName, adminID);
-                adminDashboard.setVisible(true);
-                this.dispose();
-                return;
-            }
+                    logger.log(Level.INFO, "Employee {0} successfully logged in", fName);
+                    EmployeeDashboard employeeDashboard = new EmployeeDashboard(fName, employeeId);
+                    employeeDashboard.setVisible(true);
+                    this.dispose();
+                    return;
+                }
 
-            // Check for tutor login
-            ResultSet resultSetTutor = MySQL2.executeSearch("SELECT * FROM `tutor` WHERE `nic` = '" + nic + "' AND `password` = '" + password + "'");
-            if (resultSetTutor.next()) {
-                String fName = resultSetTutor.getString("first_name") + " " + resultSetTutor.getString("last_name");
-                int tutorID = resultSetTutor.getInt("tutor.id");
-                logger.log(Level.INFO, "Tutor {0} successfully logged in", fName);
-                TutorDashboard tutorDashboard = new TutorDashboard(fName, tutorID);
-                tutorDashboard.setVisible(true);
-                this.dispose();
-                return;
+                //admin
+                ResultSet resultSetadmin = MySQL2.executeSearch("SELECT * FROM `employee` WHERE `nic` = '" + nic + "' AND `password` = '" + spf.encryptToFile(password, 6) + "' AND `roles_id` = '2'");
+                if (resultSetadmin.next()) {
+                    String fName = resultSetadmin.getString("first_name") + " " + resultSetadmin.getString("last_name");
+                    String adminID = resultSetadmin.getString("employee.id");
+                    logger.log(Level.INFO, "Employee {0} successfully logged in", fName);
+                    AdminDashboard adminDashboard = new AdminDashboard(fName, adminID);
+                    adminDashboard.setVisible(true);
+                    this.dispose();
+                    return;
+                }
+
+                // Check for tutor login
+                ResultSet resultSetTutor = MySQL2.executeSearch("SELECT * FROM `tutor` WHERE `nic` = '" + nic + "' AND `password` = '" + spf.encryptToFile(password, 6) + "'");
+                if (resultSetTutor.next()) {
+                    String fName = resultSetTutor.getString("first_name") + " " + resultSetTutor.getString("last_name");
+                    int tutorID = resultSetTutor.getInt("tutor.id");
+                    logger.log(Level.INFO, "Tutor {0} successfully logged in", fName);
+                    TutorDashboard tutorDashboard = new TutorDashboard(fName, tutorID);
+                    tutorDashboard.setVisible(true);
+                    this.dispose();
+                    return;
+                }
+
+                spf = null;
+
+                // If no match found
+                JOptionPane.showMessageDialog(this, "Invalid NIC or password", "Warning", JOptionPane.WARNING_MESSAGE);
+                jTextField1.setText("");
+                jPasswordField1.setText("");
+                logger.log(Level.WARNING, "Invalid NIC or password for NIC: {0}", nic);
+
+            } catch (Exception e) {
+                logger.log(Level.SEVERE, "An error occurred", e);
+                e.printStackTrace();
             }
-
-            // If no match found
-            JOptionPane.showMessageDialog(this, "Invalid NIC or password", "Warning", JOptionPane.WARNING_MESSAGE);
-            jTextField1.setText("");
-            jPasswordField1.setText("");
-            logger.log(Level.WARNING, "Invalid NIC or password for NIC: {0}", nic);
-
-        } catch (Exception e) {
-            logger.log(Level.SEVERE, "An error occurred", e);
-            e.printStackTrace();
         }
-    }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        
+
         String nic = jTextField1.getText();
-        
+
         if (nic.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Please enter your NIC", "Warning", JOptionPane.WARNING_MESSAGE);
             logger.log(Level.WARNING, "NIC field is empty");
@@ -275,7 +280,7 @@ public class SignIn extends javax.swing.JFrame {
 //                    jTextField1.setText("");
 //                    jPasswordField1.setText("");
 //                    logger.log(Level.WARNING, "Invalid NIC or password for NIC: {0}", nic);
-                }else if (resultSettu.next()) {
+                } else if (resultSettu.next()) {
                     this.email = resultSettu.getString("email");
                     ForgotPassword forgotPassword = new ForgotPassword(this, true, email, 3);
                     forgotPassword.setVisible(true);
@@ -291,9 +296,8 @@ public class SignIn extends javax.swing.JFrame {
                 logger.log(Level.SEVERE, "An error occurred", e);
             }
         }
-            
-            
-            
+
+
     }//GEN-LAST:event_jButton2ActionPerformed
 
     public static void main(String args[]) throws UnsupportedLookAndFeelException {
