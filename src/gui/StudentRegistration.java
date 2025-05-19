@@ -29,23 +29,36 @@ public class StudentRegistration extends javax.swing.JPanel {
 //    private static final Logger logger = Logger.getLogger(TutorSignIn.class.getName());
     private DashboardInterface parent;
 
-    private DateChooser chDate = new DateChooser();
-    Date date = new Date();
-    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd ");
+    private DateChooser chDate;
+    private Date date;
+    
+    private SimpleDateFormat dateFormat;
 
-    public static HashMap<String, String> gender = new HashMap<>();
-    private HashMap<String, String> intakeMap = new HashMap<>();
+    public static HashMap<String, String> gender;
+    private HashMap<String, String> intakeMap;
 
     public StudentRegistration(DashboardInterface parent) {
         this.parent = parent;
         initComponents();
+        
+        init();
+        
         loadGender();
+        
         loadIntake();
         dateChooser();
         SwingUtilities.invokeLater(() -> jTextField1.requestFocusInWindow());
         jButton3.setEnabled(false);
         jButton4.setEnabled(false);
 
+    }
+    
+    private void init() {
+        this.chDate = new DateChooser();
+        this.date = new Date();
+        this.dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        this.gender = new HashMap<>();
+        this.intakeMap = new HashMap<>();
     }
 
     //First Name
@@ -424,7 +437,6 @@ public class StudentRegistration extends javax.swing.JPanel {
         String NIC = jTextField5.getText();
         String selectedDate = jTextField6.getText();
         String Intake = String.valueOf(jComboBox2.getSelectedItem());
-        Date currentDate = new Date();
         String fdate = dateFormat.format(date);
 
         if (FirstName.isEmpty()) {
@@ -481,7 +493,7 @@ public class StudentRegistration extends javax.swing.JPanel {
                     Date parsedDate = inputFormat.parse(selectedDate);
                     String formattedDOB = inputFormat.format(parsedDate);
 
-                    if (parsedDate != null && parsedDate.after(currentDate)) {
+                    if (parsedDate != null && parsedDate.after(date)) {
                         JOptionPane.showMessageDialog(null, "Date of birth cannot be in the future!", "Invalid Date", JOptionPane.ERROR_MESSAGE);
 //                      jTextField6.setText(""); // Clear the invalid date
                     } else {

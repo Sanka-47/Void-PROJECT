@@ -6,6 +6,7 @@ import com.raven.datechooser.listener.DateChooserAction;
 import com.raven.datechooser.listener.DateChooserAdapter;
 import java.awt.Color;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -39,13 +40,12 @@ public class TutorClassList extends javax.swing.JPanel {
 //        this.addSession = new AddSession();
         initComponents();
         dateChooser();
-        loadTable("", "");
 
+        loadCourses();
+        loadTable("", "");
         DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
         renderer.setHorizontalAlignment(SwingConstants.CENTER);
-
         jTable1.setDefaultRenderer(Object.class, renderer);
-        this.tutorId = TutorID;
 
         cancelBtn.setEnabled(false);
 
@@ -73,6 +73,21 @@ public class TutorClassList extends javax.swing.JPanel {
                 loadTable(From, To);
             }
         });
+    }
+
+    private void loadCourses() {
+
+        try {
+            ResultSet resultSet = MySQL2.executeSearch("SELECT `id`, `name` FROM `courses`");
+            while (resultSet.next()) {
+                courseMap.put(resultSet.getString("name"), resultSet.getString("id"));
+
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void loadTable(String from, String to) {
@@ -604,41 +619,41 @@ public class TutorClassList extends javax.swing.JPanel {
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         int selectedRow = jTable1.getSelectedRow();
 
-    if (selectedRow != -1) {
-        String classId = (String) jTable1.getValueAt(selectedRow, 0); // Session ID
-        String sessionDate = (String) jTable1.getValueAt(selectedRow, 2); // Assuming date is in column 2 (format: yyyy-MM-dd)
+        if (selectedRow != -1) {
+            String classId = (String) jTable1.getValueAt(selectedRow, 0); // Session ID
+            String sessionDate = (String) jTable1.getValueAt(selectedRow, 2); // Assuming date is in column 2 (format: yyyy-MM-dd)
 
-        // Get today's date
-        java.time.LocalDate today = java.time.LocalDate.now();
+            // Get today's date
+            java.time.LocalDate today = java.time.LocalDate.now();
 
-        // Convert sessionDate string to LocalDate
-        java.time.LocalDate sessionLocalDate = java.time.LocalDate.parse(sessionDate);
+            // Convert sessionDate string to LocalDate
+            java.time.LocalDate sessionLocalDate = java.time.LocalDate.parse(sessionDate);
 
-        if (!sessionLocalDate.isEqual(today)) {
-            JOptionPane.showMessageDialog(this, "Only today's sessions can be marked as completed.");
-            return;
-        }
-
-        int confirmation = JOptionPane.showConfirmDialog(this,
-                "Are you sure you want to mark this session as completed?",
-                "Confirm Completion", JOptionPane.YES_NO_OPTION);
-
-        if (confirmation == JOptionPane.YES_OPTION) {
-            try {
-                String query = "UPDATE class SET class_status_id = 2 WHERE id = '" + classId + "'";
-                MySQL2.executeIUD(query);
-
-                loadTable("", "");
-
-                JOptionPane.showMessageDialog(this, "Session marked as completed successfully!");
-            } catch (Exception e) {
-                e.printStackTrace();
-                JOptionPane.showMessageDialog(this, "Error while completing the session.");
+            if (!sessionLocalDate.isEqual(today)) {
+                JOptionPane.showMessageDialog(this, "Only today's sessions can be marked as completed.");
+                return;
             }
+
+            int confirmation = JOptionPane.showConfirmDialog(this,
+                    "Are you sure you want to mark this session as completed?",
+                    "Confirm Completion", JOptionPane.YES_NO_OPTION);
+
+            if (confirmation == JOptionPane.YES_OPTION) {
+                try {
+                    String query = "UPDATE class SET class_status_id = 2 WHERE id = '" + classId + "'";
+                    MySQL2.executeIUD(query);
+
+                    loadTable("", "");
+
+                    JOptionPane.showMessageDialog(this, "Session marked as completed successfully!");
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    JOptionPane.showMessageDialog(this, "Error while completing the session.");
+                }
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Please select a session to mark as completed.");
         }
-    } else {
-        JOptionPane.showMessageDialog(this, "Please select a session to mark as completed.");
-    }
     }//GEN-LAST:event_jButton3ActionPerformed
 
 

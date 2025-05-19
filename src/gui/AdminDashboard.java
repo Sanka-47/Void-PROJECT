@@ -25,48 +25,18 @@ import javax.swing.UnsupportedLookAndFeelException;
 public class AdminDashboard extends javax.swing.JFrame implements DashboardInterface {
 
     private String adminID;
-    private String fName;
-    private String lName;
+    private String name;
     private String mobile;
 
-    public AdminDashboard(String fName, String adminID) {
+    public AdminDashboard(String name, String adminID) {
         initComponents();
         loadDate();
         loadIcon();
-        jButton17.setText(fName);
+        jButton17.setText(name);
         this.adminID = adminID;
-        this.fName = fName;
-        this.lName = lName;
-
-        // Add a component listener to track size changes
-//        addComponentListener(new ComponentAdapter() {
-//            @Override
-//            public void componentResized(ComponentEvent e) {
-//                int width = getWidth();
-//                int height = getHeight();
-//                System.out.println("Current Size - Width: " + width + ", Height: " + height);
-//            }
-//
-//            @Override
-//            public void componentMoved(ComponentEvent e) {
-//                System.out.println("Window moved to: X=" + getX() + " Y=" + getY());
-//            }
-//
-//            @Override
-//            public void componentShown(ComponentEvent e) {
-//                System.out.println("Window is now visible");
-//            }
-//
-//            @Override
-//            public void componentHidden(ComponentEvent e) {
-//                System.out.println("Window is now hidden");
-//            }
-//        });
+        this.name = name;
         this.setMinimumSize(new Dimension(1265, 750));
         this.setExtendedState(this.MAXIMIZED_BOTH);
-
-//        GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
-//        gd.setFullScreenWindow(this);
     }
 
     @Override
@@ -133,6 +103,7 @@ public class AdminDashboard extends javax.swing.JFrame implements DashboardInter
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
+        jButton5 = new javax.swing.JButton();
         jButton6 = new javax.swing.JButton();
         jButton7 = new javax.swing.JButton();
         jButton8 = new javax.swing.JButton();
@@ -147,7 +118,6 @@ public class AdminDashboard extends javax.swing.JFrame implements DashboardInter
         jLabel12 = new javax.swing.JLabel();
         jButton13 = new javax.swing.JButton();
         jButton14 = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
         jButton12 = new javax.swing.JButton();
         jButton15 = new javax.swing.JButton();
         jLabel13 = new javax.swing.JLabel();
@@ -180,7 +150,9 @@ public class AdminDashboard extends javax.swing.JFrame implements DashboardInter
         jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
         jLabel6.setText("Time");
 
+        jButton17.setBackground(new java.awt.Color(78, 74, 207));
         jButton17.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
+        jButton17.setForeground(new java.awt.Color(255, 255, 255));
         jButton17.setText("jButton17");
         jButton17.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -234,7 +206,9 @@ public class AdminDashboard extends javax.swing.JFrame implements DashboardInter
 
         jPanel3.setPreferredSize(new java.awt.Dimension(250, 1326));
 
+        jButton1.setBackground(new java.awt.Color(78, 74, 207));
         jButton1.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
+        jButton1.setForeground(new java.awt.Color(255, 255, 255));
         jButton1.setText("Add Session");
         jButton1.setPreferredSize(new java.awt.Dimension(201, 26));
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -243,7 +217,9 @@ public class AdminDashboard extends javax.swing.JFrame implements DashboardInter
             }
         });
 
+        jButton2.setBackground(new java.awt.Color(78, 74, 207));
         jButton2.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
+        jButton2.setForeground(new java.awt.Color(255, 255, 255));
         jButton2.setText("Requested Sessions");
         jButton2.setPreferredSize(new java.awt.Dimension(201, 26));
         jButton2.addActionListener(new java.awt.event.ActionListener() {
@@ -252,7 +228,9 @@ public class AdminDashboard extends javax.swing.JFrame implements DashboardInter
             }
         });
 
+        jButton3.setBackground(new java.awt.Color(78, 74, 207));
         jButton3.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
+        jButton3.setForeground(new java.awt.Color(255, 255, 255));
         jButton3.setText("Add Student");
         jButton3.setPreferredSize(new java.awt.Dimension(201, 26));
         jButton3.addActionListener(new java.awt.event.ActionListener() {
@@ -261,7 +239,9 @@ public class AdminDashboard extends javax.swing.JFrame implements DashboardInter
             }
         });
 
+        jButton4.setBackground(new java.awt.Color(78, 74, 207));
         jButton4.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
+        jButton4.setForeground(new java.awt.Color(255, 255, 255));
         jButton4.setText("All Students");
         jButton4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -269,7 +249,19 @@ public class AdminDashboard extends javax.swing.JFrame implements DashboardInter
             }
         });
 
+        jButton5.setBackground(new java.awt.Color(78, 74, 207));
+        jButton5.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
+        jButton5.setForeground(new java.awt.Color(255, 255, 255));
+        jButton5.setText("Student Invoice History");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
+
+        jButton6.setBackground(new java.awt.Color(78, 74, 207));
         jButton6.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
+        jButton6.setForeground(new java.awt.Color(255, 255, 255));
         jButton6.setText("Add Tutor");
         jButton6.setPreferredSize(new java.awt.Dimension(201, 26));
         jButton6.addActionListener(new java.awt.event.ActionListener() {
@@ -278,7 +270,9 @@ public class AdminDashboard extends javax.swing.JFrame implements DashboardInter
             }
         });
 
+        jButton7.setBackground(new java.awt.Color(78, 74, 207));
         jButton7.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
+        jButton7.setForeground(new java.awt.Color(255, 255, 255));
         jButton7.setText("All Tutors");
         jButton7.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -286,7 +280,9 @@ public class AdminDashboard extends javax.swing.JFrame implements DashboardInter
             }
         });
 
+        jButton8.setBackground(new java.awt.Color(78, 74, 207));
         jButton8.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
+        jButton8.setForeground(new java.awt.Color(255, 255, 255));
         jButton8.setText("Tutor Withdraw History");
         jButton8.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -294,7 +290,9 @@ public class AdminDashboard extends javax.swing.JFrame implements DashboardInter
             }
         });
 
+        jButton9.setBackground(new java.awt.Color(78, 74, 207));
         jButton9.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
+        jButton9.setForeground(new java.awt.Color(255, 255, 255));
         jButton9.setText("Subject Management");
         jButton9.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -302,7 +300,9 @@ public class AdminDashboard extends javax.swing.JFrame implements DashboardInter
             }
         });
 
+        jButton10.setBackground(new java.awt.Color(78, 74, 207));
         jButton10.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
+        jButton10.setForeground(new java.awt.Color(255, 255, 255));
         jButton10.setText("Add Employee");
         jButton10.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -310,7 +310,9 @@ public class AdminDashboard extends javax.swing.JFrame implements DashboardInter
             }
         });
 
+        jButton11.setBackground(new java.awt.Color(78, 74, 207));
         jButton11.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
+        jButton11.setForeground(new java.awt.Color(255, 255, 255));
         jButton11.setText("All Employees");
         jButton11.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -336,7 +338,9 @@ public class AdminDashboard extends javax.swing.JFrame implements DashboardInter
         jLabel12.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
         jLabel12.setText("Course Management");
 
+        jButton13.setBackground(new java.awt.Color(78, 74, 207));
         jButton13.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
+        jButton13.setForeground(new java.awt.Color(255, 255, 255));
         jButton13.setText("Add Course");
         jButton13.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -344,7 +348,9 @@ public class AdminDashboard extends javax.swing.JFrame implements DashboardInter
             }
         });
 
+        jButton14.setBackground(new java.awt.Color(78, 74, 207));
         jButton14.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
+        jButton14.setForeground(new java.awt.Color(255, 255, 255));
         jButton14.setText("All Courses");
         jButton14.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -352,15 +358,9 @@ public class AdminDashboard extends javax.swing.JFrame implements DashboardInter
             }
         });
 
-        jButton5.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
-        jButton5.setText("Student Invoice History");
-        jButton5.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton5ActionPerformed(evt);
-            }
-        });
-
+        jButton12.setBackground(new java.awt.Color(78, 74, 207));
         jButton12.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
+        jButton12.setForeground(new java.awt.Color(255, 255, 255));
         jButton12.setText("Employee Payment History");
         jButton12.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -368,7 +368,9 @@ public class AdminDashboard extends javax.swing.JFrame implements DashboardInter
             }
         });
 
+        jButton15.setBackground(new java.awt.Color(78, 74, 207));
         jButton15.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
+        jButton15.setForeground(new java.awt.Color(255, 255, 255));
         jButton15.setText("Intakes");
         jButton15.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -379,7 +381,9 @@ public class AdminDashboard extends javax.swing.JFrame implements DashboardInter
         jLabel13.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
         jLabel13.setText("Reports");
 
+        jButton16.setBackground(new java.awt.Color(78, 74, 207));
         jButton16.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
+        jButton16.setForeground(new java.awt.Color(255, 255, 255));
         jButton16.setText("Admin Reports");
         jButton16.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -620,15 +624,15 @@ public class AdminDashboard extends javax.swing.JFrame implements DashboardInter
     }//GEN-LAST:event_jButton16ActionPerformed
 
     private void jButton17ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton17ActionPerformed
-        EmployeeProfile ep = new EmployeeProfile(fName, adminID);
+        EmployeeProfile ep = new EmployeeProfile(name, adminID);
         switchPanel(ep);
     }//GEN-LAST:event_jButton17ActionPerformed
     
     public static void main(String args[]) throws UnsupportedLookAndFeelException {
         UIManager.setLookAndFeel(new FlatLightLaf());
-        UIManager.put("Button.background", Color.decode("#4E4ACF"));
+//        UIManager.put("Button.background", Color.decode("#4E4ACF"));
         UIManager.put("Button.focusedBackground", Color.decode("#6AAAFF"));
-        UIManager.put("Button.foreground", Color.decode("#FFFFFF"));
+//        UIManager.put("Button.foreground", Color.decode("#FFFFFF"));
         UIManager.put("TextField.background", Color.decode("#F5F3FF"));
         UIManager.put("TextField.foreground", Color.decode("#4D4D4D"));
         UIManager.put("Panel.background", Color.decode("#EEF1EF"));
