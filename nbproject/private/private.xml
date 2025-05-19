@@ -3,11 +3,10 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/susanyaaaa/Desktop/Void(FINAL)/Void-PROJECT-/src/gui/AllCoursesJDialog.java</file>
-            <file>file:/C:/Users/susanyaaaa/Desktop/Void(FINAL)/Void-PROJECT-/src/gui/TutorScheduleAndCalandar.java</file>
-            <file>file:/C:/Users/susanyaaaa/Desktop/Void(FINAL)/Void-PROJECT-/src/gui/SignIn.java</file>
-            <file>file:/C:/Users/susanyaaaa/Desktop/Void(FINAL)/Void-PROJECT-/src/gui/AdminDashboard.java</file>
-            <file>file:/C:/Users/susanyaaaa/Desktop/Void(FINAL)/Void-PROJECT-/src/model/MySQL2.java</file>
+            <file>file:/C:/Users/CHAMA%20COMPUTERS/Desktop/Void(FINAL)/Void-PROJECT-/src/gui/TutorDashboard.java</file>
+            <file>file:/C:/Users/CHAMA%20COMPUTERS/Desktop/Void(FINAL)/Void-PROJECT-/src/gui/AddStudentAttendanceJDialog.java</file>
+            <file>file:/C:/Users/CHAMA%20COMPUTERS/Desktop/Void(FINAL)/Void-PROJECT-/src/gui/StudentPayment.java</file>
+            <file>file:/C:/Users/CHAMA%20COMPUTERS/Desktop/Void(FINAL)/Void-PROJECT-/src/model/MySQL2.java</file>
         </group>
     </open-files>
 </project-private>

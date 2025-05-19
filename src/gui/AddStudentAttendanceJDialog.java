@@ -29,9 +29,14 @@ public class AddStudentAttendanceJDialog extends javax.swing.JDialog {
     
     private int tutorID;
     
+    private HashMap<String, String> statusMap;
+    private HashMap<String, String> classMap;
+    private HashMap<String, String> studentMap;
+    
     public AddStudentAttendanceJDialog(java.awt.Frame parent, boolean modal, int tutorID) {
         super(parent, modal);
         initComponents();
+        initMap();
         this.tutorID = tutorID;
         loadStatus();
         loadStudent();
@@ -73,10 +78,12 @@ public class AddStudentAttendanceJDialog extends javax.swing.JDialog {
     public JButton getjButton2() {
         return jButton2;
     }
-
-    private HashMap<String, String> statusMap = new HashMap<>();
-    private HashMap<String, String> classMap = new HashMap<>();
-    private HashMap<String, String> studentMap = new HashMap<>();
+    
+    private void initMap() {
+        this.statusMap = new HashMap<>();
+        this.classMap = new HashMap<>();
+        this.studentMap = new HashMap<>();
+    }
 
     private void loadStatus() {
 
