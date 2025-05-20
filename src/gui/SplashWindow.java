@@ -115,9 +115,9 @@ public class SplashWindow extends javax.swing.JFrame {
 
     public static void main(String args[]) throws UnsupportedLookAndFeelException {
         UIManager.setLookAndFeel(new FlatLightLaf());
-        UIManager.put("Button.background", Color.decode("#4E4ACF"));
+//        UIManager.put("Button.background", Color.decode("#4E4ACF"));
         UIManager.put("Button.focusedBackground", Color.decode("#6AAAFF"));
-        UIManager.put("Button.foreground", Color.decode("#FFFFFF"));
+//        UIManager.put("Button.foreground", Color.decode("#FFFFFF"));
         UIManager.put("TextField.background", Color.decode("#F5F3FF"));
         UIManager.put("TextField.foreground", Color.decode("#4D4D4D"));
         UIManager.put("Panel.background", Color.decode("#EEF1EF"));
