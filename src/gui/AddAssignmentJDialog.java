@@ -20,8 +20,9 @@ import javax.swing.SwingUtilities;
 import model.MySQL2;
 
 public class AddAssignmentJDialog extends javax.swing.JDialog {
-    
+
     private int ID;
+    private Integer assignmentID = null;
 
 //    private static final Logger logger = Logger.getLogger(TutorSignIn.class.getName());
     public AddAssignmentJDialog(java.awt.Frame parent, boolean modal, int tutorID) {
@@ -34,7 +35,7 @@ public class AddAssignmentJDialog extends javax.swing.JDialog {
         SwingUtilities.invokeLater(() -> jTextField1.requestFocusInWindow());
         jButton2.setEnabled(false);
     }
-    
+
     //GUI Label
     public JLabel getjLabel1() {
         return jLabel1;
@@ -55,12 +56,15 @@ public class AddAssignmentJDialog extends javax.swing.JDialog {
         return jComboBox1;
     }
 
+    public void setAssignmentID(int assignmentID) {
+        this.assignmentID = assignmentID;
+    }
 //    //Course Name
 //    public JComboBox<String> getjComboBox2() {
 //        return jComboBox2;
 //    }
-
     //Due Date
+
     public JDateChooser getjDateChooser1() {
         return jDateChooser1;
     }
@@ -138,7 +142,6 @@ public class AddAssignmentJDialog extends javax.swing.JDialog {
 //            e.printStackTrace();
 //        }
 //    }
-
     private void clearAll() {
         jTextField1.setText("");
         jTextArea1.setText("");
@@ -352,30 +355,31 @@ public class AddAssignmentJDialog extends javax.swing.JDialog {
             JOptionPane.showMessageDialog(this, "Please select a course!", "Warning", JOptionPane.WARNING_MESSAGE);
         } else {
 
+            if (assignmentID == null || assignmentID <= 0) {
+                JOptionPane.showMessageDialog(this, "Assignment ID is missing. Cannot update!", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
             try {
                 SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-
-//                logger.log(Level.INFO, "Starting the assignment process.");
                 String tutorID = tutorMap.get(courseName);
                 String courseID = courseMap.get(courseName);
 
-//                logger.log(Level.INFO, "Tutor ID retrieved: {0}", tutorID);
-//                logger.log(Level.INFO, "Course ID retrieved: {0}", courseID);
-                MySQL2.executeIUD("UPDATE assignment SET title = '" + title + "', description = '" + description + "' , tutor_id = '" + tutorMap.get(courseName) + "'"
-                        + ", courses_id = '" + courseMap.get(courseName) + "', due_date = '" + format.format(duedate) + "' "
-                        + "WHERE assignment.id = '" + ID + "' ");
+                String query = "UPDATE assignment SET title = '" + title + "', description = '" + description + "', "
+                        + "tutor_id = '" + tutorID + "', courses_id = '" + courseID + "', due_date = '" + format.format(duedate) + "' "
+                        + "WHERE id = '" + assignmentID + "'";
 
-//                logger.log(Level.INFO, "Assignment inserted into the database successfully.");
-                JOptionPane.showMessageDialog(this, "Success!", "SUCCESS", JOptionPane.INFORMATION_MESSAGE);
+                MySQL2.executeIUD(query);
+                JOptionPane.showMessageDialog(this, "Assignment updated successfully!", "SUCCESS", JOptionPane.INFORMATION_MESSAGE);
+
                 clearAll();
                 this.dispose();
 
-//                logger.log(Level.INFO, "Assignment process completed successfully.");
             } catch (Exception e) {
-//                logger.log(Level.SEVERE, "An error occurred while processing the assignment: {0}", e.getMessage());
                 e.printStackTrace();
                 JOptionPane.showMessageDialog(this, "An error occurred: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             }
+
         }
     }//GEN-LAST:event_jButton2ActionPerformed
 

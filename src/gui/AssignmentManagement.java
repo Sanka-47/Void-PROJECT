@@ -333,6 +333,7 @@ public class AssignmentManagement extends javax.swing.JPanel {
 //        addAssignmentJFrame.setVisible(true);
         AddAssignmentJDialog AAJ = new AddAssignmentJDialog(parent, true, tutorId);
         AAJ.setVisible(true);
+        loadTable("", "");
 
     }//GEN-LAST:event_jButton5ActionPerformed
 
@@ -363,58 +364,61 @@ public class AssignmentManagement extends javax.swing.JPanel {
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
 
         int row = jTable1.getSelectedRow(); // Selected row
-        int col = jTable1.getSelectedColumn(); // Selected column
 
-// Validate indices
-        if (row >= 0 && col >= 0 && col < jTable1.getColumnCount()) {
-            Object value = jTable1.getValueAt(row, col);
-        } else {
-            System.out.println("Invalid row/column selected.");
+        // Validate indices
+        if (row < 0 || row >= jTable1.getRowCount()) {
+            System.out.println("Invalid row selected.");
+            return;
         }
 
-        String Id = String.valueOf(jTable1.getValueAt(row, 0));
-        String Name = String.valueOf(jTable1.getValueAt(row, 1));
-        String Description = String.valueOf(jTable1.getValueAt(row, 2));
-        String DueDate = String.valueOf(jTable1.getValueAt(row, 3));
-//        String TutorName = String.valueOf(jTable1.getValueAt(row, 4));
-        String CourseName = String.valueOf(jTable1.getValueAt(row, 4));
-//        String Email = String.valueOf(jTable1.getValueAt(row, 6));
-//        String Gender = String.valueOf(jTable1.getValueAt(row, 7));
+        // Get values from the table
+        String idStr = String.valueOf(jTable1.getValueAt(row, 0));
+        String title = String.valueOf(jTable1.getValueAt(row, 1));
+        String description = String.valueOf(jTable1.getValueAt(row, 2));
+        String dueDateStr = String.valueOf(jTable1.getValueAt(row, 3));
+        String courseName = String.valueOf(jTable1.getValueAt(row, 4));
 
         if (evt.getClickCount() == 2) {
-//            switchToRegistration();
-//            if (updateStudent == null) {
-//                updateStudent = new StudentRegistration();
-//            }
 
+            // Create dialog and pass tutor ID
             AddAssignmentJDialog AAJ = new AddAssignmentJDialog(parent, true, tutorId);
 
-//            AAJ.setID(Id);
-            AAJ.getjLabel1().setText("Update Assignments");
-            AAJ.getjLabel1().setHorizontalAlignment(SwingConstants.CENTER);
-            AAJ.getjTextField1().setText(Name);
-            AAJ.getjTextArea1().setText(Description);
-            AAJ.getjComboBox1().setSelectedItem(CourseName);
-            AAJ.getjComboBox1().setEnabled(false);
-//            AAJ.getjComboBox2().setSelectedItem(CourseName);
-
-            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-
+            // 👉 Set the assignment ID for updating
             try {
-                Date dueDate = formatter.parse((DueDate));
+                int assignmentID = Integer.parseInt(idStr);
+                AAJ.setAssignmentID(assignmentID);
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(this, "Invalid assignment ID format.", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            // Update dialog UI with selected data
+            AAJ.getjLabel1().setText("Update Assignment");
+            AAJ.getjLabel1().setHorizontalAlignment(SwingConstants.CENTER);
+            AAJ.getjTextField1().setText(title);
+            AAJ.getjTextArea1().setText(description);
+            AAJ.getjComboBox1().setSelectedItem(courseName);
+            AAJ.getjComboBox1().setEnabled(false);
+
+            // Set due date
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+            try {
+                Date dueDate = formatter.parse(dueDateStr);
                 AAJ.getjDateChooser1().setDate(dueDate);
             } catch (Exception e) {
                 System.out.println("Error converting Object to Date: " + e.getMessage());
             }
-            
+
+            // Enable update, disable save
             AAJ.getjButton1().setEnabled(false);
             AAJ.getjButton2().setEnabled(true);
 
+            // Show the update dialog
             AAJ.setVisible(true);
-            loadTable("","");
-//            switchToRegistration();
-        }
 
+            // Reload table after update
+            loadTable("", "");
+        }
     }//GEN-LAST:event_jTable1MouseClicked
 
     private void jTextField1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField1KeyReleased
