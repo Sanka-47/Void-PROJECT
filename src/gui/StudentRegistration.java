@@ -7,10 +7,12 @@ import com.raven.datechooser.listener.DateChooserAdapter;
 import com.toedter.calendar.JCalendar;
 import com.toedter.calendar.JDateChooser;
 import java.awt.Color;
+import java.awt.Component;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Vector;
@@ -31,7 +33,7 @@ public class StudentRegistration extends javax.swing.JPanel {
 
     private DateChooser chDate;
     private Date date;
-    
+
     private SimpleDateFormat dateFormat;
 
     public static HashMap<String, String> gender;
@@ -40,11 +42,11 @@ public class StudentRegistration extends javax.swing.JPanel {
     public StudentRegistration(DashboardInterface parent) {
         this.parent = parent;
         initComponents();
-        
+
         init();
-        
+
         loadGender();
-        
+
         loadIntake();
         dateChooser();
         SwingUtilities.invokeLater(() -> jTextField1.requestFocusInWindow());
@@ -52,7 +54,7 @@ public class StudentRegistration extends javax.swing.JPanel {
         jButton4.setEnabled(false);
 
     }
-    
+
     private void init() {
         this.chDate = new DateChooser();
         this.date = new Date();
@@ -439,39 +441,59 @@ public class StudentRegistration extends javax.swing.JPanel {
         String Intake = String.valueOf(jComboBox2.getSelectedItem());
         String fdate = dateFormat.format(date);
 
-        if (FirstName.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Please Enter First Name", "Warning", JOptionPane.WARNING_MESSAGE);
-        } else if (FirstName.length() > 30) {
-            JOptionPane.showMessageDialog(this, "First Name is too long (maximum 30 characters)", "Warning", JOptionPane.WARNING_MESSAGE);
-        } else if (!FirstName.matches("^[A-Za-z]+$")) {
-            JOptionPane.showMessageDialog(this, "You Can Only Use Simple And Capital Letters For First Name", "Warning", JOptionPane.WARNING_MESSAGE);
-        } else if (LastName.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Please Enter Last Name", "Warning", JOptionPane.WARNING_MESSAGE);
-        } else if (LastName.length() > 30) {
-            JOptionPane.showMessageDialog(this, "Last Name is too long (maximum 30 characters)", "Warning", JOptionPane.WARNING_MESSAGE);
-        } else if (!LastName.matches("^[A-Za-z]+$")) {
-            JOptionPane.showMessageDialog(this, "You Can Only Use Simple And Capital Letters For Last Name", "Warning", JOptionPane.WARNING_MESSAGE);
-        } else if (Mobile.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Please Enter Mobile Number", "Warning", JOptionPane.WARNING_MESSAGE);
-        } else if (!Mobile.matches("^07[01245678]{1}[0-9]{7}$")) {
-            JOptionPane.showMessageDialog(this, "Please Enter A Valid Mobile Number", "Warning", JOptionPane.WARNING_MESSAGE);
-        } else if (Email.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Please Enter Email", "Warning", JOptionPane.WARNING_MESSAGE);
-        } else if (!Email.matches("^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$")) {
-            JOptionPane.showMessageDialog(this, "Please Enter Valid Email", "Warning", JOptionPane.WARNING_MESSAGE);
-        } else if (Gender.matches("Select")) {
-            JOptionPane.showMessageDialog(this, "Please Enter Your Gender", "Warning", JOptionPane.WARNING_MESSAGE);
-        } else if (NIC.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Please enter your NIC!", "Warning", JOptionPane.WARNING_MESSAGE);
-        } else if (!NIC.matches("^(([5,6,7,8,9]{1})([0-9]{1})([0,1,2,3,5,6,7,8]{1})([0-9]{6})([v|V|x|X]))|(([1,2]{1})([0,9]{1})([0-9]{2})([0,1,2,3,5,6,7,8]{1})([0-9]{7}))")) {
-            JOptionPane.showMessageDialog(this, "Please enter your valid NIC number!", "Warning", JOptionPane.WARNING_MESSAGE);
-        } else if (selectedDate == null) {
-            JOptionPane.showMessageDialog(this, "Please enter a your date of brith!", "Warning", JOptionPane.WARNING_MESSAGE);
-        } else if (Intake.matches("Select")) {
-            JOptionPane.showMessageDialog(this, "Please Enter Your Intake", "Warning", JOptionPane.WARNING_MESSAGE);
-        } else {
+        try {
 
-            try {
+            Date parsedDate = dateFormat.parse(selectedDate);
+            String formattedDOB = dateFormat.format(parsedDate);
+
+            // Calculate age
+            Calendar dobCal = Calendar.getInstance();
+            dobCal.setTime(parsedDate);
+
+            Calendar today = Calendar.getInstance();
+
+            int age = today.get(Calendar.YEAR) - dobCal.get(Calendar.YEAR);
+
+            if (FirstName.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Please Enter First Name", "Warning", JOptionPane.WARNING_MESSAGE);
+            } else if (FirstName.length() > 30) {
+                JOptionPane.showMessageDialog(this, "First Name is too long (maximum 30 characters)", "Warning", JOptionPane.WARNING_MESSAGE);
+            } else if (!FirstName.matches("^[A-Za-z]+$")) {
+                JOptionPane.showMessageDialog(this, "You Can Only Use Simple And Capital Letters For First Name", "Warning", JOptionPane.WARNING_MESSAGE);
+            } else if (LastName.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Please Enter Last Name", "Warning", JOptionPane.WARNING_MESSAGE);
+            } else if (LastName.length() > 30) {
+                JOptionPane.showMessageDialog(this, "Last Name is too long (maximum 30 characters)", "Warning", JOptionPane.WARNING_MESSAGE);
+            } else if (!LastName.matches("^[A-Za-z]+$")) {
+                JOptionPane.showMessageDialog(this, "You Can Only Use Simple And Capital Letters For Last Name", "Warning", JOptionPane.WARNING_MESSAGE);
+            } else if (Mobile.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Please Enter Mobile Number", "Warning", JOptionPane.WARNING_MESSAGE);
+            } else if (!Mobile.matches("^07[01245678]{1}[0-9]{7}$")) {
+                JOptionPane.showMessageDialog(this, "Please Enter A Valid Mobile Number", "Warning", JOptionPane.WARNING_MESSAGE);
+            } else if (Email.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Please Enter Email", "Warning", JOptionPane.WARNING_MESSAGE);
+            } else if (!Email.matches("^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$")) {
+                JOptionPane.showMessageDialog(this, "Please Enter Valid Email", "Warning", JOptionPane.WARNING_MESSAGE);
+            } else if (Gender.matches("Select")) {
+                JOptionPane.showMessageDialog(this, "Please Enter Your Gender", "Warning", JOptionPane.WARNING_MESSAGE);
+            } else if (NIC.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Please enter your NIC!", "Warning", JOptionPane.WARNING_MESSAGE);
+            } else if (!NIC.matches("^(([5,6,7,8,9]{1})([0-9]{1})([0,1,2,3,5,6,7,8]{1})([0-9]{6})([v|V|x|X]))|(([1,2]{1})([0,9]{1})([0-9]{2})([0,1,2,3,5,6,7,8]{1})([0-9]{7}))")) {
+                JOptionPane.showMessageDialog(this, "Please enter your valid NIC number!", "Warning", JOptionPane.WARNING_MESSAGE);
+            } else if (selectedDate == null) {
+                JOptionPane.showMessageDialog(this, "Please enter a your date of brith!", "Warning", JOptionPane.WARNING_MESSAGE);
+            } else if (Intake.matches("Select")) {
+                JOptionPane.showMessageDialog(this, "Please Enter Your Intake", "Warning", JOptionPane.WARNING_MESSAGE);
+            } else if (parsedDate != null && parsedDate.after(date)) {
+                JOptionPane.showMessageDialog((Component) parent, "Date of birth cannot be in the future!", "Invalid Date", JOptionPane.ERROR_MESSAGE);
+//                      jTextField6.setText(""); // Clear the invalid date
+                // Adjust if birthday hasn't occurred this year yet
+            } else if (today.get(Calendar.DAY_OF_YEAR) < dobCal.get(Calendar.DAY_OF_YEAR)) {
+                age--;
+            } else if (age < 12 || age > 30) {
+                // Check age limit (e.g., 18 to 60)
+                JOptionPane.showMessageDialog((Component) parent, "Age must be between 18 and 60 years.", "Invalid Age", JOptionPane.WARNING_MESSAGE);
+            } else {
 //                logger.log(Level.INFO, "Starting registration process for NIC: {0}", NIC);
 
                 ResultSet rs = MySQL2.executeSearch("SELECT * FROM `student` WHERE `nic`='" + NIC + "' OR `contact_info`='" + Mobile + "' OR `email`='" + Email + "'");
@@ -489,41 +511,30 @@ public class StudentRegistration extends javax.swing.JPanel {
                     }
                 } else {
 
-                    SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd");
-                    Date parsedDate = inputFormat.parse(selectedDate);
-                    String formattedDOB = inputFormat.format(parsedDate);
-
-                    if (parsedDate != null && parsedDate.after(date)) {
-                        JOptionPane.showMessageDialog(null, "Date of birth cannot be in the future!", "Invalid Date", JOptionPane.ERROR_MESSAGE);
-//                      jTextField6.setText(""); // Clear the invalid date
-                    } else {
 //                      logger.log(Level.INFO, "Formatted date of birth: {0}", formattedDOB);
+                    MySQL2.executeIUD("INSERT INTO `student`(`nic`, `first_name`, `last_name`, `dob`, `contact_info`, `registration_date`, `email`, `gender_id`, `intake_id`) "
+                            + "VALUES ('" + NIC + "', '" + FirstName + "', '" + LastName + "', '" + formattedDOB + "', '" + Mobile + "', '" + fdate + "', '" + Email + "', '" + gender.get(Gender) + "', '" + intakeMap.get(Intake) + "')");
 
-                        MySQL2.executeIUD("INSERT INTO `student`(`nic`, `first_name`, `last_name`, `dob`, `contact_info`, `registration_date`, `email`, `gender_id`, `intake_id`) "
-                                + "VALUES ('" + NIC + "', '" + FirstName + "', '" + LastName + "', '" + formattedDOB + "', '" + Mobile + "', '" + fdate + "', '" + Email + "', '" + gender.get(Gender) + "', '" + intakeMap.get(Intake) + "')");
-
-                        JOptionPane.showMessageDialog(this, "Account Created Successfully", "Info", JOptionPane.INFORMATION_MESSAGE);
-                        reset();
-                        AllStudents allStudents = new AllStudents(parent);
-                        parent.switchPanel(allStudents);
-                    }
-
+                    JOptionPane.showMessageDialog(this, "Account Created Successfully", "Info", JOptionPane.INFORMATION_MESSAGE);
+                    reset();
+                    AllStudents allStudents = new AllStudents(parent);
+                    parent.switchPanel(allStudents);
 //                                logger.log(Level.INFO, "New student registered successfully with NIC: {0}", NIC);
                 }
 
-            } catch (NullPointerException e) {
-                // Handle invalid date format
-                e.printStackTrace();
-            } catch (ParseException e) {
-                // Handle invalid date format
-                e.printStackTrace();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            } catch (Exception e) {
-//                logger.log(Level.SEVERE, "Error during student registration", e);
-                e.printStackTrace();
             }
 
+        } catch (NullPointerException e) {
+            // Handle invalid date format
+            e.printStackTrace();
+        } catch (ParseException e) {
+            // Handle invalid date format
+            e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+//                logger.log(Level.SEVERE, "Error during student registration", e);
+            e.printStackTrace();
         }
 
     }//GEN-LAST:event_jButton1ActionPerformed
