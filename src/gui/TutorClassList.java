@@ -49,7 +49,6 @@ public class TutorClassList extends javax.swing.JPanel {
 
         cancelBtn.setEnabled(false);
 
-        // Add selection listener to enable buttons when a row is selected
         jTable1.getSelectionModel().addListSelectionListener(event -> {
             if (!event.getValueIsAdjusting() && jTable1.getSelectedRow() != -1) {
                 cancelBtn.setEnabled(true);
@@ -156,18 +155,13 @@ public class TutorClassList extends javax.swing.JPanel {
             }
 
             if (!endTime.isEmpty()) {
-                // Use LIKE operator for partial matching instead of exact match
                 query += "AND (`class`.`end_time` LIKE '%" + endTime + "%' ";
 
-                // Try to handle numeric formats (with or without am/pm)
                 try {
-                    // Parse the input to see if it's a number
                     int timeValue = Integer.parseInt(endTime.replaceAll("[^0-9]", ""));
 
-                    // Add additional conditions to catch different formats
                     query += "OR `class`.`end_time` LIKE '%" + timeValue + "%' ";
 
-                    // Check for AM/PM variants
                     if (endTime.toLowerCase().contains("am")) {
                         query += "OR `class`.`end_time` LIKE '%" + timeValue + "%' ";
                         query += "OR `class`.`end_time` LIKE '%" + timeValue + " am%' ";
