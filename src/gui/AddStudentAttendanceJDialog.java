@@ -16,7 +16,7 @@ import javax.swing.SwingUtilities;
 import model.MySQL2;
 
 public class AddStudentAttendanceJDialog extends javax.swing.JDialog {
-    
+
     private String ID;
 
     public String getID() {
@@ -26,13 +26,13 @@ public class AddStudentAttendanceJDialog extends javax.swing.JDialog {
     public void setID(String ID) {
         this.ID = ID;
     }
-    
+
     private int tutorID;
-    
+
     private HashMap<String, String> statusMap;
     private HashMap<String, String> classMap;
     private HashMap<String, String> studentMap;
-    
+
     public AddStudentAttendanceJDialog(java.awt.Frame parent, boolean modal, int tutorID) {
         super(parent, modal);
         initComponents();
@@ -68,17 +68,17 @@ public class AddStudentAttendanceJDialog extends javax.swing.JDialog {
     public JDateChooser getjDateChooser1() {
         return jDateChooser1;
     }
-    
+
     //Save
     public JButton getjButton1() {
         return jButton1;
     }
-    
+
     //Update
     public JButton getjButton2() {
         return jButton2;
     }
-    
+
     private void initMap() {
         this.statusMap = new HashMap<>();
         this.classMap = new HashMap<>();
@@ -115,10 +115,7 @@ public class AddStudentAttendanceJDialog extends javax.swing.JDialog {
             Vector<String> vector = new Vector<>();
             vector.add("Select");
 
-            ResultSet resultSet = MySQL2.executeSearch("SELECT `student`.`first_name`, `student`.`last_name`, `student`.`nic` FROM `student` "
-                    + "INNER JOIN `student_courses` ON `student`.`nic` = `student_courses`.`student_nic` "
-                    + "INNER JOIN `courses` ON `student_courses`.`courses_id` = `courses`.`id` "
-                    + "INNER JOIN `tutor` ON `courses`.`id` = `tutor`.`courses_id` WHERE `tutor`.`id` = '" + tutorID + "'");
+            ResultSet resultSet = MySQL2.executeSearch("SELECT * FROM `student`");
 
             while (resultSet.next()) {
                 String fullName = resultSet.getString("student.first_name") + " " + resultSet.getString("student.last_name");
@@ -162,7 +159,7 @@ public class AddStudentAttendanceJDialog extends javax.swing.JDialog {
         jComboBox2.setSelectedIndex(0);
         jComboBox3.setSelectedIndex(0);
         jDateChooser1.setDate(null);
-        
+
         jComboBox1.setEnabled(true);
         jComboBox2.setEnabled(true);
         jComboBox3.setEnabled(true);
@@ -329,12 +326,22 @@ public class AddStudentAttendanceJDialog extends javax.swing.JDialog {
             try {
 
                 SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+                ResultSet rs = MySQL2.executeSearch(
+                        "SELECT * FROM attendance WHERE student_nic = '" + studentMap.get(StudentName) + "' "
+                        + "AND class_id = '" + classMap.get(ClassName) + "' "
+                        + "AND date = '" + format.format(duedate) + "'"
+                );
+
+                if (rs.next()) {
+                    JOptionPane.showMessageDialog(this, "Attendance already marked for this student on this date.", "Duplicate Entry", JOptionPane.WARNING_MESSAGE);
+                    return; // Stop execution
+                }
 
                 System.out.println("Student NIC :" + studentMap.get(StudentName));
                 System.out.println("Class ID :" + classMap.get(ClassName));
 
-                MySQL2.executeIUD("INSERT INTO `attendance` ( status, student_nic, class_id, date) "
-                        + "VALUES ('" + Status + "', '" + studentMap.get(StudentName) + "', '" + classMap.get(ClassName) + "', '" + format.format(duedate) + "')");
+                MySQL2.executeIUD("INSERT INTO `attendance` ( attendance_status_id, student_nic, class_id, date) "
+                        + "VALUES ('" + statusMap.get(Status) + "', '" + studentMap.get(StudentName) + "', '" + classMap.get(ClassName) + "', '" + format.format(duedate) + "')");
 
                 JOptionPane.showMessageDialog(this, "Success!", "SUCCESS", JOptionPane.INFORMATION_MESSAGE);
 
@@ -368,14 +375,14 @@ public class AddStudentAttendanceJDialog extends javax.swing.JDialog {
             try {
 
                 SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-                
-                System.out.println("Status Map :"+ statusMap.get(Status));
+
+                System.out.println("Status Map :" + statusMap.get(Status));
                 System.out.println("Student NIC :" + studentMap.get(StudentName));
                 System.out.println("Class ID :" + classMap.get(ClassName));
 
                 MySQL2.executeIUD("UPDATE `attendance` SET `attendance_status_id` = '" + statusMap.get(Status) + "', `student_nic` = '" + studentMap.get(StudentName) + "'"
                         + ", `class_id` = '" + classMap.get(ClassName) + "', `date` = '" + format.format(duedate) + "'"
-                                + "WHERE `attendance`.`id` = '" + ID + "'");
+                        + "WHERE `attendance`.`id` = '" + ID + "'");
 
                 JOptionPane.showMessageDialog(this, "Success!", "SUCCESS", JOptionPane.INFORMATION_MESSAGE);
                 clearAll();

@@ -31,9 +31,9 @@ public class StudentPerformanceReport extends javax.swing.JPanel {
     private TutorDashboard parent;
 
     private String grade;
-    
+
     private int tutorID;
-    
+
     public StudentPerformanceReport(int tutorID) {
         initComponents();
         this.tutorID = tutorID;
@@ -194,23 +194,26 @@ public class StudentPerformanceReport extends javax.swing.JPanel {
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
 
-        try {
+        int selectedRow = jTable1.getSelectedRow();
 
-            int option = JOptionPane.showConfirmDialog(this, "Are you sure you want to delete this row with Report ID:" + grade + "?", "Message",
-                    JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE);
+        if (selectedRow == -1) {
+            JOptionPane.showMessageDialog(this, "Please select a row to delete!", "No Selection", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
 
-            if (option == JOptionPane.YES_OPTION) {
+        String gradeIdToDelete = String.valueOf(jTable1.getValueAt(selectedRow, 0));
 
-                MySQL2.executeIUD("DELETE FROM grades WHERE grades.id = '" + grade + "' ");
+        int option = JOptionPane.showConfirmDialog(this, "Are you sure you want to delete this row with Report ID: " + gradeIdToDelete + "?", "Confirm Delete",
+                JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
 
+        if (option == JOptionPane.YES_OPTION) {
+            try {
+                MySQL2.executeIUD("DELETE FROM grades WHERE grades.id = '" + gradeIdToDelete + "'");
+                loadTable();
+            } catch (Exception e) {
+                e.printStackTrace();
+                JOptionPane.showMessageDialog(this, "Error occurred while deleting: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             }
-
-            loadTable();
-
-        } catch (Exception e) {
-
-            e.printStackTrace();
-
         }
 
     }//GEN-LAST:event_jButton3ActionPerformed
@@ -249,7 +252,7 @@ public class StudentPerformanceReport extends javax.swing.JPanel {
             ASR.getjTextArea1().setText(Comments);
             ASR.getjComboBox1().setSelectedItem(StudentName);
             ASR.getjComboBox2().setSelectedItem(AssignmentName);
-            
+
             ASR.getjButton1().setEnabled(false);
             ASR.getjButton2().setEnabled(true);
 
