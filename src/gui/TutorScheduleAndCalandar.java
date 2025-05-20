@@ -240,9 +240,9 @@ public class TutorScheduleAndCalandar extends javax.swing.JPanel {
             } else if (sort.equals("Tutor Name DESC")) {
                 query += " ORDER BY `tutor`.`first_name` DESC";
             } else if (sort.equals("Courses ASC")) {
-                query += " ORDER BY TRIM(`courses`.`name`) COLLATE utf8mb4_unicode_ci ASC";
+                query += " ORDER BY `courses`.`name` ASC";
             } else if (sort.equals("Courses DESC")) {
-                query += " ORDER BY TRIM(`courses`.`name`) COLLATE utf8mb4_unicode_ci DESC";
+                query += " ORDER BY `courses`.`name` DESC";
             } else if (sort.equals("ID ASC")) {
                 query += " ORDER BY `class`.`id` ASC";
             } else if (sort.equals("ID DESC")) {
@@ -591,7 +591,9 @@ public class TutorScheduleAndCalandar extends javax.swing.JPanel {
         jLabel16.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
         jLabel16.setText("Amount");
 
+        jButton2.setBackground(new java.awt.Color(78, 74, 207));
         jButton2.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
+        jButton2.setForeground(new java.awt.Color(255, 255, 255));
         jButton2.setText("Edit Session");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -599,7 +601,9 @@ public class TutorScheduleAndCalandar extends javax.swing.JPanel {
             }
         });
 
+        jButton10.setBackground(new java.awt.Color(78, 74, 207));
         jButton10.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
+        jButton10.setForeground(new java.awt.Color(255, 255, 255));
         jButton10.setText("Cancel Session");
         jButton10.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -607,7 +611,9 @@ public class TutorScheduleAndCalandar extends javax.swing.JPanel {
             }
         });
 
+        jButton8.setBackground(new java.awt.Color(78, 74, 207));
         jButton8.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
+        jButton8.setForeground(new java.awt.Color(255, 255, 255));
         jButton8.setText("Schedule Session");
         jButton8.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -676,7 +682,9 @@ public class TutorScheduleAndCalandar extends javax.swing.JPanel {
 
         jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
+        jButton1.setBackground(new java.awt.Color(78, 74, 207));
         jButton1.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
+        jButton1.setForeground(new java.awt.Color(255, 255, 255));
         jButton1.setText("Clear All");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

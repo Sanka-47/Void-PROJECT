@@ -248,7 +248,9 @@ public class InvoiceReport extends javax.swing.JPanel {
 
         jLabel3.setText("Double click a row to view student details");
 
+        jButton1.setBackground(new java.awt.Color(78, 74, 207));
         jButton1.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
+        jButton1.setForeground(new java.awt.Color(255, 255, 255));
         jButton1.setText("Print");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -256,7 +258,9 @@ public class InvoiceReport extends javax.swing.JPanel {
             }
         });
 
+        jButton3.setBackground(new java.awt.Color(78, 74, 207));
         jButton3.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
+        jButton3.setForeground(new java.awt.Color(255, 255, 255));
         jButton3.setText("Invoice Item");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

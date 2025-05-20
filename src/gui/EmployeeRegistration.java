@@ -291,7 +291,9 @@ public class EmployeeRegistration extends javax.swing.JPanel {
 
         jPasswordField1.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
 
+        jButton1.setBackground(new java.awt.Color(78, 74, 207));
         jButton1.setFont(new java.awt.Font("Century Gothic", 0, 16)); // NOI18N
+        jButton1.setForeground(new java.awt.Color(255, 255, 255));
         jButton1.setText("Register");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -299,7 +301,9 @@ public class EmployeeRegistration extends javax.swing.JPanel {
             }
         });
 
+        jButton2.setBackground(new java.awt.Color(78, 74, 207));
         jButton2.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
+        jButton2.setForeground(new java.awt.Color(255, 255, 255));
         jButton2.setText("Update");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -307,7 +311,9 @@ public class EmployeeRegistration extends javax.swing.JPanel {
             }
         });
 
+        jButton3.setBackground(new java.awt.Color(78, 74, 207));
         jButton3.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
+        jButton3.setForeground(new java.awt.Color(255, 255, 255));
         jButton3.setText("Clear All");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -315,7 +321,9 @@ public class EmployeeRegistration extends javax.swing.JPanel {
             }
         });
 
+        jButton4.setBackground(new java.awt.Color(78, 74, 207));
         jButton4.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
+        jButton4.setForeground(new java.awt.Color(255, 255, 255));
         jButton4.setText("Back");
         jButton4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -447,96 +455,100 @@ public class EmployeeRegistration extends javax.swing.JPanel {
         String fdate = dateFormat.format(date);
         Date currentDate = new Date();
 
-        try {
+        if (FirstName.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please Enter First Name", "Warning", JOptionPane.WARNING_MESSAGE);
+            jTextField1.grabFocus();
+        } else if (FirstName.length() > 30) {
+            JOptionPane.showMessageDialog(this, "First Name is too long (maximum 30 characters)", "Warning", JOptionPane.WARNING_MESSAGE);
+        } else if (!FirstName.matches("^[A-Za-z]+$")) {
+            JOptionPane.showMessageDialog(this, "You Can Only Use Simple And Capital Letters For First Name", "Warning", JOptionPane.WARNING_MESSAGE);
+        } else if (LastName.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please Enter Last Name", "Warning", JOptionPane.WARNING_MESSAGE);
+        } else if (LastName.length() > 30) {
+            JOptionPane.showMessageDialog(this, "Last Name is too long (maximum 30 characters)", "Warning", JOptionPane.WARNING_MESSAGE);
+        } else if (!LastName.matches("^[A-Za-z]+$")) {
+            JOptionPane.showMessageDialog(this, "You Can Only Use Simple And Capital Letters For Last Name", "Warning", JOptionPane.WARNING_MESSAGE);
+        } else if (Mobile.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please Enter Mobile Number", "Warning", JOptionPane.WARNING_MESSAGE);
+        } else if (!Mobile.matches("^07[01245678]{1}[0-9]{7}$")) {
+            JOptionPane.showMessageDialog(this, "Please Enter A Valid Mobile Number", "Warning", JOptionPane.WARNING_MESSAGE);
+        } else if (nic.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please Enter NIC", "Warning", JOptionPane.WARNING_MESSAGE);
+        } else if (!nic.matches("^(([5,6,7,8,9]{1})([0-9]{1})([0,1,2,3,5,6,7,8]{1})([0-9]{6})([v|V|x|X]))|(([1,2]{1})([0,9]{1})([0-9]{2})([0,1,2,3,5,6,7,8]{1})([0-9]{7}))")) {
+            JOptionPane.showMessageDialog(this, "Please Enter Valid NIC", "Warning", JOptionPane.WARNING_MESSAGE);
+        } else if (Gender.matches("Select")) {
+            JOptionPane.showMessageDialog(this, "Please Enter Your Gender", "Warning", JOptionPane.WARNING_MESSAGE);
+        } else if (role.matches("Select")) {
+            JOptionPane.showMessageDialog(this, "Please Enter Your Role", "Warning", JOptionPane.WARNING_MESSAGE);
+        } else if (password.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please enter your Password", "Worning", JOptionPane.WARNING_MESSAGE);
+        } else if (password.length() > 30) {
+            JOptionPane.showMessageDialog(this, "Password is too long (maximum 30 characters)", "Warning", JOptionPane.WARNING_MESSAGE);
+        } else if (email.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please Enter Email", "Warning", JOptionPane.WARNING_MESSAGE);
+        } else if (!email.matches("^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$")) {
+            JOptionPane.showMessageDialog(this, "Please Enter Valid Email", "Warning", JOptionPane.WARNING_MESSAGE);
+        } else if (dob == null) {
+            JOptionPane.showMessageDialog(this, "Please enter the date of birth!", "Warning", JOptionPane.WARNING_MESSAGE);
+        } else {
 
-            Date parsedDate = dateFormat.parse(dob);
-            String formattedDOB = dateFormat.format(parsedDate);
+            try {
 
-            // Calculate age
-            Calendar dobCal = Calendar.getInstance();
-            dobCal.setTime(parsedDate);
+                SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd");
+                Date parsedDate = inputFormat.parse(dob);
+                String formattedDOB = dateFormat.format(parsedDate);
 
-            Calendar today = Calendar.getInstance();
+                // Calculate age
+                Calendar dobCal = Calendar.getInstance();
+                dobCal.setTime(parsedDate);
 
-            int age = today.get(Calendar.YEAR) - dobCal.get(Calendar.YEAR);
+                Calendar today = Calendar.getInstance();
 
-            if (FirstName.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Please Enter First Name", "Warning", JOptionPane.WARNING_MESSAGE);
-                jTextField1.grabFocus();
-            } else if (FirstName.length() > 30) {
-                JOptionPane.showMessageDialog(this, "First Name is too long (maximum 30 characters)", "Warning", JOptionPane.WARNING_MESSAGE);
-            } else if (!FirstName.matches("^[A-Za-z]+$")) {
-                JOptionPane.showMessageDialog(this, "You Can Only Use Simple And Capital Letters For First Name", "Warning", JOptionPane.WARNING_MESSAGE);
-            } else if (LastName.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Please Enter Last Name", "Warning", JOptionPane.WARNING_MESSAGE);
-            } else if (LastName.length() > 30) {
-                JOptionPane.showMessageDialog(this, "Last Name is too long (maximum 30 characters)", "Warning", JOptionPane.WARNING_MESSAGE);
-            } else if (!LastName.matches("^[A-Za-z]+$")) {
-                JOptionPane.showMessageDialog(this, "You Can Only Use Simple And Capital Letters For Last Name", "Warning", JOptionPane.WARNING_MESSAGE);
-            } else if (Mobile.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Please Enter Mobile Number", "Warning", JOptionPane.WARNING_MESSAGE);
-            } else if (!Mobile.matches("^07[01245678]{1}[0-9]{7}$")) {
-                JOptionPane.showMessageDialog(this, "Please Enter A Valid Mobile Number", "Warning", JOptionPane.WARNING_MESSAGE);
-            } else if (nic.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Please Enter NIC", "Warning", JOptionPane.WARNING_MESSAGE);
-            } else if (!nic.matches("^(([5,6,7,8,9]{1})([0-9]{1})([0,1,2,3,5,6,7,8]{1})([0-9]{6})([v|V|x|X]))|(([1,2]{1})([0,9]{1})([0-9]{2})([0,1,2,3,5,6,7,8]{1})([0-9]{7}))")) {
-                JOptionPane.showMessageDialog(this, "Please Enter Valid NIC", "Warning", JOptionPane.WARNING_MESSAGE);
-            } else if (Gender.matches("Select")) {
-                JOptionPane.showMessageDialog(this, "Please Enter Your Gender", "Warning", JOptionPane.WARNING_MESSAGE);
-            } else if (role.matches("Select")) {
-                JOptionPane.showMessageDialog(this, "Please Enter Your Role", "Warning", JOptionPane.WARNING_MESSAGE);
-            } else if (password.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Please enter your Password", "Worning", JOptionPane.WARNING_MESSAGE);
-            } else if (password.length() > 30) {
-                JOptionPane.showMessageDialog(this, "Password is too long (maximum 30 characters)", "Warning", JOptionPane.WARNING_MESSAGE);
-            } else if (email.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Please Enter Email", "Warning", JOptionPane.WARNING_MESSAGE);
-            } else if (!email.matches("^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$")) {
-                JOptionPane.showMessageDialog(this, "Please Enter Valid Email", "Warning", JOptionPane.WARNING_MESSAGE);
-            } else if (dob == null) {
-                JOptionPane.showMessageDialog(this, "Please enter the date of birth!", "Warning", JOptionPane.WARNING_MESSAGE);
-            } else if (parsedDate != null && parsedDate.after(date)) {
-                JOptionPane.showMessageDialog((Component) parent, "Date of birth cannot be in the future!", "Invalid Date", JOptionPane.ERROR_MESSAGE);
+                int age = today.get(Calendar.YEAR) - dobCal.get(Calendar.YEAR);
+                if (parsedDate != null && parsedDate.after(date)) {
+                    JOptionPane.showMessageDialog((Component) parent, "Date of birth cannot be in the future!", "Invalid Date", JOptionPane.ERROR_MESSAGE);
 //                      jTextField6.setText(""); // Clear the invalid date
-                // Adjust if birthday hasn't occurred this year yet
-            } else if (today.get(Calendar.DAY_OF_YEAR) < dobCal.get(Calendar.DAY_OF_YEAR)) {
-                age--;
-            } else if (age < 18 || age > 60) {
-                // Check age limit (e.g., 18 to 60)
-                JOptionPane.showMessageDialog((Component) parent, "Age must be between 18 and 60 years.", "Invalid Age", JOptionPane.WARNING_MESSAGE);
-            } else {
-                JOptionPane.showMessageDialog(null, "Age is valid: " + age + " years.");
-//            logger.log(Level.INFO, "Starting employee registration process for NIC: {0}", nic);
+                    // Adjust if birthday hasn't occurred this year yet
+                } else if (today.get(Calendar.DAY_OF_YEAR) < dobCal.get(Calendar.DAY_OF_YEAR)) {
+                    age--;
+                } else if (age < 18 || age > 60) {
+                    // Check age limit (e.g., 18 to 60)
+                    JOptionPane.showMessageDialog((Component) parent, "Age must be between 18 and 60 years.", "Invalid Age", JOptionPane.WARNING_MESSAGE);
+                } else {
+                    JOptionPane.showMessageDialog(null, "Age is valid: " + age + " years.");
 
-                int genderId = genderMap.get(Gender);
-                int roleId = roleMap.get(role);
+//            logger.log(Level.INFO, "Starting employee registration process for NIC: {0}", nic);
+                    int genderId = genderMap.get(Gender);
+                    int roleId = roleMap.get(role);
 //            logger.log(Level.INFO, "Resolved gender ID: {0} and role ID: {1}", new Object[]{genderId, roleId});
 
-                ResultSet rs = MySQL2.executeSearch("SELECT * FROM `employee` WHERE `nic`='" + nic + "'");
-                if (rs.next()) {
-                    JOptionPane.showMessageDialog(this, "This NIC number is already registered", "Warning", JOptionPane.WARNING_MESSAGE);
+                    ResultSet rs = MySQL2.executeSearch("SELECT * FROM `employee` WHERE `nic`='" + nic + "'");
+                    if (rs.next()) {
+                        JOptionPane.showMessageDialog(this, "This NIC number is already registered", "Warning", JOptionPane.WARNING_MESSAGE);
 //                logger.log(Level.WARNING, "NIC already registered: {0}", nic);
-                } else {
+                    } else {
 
-                    SecurePasswordFacade spf = new SecurePasswordFacade();
+                        SecurePasswordFacade spf = new SecurePasswordFacade();
 
-                    int result = MySQL2.executeIUD("INSERT INTO `employee`"
-                            + "(`first_name`,`last_name`,`contact_info`,`roles_id`,`gender_id`,`password`,`nic`,`email`,`dob`,`registration_date`)"
-                            + "VALUES ('" + FirstName + "','" + LastName + "','" + Mobile + "','" + roleId + "','" + genderId + "','" + spf.encryptToFile(password, 6) + "',"
-                            + "'" + nic + "','" + email + "', '" + formattedDOB + "', '" + fdate + "')");
+                        int result = MySQL2.executeIUD("INSERT INTO `employee`"
+                                + "(`first_name`,`last_name`,`contact_info`,`roles_id`,`gender_id`,`password`,`nic`,`email`,`dob`,`registration_date`)"
+                                + "VALUES ('" + FirstName + "','" + LastName + "','" + Mobile + "','" + roleId + "','" + genderId + "','" + spf.encryptToFile(password, 6) + "',"
+                                + "'" + nic + "','" + email + "', '" + formattedDOB + "', '" + fdate + "')");
 
-                    spf = null;
+                        spf = null;
 
-                    if (result > 0) {
-                        JOptionPane.showMessageDialog(this, "Employee registration success!", "Confirmation", JOptionPane.INFORMATION_MESSAGE);
+                        if (result > 0) {
+                            JOptionPane.showMessageDialog(this, "Employee registration success!", "Confirmation", JOptionPane.INFORMATION_MESSAGE);
 //                    logger.log(Level.INFO, "Employee registered successfully with NIC: {0}", nic);
-                        clearAll();
-                    }
+                            clearAll();
+                        }
 
+                    }
                 }
-            }
-        } catch (Exception e) {
+
+            } catch (Exception e) {
 //            logger.log(Level.SEVERE, "Error occurred during employee registration for NIC: " + nic, e);
+            }
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -554,81 +566,84 @@ public class EmployeeRegistration extends javax.swing.JPanel {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd ");
         Date currentDate = new Date();
 
-        try {
+        if (FirstName.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please Enter First Name", "Warning", JOptionPane.WARNING_MESSAGE);
+            jTextField1.grabFocus();
+        } else if (FirstName.length() > 30) {
+            JOptionPane.showMessageDialog(this, "First Name is too long (maximum 30 characters)", "Warning", JOptionPane.WARNING_MESSAGE);
+        } else if (!FirstName.matches("^[A-Za-z]+$")) {
+            JOptionPane.showMessageDialog(this, "You Can Only Use Simple And Capital Letters For First Name", "Warning", JOptionPane.WARNING_MESSAGE);
+        } else if (LastName.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please Enter Last Name", "Warning", JOptionPane.WARNING_MESSAGE);
+        } else if (LastName.length() > 30) {
+            JOptionPane.showMessageDialog(this, "Last Name is too long (maximum 30 characters)", "Warning", JOptionPane.WARNING_MESSAGE);
+        } else if (!LastName.matches("^[A-Za-z]+$")) {
+            JOptionPane.showMessageDialog(this, "You Can Only Use Simple And Capital Letters For Last Name", "Warning", JOptionPane.WARNING_MESSAGE);
+        } else if (Mobile.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please Enter Mobile Number", "Warning", JOptionPane.WARNING_MESSAGE);
+        } else if (!Mobile.matches("^07[01245678]{1}[0-9]{7}$")) {
+            JOptionPane.showMessageDialog(this, "Please Enter A Valid Mobile Number", "Warning", JOptionPane.WARNING_MESSAGE);
+        } else if (nic.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please Enter NIC", "Warning", JOptionPane.WARNING_MESSAGE);
+        } else if (!nic.matches("^(([5,6,7,8,9]{1})([0-9]{1})([0,1,2,3,5,6,7,8]{1})([0-9]{6})([v|V|x|X]))|(([1,2]{1})([0,9]{1})([0-9]{2})([0,1,2,3,5,6,7,8]{1})([0-9]{7}))")) {
+            JOptionPane.showMessageDialog(this, "Please Enter Valid NIC", "Warning", JOptionPane.WARNING_MESSAGE);
+        } else if (Gender.matches("Select")) {
+            JOptionPane.showMessageDialog(this, "Please Enter Your Gender", "Warning", JOptionPane.WARNING_MESSAGE);
+        } else if (role.matches("Select")) {
+            JOptionPane.showMessageDialog(this, "Please Enter Your Role", "Warning", JOptionPane.WARNING_MESSAGE);
+        } else if (email.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please Enter Email", "Warning", JOptionPane.WARNING_MESSAGE);
+        } else if (!email.matches("^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$")) {
+            JOptionPane.showMessageDialog(this, "Please Enter Valid Email", "Warning", JOptionPane.WARNING_MESSAGE);
+        } else if (dob == null) {
+            JOptionPane.showMessageDialog(this, "Please enter the date of birth!", "Warning", JOptionPane.WARNING_MESSAGE);
+        } else {
 
-            Date parsedDate = dateFormat.parse(dob);
-            String formattedDOB = dateFormat.format(parsedDate);
+            try {
 
-            // Calculate age
-            Calendar dobCal = Calendar.getInstance();
-            dobCal.setTime(parsedDate);
+                SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd");
+                Date parsedDate = inputFormat.parse(dob);
+                String formattedDOB = dateFormat.format(parsedDate);
 
-            Calendar today = Calendar.getInstance();
+                // Calculate age
+                Calendar dobCal = Calendar.getInstance();
+                dobCal.setTime(parsedDate);
 
-            int age = today.get(Calendar.YEAR) - dobCal.get(Calendar.YEAR);
+                Calendar today = Calendar.getInstance();
 
-            if (FirstName.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Please Enter First Name", "Warning", JOptionPane.WARNING_MESSAGE);
-                jTextField1.grabFocus();
-            } else if (FirstName.length() > 30) {
-                JOptionPane.showMessageDialog(this, "First Name is too long (maximum 30 characters)", "Warning", JOptionPane.WARNING_MESSAGE);
-            } else if (!FirstName.matches("^[A-Za-z]+$")) {
-                JOptionPane.showMessageDialog(this, "You Can Only Use Simple And Capital Letters For First Name", "Warning", JOptionPane.WARNING_MESSAGE);
-            } else if (LastName.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Please Enter Last Name", "Warning", JOptionPane.WARNING_MESSAGE);
-            } else if (LastName.length() > 30) {
-                JOptionPane.showMessageDialog(this, "Last Name is too long (maximum 30 characters)", "Warning", JOptionPane.WARNING_MESSAGE);
-            } else if (!LastName.matches("^[A-Za-z]+$")) {
-                JOptionPane.showMessageDialog(this, "You Can Only Use Simple And Capital Letters For Last Name", "Warning", JOptionPane.WARNING_MESSAGE);
-            } else if (Mobile.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Please Enter Mobile Number", "Warning", JOptionPane.WARNING_MESSAGE);
-            } else if (!Mobile.matches("^07[01245678]{1}[0-9]{7}$")) {
-                JOptionPane.showMessageDialog(this, "Please Enter A Valid Mobile Number", "Warning", JOptionPane.WARNING_MESSAGE);
-            } else if (nic.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Please Enter NIC", "Warning", JOptionPane.WARNING_MESSAGE);
-            } else if (!nic.matches("^(([5,6,7,8,9]{1})([0-9]{1})([0,1,2,3,5,6,7,8]{1})([0-9]{6})([v|V|x|X]))|(([1,2]{1})([0,9]{1})([0-9]{2})([0,1,2,3,5,6,7,8]{1})([0-9]{7}))")) {
-                JOptionPane.showMessageDialog(this, "Please Enter Valid NIC", "Warning", JOptionPane.WARNING_MESSAGE);
-            } else if (Gender.matches("Select")) {
-                JOptionPane.showMessageDialog(this, "Please Enter Your Gender", "Warning", JOptionPane.WARNING_MESSAGE);
-            } else if (role.matches("Select")) {
-                JOptionPane.showMessageDialog(this, "Please Enter Your Role", "Warning", JOptionPane.WARNING_MESSAGE);
-            } else if (email.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Please Enter Email", "Warning", JOptionPane.WARNING_MESSAGE);
-            } else if (!email.matches("^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$")) {
-                JOptionPane.showMessageDialog(this, "Please Enter Valid Email", "Warning", JOptionPane.WARNING_MESSAGE);
-            } else if (dob == null) {
-                JOptionPane.showMessageDialog(this, "Please enter the date of birth!", "Warning", JOptionPane.WARNING_MESSAGE);
-            } else if (parsedDate != null && parsedDate.after(date)) {
-                JOptionPane.showMessageDialog((Component) parent, "Date of birth cannot be in the future!", "Invalid Date", JOptionPane.ERROR_MESSAGE);
+                int age = today.get(Calendar.YEAR) - dobCal.get(Calendar.YEAR);
+                if (parsedDate != null && parsedDate.after(date)) {
+                    JOptionPane.showMessageDialog((Component) parent, "Date of birth cannot be in the future!", "Invalid Date", JOptionPane.ERROR_MESSAGE);
 //                      jTextField6.setText(""); // Clear the invalid date
-                // Adjust if birthday hasn't occurred this year yet
-            } else if (today.get(Calendar.DAY_OF_YEAR) < dobCal.get(Calendar.DAY_OF_YEAR)) {
-                age--;
-            } else if (age < 18 || age > 60) {
-                // Check age limit (e.g., 18 to 60)
-                JOptionPane.showMessageDialog((Component) parent, "Age must be between 18 and 60 years.", "Invalid Age", JOptionPane.WARNING_MESSAGE);
-            } else {
-                JOptionPane.showMessageDialog(null, "Age is valid: " + age + " years.");
-                // Prepare for update
-                int genderId = genderMap.get(Gender);
-                int roleId = roleMap.get(role);
+                    // Adjust if birthday hasn't occurred this year yet
+                } else if (today.get(Calendar.DAY_OF_YEAR) < dobCal.get(Calendar.DAY_OF_YEAR)) {
+                    age--;
+                } else if (age < 18 || age > 60) {
+                    // Check age limit (e.g., 18 to 60)
+                    JOptionPane.showMessageDialog((Component) parent, "Age must be between 18 and 60 years.", "Invalid Age", JOptionPane.WARNING_MESSAGE);
+                } else {
+                    JOptionPane.showMessageDialog(null, "Age is valid: " + age + " years.");
+                    // Prepare for update
+                    int genderId = genderMap.get(Gender);
+                    int roleId = roleMap.get(role);
 
-                MySQL2.executeIUD("UPDATE `employee` SET `first_name` = '" + FirstName + "', `last_name` = '" + LastName + "', "
-                        + "`contact_info` = '" + Mobile + "', `email` = '" + email + "', `roles_id` = '" + roleId + "', "
-                        + "`gender_id` = '" + genderId + "', `dob` = '" + dob + "' WHERE `nic` = '" + nic + "'");
+                    MySQL2.executeIUD("UPDATE `employee` SET `first_name` = '" + FirstName + "', `last_name` = '" + LastName + "', "
+                            + "`contact_info` = '" + Mobile + "', `email` = '" + email + "', `roles_id` = '" + roleId + "', "
+                            + "`gender_id` = '" + genderId + "', `dob` = '" + formattedDOB + "' WHERE `nic` = '" + nic + "'");
 //                
 
-                JOptionPane.showMessageDialog(this, "Successfully Updated!", "Confirmation", JOptionPane.INFORMATION_MESSAGE);
-                clearAll();
-                jButton4.setEnabled(true);
+                    JOptionPane.showMessageDialog(this, "Successfully Updated!", "Confirmation", JOptionPane.INFORMATION_MESSAGE);
+                    clearAll();
+                    jButton4.setEnabled(true);
 
+                }
+
+            } catch (Exception e) {
+//            logger.log(Level.SEVERE, "Error occurred during employee update for NIC: " + nic, e);
+                e.printStackTrace();
             }
 
-        } catch (Exception e) {
-//            logger.log(Level.SEVERE, "Error occurred during employee update for NIC: " + nic, e);
-            e.printStackTrace();
         }
-
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed

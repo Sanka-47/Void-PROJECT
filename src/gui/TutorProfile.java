@@ -35,8 +35,7 @@ public class TutorProfile extends javax.swing.JPanel {
         jComboBox1.setEnabled(false);
         jComboBox2.setEnabled(false);
         loadEmployeeDetails();
-         SwingUtilities.invokeLater(() -> jTextField1.requestFocusInWindow());
-
+        SwingUtilities.invokeLater(() -> jTextField1.requestFocusInWindow());
     }
 
     private void loadGender() {
@@ -449,7 +448,7 @@ public class TutorProfile extends javax.swing.JPanel {
                 }
 
                 if (canUpdate) {
-                    
+
                     SecurePasswordFacade spf = new SecurePasswordFacade();
 
                     Integer integer = MySQL2.executeIUD("UPDATE `tutor` SET `first_name` = '" + FirstName + "', `last_name` = '" + LastName + "', "
@@ -458,7 +457,7 @@ public class TutorProfile extends javax.swing.JPanel {
 
                     JOptionPane.showMessageDialog(this, "Successfully Updated!", "Confirmation", JOptionPane.INFORMATION_MESSAGE);
                     //            logger.log(Level.INFO, "Employee updated successfully for NIC: {0}", nic);
-                    
+
                     spf = null;
                 }
 

@@ -202,7 +202,9 @@ public class RequestedSessions extends javax.swing.JPanel {
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel2.setText("Reason");
 
-        rejectbtn.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
+        rejectbtn.setBackground(new java.awt.Color(78, 74, 207));
+        rejectbtn.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
+        rejectbtn.setForeground(new java.awt.Color(255, 255, 255));
         rejectbtn.setText("Reject");
         rejectbtn.setPreferredSize(new java.awt.Dimension(201, 26));
         rejectbtn.addActionListener(new java.awt.event.ActionListener() {
@@ -241,6 +243,9 @@ public class RequestedSessions extends javax.swing.JPanel {
             }
         });
 
+        jButton1.setBackground(new java.awt.Color(78, 74, 207));
+        jButton1.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
+        jButton1.setForeground(new java.awt.Color(255, 255, 255));
         jButton1.setText("Clear All");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
