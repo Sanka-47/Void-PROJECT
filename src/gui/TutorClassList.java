@@ -58,7 +58,7 @@ public class TutorClassList extends javax.swing.JPanel {
     }
 
     private void dateChooser() {
-        chDate.setTextField(jTextField5);
+        chDate.setTextField(sortByDateInputField);
         chDate.setDateSelectionMode(DateChooser.DateSelectionMode.BETWEEN_DATE_SELECTED);
         chDate.setLabelCurrentDayVisible(false);
         chDate.setForeground(Color.black);
@@ -94,13 +94,13 @@ public class TutorClassList extends javax.swing.JPanel {
         String TID = String.valueOf(tutorId);
 
         try {
-            String searchText = jTextField1.getText().toLowerCase();
+            String searchText = searchInputField.getText().toLowerCase();
 
-            String startTime = jTextField3.getText();
+            String startTime = startTimeInputField.getText();
 
-            String endTime = jTextField4.getText();
+            String endTime = endTimeInputField.getText();
 
-            String status = String.valueOf(jComboBox1.getSelectedItem());
+            String status = String.valueOf(sortByStatausComboBox.getSelectedItem());
 
             // Base query
             String query = "SELECT * FROM class "
@@ -120,12 +120,74 @@ public class TutorClassList extends javax.swing.JPanel {
             }
 
             if (!startTime.isEmpty()) {
-                query += "AND (`class`.`start_time` >= '" + startTime + "') "; // Compare start_time directly
+                // Use LIKE operator for partial matching instead of exact match
+                query += "AND (`class`.`start_time` LIKE '%" + startTime + "%' ";
+
+                // Try to handle numeric formats (with or without am/pm)
+                try {
+                    // Parse the input to see if it's a number
+                    int timeValue = Integer.parseInt(startTime.replaceAll("[^0-9]", ""));
+
+                    // Add additional conditions to catch different formats
+                    query += "OR `class`.`start_time` LIKE '%" + timeValue + "%' ";
+
+                    // Check for AM/PM variants
+                    if (startTime.toLowerCase().contains("am")) {
+                        query += "OR `class`.`start_time` LIKE '%" + timeValue + "%' ";
+                        query += "OR `class`.`start_time` LIKE '%" + timeValue + " am%' ";
+                        query += "OR `class`.`start_time` LIKE '%" + timeValue + "am%' ";
+                    } else if (startTime.toLowerCase().contains("pm")) {
+                        query += "OR `class`.`start_time` LIKE '%" + timeValue + "%' ";
+                        query += "OR `class`.`start_time` LIKE '%" + timeValue + " pm%' ";
+                        query += "OR `class`.`start_time` LIKE '%" + timeValue + "pm%' ";
+                    } else {
+                        // If no am/pm specified, search for both possibilities
+                        query += "OR `class`.`start_time` LIKE '%" + timeValue + " am%' ";
+                        query += "OR `class`.`start_time` LIKE '%" + timeValue + "am%' ";
+                        query += "OR `class`.`start_time` LIKE '%" + timeValue + " pm%' ";
+                        query += "OR `class`.`start_time` LIKE '%" + timeValue + "pm%' ";
+                    }
+                } catch (NumberFormatException e) {
+                    // Not a number, just use the LIKE search we already added
+                }
+
+                query += ") ";
                 System.out.println("Start Time: " + startTime);
             }
 
             if (!endTime.isEmpty()) {
-                query += "AND (`class`.`end_time` <= '" + endTime + "') "; // Compare end_time directly
+                // Use LIKE operator for partial matching instead of exact match
+                query += "AND (`class`.`end_time` LIKE '%" + endTime + "%' ";
+
+                // Try to handle numeric formats (with or without am/pm)
+                try {
+                    // Parse the input to see if it's a number
+                    int timeValue = Integer.parseInt(endTime.replaceAll("[^0-9]", ""));
+
+                    // Add additional conditions to catch different formats
+                    query += "OR `class`.`end_time` LIKE '%" + timeValue + "%' ";
+
+                    // Check for AM/PM variants
+                    if (endTime.toLowerCase().contains("am")) {
+                        query += "OR `class`.`end_time` LIKE '%" + timeValue + "%' ";
+                        query += "OR `class`.`end_time` LIKE '%" + timeValue + " am%' ";
+                        query += "OR `class`.`end_time` LIKE '%" + timeValue + "am%' ";
+                    } else if (endTime.toLowerCase().contains("pm")) {
+                        query += "OR `class`.`end_time` LIKE '%" + timeValue + "%' ";
+                        query += "OR `class`.`end_time` LIKE '%" + timeValue + " pm%' ";
+                        query += "OR `class`.`end_time` LIKE '%" + timeValue + "pm%' ";
+                    } else {
+                        // If no am/pm specified, search for both possibilities
+                        query += "OR `class`.`end_time` LIKE '%" + timeValue + " am%' ";
+                        query += "OR `class`.`end_time` LIKE '%" + timeValue + "am%' ";
+                        query += "OR `class`.`end_time` LIKE '%" + timeValue + " pm%' ";
+                        query += "OR `class`.`end_time` LIKE '%" + timeValue + "pm%' ";
+                    }
+                } catch (NumberFormatException e) {
+                    // Not a number, just use the LIKE search we already added
+                }
+
+                query += ") ";
                 System.out.println("End Time: " + endTime);
             }
 
@@ -137,20 +199,20 @@ public class TutorClassList extends javax.swing.JPanel {
                 query += "AND `class`.`date` = '" + format.format(date) + "' ";
             } else if (!from.isEmpty() && to == null) {
                 if (status.equals("Today's Sessions")) {
-                    jComboBox1.setSelectedItem("Select");
-                    jComboBox1.setEnabled(false);
+                    sortByStatausComboBox.setSelectedItem("Select");
+                    sortByStatausComboBox.setEnabled(false);
                 }
                 query += "AND `class`.`date` > '" + from + "' ";
             } else if (!to.isEmpty() && from == null) {
                 if (status.equals("Today's Sessions")) {
-                    jComboBox1.setSelectedItem("Select");
-                    jComboBox1.setEnabled(false);
+                    sortByStatausComboBox.setSelectedItem("Select");
+                    sortByStatausComboBox.setEnabled(false);
                 }
                 query += "AND `class`.`date` < '" + to + "' ";
             } else if (from != null && !from.isEmpty() && to != null && !to.isEmpty()) {
                 if (status.equals("Today's Sessions")) {
-                    jComboBox1.setSelectedItem("Select");
-                    jComboBox1.setEnabled(false);
+                    sortByStatausComboBox.setSelectedItem("Select");
+                    sortByStatausComboBox.setEnabled(false);
                 }
                 query += "AND `class`.`date` > '" + from + "' AND `class`.`date` < '" + to + "' ";
             }
@@ -196,17 +258,17 @@ public class TutorClassList extends javax.swing.JPanel {
     }
 
     private void reset() {
-        jTextField1.setText("");
+        searchInputField.setText("");
         jTextField2.setText("");
-        jTextField3.setText("");
-        jTextField4.setText("");
-        jTextField5.setText("");
-        jComboBox1.setSelectedItem("Select");
+        startTimeInputField.setText("");
+        endTimeInputField.setText("");
+        sortByDateInputField.setText("");
+        sortByStatausComboBox.setSelectedItem("Select");
         From = "";
         To = "";
         loadTable("", "");
         cancelBtn.setEnabled(false);
-        jComboBox1.setEnabled(true);
+        sortByStatausComboBox.setEnabled(true);
     }
 
     @SuppressWarnings("unchecked")
@@ -222,18 +284,18 @@ public class TutorClassList extends javax.swing.JPanel {
         jTable1 = new javax.swing.JTable();
         jLabel2 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        searchInputField = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
         jTextField2 = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
-        jTextField3 = new javax.swing.JTextField();
-        jTextField4 = new javax.swing.JTextField();
-        jTextField5 = new javax.swing.JTextField();
+        startTimeInputField = new javax.swing.JTextField();
+        endTimeInputField = new javax.swing.JTextField();
+        sortByDateInputField = new javax.swing.JTextField();
         jButton2 = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        sortByStatausComboBox = new javax.swing.JComboBox<>();
         jButton3 = new javax.swing.JButton();
 
         setPreferredSize(new java.awt.Dimension(1000, 581));
@@ -296,9 +358,9 @@ public class TutorClassList extends javax.swing.JPanel {
         jLabel6.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
         jLabel6.setText("Search");
 
-        jTextField1.addKeyListener(new java.awt.event.KeyAdapter() {
+        searchInputField.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
-                jTextField1KeyReleased(evt);
+                searchInputFieldKeyReleased(evt);
             }
         });
 
@@ -314,21 +376,26 @@ public class TutorClassList extends javax.swing.JPanel {
         jLabel11.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
         jLabel11.setText("End Time :");
 
-        jTextField3.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                jTextField3KeyReleased(evt);
-            }
-        });
-
-        jTextField4.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                jTextField4KeyReleased(evt);
-            }
-        });
-
-        jTextField5.addActionListener(new java.awt.event.ActionListener() {
+        startTimeInputField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField5ActionPerformed(evt);
+                startTimeInputFieldActionPerformed(evt);
+            }
+        });
+        startTimeInputField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                startTimeInputFieldKeyReleased(evt);
+            }
+        });
+
+        endTimeInputField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                endTimeInputFieldKeyReleased(evt);
+            }
+        });
+
+        sortByDateInputField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                sortByDateInputFieldActionPerformed(evt);
             }
         });
 
@@ -343,10 +410,10 @@ public class TutorClassList extends javax.swing.JPanel {
         jLabel5.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
         jLabel5.setText("Sort By Status :");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select", "Pending", "Completed", "Cancelled", "Rescheduled", "Today's Sessions" }));
-        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+        sortByStatausComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select", "Pending", "Completed", "Cancelled", "Rescheduled", "Today's Sessions" }));
+        sortByStatausComboBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox1ActionPerformed(evt);
+                sortByStatausComboBoxActionPerformed(evt);
             }
         });
 
@@ -384,23 +451,23 @@ public class TutorClassList extends javax.swing.JPanel {
                         .addGap(6, 6, 6)
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField5)
+                        .addComponent(sortByDateInputField)
                         .addGap(18, 18, Short.MAX_VALUE)
                         .addComponent(jLabel5)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(sortByStatausComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel10)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(startTimeInputField, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel11)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(endTimeInputField, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel6)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField1)
+                        .addComponent(searchInputField)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton2))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
@@ -426,16 +493,16 @@ public class TutorClassList extends javax.swing.JPanel {
                 .addComponent(jLabel1)
                 .addGap(37, 37, 37)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(sortByDateInputField, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel5)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(sortByStatausComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel10)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(startTimeInputField, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel11)
-                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(endTimeInputField, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(searchInputField, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 277, Short.MAX_VALUE)
@@ -503,61 +570,10 @@ public class TutorClassList extends javax.swing.JPanel {
     }//GEN-LAST:event_cancelBtnActionPerformed
 
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
-//        int row = jTable1.getSelectedRow(); // Selected row
-//        int col = jTable1.getSelectedColumn(); // Selected column
-//
-//        // Validate indices
-//        if (row >= 0 && col >= 0 && col < jTable1.getColumnCount()) {
-//            Object value = jTable1.getValueAt(row, col);
-//            System.out.println("Value: " + value);
-//        } else {
-//            System.out.println("Invalid row/column selected.");
-//        }
-//
-//        String ClassID = String.valueOf(jTable1.getValueAt(row, 0));
-//        String ClassName = String.valueOf(jTable1.getValueAt(row, 1));
-//        String Date = String.valueOf(jTable1.getValueAt(row, 2));
-//        String StartTime = String.valueOf(jTable1.getValueAt(row, 3));
-//        String EndTime = String.valueOf(jTable1.getValueAt(row, 4));
-//        String HallNumber = String.valueOf(jTable1.getValueAt(row, 5));
-//        String Price = String.valueOf(jTable1.getValueAt(row, 6));
-//        String TutorName = jLabel4.getText();
-//        String CourseName = String.valueOf(jTable1.getValueAt(row, 7));
-//        String ClassStatus = String.valueOf(jTable1.getValueAt(row, 8));
 
-//        if (evt.getClickCount() == 2) {
-//            //            switchToRegistration();
-//            if (addSession == null) {
-//                addSession = new AddSession();
-//            }
-//
-//            addSession.getjTextField1().setText(ClassID);
-//            addSession.getjTextField2().setText(ClassName);
-//
-//            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-//
-//            try {
-//                Date date = formatter.parse((Date));
-//                addSession.getjDateChooser1().setDate(date);
-//                System.out.println("Converted Date: " + date);
-//            } catch (Exception e) {
-//                System.out.println("Error converting Object to Date: " + e.getMessage());
-//            }
-//
-//            addSession.getjFormattedTextField1().setText(StartTime);
-//            addSession.getjFormattedTextField2().setText(EndTime);
-//            addSession.getjTextField3().setText(HallNumber);
-//            addSession.getjFormattedTextField3().setText(Price);
-//            addSession.getjComboBox1().setSelectedItem(TutorName);
-//            addSession.getjComboBox2().setSelectedItem(CourseName);
-//            addSession.getjComboBox3().setSelectedItem(ClassStatus);
-//            addSession.getjTextField1().setEditable(false);
-//
-//            switchToAddSession();
-//        }
     }//GEN-LAST:event_jTable1MouseClicked
 
-    private void jTextField1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField1KeyReleased
+    private void searchInputFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_searchInputFieldKeyReleased
         if (From != null && To == null) {
             loadTable(From, "");
         } else if (From == null && To != null) {
@@ -567,9 +583,9 @@ public class TutorClassList extends javax.swing.JPanel {
         } else {
             loadTable("", "");
         }
-    }//GEN-LAST:event_jTextField1KeyReleased
+    }//GEN-LAST:event_searchInputFieldKeyReleased
 
-    private void jTextField3KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField3KeyReleased
+    private void startTimeInputFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_startTimeInputFieldKeyReleased
         if (From != null && To == null) {
             loadTable(From, "");
         } else if (From == null && To != null) {
@@ -579,9 +595,9 @@ public class TutorClassList extends javax.swing.JPanel {
         } else {
             loadTable("", "");
         }
-    }//GEN-LAST:event_jTextField3KeyReleased
+    }//GEN-LAST:event_startTimeInputFieldKeyReleased
 
-    private void jTextField4KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField4KeyReleased
+    private void endTimeInputFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_endTimeInputFieldKeyReleased
         if (From != null && To == null) {
             loadTable(From, "");
         } else if (From == null && To != null) {
@@ -591,13 +607,13 @@ public class TutorClassList extends javax.swing.JPanel {
         } else {
             loadTable("", "");
         }
-    }//GEN-LAST:event_jTextField4KeyReleased
+    }//GEN-LAST:event_endTimeInputFieldKeyReleased
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         reset();
     }//GEN-LAST:event_jButton2ActionPerformed
 
-    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+    private void sortByStatausComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sortByStatausComboBoxActionPerformed
         if (From != null && To == null) {
             loadTable(From, "");
         } else if (From == null && To != null) {
@@ -607,14 +623,14 @@ public class TutorClassList extends javax.swing.JPanel {
         } else {
             loadTable("", "");
         }
-    }//GEN-LAST:event_jComboBox1ActionPerformed
+    }//GEN-LAST:event_sortByStatausComboBoxActionPerformed
 
-    private void jTextField5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField5ActionPerformed
-        if (jComboBox1.getSelectedItem().equals("Today's Sessions")) {
-            jComboBox1.setSelectedItem("Select");
-            jComboBox1.setEnabled(false);
+    private void sortByDateInputFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sortByDateInputFieldActionPerformed
+        if (sortByStatausComboBox.getSelectedItem().equals("Today's Sessions")) {
+            sortByStatausComboBox.setSelectedItem("Select");
+            sortByStatausComboBox.setEnabled(false);
         }
-    }//GEN-LAST:event_jTextField5ActionPerformed
+    }//GEN-LAST:event_sortByDateInputFieldActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         int selectedRow = jTable1.getSelectedRow();
@@ -656,13 +672,17 @@ public class TutorClassList extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_jButton3ActionPerformed
 
+    private void startTimeInputFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startTimeInputFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_startTimeInputFieldActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton cancelBtn;
+    private javax.swing.JTextField endTimeInputField;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
-    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -675,10 +695,10 @@ public class TutorClassList extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
-    private javax.swing.JTextField jTextField5;
+    private javax.swing.JTextField searchInputField;
+    private javax.swing.JTextField sortByDateInputField;
+    private javax.swing.JComboBox<String> sortByStatausComboBox;
+    private javax.swing.JTextField startTimeInputField;
     // End of variables declaration//GEN-END:variables
 }
