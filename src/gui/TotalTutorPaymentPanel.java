@@ -33,50 +33,45 @@ public class TotalTutorPaymentPanel extends javax.swing.JPanel {
 
 
 
-    private void loadTutorPaymentData() {
-        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-        model.setRowCount(0); // Clear the table before loading new data
-
-        String query = "SELECT \n"
-                + "    MONTH(wallet.date) AS Month,\n"
-                + "    YEAR(wallet.date) AS Year,\n"
-                + "    SUM(class.amount) AS Total_Payment\n"
-                + "FROM \n"
-                + "    wallet\n"
-                + "INNER JOIN \n"
-                + "    tutor ON wallet.tutor_id = tutor.id\n"
-                + "INNER JOIN \n"
-                + "    class ON class.id = wallet.class_id\n"
-                + "INNER JOIN \n"
-                + "    withdrawal_status ON withdrawal_status.id = wallet.withdrawal_status_id\n"
-                + "INNER JOIN \n"
-                + "    courses ON courses.id = class.courses_id\n"
-                + "WHERE \n"
-                + "    wallet.withdrawal_status_id = 2\n"
-                + "GROUP BY \n"
-                + "    YEAR(wallet.date), MONTH(wallet.date), wallet.tutor_id\n"
-                + "ORDER BY \n"
-                + "    YEAR(wallet.date) DESC, MONTH(wallet.date) DESC;";
-
-        try {
-            ResultSet resultSet = MySQL2.executeSearch(query);
-
-            while (resultSet.next()) {
-                int monthNumber = resultSet.getInt("Month");
-                String month = new DateFormatSymbols().getMonths()[monthNumber - 1];
-                String year = resultSet.getString("Year");
-
-                String totalPayments = resultSet.getString("Total_Payment");
-
-                model.addRow(new Object[]{month, year, totalPayments});
-            }
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this,
-                    "Error loading tutor payment data: " + e.getMessage(),
-                    "Database Error",
-                    JOptionPane.ERROR_MESSAGE);
+  private void loadTutorPaymentData() {
+    DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+    model.setRowCount(0); // Clear the table before loading new data
+    String query = "SELECT \n"
+            + "    MONTH(wallet.date) AS Month,\n"
+            + "    YEAR(wallet.date) AS Year,\n"
+            + "    SUM(class.amount) AS Total_Payment\n"
+            + "FROM \n"
+            + "    wallet\n"
+            + "INNER JOIN \n"
+            + "    tutor ON wallet.tutor_id = tutor.id\n"
+            + "INNER JOIN \n"
+            + "    class ON class.id = wallet.class_id\n"
+            + "INNER JOIN \n"
+            + "    withdrawal_status ON withdrawal_status.id = wallet.withdrawal_status_id\n"
+            + "INNER JOIN \n"
+            + "    courses ON courses.id = class.courses_id\n"
+            + "WHERE \n"
+            + "    wallet.withdrawal_status_id = 2\n"
+            + "GROUP BY \n"
+            + "    YEAR(wallet.date), MONTH(wallet.date), wallet.tutor_id\n"
+            + "ORDER BY \n"
+            + "    YEAR(wallet.date) DESC, MONTH(wallet.date) DESC;";
+    try {
+        ResultSet resultSet = MySQL2.executeSearch(query);
+        while (resultSet.next()) {
+            int monthNumber = resultSet.getInt("Month");
+            String month = new DateFormatSymbols().getMonths()[monthNumber - 1];
+            String year = resultSet.getString("Year");
+            String totalPayments = "Rs. " + resultSet.getString("Total_Payment");
+            model.addRow(new Object[]{month, year, totalPayments});
         }
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(this,
+                "Error loading tutor payment data: " + e.getMessage(),
+                "Database Error",
+                JOptionPane.ERROR_MESSAGE);
     }
+}
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always

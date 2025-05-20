@@ -31,77 +31,69 @@ public class CourseRevenueReportPanel extends javax.swing.JPanel {
     }
 
     private void loadCourseRevenueData() {
-        try {
-            // Get the selected sort option and search text
-            String sort = String.valueOf(jComboBox1.getSelectedItem());
+    try {
+        // Get the selected sort option and search text
+        String sort = String.valueOf(jComboBox1.getSelectedItem());
 //            String searchText = jTextField1.getText().toLowerCase();
-
-            // Base query
-            String query = "SELECT \n"
-                    + "    courses.id AS course_id,\n"
-                    + "    courses.name AS course_name,\n"
-                    + "    courses.grade_level AS grade_level,\n"
-                    + "    COUNT(invoice_item.id) AS student_count,\n"
-                    + "    IFNULL(SUM(invoice.total), 0) AS total_revenue\n"
-                    + "FROM \n"
-                    + "    courses\n"
-                    + "LEFT JOIN \n"
-                    + "    class ON courses.id = class.courses_id\n"
-                    + "LEFT JOIN \n"
-                    + "    invoice_item ON invoice_item.courses_id = courses.id\n"
-                    + "LEFT JOIN \n"
-                    + "    invoice ON invoice.id = invoice_item.invoice_id\n";
-
-            // Add search filter if searchText is not empty
+        // Base query
+        String query = "SELECT \n"
+                + "    courses.id AS course_id,\n"
+                + "    courses.name AS course_name,\n"
+                + "    courses.grade_level AS grade_level,\n"
+                + "    COUNT(invoice_item.id) AS student_count,\n"
+                + "    IFNULL(SUM(invoice.total), 0) AS total_revenue\n"
+                + "FROM \n"
+                + "    courses\n"
+                + "LEFT JOIN \n"
+                + "    class ON courses.id = class.courses_id\n"
+                + "LEFT JOIN \n"
+                + "    invoice_item ON invoice_item.courses_id = courses.id\n"
+                + "LEFT JOIN \n"
+                + "    invoice ON invoice.id = invoice_item.invoice_id\n";
+        // Add search filter if searchText is not empty
 //            if (!searchText.isEmpty()) {
 //                query += "WHERE LOWER(courses.id) LIKE '%" + searchText + "%' "
 //                        + "OR LOWER(courses.name) LIKE '%" + searchText + "%' "
 //                        + "OR LOWER(courses.grade_level) LIKE '%" + searchText + "%' ";
 //            }
-
-            // Add sorting based on the selected sort option
-            if (sort.equals("No. of Students ASC")) {
-                query += "GROUP BY courses.id, courses.name, courses.grade_level ORDER BY student_count ASC";
-            } else if (sort.equals("No. of Students DESC")) {
-                query += "GROUP BY courses.id, courses.name, courses.grade_level ORDER BY student_count DESC";
-            } else if (sort.equals("Course ID ASC")) {
-                query += "GROUP BY courses.id, courses.name, courses.grade_level ORDER BY course_id ASC";
-            } else if (sort.equals("Course ID DESC")) {
-                query += "GROUP BY courses.id, courses.name, courses.grade_level ORDER BY course_id DESC";
-            } else if (sort.equals("Course Name ASC")) {
-                query += "GROUP BY courses.id, courses.name, courses.grade_level ORDER BY course_name ASC";
-            } else if (sort.equals("Course Name DESC")) {
-                query += "GROUP BY courses.id, courses.name, courses.grade_level ORDER BY course_name DESC";
-            } else if (sort.equals("Total Revenue ASC")) {
-                query += "GROUP BY courses.id, courses.name, courses.grade_level ORDER BY total_revenue ASC";
-            } else if (sort.equals("Total Revenue DESC")) {
-                query += "GROUP BY courses.id, courses.name, courses.grade_level ORDER BY total_revenue DESC";
-            }
-
-            // Execute the query
-            ResultSet rs = MySQL2.executeSearch(query);
-
-            // Clear existing rows in the table
-            DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-            model.setRowCount(0);
-
-            // Populate the table with the query results
-            while (rs.next()) {
-                Vector<Object> rowData = new Vector<>();
-                rowData.add(rs.getString("course_id"));
-                rowData.add(rs.getString("course_name"));
-                rowData.add(rs.getString("grade_level"));
-                rowData.add(rs.getString("student_count"));
-                rowData.add(rs.getString("total_revenue"));
-
-                model.addRow(rowData);
-            }
-
-            jTable1.setModel(model); // Update the table model
-        } catch (Exception ex) {
-            ex.printStackTrace();
+        // Add sorting based on the selected sort option
+        if (sort.equals("No. of Students ASC")) {
+            query += "GROUP BY courses.id, courses.name, courses.grade_level ORDER BY student_count ASC";
+        } else if (sort.equals("No. of Students DESC")) {
+            query += "GROUP BY courses.id, courses.name, courses.grade_level ORDER BY student_count DESC";
+        } else if (sort.equals("Course ID ASC")) {
+            query += "GROUP BY courses.id, courses.name, courses.grade_level ORDER BY course_id ASC";
+        } else if (sort.equals("Course ID DESC")) {
+            query += "GROUP BY courses.id, courses.name, courses.grade_level ORDER BY course_id DESC";
+        } else if (sort.equals("Course Name ASC")) {
+            query += "GROUP BY courses.id, courses.name, courses.grade_level ORDER BY course_name ASC";
+        } else if (sort.equals("Course Name DESC")) {
+            query += "GROUP BY courses.id, courses.name, courses.grade_level ORDER BY course_name DESC";
+        } else if (sort.equals("Total Revenue ASC")) {
+            query += "GROUP BY courses.id, courses.name, courses.grade_level ORDER BY total_revenue ASC";
+        } else if (sort.equals("Total Revenue DESC")) {
+            query += "GROUP BY courses.id, courses.name, courses.grade_level ORDER BY total_revenue DESC";
         }
+        // Execute the query
+        ResultSet rs = MySQL2.executeSearch(query);
+        // Clear existing rows in the table
+        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+        model.setRowCount(0);
+        // Populate the table with the query results
+        while (rs.next()) {
+            Vector<Object> rowData = new Vector<>();
+            rowData.add(rs.getString("course_id"));
+            rowData.add(rs.getString("course_name"));
+            rowData.add(rs.getString("grade_level"));
+            rowData.add(rs.getString("student_count"));
+            rowData.add("Rs. " + rs.getString("total_revenue"));
+            model.addRow(rowData);
+        }
+        jTable1.setModel(model); // Update the table model
+    } catch (Exception ex) {
+        ex.printStackTrace();
     }
+}
 
 
     /**

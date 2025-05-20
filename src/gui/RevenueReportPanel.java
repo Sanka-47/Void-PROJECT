@@ -19,13 +19,14 @@ import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.data.JRTableModelDataSource;
 import net.sf.jasperreports.view.JasperViewer;
+
 /**
  *
  * @author Rushma
  */
 public class RevenueReportPanel extends javax.swing.JPanel {
 
-  /**
+    /**
      * Creates new form RevenueReport
      */
     public RevenueReportPanel() {
@@ -33,33 +34,21 @@ public class RevenueReportPanel extends javax.swing.JPanel {
         loadRevenueData();
     }
 
-    // Import the Month enum
-// ... other code ...
     private void loadRevenueData() {
-        // Get the table model for jTable1
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
         model.setRowCount(0); // Clear existing rows
-
-        // SQL query to calculate total revenue by month and year
         String query = "SELECT MONTH(date) AS month, YEAR(date) AS year, SUM(total) AS revenue "
                 + "FROM invoice "
                 + "GROUP BY YEAR(date), MONTH(date) "
                 + "ORDER BY YEAR(date), MONTH(date)";
-
         try {
-            // Use MySQL2 class to execute the query
             ResultSet resultSet = MySQL2.executeSearch(query);
-
-            // Populate the table model with data
             while (resultSet.next()) {
                 int monthNumber = resultSet.getInt("month");
                 String monthName = Month.of(monthNumber).name(); // Convert month number to month name
                 String year = resultSet.getString("year");
-                String revenue = resultSet.getString("revenue");
-
-                // Capitalize the first letter of the month name and make the rest lowercase
+                String revenue = "Rs. " + resultSet.getString("revenue");
                 monthName = monthName.substring(0, 1).toUpperCase() + monthName.substring(1).toLowerCase();
-
                 model.addRow(new Object[]{monthName, year, revenue});
             }
         } catch (Exception e) {
@@ -67,6 +56,7 @@ public class RevenueReportPanel extends javax.swing.JPanel {
                     "Database Error", JOptionPane.ERROR_MESSAGE);
         }
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
