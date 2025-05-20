@@ -124,7 +124,7 @@ public class CourseRevenueReport extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
-        jLabel1.setText("Total Corse Revenue");
+        jLabel1.setText("Total Course Revenue");
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
