@@ -42,7 +42,7 @@ public class AddTutor extends javax.swing.JPanel {
         SwingUtilities.invokeLater(() -> jTextField1.requestFocusInWindow());
         jButton2.setEnabled(false);
         jButton4.setEnabled(false);
-        
+
     }
 
     //First Name
@@ -118,7 +118,6 @@ public class AddTutor extends javax.swing.JPanel {
         return jButton4;
     }
 
-
     private void dateChooser() {
         chDate.setTextField(jTextField7);
         chDate.setDateSelectionMode(DateChooser.DateSelectionMode.SINGLE_DATE_SELECTED);
@@ -129,7 +128,7 @@ public class AddTutor extends javax.swing.JPanel {
         chDate.addActionDateChooserListener(new DateChooserAdapter() {
         });
     }
-    
+
     void LoadCourses() {
 
         try {
@@ -447,6 +446,10 @@ public class AddTutor extends javax.swing.JPanel {
                 JOptionPane.showMessageDialog(this, "Please enter your valid nic number!", "Warning", JOptionPane.WARNING_MESSAGE);
             } else if (qualification.isEmpty()) {
                 JOptionPane.showMessageDialog(this, "Please enter your qulification  !", "Warning", JOptionPane.WARNING_MESSAGE);
+            } else if (courses.equals("Select")) {
+                JOptionPane.showMessageDialog(this, "Please enter courses type !", "Warning", JOptionPane.WARNING_MESSAGE);
+            } else if (gender.equals("Select")) {
+                JOptionPane.showMessageDialog(this, "Please enter gender type !", "Warning", JOptionPane.WARNING_MESSAGE);
             } else if (mobile.isEmpty()) {
                 JOptionPane.showMessageDialog(this, "Please enter your mobile number!", "Warning", JOptionPane.WARNING_MESSAGE);
             } else if (!mobile.matches("^07[01245678]{1}[0-9]{7}$")) {
@@ -455,10 +458,6 @@ public class AddTutor extends javax.swing.JPanel {
                 JOptionPane.showMessageDialog(this, "Please enter your Password!", "Warning", JOptionPane.WARNING_MESSAGE);
             } else if (!password.matches("^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*#?&])[A-Za-z\\d@$!%*#?&]{8,}$")) {
                 JOptionPane.showMessageDialog(this, "Please type a password with a minimum of 8 characters including a number and character !", "Warning", JOptionPane.WARNING_MESSAGE);
-            } else if (gender.equals("Select")) {
-                JOptionPane.showMessageDialog(this, "Please enter gender type !", "Warning", JOptionPane.WARNING_MESSAGE);
-            } else if (courses.equals("Select")) {
-                JOptionPane.showMessageDialog(this, "Please enter courses type !", "Warning", JOptionPane.WARNING_MESSAGE);
             } else if (email.isEmpty()) {
                 JOptionPane.showMessageDialog(this, "Please Enter Email", "Warning", JOptionPane.WARNING_MESSAGE);
             } else if (!email.matches("^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$")) {
@@ -472,19 +471,29 @@ public class AddTutor extends javax.swing.JPanel {
                 if (resultSet.next()) {
                     JOptionPane.showMessageDialog(this, "This user already registered", "Warning", JOptionPane.WARNING_MESSAGE);
                 } else {
-                    
-                    SecurePasswordFacade spf = new SecurePasswordFacade();
 
-                    MySQL2.executeIUD("INSERT INTO `tutor`(`first_name`,`last_name`,`qualification`,`contact_info`,`email`,`gender_id`,`password`,`nic`,`dob`,`registration_date`,`courses_id`)"
-                            + "VALUES('" + firstName + "','" + lastName + "','" + qualification + "','" + mobile + "','" + email + "','" + genderMap.get(gender) + "','" + spf.encryptToFile(password, 6) + "',"
-                            + "'" + nic + "','" + dob + "','" + fdate + "','" + courseMap.get(courses) + "')");
-                    JOptionPane.showMessageDialog(this, "Tutor :" + firstName + " " + lastName + " successfully added!", "Warning", JOptionPane.INFORMATION_MESSAGE);
-                    ClearAll();
-                    
-                    spf = null;
-                    
-                    AllTutors allTutors = new AllTutors(parent);
-                    parent.switchPanel(allTutors);
+                    SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd");
+                    Date parsedDate = inputFormat.parse(dob);
+                    String formattedDOB = inputFormat.format(parsedDate);
+
+                    if (parsedDate != null && parsedDate.after(date)) {
+                        JOptionPane.showMessageDialog(null, "Date of birth cannot be in the future!", "Invalid Date", JOptionPane.ERROR_MESSAGE);
+//                      jTextField6.setText(""); // Clear the invalid date
+                    } else {
+                        SecurePasswordFacade spf = new SecurePasswordFacade();
+
+                        MySQL2.executeIUD("INSERT INTO `tutor`(`first_name`,`last_name`,`qualification`,`contact_info`,`email`,`gender_id`,`password`,`nic`,`dob`,`registration_date`,`courses_id`)"
+                                + "VALUES('" + firstName + "','" + lastName + "','" + qualification + "','" + mobile + "','" + email + "','" + genderMap.get(gender) + "','" + spf.encryptToFile(password, 6) + "',"
+                                + "'" + nic + "','" + formattedDOB + "','" + fdate + "','" + courseMap.get(courses) + "')");
+                        JOptionPane.showMessageDialog(this, "Tutor :" + firstName + " " + lastName + " successfully added!", "Warning", JOptionPane.INFORMATION_MESSAGE);
+                        ClearAll();
+
+                        spf = null;
+
+                        AllTutors allTutors = new AllTutors(parent);
+                        parent.switchPanel(allTutors);
+
+                    }
 
                 }
 
@@ -571,7 +580,7 @@ public class AddTutor extends javax.swing.JPanel {
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         AllTutors allTutors = new AllTutors(parent);
-        
+
         try {
             parent.switchPanel(allTutors);
         } catch (NullPointerException e) {

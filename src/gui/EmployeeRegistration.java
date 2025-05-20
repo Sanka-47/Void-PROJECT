@@ -493,26 +493,24 @@ public class EmployeeRegistration extends javax.swing.JPanel {
                     JOptionPane.showMessageDialog(this, "This NIC number is already registered", "Warning", JOptionPane.WARNING_MESSAGE);
 //                logger.log(Level.WARNING, "NIC already registered: {0}", nic);
                 } else {
-                    
+
                     SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd");
-                                    Date parsedDate = inputFormat.parse(dob);
-                                    String formattedDOB = inputFormat.format(parsedDate);
+                    Date parsedDate = inputFormat.parse(dob);
+                    String formattedDOB = inputFormat.format(parsedDate);
 
                     if (parsedDate != null && parsedDate.after(currentDate)) {
-                        JOptionPane.showMessageDialog(null, "Date of birth cannot be in the future!",
-                                "Invalid Date", JOptionPane.ERROR_MESSAGE);
-//                        jTextField6.setText(""); // Clear the invalid date
+                        JOptionPane.showMessageDialog(null, "Date of birth cannot be in the future!","Invalid Date", JOptionPane.ERROR_MESSAGE);
                     } else {
-                        
+
                         SecurePasswordFacade spf = new SecurePasswordFacade();
 
                         int result = MySQL2.executeIUD("INSERT INTO `employee`"
                                 + "(`first_name`,`last_name`,`contact_info`,`roles_id`,`gender_id`,`password`,`nic`,`email`,`dob`,`registration_date`)"
                                 + "VALUES ('" + FirstName + "','" + LastName + "','" + Mobile + "','" + roleId + "','" + genderId + "','" + spf.encryptToFile(password, 6) + "',"
-                                + "'" + nic + "','" + email + "', '" + dob + "', '" + fdate + "')");
-                        
+                                + "'" + nic + "','" + email + "', '" + formattedDOB + "', '" + fdate + "')");
+
                         spf = null;
-                        
+
                         if (result > 0) {
                             JOptionPane.showMessageDialog(this, "Employee registration success!", "Confirmation", JOptionPane.INFORMATION_MESSAGE);
 //                    logger.log(Level.INFO, "Employee registered successfully with NIC: {0}", nic);
@@ -581,24 +579,24 @@ public class EmployeeRegistration extends javax.swing.JPanel {
                 int roleId = roleMap.get(role);
 
                 SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd");
-                                    Date parsedDate = inputFormat.parse(dob);
-                                    String formattedDOB = inputFormat.format(parsedDate);
+                Date parsedDate = inputFormat.parse(dob);
+                String formattedDOB = inputFormat.format(parsedDate);
 
-                    if (parsedDate != null && parsedDate.after(currentDate)) {
-                        JOptionPane.showMessageDialog(null, "Date of birth cannot be in the future!",
-                                "Invalid Date", JOptionPane.ERROR_MESSAGE);
+                if (parsedDate != null && parsedDate.after(currentDate)) {
+                    JOptionPane.showMessageDialog(null, "Date of birth cannot be in the future!",
+                            "Invalid Date", JOptionPane.ERROR_MESSAGE);
 //                        jTextField6.setText(""); // Clear the invalid date
-                    } else {
-                MySQL2.executeIUD("UPDATE `employee` SET `first_name` = '" + FirstName + "', `last_name` = '" + LastName + "', "
-                        + "`contact_info` = '" + Mobile + "', `email` = '" + email + "', `roles_id` = '" + roleId + "', "
-                        + "`gender_id` = '" + genderId + "', `dob` = '" + dob + "' WHERE `nic` = '" + nic + "'");
+                } else {
+                    MySQL2.executeIUD("UPDATE `employee` SET `first_name` = '" + FirstName + "', `last_name` = '" + LastName + "', "
+                            + "`contact_info` = '" + Mobile + "', `email` = '" + email + "', `roles_id` = '" + roleId + "', "
+                            + "`gender_id` = '" + genderId + "', `dob` = '" + dob + "' WHERE `nic` = '" + nic + "'");
 //                
 
-                JOptionPane.showMessageDialog(this, "Successfully Updated!", "Confirmation", JOptionPane.INFORMATION_MESSAGE);
-                clearAll();
-                jButton4.setEnabled(true);
-                
-                    }
+                    JOptionPane.showMessageDialog(this, "Successfully Updated!", "Confirmation", JOptionPane.INFORMATION_MESSAGE);
+                    clearAll();
+                    jButton4.setEnabled(true);
+
+                }
 
             } catch (Exception e) {
 //            logger.log(Level.SEVERE, "Error occurred during employee update for NIC: " + nic, e);

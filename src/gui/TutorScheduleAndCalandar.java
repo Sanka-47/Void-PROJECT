@@ -1092,7 +1092,7 @@ public class TutorScheduleAndCalandar extends javax.swing.JPanel {
                 String formattedDate = inputFormat.format(parsedDate);
                 System.out.println(formattedDate);
 
-                if (parsedDate != null && parsedDate.after(currentDate)) {
+                if (parsedDate != null && parsedDate.before(currentDate)) {
                     JOptionPane.showMessageDialog((AdminDashboard) parent, "Please select a future date!", "Warning!", JOptionPane.ERROR_MESSAGE);
                 } else {
                     
