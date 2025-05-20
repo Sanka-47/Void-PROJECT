@@ -1037,13 +1037,15 @@ public class TutorScheduleAndCalandar extends javax.swing.JPanel {
         String hallnumber = jTextField3.getText();
         String price = jFormattedTextField3.getText();
 
+        Date currentDate = new Date();
+
         // 1) Parse the user input (dd-MM-yyyy)
-        DateTimeFormatter inputFmt = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-        LocalDate localDate = LocalDate.parse(dateString, inputFmt);   // ← parsed OK
+//        DateTimeFormatter inputFmt = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+//        LocalDate localDate = LocalDate.parse(dateString, inputFmt);   // ← parsed OK
 
         // 2) Re-format to ISO for the DB (yyyy-MM-dd)
-        DateTimeFormatter dbFmt = DateTimeFormatter.ISO_LOCAL_DATE;       // same as "yyyy-MM-dd"
-        String isoDateString = localDate.format(dbFmt);                // e.g. "2025-05-17"
+//        DateTimeFormatter dbFmt = DateTimeFormatter.ISO_LOCAL_DATE;       // same as "yyyy-MM-dd"
+//        String isoDateString = localDate.format(dbFmt);                // e.g. "2025-05-17"
 
         // Regex for 24-hour time format (e.g., 12.00, 14.00)
         String timeRegex = "^([01]?\\d|2[0-3])\\.\\d{2}$";
@@ -1074,90 +1076,99 @@ public class TutorScheduleAndCalandar extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(this, "Please enter a Date!", "Warning", JOptionPane.WARNING_MESSAGE);
             return;
 //        } else if (LocalDate.parse(dateString, DateTimeFormatter.ofPattern("yyyy-MM-dd")).isBefore(LocalDate.now())) {
-        } else if (LocalDate.parse(dateString, DateTimeFormatter.ofPattern("dd-MM-yyyy")).isBefore(LocalDate.now())) {
-            JOptionPane.showMessageDialog(this, "Please enter a future Date!", "Warning", JOptionPane.WARNING_MESSAGE);
-            return;
-        } else if (price.isEmpty()) {
+        } 
+//        else if (LocalDate.parse(dateString, DateTimeFormatter.ofPattern("dd-MM-yyyy")).isBefore(LocalDate.now())) {
+//            JOptionPane.showMessageDialog(this, "Please enter a future Date!", "Warning", JOptionPane.WARNING_MESSAGE);
+//            return;
+//        } 
+        else if (price.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Please enter the Amount!", "Warning", JOptionPane.WARNING_MESSAGE);
             return;
         } else {
             try {
                 // Parse and validate the date
-//                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-                SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
-                Date date = dateFormat.parse(dateString);
+                SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd");
+                Date parsedDate = inputFormat.parse(dateString);
+                String formattedDate = inputFormat.format(parsedDate);
+                System.out.println(formattedDate);
 
-                // Parse the start and end times
-                SimpleDateFormat timeFormat = new SimpleDateFormat("HH.mm");
-                Date startTimeDate = timeFormat.parse(startTime);
-                Date endTimeDate = timeFormat.parse(endTime);
-
-                // Check if the duration is within 10 hours
-                long durationInMillis = endTimeDate.getTime() - startTimeDate.getTime();
-                if (durationInMillis < 0) {
-                    durationInMillis += 24 * 60 * 60 * 1000; // Handle overnight sessions
-                }
-                long durationInHours = durationInMillis / (60 * 60 * 1000);
-                if (durationInHours > 10) {
-                    JOptionPane.showMessageDialog(this, "The session duration cannot exceed 10 hours!", "Warning", JOptionPane.WARNING_MESSAGE);
-                    return;
-                }
-
-                // Convert times to AM/PM format for database
-                SimpleDateFormat amPmFormat = new SimpleDateFormat("hh.mm a");
-                String startTimeAmPm = amPmFormat.format(startTimeDate);
-                String endTimeAmPm = amPmFormat.format(endTimeDate);
-
-                // Fetch tutor details from the database
-                ResultSet resultSet1 = MySQL2.executeSearch("SELECT `id` FROM `tutor` WHERE `id` = '" + tutorMap.get(tName) + "'");
-
-                if (resultSet1.next()) {
-
-                    // Get the status ID for "Pending" (assuming it's 1)
-                    int pendingStatusID = 1; // Adjust this if your "Pending" status ID is different
-
-                    // Check for time conflicts
-                    String query = "SELECT * FROM `class` WHERE `tutor_id` = '" + tutorMap.get(tName) + "' AND `date` = '" + isoDateString + "' "
-                            + "AND ((`start_time` <= '" + startTimeAmPm + "' AND `end_time` > '" + startTimeAmPm + "') "
-                            + "OR (`start_time` < '" + endTimeAmPm + "' AND `end_time` >= '" + endTimeAmPm + "') "
-                            + "OR (`start_time` >= '" + startTimeAmPm + "' AND `end_time` <= '" + endTimeAmPm + "'))";
-
-                    ResultSet conflictCheck = MySQL2.executeSearch(query);
-
-                    if (conflictCheck.next()) {
-                        JOptionPane.showMessageDialog(this, "This tutor is already scheduled for another session during this time slot. Please choose a different time.", "Warning", JOptionPane.WARNING_MESSAGE);
-                        return;
-                    }
-
-                    // Check for hall conflicts
-                    String hallQuery = "SELECT * FROM `class` WHERE `hallnumber` = '" + hallnumber + "' AND `date` = '" + isoDateString + "' "
-                            + "AND ((`start_time` <= '" + startTimeAmPm + "' AND `end_time` > '" + startTimeAmPm + "') "
-                            + "OR (`start_time` < '" + endTimeAmPm + "' AND `end_time` >= '" + endTimeAmPm + "') "
-                            + "OR (`start_time` >= '" + startTimeAmPm + "' AND `end_time` <= '" + endTimeAmPm + "'))";
-
-                    ResultSet hallConflictCheck = MySQL2.executeSearch(hallQuery);
-
-                    if (hallConflictCheck.next()) {
-                        JOptionPane.showMessageDialog(this, "The selected hall is already booked during this time slot. Please choose a different location or time.", "Warning", JOptionPane.WARNING_MESSAGE);
-                        return;
-                    }
-
-                    // Insert data into the database with the "Pending" status ID
-                    MySQL2.executeIUD("INSERT INTO `class` (`id`, `name`, `date`, `start_time`, `end_time`, `hallnumber`, `amount`, `tutor_id`, `courses_id`, `class_status_id`) "
-                            + "VALUES ('" + sessionID + "', '" + className + "', '" + isoDateString + "', '" + startTimeAmPm + "', '" + endTimeAmPm + "', '" + hallnumber + "', '" + price + "', "
-                            + "'" + tutorMap.get(tName) + "', '" + courseMap.get(course) + "', '" + pendingStatusID + "')");
-
-                    if (rowData != null && !rowData.isEmpty()) {
-                        MySQL2.executeIUD("UPDATE `request_sessions` SET `approve_status` = 'Approved' WHERE `id` = '" + rowData.get(0) + "'");
-                    }
-
-                    JOptionPane.showMessageDialog(this, "Class added successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
-                    reset();
-                    loadSessions("", "");
-
+                if (parsedDate != null && parsedDate.after(currentDate)) {
+                    JOptionPane.showMessageDialog((AdminDashboard) parent, "Please select a future date!", "Warning!", JOptionPane.ERROR_MESSAGE);
                 } else {
-                    JOptionPane.showMessageDialog(this, "The tutor's ID does not match the record in the system. Please check the tutor information and try again.", "Warning", JOptionPane.WARNING_MESSAGE);
+                    
+                    // Parse the start and end times
+                    SimpleDateFormat timeFormat = new SimpleDateFormat("HH.mm");
+                    Date startTimeDate = timeFormat.parse(startTime);
+                    Date endTimeDate = timeFormat.parse(endTime);
+
+                    // Check if the duration is within 10 hours
+                    long durationInMillis = endTimeDate.getTime() - startTimeDate.getTime();
+                    if (durationInMillis < 0) {
+                        durationInMillis += 24 * 60 * 60 * 1000; // Handle overnight sessions
+                    }
+                    long durationInHours = durationInMillis / (60 * 60 * 1000);
+                    if (durationInHours > 10) {
+                        JOptionPane.showMessageDialog(this, "The session duration cannot exceed 10 hours!", "Warning", JOptionPane.WARNING_MESSAGE);
+                        return;
+                    }
+
+                    // Convert times to AM/PM format for database
+                    SimpleDateFormat amPmFormat = new SimpleDateFormat("hh.mm a");
+                    String startTimeAmPm = amPmFormat.format(startTimeDate);
+                    String endTimeAmPm = amPmFormat.format(endTimeDate);
+
+                    // Fetch tutor details from the database
+                    ResultSet resultSet1 = MySQL2.executeSearch("SELECT `id` FROM `tutor` WHERE `id` = '" + tutorMap.get(tName) + "'");
+
+                    if (resultSet1.next()) {
+
+                        // Get the status ID for "Pending" (assuming it's 1)
+                        int pendingStatusID = 1; // Adjust this if your "Pending" status ID is different
+
+                        // Check for time conflicts
+                        String query = "SELECT * FROM `class` WHERE `tutor_id` = '" + tutorMap.get(tName) + "' AND `date` = '" + formattedDate + "' "
+                                + "AND ((`start_time` <= '" + startTimeAmPm + "' AND `end_time` > '" + startTimeAmPm + "') "
+                                + "OR (`start_time` < '" + endTimeAmPm + "' AND `end_time` >= '" + endTimeAmPm + "') "
+                                + "OR (`start_time` >= '" + startTimeAmPm + "' AND `end_time` <= '" + endTimeAmPm + "'))";
+
+                        ResultSet conflictCheck = MySQL2.executeSearch(query);
+
+                        if (conflictCheck.next()) {
+                            JOptionPane.showMessageDialog(this, "This tutor is already scheduled for another session during this time slot. Please choose a different time.", "Warning", JOptionPane.WARNING_MESSAGE);
+                            return;
+                        }
+
+                        // Check for hall conflicts
+                        String hallQuery = "SELECT * FROM `class` WHERE `hallnumber` = '" + hallnumber + "' AND `date` = '" + formattedDate + "' "
+                                + "AND ((`start_time` <= '" + startTimeAmPm + "' AND `end_time` > '" + startTimeAmPm + "') "
+                                + "OR (`start_time` < '" + endTimeAmPm + "' AND `end_time` >= '" + endTimeAmPm + "') "
+                                + "OR (`start_time` >= '" + startTimeAmPm + "' AND `end_time` <= '" + endTimeAmPm + "'))";
+
+                        ResultSet hallConflictCheck = MySQL2.executeSearch(hallQuery);
+
+                        if (hallConflictCheck.next()) {
+                            JOptionPane.showMessageDialog(this, "The selected hall is already booked during this time slot. Please choose a different location or time.", "Warning", JOptionPane.WARNING_MESSAGE);
+                            return;
+                        }
+
+                        // Insert data into the database with the "Pending" status ID
+                        MySQL2.executeIUD("INSERT INTO `class` (`id`, `name`, `date`, `start_time`, `end_time`, `hallnumber`, `amount`, `tutor_id`, `courses_id`, `class_status_id`) "
+                                + "VALUES ('" + sessionID + "', '" + className + "', '" + formattedDate + "', '" + startTimeAmPm + "', '" + endTimeAmPm + "', '" + hallnumber + "', '" + price + "', "
+                                + "'" + tutorMap.get(tName) + "', '" + courseMap.get(course) + "', '" + pendingStatusID + "')");
+
+                        if (rowData != null && !rowData.isEmpty()) {
+                            MySQL2.executeIUD("UPDATE `request_sessions` SET `approve_status` = 'Approved' WHERE `id` = '" + rowData.get(0) + "'");
+                        }
+
+                        JOptionPane.showMessageDialog(this, "Class added successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
+                        reset();
+                        loadSessions("", "");
+
+                    } else {
+                        JOptionPane.showMessageDialog(this, "The tutor's ID does not match the record in the system. Please check the tutor information and try again.", "Warning", JOptionPane.WARNING_MESSAGE);
+                    }
                 }
+
             } catch (Exception e) {
                 e.printStackTrace();
             }

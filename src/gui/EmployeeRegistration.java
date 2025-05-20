@@ -22,6 +22,7 @@ import javax.swing.JLabel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
+import model.SecurePasswordFacade;
 
 /**
  *
@@ -502,12 +503,16 @@ public class EmployeeRegistration extends javax.swing.JPanel {
                                 "Invalid Date", JOptionPane.ERROR_MESSAGE);
 //                        jTextField6.setText(""); // Clear the invalid date
                     } else {
+                        
+                        SecurePasswordFacade spf = new SecurePasswordFacade();
 
                         int result = MySQL2.executeIUD("INSERT INTO `employee`"
                                 + "(`first_name`,`last_name`,`contact_info`,`roles_id`,`gender_id`,`password`,`nic`,`email`,`dob`,`registration_date`)"
-                                + "VALUES ('" + FirstName + "','" + LastName + "','" + Mobile + "','" + roleId + "','" + genderId + "','" + password + "',"
+                                + "VALUES ('" + FirstName + "','" + LastName + "','" + Mobile + "','" + roleId + "','" + genderId + "','" + spf.encryptToFile(password, 6) + "',"
                                 + "'" + nic + "','" + email + "', '" + dob + "', '" + fdate + "')");
-
+                        
+                        spf = null;
+                        
                         if (result > 0) {
                             JOptionPane.showMessageDialog(this, "Employee registration success!", "Confirmation", JOptionPane.INFORMATION_MESSAGE);
 //                    logger.log(Level.INFO, "Employee registered successfully with NIC: {0}", nic);

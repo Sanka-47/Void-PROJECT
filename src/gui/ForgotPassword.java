@@ -12,6 +12,7 @@ import javax.mail.internet.MimeMessage;
 import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 import model.MySQL2;
+import model.SecurePasswordFacade;
 
 public class ForgotPassword extends javax.swing.JDialog {
 
@@ -180,7 +181,7 @@ public class ForgotPassword extends javax.swing.JDialog {
                 message.addRecipient(RecipientType.TO, new InternetAddress(email));
                 message.saveChanges();
                 Transport transport = session.getTransport("smtp");
-                transport.connect("smtp.gmail.com", "", "gafakwcqltwnspow"); // Add my email address
+                transport.connect("smtp.gmail.com", "", "nprb ztii ypcf opnx"); // Add my email address
                 transport.sendMessage(message, message.getAllRecipients());
                 transport.close();
                 JOptionPane.showMessageDialog(this, "Code sent, please check your email!", "Warning", JOptionPane.INFORMATION_MESSAGE);
@@ -218,12 +219,14 @@ public class ForgotPassword extends javax.swing.JDialog {
         } else {
 
             try {
+                
+                SecurePasswordFacade spf = new SecurePasswordFacade();
 
                 if (x == 1 || x == 2) {
-                    MySQL2.executeIUD("UPDATE `employee` SET `password` = '" + password + "' WHERE `email` = '" + email + "'");
+                    MySQL2.executeIUD("UPDATE `employee` SET `password` = '" + spf.encryptToFile(password, 6) + "' WHERE `email` = '" + email + "'");
                     JOptionPane.showMessageDialog(this, "Successfully Updated!", "Confirmation", JOptionPane.INFORMATION_MESSAGE);
                 } else if (x == 3) {
-                    MySQL2.executeIUD("UPDATE `tutor` SET `password` = '" + password + "' WHERE `email` = '" + email + "'");
+                    MySQL2.executeIUD("UPDATE `tutor` SET `password` = '" + spf.encryptToFile(password, 6) + "' WHERE `email` = '" + email + "'");
                     JOptionPane.showMessageDialog(this, "Successfully Updated!", "Confirmation", JOptionPane.INFORMATION_MESSAGE);
                     
                 }

@@ -23,6 +23,7 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 import model.MySQL2;
+import model.SecurePasswordFacade;
 
 public class AddTutor extends javax.swing.JPanel {
 
@@ -471,12 +472,17 @@ public class AddTutor extends javax.swing.JPanel {
                 if (resultSet.next()) {
                     JOptionPane.showMessageDialog(this, "This user already registered", "Warning", JOptionPane.WARNING_MESSAGE);
                 } else {
+                    
+                    SecurePasswordFacade spf = new SecurePasswordFacade();
 
                     MySQL2.executeIUD("INSERT INTO `tutor`(`first_name`,`last_name`,`qualification`,`contact_info`,`email`,`gender_id`,`password`,`nic`,`dob`,`registration_date`,`courses_id`)"
-                            + "VALUES('" + firstName + "','" + lastName + "','" + qualification + "','" + mobile + "','" + email + "','" + genderMap.get(gender) + "','" + password + "',"
+                            + "VALUES('" + firstName + "','" + lastName + "','" + qualification + "','" + mobile + "','" + email + "','" + genderMap.get(gender) + "','" + spf.encryptToFile(password, 6) + "',"
                             + "'" + nic + "','" + dob + "','" + fdate + "','" + courseMap.get(courses) + "')");
                     JOptionPane.showMessageDialog(this, "Tutor :" + firstName + " " + lastName + " successfully added!", "Warning", JOptionPane.INFORMATION_MESSAGE);
                     ClearAll();
+                    
+                    spf = null;
+                    
                     AllTutors allTutors = new AllTutors(parent);
                     parent.switchPanel(allTutors);
 
