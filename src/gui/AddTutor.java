@@ -476,10 +476,25 @@ public class AddTutor extends javax.swing.JPanel {
                     Date parsedDate = inputFormat.parse(dob);
                     String formattedDOB = inputFormat.format(parsedDate);
 
+                    // Calculate age
+                    Calendar dobCal = Calendar.getInstance();
+                    dobCal.setTime(parsedDate);
+
+                    Calendar today = Calendar.getInstance();
+
+                    int age = today.get(Calendar.YEAR) - dobCal.get(Calendar.YEAR);
+
                     if (parsedDate != null && parsedDate.after(date)) {
                         JOptionPane.showMessageDialog(null, "Date of birth cannot be in the future!", "Invalid Date", JOptionPane.ERROR_MESSAGE);
 //                      jTextField6.setText(""); // Clear the invalid date
+                    // Adjust if birthday hasn't occurred this year yet
+                    } else if (today.get(Calendar.DAY_OF_YEAR) < dobCal.get(Calendar.DAY_OF_YEAR)) {
+                        age--;
+                    } else if (age < 18 || age > 60) {
+                    // Check age limit (e.g., 18 to 60)
+                        JOptionPane.showMessageDialog(null, "Age must be between 18 and 60 years.", "Invalid Age", JOptionPane.WARNING_MESSAGE);
                     } else {
+                        JOptionPane.showMessageDialog(null, "Age is valid: " + age + " years.");
                         SecurePasswordFacade spf = new SecurePasswordFacade();
 
                         MySQL2.executeIUD("INSERT INTO `tutor`(`first_name`,`last_name`,`qualification`,`contact_info`,`email`,`gender_id`,`password`,`nic`,`dob`,`registration_date`,`courses_id`)"
