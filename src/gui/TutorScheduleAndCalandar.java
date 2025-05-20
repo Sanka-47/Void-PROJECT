@@ -71,12 +71,16 @@ public class TutorScheduleAndCalandar extends javax.swing.JPanel {
         jTextField1.setEditable(false);
     }
 
+// Overloaded constructor with new parameters
     public TutorScheduleAndCalandar(DashboardInterface parent, Vector<String> rowData) {
-        this(parent); 
+        this(parent); // Call the original constructor
+        // Use the additional data
         System.out.println("row data" + rowData);
         if (!rowData.isEmpty()) {
             this.rowData = rowData;
             populateFields(rowData);
+            // Example: Set data to components
+//            someLabel.setText("Selected Data: " + rowData.get(0)); // Example for first column data
         }
     }
 
@@ -99,20 +103,22 @@ public class TutorScheduleAndCalandar extends javax.swing.JPanel {
     }
 
     private void SessionDateChooser() {
-        sessionChDate.setTextField(jTextField6); 
-        sessionChDate.setDateSelectionMode(DateChooser.DateSelectionMode.SINGLE_DATE_SELECTED); 
+        sessionChDate.setTextField(jTextField6); // Set jTextField6 for date input
+        sessionChDate.setDateSelectionMode(DateChooser.DateSelectionMode.SINGLE_DATE_SELECTED); // Single date selection for session
         sessionChDate.setLabelCurrentDayVisible(false);
         sessionChDate.setForeground(Color.black);
         sessionChDate.setBackground(Color.white);
-        sessionChDate.setDateFormat(new SimpleDateFormat("yyyy-MM-dd")); 
+        sessionChDate.setDateFormat(new SimpleDateFormat("yyyy-MM-dd")); // Ensure the format matches yyyy-MM-dd
 
         sessionChDate.addActionDateChooserListener(new DateChooserAdapter() {
 
             public void dateSelected(Date date, DateChooserAction action) {
                 try {
+                    // Format the selected date
                     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
                     String formattedDate = dateFormat.format(date);
 
+                    // Set the formatted date to the text field
                     jTextField6.setText(formattedDate);
 
                 } catch (Exception e) {
@@ -131,8 +137,10 @@ public class TutorScheduleAndCalandar extends javax.swing.JPanel {
         chDate.setBackground(Color.white);
         chDate.setDateFormat(new SimpleDateFormat("yyyy-MM-dd"));
 
+        // Add listener to sync Raven DateChooser with JDateChooser
         chDate.addActionDateChooserListener(new DateChooserAdapter() {
             public void dateSelected(Date date, DateChooserAction action) {
+                // Update the JDateChooser with the selected date
                 jDateChooser.setDate(date);
             }
         });
@@ -140,21 +148,22 @@ public class TutorScheduleAndCalandar extends javax.swing.JPanel {
 
     // Initialization Code (e.g., in the constructor or initialization method)
     private void initializePlaceholder() {
-        jTextField4.setText("ID, Title, or Class Status"); 
-        jTextField4.setForeground(Color.GRAY); 
+        jTextField4.setText("ID, Title, or Class Status"); // Set default placeholder text
+        jTextField4.setForeground(Color.GRAY); // Set placeholder text color
 
         jTextField4.addFocusListener(new java.awt.event.FocusAdapter() {
             @Override
             public void focusGained(java.awt.event.FocusEvent evt) {
                 if (jTextField4.getText().equals("ID, Title, or Class Status")) {
-                    jTextField4.setText("");
-                    jTextField4.setForeground(Color.BLACK);
+                    jTextField4.setText(""); // Clear placeholder text
+                    jTextField4.setForeground(Color.BLACK); // Set text color for user input
                 }
             }
 
             @Override
             public void focusLost(java.awt.event.FocusEvent evt) {
                 if (jTextField4.getText().trim().isEmpty()) {
+                    // Reset placeholder text only if the field is empty
                     jTextField4.setText("ID, Title, or Class Status");
                     jTextField4.setForeground(Color.GRAY); // Reset placeholder text color
                 } else {
@@ -1083,7 +1092,7 @@ public class TutorScheduleAndCalandar extends javax.swing.JPanel {
                 String formattedDate = inputFormat.format(parsedDate);
                 System.out.println(formattedDate);
 
-                if (parsedDate != null && parsedDate.after(currentDate)) {
+                if (parsedDate != null && parsedDate.before(currentDate)) {
                     JOptionPane.showMessageDialog((AdminDashboard) parent, "Please select a future date!", "Warning!", JOptionPane.ERROR_MESSAGE);
                 } else {
                     

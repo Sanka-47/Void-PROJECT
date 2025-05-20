@@ -11,6 +11,7 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import model.MySQL2;
+import model.SecurePasswordFacade;
 
 /**
  *
@@ -430,13 +431,16 @@ public class EmployeeProfile extends javax.swing.JPanel {
                 }
 
                 if (canUpdate) {
+                    
+                    SecurePasswordFacade spf = new SecurePasswordFacade();
 
                     Integer integer = MySQL2.executeIUD("UPDATE `employee` SET `first_name` = '" + FirstName + "', `last_name` = '" + LastName + "', "
                         + "`contact_info` = '" + Mobile + "', `email` = '" + email + "', `roles_id` = '" + roleId + "', "
-                        + "`gender_id` = '" + genderId + "', `password` = '" + password + "' WHERE `nic` = '" + nic + "'");
+                        + "`gender_id` = '" + genderId + "', `password` = '" + spf.encryptToFile(password, 6) + "' WHERE `nic` = '" + nic + "'");
 
                     JOptionPane.showMessageDialog(this, "Successfully Updated!", "Confirmation", JOptionPane.INFORMATION_MESSAGE);
                     //            logger.log(Level.INFO, "Employee updated successfully for NIC: {0}", nic);
+                    spf = null;
                 }
 
             } catch (Exception e) {
