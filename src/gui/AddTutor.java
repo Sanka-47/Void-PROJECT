@@ -7,8 +7,10 @@ import com.raven.datechooser.listener.DateChooserAction;
 import com.raven.datechooser.listener.DateChooserAdapter;
 import com.toedter.calendar.JDateChooser;
 import java.awt.Color;
+import java.awt.Component;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -432,6 +434,17 @@ public class AddTutor extends javax.swing.JPanel {
 
         try {
 
+            Date parsedDate = dateFormat.parse(dob);
+            String formattedDOB = dateFormat.format(parsedDate);
+
+            // Calculate age
+            Calendar dobCal = Calendar.getInstance();
+            dobCal.setTime(parsedDate);
+
+            Calendar today = Calendar.getInstance();
+
+            int age = today.get(Calendar.YEAR) - dobCal.get(Calendar.YEAR);
+
             if (firstName.isEmpty()) {
                 JOptionPane.showMessageDialog(this, "Please enter your first name!", "Warning", JOptionPane.WARNING_MESSAGE);
             } else if (!firstName.matches("^[A-Za-z]+( [A-Za-z]+)?$")) {
@@ -464,7 +477,17 @@ public class AddTutor extends javax.swing.JPanel {
                 JOptionPane.showMessageDialog(this, "Please Enter Valid Email", "Warning", JOptionPane.WARNING_MESSAGE);
             } else if (dob == null) {
                 JOptionPane.showMessageDialog(this, "Please enter the date of birth!", "Warning", JOptionPane.WARNING_MESSAGE);
+            } else if (parsedDate != null && parsedDate.after(date)) {
+                JOptionPane.showMessageDialog((Component) parent, "Date of birth cannot be in the future!", "Invalid Date", JOptionPane.ERROR_MESSAGE);
+//                      jTextField6.setText(""); // Clear the invalid date
+                // Adjust if birthday hasn't occurred this year yet
+            } else if (today.get(Calendar.DAY_OF_YEAR) < dobCal.get(Calendar.DAY_OF_YEAR)) {
+                age--;
+            } else if (age < 18 || age > 60) {
+                // Check age limit (e.g., 18 to 60)
+                JOptionPane.showMessageDialog((Component) parent, "Age must be between 18 and 60 years.", "Invalid Age", JOptionPane.WARNING_MESSAGE);
             } else {
+                JOptionPane.showMessageDialog(null, "Age is valid: " + age + " years.");
 
                 ResultSet resultSet = MySQL2.executeSearch("SELECT * FROM `tutor` WHERE  `nic` = '" + nic + "' AND `contact_info` = '" + mobile + "'");
 
@@ -472,49 +495,26 @@ public class AddTutor extends javax.swing.JPanel {
                     JOptionPane.showMessageDialog(this, "This user already registered", "Warning", JOptionPane.WARNING_MESSAGE);
                 } else {
 
-                    SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd");
-                    Date parsedDate = inputFormat.parse(dob);
-                    String formattedDOB = inputFormat.format(parsedDate);
+                    SecurePasswordFacade spf = new SecurePasswordFacade();
 
-                    // Calculate age
-                    Calendar dobCal = Calendar.getInstance();
-                    dobCal.setTime(parsedDate);
+                    MySQL2.executeIUD("INSERT INTO `tutor`(`first_name`,`last_name`,`qualification`,`contact_info`,`email`,`gender_id`,`password`,`nic`,`dob`,`registration_date`,`courses_id`)"
+                            + "VALUES('" + firstName + "','" + lastName + "','" + qualification + "','" + mobile + "','" + email + "','" + genderMap.get(gender) + "','" + spf.encryptToFile(password, 6) + "',"
+                            + "'" + nic + "','" + formattedDOB + "','" + fdate + "','" + courseMap.get(courses) + "')");
+                    JOptionPane.showMessageDialog(this, "Tutor :" + firstName + " " + lastName + " successfully added!", "Warning", JOptionPane.INFORMATION_MESSAGE);
+                    ClearAll();
 
-                    Calendar today = Calendar.getInstance();
+                    spf = null;
 
-                    int age = today.get(Calendar.YEAR) - dobCal.get(Calendar.YEAR);
-
-                    if (parsedDate != null && parsedDate.after(date)) {
-                        JOptionPane.showMessageDialog(null, "Date of birth cannot be in the future!", "Invalid Date", JOptionPane.ERROR_MESSAGE);
-//                      jTextField6.setText(""); // Clear the invalid date
-                    // Adjust if birthday hasn't occurred this year yet
-                    } else if (today.get(Calendar.DAY_OF_YEAR) < dobCal.get(Calendar.DAY_OF_YEAR)) {
-                        age--;
-                    } else if (age < 18 || age > 60) {
-                    // Check age limit (e.g., 18 to 60)
-                        JOptionPane.showMessageDialog(null, "Age must be between 18 and 60 years.", "Invalid Age", JOptionPane.WARNING_MESSAGE);
-                    } else {
-                        JOptionPane.showMessageDialog(null, "Age is valid: " + age + " years.");
-                        SecurePasswordFacade spf = new SecurePasswordFacade();
-
-                        MySQL2.executeIUD("INSERT INTO `tutor`(`first_name`,`last_name`,`qualification`,`contact_info`,`email`,`gender_id`,`password`,`nic`,`dob`,`registration_date`,`courses_id`)"
-                                + "VALUES('" + firstName + "','" + lastName + "','" + qualification + "','" + mobile + "','" + email + "','" + genderMap.get(gender) + "','" + spf.encryptToFile(password, 6) + "',"
-                                + "'" + nic + "','" + formattedDOB + "','" + fdate + "','" + courseMap.get(courses) + "')");
-                        JOptionPane.showMessageDialog(this, "Tutor :" + firstName + " " + lastName + " successfully added!", "Warning", JOptionPane.INFORMATION_MESSAGE);
-                        ClearAll();
-
-                        spf = null;
-
-                        AllTutors allTutors = new AllTutors(parent);
-                        parent.switchPanel(allTutors);
-
-                    }
+                    AllTutors allTutors = new AllTutors(parent);
+                    parent.switchPanel(allTutors);
 
                 }
 
             }
 
         } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (ParseException e) {
             e.printStackTrace();
         } catch (Exception e) {
             e.printStackTrace();
@@ -574,6 +574,30 @@ public class AddTutor extends javax.swing.JPanel {
             } else if (dob == null) {
                 JOptionPane.showMessageDialog(this, "Please enter the date of birth!", "Warning", JOptionPane.WARNING_MESSAGE);
             } else {
+
+                SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd");
+                Date parsedDate = inputFormat.parse(dob);
+                String formattedDOB = inputFormat.format(parsedDate);
+
+                // Calculate age
+                Calendar dobCal = Calendar.getInstance();
+                dobCal.setTime(parsedDate);
+
+                Calendar today = Calendar.getInstance();
+
+                int age = today.get(Calendar.YEAR) - dobCal.get(Calendar.YEAR);
+
+                if (parsedDate != null && parsedDate.after(date)) {
+                    JOptionPane.showMessageDialog((Component) parent, "Date of birth cannot be in the future!", "Invalid Date", JOptionPane.ERROR_MESSAGE);
+//                      jTextField6.setText(""); // Clear the invalid date
+                    // Adjust if birthday hasn't occurred this year yet
+                } else if (today.get(Calendar.DAY_OF_YEAR) < dobCal.get(Calendar.DAY_OF_YEAR)) {
+                    age--;
+                } else if (age < 18 || age > 60) {
+                    // Check age limit (e.g., 18 to 60)
+                    JOptionPane.showMessageDialog((Component) parent, "Age must be between 18 and 60 years.", "Invalid Age", JOptionPane.WARNING_MESSAGE);
+                }
+
                 MySQL2.executeIUD("UPDATE `tutor` SET `first_name` = '" + firstName + "', `last_name` = '" + lastName + "', `qualification` = '" + qualification + "', "
                         + "`contact_info` = '" + mobile + "',`email` = '" + email + "',`gender_id` = '" + genderMap.get(gender) + "', `courses_id` = '" + courseMap.get(courses) + "', "
                         + "`dob` = '" + dob + "' WHERE `nic` = '" + nic + "'");
@@ -583,6 +607,8 @@ public class AddTutor extends javax.swing.JPanel {
             }
 
         } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (ParseException e) {
             e.printStackTrace();
         } catch (Exception e) {
             e.printStackTrace();
