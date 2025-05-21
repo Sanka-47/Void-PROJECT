@@ -22,6 +22,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class TutorClassList extends javax.swing.JPanel {
+
     private static final Logger logger = LogManager.getLogger(TutorClassList.class);
 
     private DateChooser chDate = new DateChooser();
@@ -93,10 +94,35 @@ public class TutorClassList extends javax.swing.JPanel {
     }
 
     private void loadTable(String from, String to) {
+
+        String placeholder = "Class ID, Class Name, Hall Number, Course Name, Class Status";
+        searchInputField.setText(placeholder);
+        searchInputField.setForeground(Color.GRAY);
+
+        searchInputField.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                if (searchInputField.getText().equals(placeholder)) {
+                    searchInputField.setText("");
+                    searchInputField.setForeground(Color.BLACK);
+                }
+            }
+
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                if (searchInputField.getText().trim().isEmpty()) {
+                    searchInputField.setText(placeholder);
+                    searchInputField.setForeground(Color.GRAY);
+                }
+            }
+        });
+
         String TID = String.valueOf(tutorId);
 
         try {
+
             String searchText = searchInputField.getText().toLowerCase();
+            if (searchText.equals(placeholder.toLowerCase())) {
+                searchText = ""; // Ignore placeholder in search
+            }
 
             String startTime = startTimeInputField.getText();
 
@@ -355,6 +381,11 @@ public class TutorClassList extends javax.swing.JPanel {
         jLabel6.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
         jLabel6.setText("Search");
 
+        searchInputField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                searchInputFieldActionPerformed(evt);
+            }
+        });
         searchInputField.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 searchInputFieldKeyReleased(evt);
@@ -672,6 +703,10 @@ public class TutorClassList extends javax.swing.JPanel {
     private void startTimeInputFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startTimeInputFieldActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_startTimeInputFieldActionPerformed
+
+    private void searchInputFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchInputFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_searchInputFieldActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

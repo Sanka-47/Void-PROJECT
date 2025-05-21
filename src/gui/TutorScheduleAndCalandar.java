@@ -1074,7 +1074,7 @@ public class TutorScheduleAndCalandar extends javax.swing.JPanel {
         } else if (className.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Please enter the Title!", "Warning", JOptionPane.WARNING_MESSAGE);
             return;
-        } else if (startTime.isEmpty() || !startTime.matches(timeRegex)) {
+        } else if (startTime.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Please enter a valid Starting time in the format HH.mm (e.g., 12.00)!", "Warning", JOptionPane.WARNING_MESSAGE);
             return;
         } else if (endTime.isEmpty() || !endTime.matches(timeRegex)) {
