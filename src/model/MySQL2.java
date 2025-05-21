@@ -2,11 +2,12 @@ package model;
 
 import java.io.FileInputStream;
 import java.io.ObjectInputStream;
+import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 
-public class MySQL2 {
+public class MySQL2 implements Serializable {
 
     public String ip;
     public String port;

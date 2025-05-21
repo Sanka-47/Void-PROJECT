@@ -12,8 +12,11 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 import model.MySQL2;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class AddStudentPerformanceReportJDialog extends javax.swing.JDialog {
+    private static final Logger logger = LogManager.getLogger(AddStudentPerformanceReportJDialog.class);
 
     public AddStudentPerformanceReportJDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
@@ -89,7 +92,7 @@ public class AddStudentPerformanceReportJDialog extends javax.swing.JDialog {
             jComboBox1.setModel(new DefaultComboBoxModel<>(vector));
 
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Exception caught", e);
         }
     }
 
@@ -110,7 +113,7 @@ public class AddStudentPerformanceReportJDialog extends javax.swing.JDialog {
             jComboBox2.setModel(new DefaultComboBoxModel<>(vector));
 
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Exception caught", e);
         }
     }
 
@@ -311,7 +314,7 @@ public class AddStudentPerformanceReportJDialog extends javax.swing.JDialog {
                 clearAll();
 
             } catch (Exception e) {
-                e.printStackTrace();
+                logger.error("Exception caught", e);
                 JOptionPane.showMessageDialog(this, "An error occurred: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             }
         }
@@ -349,7 +352,7 @@ public class AddStudentPerformanceReportJDialog extends javax.swing.JDialog {
                 this.dispose();
 
             } catch (Exception e) {
-                e.printStackTrace();
+                logger.error("Exception caught", e);
                 JOptionPane.showMessageDialog(this, "An error occurred: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             }
         }

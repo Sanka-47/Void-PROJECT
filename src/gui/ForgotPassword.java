@@ -13,8 +13,11 @@ import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 import model.MySQL2;
 import model.SecurePasswordFacade;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class ForgotPassword extends javax.swing.JDialog {
+    private static final Logger logger = LogManager.getLogger(ForgotPassword.class);
 
     private String email;
 
@@ -160,7 +163,7 @@ public class ForgotPassword extends javax.swing.JDialog {
         Properties props = new Properties();
         props.put("mail.smtp.host", "smtp.gmail.com");
         props.put("mail.smtp.port", 465);
-        props.put("mail.smtp.user", ""); // Add my email address
+        props.put("mail.smtp.user", "gayanlmdjayawardana@gmail.com"); // Add my email address
         props.put("mail.smtp.auth", "true");
         props.put("mail.smtp.starttls.enable", "true");
         props.put("mail.smtp.debug", "true");
@@ -177,11 +180,11 @@ public class ForgotPassword extends javax.swing.JDialog {
                 MimeMessage message = new MimeMessage(session);
                 message.setText("Your verification code is " + vCode);
                 message.setSubject("Verification Code");
-                message.setFrom(new InternetAddress("")); // Add my email address
+                message.setFrom(new InternetAddress("gayanlmdjayawardana@gmail.com")); // Add my email address
                 message.addRecipient(RecipientType.TO, new InternetAddress(email));
                 message.saveChanges();
                 Transport transport = session.getTransport("smtp");
-                transport.connect("smtp.gmail.com", "", "nprb ztii ypcf opnx"); // Add my email address
+                transport.connect("smtp.gmail.com", "gayanlmdjayawardana@gmail.com", "nprb ztii ypcf opnx"); // Add my email address
                 transport.sendMessage(message, message.getAllRecipients());
                 transport.close();
                 JOptionPane.showMessageDialog(this, "Code sent, please check your email!", "Warning", JOptionPane.INFORMATION_MESSAGE);
@@ -189,7 +192,7 @@ public class ForgotPassword extends javax.swing.JDialog {
             }
 
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Exception caught", e);
             JOptionPane.showMessageDialog(this, "Email Address is not found!", "Error", JOptionPane.ERROR_MESSAGE);
 //            jLabel1.setText("Email Address not found");
 //            jLabel1.setHorizontalAlignment(SwingConstants.LEFT);
@@ -233,7 +236,7 @@ public class ForgotPassword extends javax.swing.JDialog {
                 this.dispose();
 
             } catch (Exception e) {
-                e.printStackTrace();
+                logger.error("Exception caught", e);
             }
         }
     }//GEN-LAST:event_jButton2ActionPerformed

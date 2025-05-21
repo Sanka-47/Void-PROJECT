@@ -21,12 +21,15 @@ import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.data.JRTableModelDataSource;
 import net.sf.jasperreports.view.JasperViewer;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  *
  * @author Rushma
  */
 public class AllTutorsWithdrawHistory extends javax.swing.JPanel {
+    private static final Logger logger = LogManager.getLogger(AllTutorsWithdrawHistory.class);
 
     /**
      * Creates new form AllTutorsWithdrawHistory
@@ -65,7 +68,7 @@ public class AllTutorsWithdrawHistory extends javax.swing.JPanel {
             }
 
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Exception caught", e);
         }
     }
 
@@ -116,7 +119,7 @@ public class AllTutorsWithdrawHistory extends javax.swing.JPanel {
                 model.addRow(new Object[]{id, name, date, amount});
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Exception caught", e);
         }
     }
 
@@ -280,7 +283,7 @@ public class AllTutorsWithdrawHistory extends javax.swing.JPanel {
                 System.err.println("Report generation failed.");
             }
         } catch (JRException e) {
-            e.printStackTrace();
+            logger.error("Exception caught", e);
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 

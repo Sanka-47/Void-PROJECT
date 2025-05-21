@@ -28,12 +28,15 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import model.Notification;
 import model.NotificationManager;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  *
  * @author Rushma
  */
 public class Notifications extends javax.swing.JFrame {
+    private static final Logger logger = LogManager.getLogger(Notifications.class);
 
     Map<Integer, NotificationDetails> notificationDetailsMap = new HashMap<>();
 

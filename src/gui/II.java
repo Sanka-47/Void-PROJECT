@@ -12,6 +12,8 @@ import java.util.Vector;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import model.MySQL2;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  *
@@ -19,6 +21,7 @@ import model.MySQL2;
  */
 
 public class II extends javax.swing.JFrame {
+    private static final Logger logger = LogManager.getLogger(II.class);
 
     /**
      * @param id the id to set

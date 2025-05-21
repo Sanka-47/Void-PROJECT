@@ -17,10 +17,13 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadFactory;
 import java.util.logging.Level;
-import java.util.logging.Logger;
+
 import model.MySQL2;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class PaymentMenu extends javax.swing.JFrame implements Runnable, ThreadFactory {
+    private static final Logger logger = LogManager.getLogger(PaymentMenu.class);
 
     private WebcamPanel panel = null;
     private Webcam webcam = null;
@@ -143,7 +146,7 @@ public class PaymentMenu extends javax.swing.JFrame implements Runnable, ThreadF
             try {
                 Thread.sleep(100);
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                logger.error("Exception caught", e);
             }
 
             Result result = null;
@@ -179,10 +182,9 @@ public class PaymentMenu extends javax.swing.JFrame implements Runnable, ThreadF
                             
                         }
 
-                    } catch (Exception ex) {
-                        Logger.getLogger(PaymentMenu.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                    
+     } catch (Exception ex) {
+    logger.error("An unexpected error occurred", ex);
+}
 
                     this.dispose();
                 } 
