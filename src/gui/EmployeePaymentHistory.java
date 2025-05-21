@@ -22,12 +22,15 @@ import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.data.JRTableModelDataSource;
 import net.sf.jasperreports.view.JasperViewer;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  *
  * @author Rushma
  */
 public class EmployeePaymentHistory extends javax.swing.JPanel {
+    private static final Logger logger = LogManager.getLogger(EmployeePaymentHistory.class);
 
     /**
      * Creates new form EmployeePaymentHistory
@@ -77,7 +80,7 @@ public class EmployeePaymentHistory extends javax.swing.JPanel {
                 model.addRow(vector);
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Exception caught", e);
         }
     }
 
@@ -130,7 +133,7 @@ public class EmployeePaymentHistory extends javax.swing.JPanel {
             }
             
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Exception caught", e);
         }
     }
 
@@ -266,7 +269,7 @@ public class EmployeePaymentHistory extends javax.swing.JPanel {
         try {
             jasperPrint = JasperFillManager.fillReport(path, params, dataSource);
         } catch (JRException e) {
-            e.printStackTrace();
+            logger.error("Exception caught", e);
         }
 
         JasperViewer.viewReport(jasperPrint, false);

@@ -27,8 +27,11 @@ import javax.swing.table.TableRowSorter;
 import model.AssignmentData;
 import model.MySQL2;
 import javax.swing.JLabel;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class AssignmentManagement extends javax.swing.JPanel {
+    private static final Logger logger = LogManager.getLogger(AssignmentManagement.class);
 
     private TutorDashboard parent;
 
@@ -138,9 +141,9 @@ public class AssignmentManagement extends javax.swing.JPanel {
 
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(this, "Database error: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-            e.printStackTrace();
+            logger.error("Exception caught", e);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Exception caught", e);
         }
     }
 
@@ -182,9 +185,9 @@ public class AssignmentManagement extends javax.swing.JPanel {
 
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(this, "Database error: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-            e.printStackTrace();
+            logger.error("Exception caught", e);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Exception caught", e);
         }
     }
 
@@ -355,7 +358,7 @@ public class AssignmentManagement extends javax.swing.JPanel {
 
         } catch (Exception e) {
 
-            e.printStackTrace();
+            logger.error("Exception caught", e);
 
         }
 

@@ -13,8 +13,11 @@ import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 import model.MySQL2;
 import model.SecurePasswordFacade;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class ForgotPassword extends javax.swing.JDialog {
+    private static final Logger logger = LogManager.getLogger(ForgotPassword.class);
 
     private String email;
 
@@ -189,7 +192,7 @@ public class ForgotPassword extends javax.swing.JDialog {
             }
 
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Exception caught", e);
             JOptionPane.showMessageDialog(this, "Email Address is not found!", "Error", JOptionPane.ERROR_MESSAGE);
 //            jLabel1.setText("Email Address not found");
 //            jLabel1.setHorizontalAlignment(SwingConstants.LEFT);
@@ -233,7 +236,7 @@ public class ForgotPassword extends javax.swing.JDialog {
                 this.dispose();
 
             } catch (Exception e) {
-                e.printStackTrace();
+                logger.error("Exception caught", e);
             }
         }
     }//GEN-LAST:event_jButton2ActionPerformed

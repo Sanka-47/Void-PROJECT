@@ -7,12 +7,15 @@ package gui;
 
 import java.sql.ResultSet;
 import model.MySQL2;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  *
  * @author Rushma
  */
 public class EmployeeDetails extends javax.swing.JFrame {
+    private static final Logger logger = LogManager.getLogger(EmployeeDetails.class);
 
     /**
      * Creates new form EmployeeDetails
@@ -58,7 +61,7 @@ public class EmployeeDetails extends javax.swing.JFrame {
             // Close the ResultSet
             rs.close();
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Exception caught", e);
         }
     }
 

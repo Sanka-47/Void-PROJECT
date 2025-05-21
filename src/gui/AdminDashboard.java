@@ -21,8 +21,11 @@ import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class AdminDashboard extends javax.swing.JFrame implements DashboardInterface {
+    private static final Logger logger = LogManager.getLogger(AdminDashboard.class);
 
     private String adminID;
     private String name;
@@ -71,9 +74,9 @@ public class AdminDashboard extends javax.swing.JFrame implements DashboardInter
                     try {
                         Thread.sleep(1000);
                     } catch (RuntimeException e) {
-                        e.printStackTrace();
+                        logger.error("Exception caught", e);
                     } catch (Exception e) {
-                        e.printStackTrace();
+                        logger.error("Exception caught", e);
                     }
 
                 }

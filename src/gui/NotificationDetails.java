@@ -8,12 +8,15 @@ package gui;
 import com.formdev.flatlaf.intellijthemes.FlatArcIJTheme;
 import java.sql.ResultSet;
 import model.MySQL2;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  *
  * @author Rushma
  */
 public class NotificationDetails extends javax.swing.JFrame {
+    private static final Logger logger = LogManager.getLogger(NotificationDetails.class);
 
    public NotificationDetails(int classId) {
         initComponents();
@@ -45,7 +48,7 @@ public class NotificationDetails extends javax.swing.JFrame {
                 System.out.println("No details found for class ID: " + classId);
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Exception caught", e);
         }
     }
 
