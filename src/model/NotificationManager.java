@@ -26,17 +26,25 @@ public class NotificationManager {
                     + "WHERE c.tutor_id = " + tutorId;
             ResultSet rs = MySQL2.executeSearch(query);
             while (rs.next()) {
-                int classId = rs.getInt("id"); // Get the class ID
+                int classId = rs.getInt("id");
                 String notificationDetails = "Class on " + rs.getDate("date")
                         + " from " + rs.getString("start_time")
                         + " to " + rs.getString("end_time")
-                        + " at hall number" + rs.getString("hallnumber");
-                // Add the class ID and details to the Notification list
+                        + " at hall number " + rs.getString("hallnumber");
                 notifications.add(new Notification(classId, notificationDetails));
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
         return notifications;
+    }
+
+    public static void clearAllNotificationsForTutor(int tutorId) {
+        try {
+            String query = "DELETE FROM notifications WHERE tutor_id = " + tutorId;
+            MySQL2.executeIUD(query);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
