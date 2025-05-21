@@ -20,12 +20,15 @@ import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.data.JRTableModelDataSource;
 import net.sf.jasperreports.view.JasperViewer;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  *
  * @author kalin
  */
 public class RevenueReport extends javax.swing.JFrame {
+    private static final Logger logger = LogManager.getLogger(RevenueReport.class);
 
     /**
      * Creates new form RevenueReport
@@ -155,7 +158,7 @@ String path = "src//reports//TotalMonthlyRevenue.jasper";
         try {
             jasperPrint = JasperFillManager.fillReport(path, params, dataSource);
         } catch (JRException e) {
-            e.printStackTrace();
+            logger.error("Exception caught", e);
         }
 
         JasperViewer.viewReport(jasperPrint, false);

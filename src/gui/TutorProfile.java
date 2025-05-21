@@ -12,12 +12,15 @@ import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import model.MySQL2;
 import model.SecurePasswordFacade;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  *
  * @author sky
  */
 public class TutorProfile extends javax.swing.JPanel {
+    private static final Logger logger = LogManager.getLogger(TutorProfile.class);
 
     private int tutorID;
 
@@ -131,7 +134,7 @@ public class TutorProfile extends javax.swing.JPanel {
             }
 
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Exception caught", e);
         }
 
     }
@@ -463,7 +466,7 @@ public class TutorProfile extends javax.swing.JPanel {
 
             } catch (Exception e) {
                 //            logger.log(Level.SEVERE, "Error occurred during employee update for NIC: " + nic, e);
-                e.printStackTrace();
+                logger.error("Exception caught", e);
             }
         }
     }//GEN-LAST:event_jButton2ActionPerformed

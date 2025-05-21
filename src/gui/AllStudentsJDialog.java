@@ -5,8 +5,11 @@ import java.sql.ResultSet;
 import java.util.Vector;
 import javax.swing.table.DefaultTableModel;
 import model.MySQL2;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class AllStudentsJDialog extends javax.swing.JDialog {
+    private static final Logger logger = LogManager.getLogger(AllStudentsJDialog.class);
     
     public StudentPayment setInvoice;
 
@@ -73,7 +76,7 @@ public class AllStudentsJDialog extends javax.swing.JDialog {
             }
 
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Exception caught", e);
         }
     }
 

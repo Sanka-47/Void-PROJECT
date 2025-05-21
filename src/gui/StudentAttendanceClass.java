@@ -8,12 +8,15 @@ package gui;
 import java.sql.ResultSet;
 import javax.swing.JButton;
 import model.MySQL2;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  *
  * @author kalin
  */
 public class StudentAttendanceClass extends javax.swing.JFrame {
+    private static final Logger logger = LogManager.getLogger(StudentAttendanceClass.class);
 
     /**
      * Creates new form StudentAttendanceClass

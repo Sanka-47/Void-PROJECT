@@ -2,12 +2,15 @@ package gui;
 
 import java.sql.ResultSet;
 import model.MySQL2;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  *
  * @author Rushma
  */
 public class StudentDetails extends javax.swing.JDialog {
+    private static final Logger logger = LogManager.getLogger(StudentDetails.class);
 
     public StudentDetails(java.awt.Frame parent, boolean modal, String nic) {
         super(parent, modal);
@@ -49,7 +52,7 @@ public class StudentDetails extends javax.swing.JDialog {
             // Close the ResultSet
             rs.close();
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Exception caught", e);
         }
     }
 

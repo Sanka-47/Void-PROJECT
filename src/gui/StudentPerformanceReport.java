@@ -21,12 +21,15 @@ import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.data.JRTableModelDataSource;
 import net.sf.jasperreports.view.JasperViewer;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  *
  * @author mrtkb
  */
 public class StudentPerformanceReport extends javax.swing.JPanel {
+    private static final Logger logger = LogManager.getLogger(StudentPerformanceReport.class);
 
     private TutorDashboard parent;
 
@@ -74,7 +77,7 @@ public class StudentPerformanceReport extends javax.swing.JPanel {
             }
 
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Exception caught", e);
         }
     }
 
@@ -211,7 +214,7 @@ public class StudentPerformanceReport extends javax.swing.JPanel {
                 MySQL2.executeIUD("DELETE FROM grades WHERE grades.id = '" + gradeIdToDelete + "'");
                 loadTable();
             } catch (Exception e) {
-                e.printStackTrace();
+                logger.error("Exception caught", e);
                 JOptionPane.showMessageDialog(this, "Error occurred while deleting: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             }
         }
@@ -274,7 +277,7 @@ public class StudentPerformanceReport extends javax.swing.JPanel {
         try {
             jasperPrint = JasperFillManager.fillReport(path, params, dataSource);
         } catch (JRException e) {
-            e.printStackTrace();
+            logger.error("Exception caught", e);
         }
         JasperViewer.viewReport(jasperPrint, false);
     }//GEN-LAST:event_jButton2ActionPerformed

@@ -12,8 +12,11 @@ import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import model.MySQL2;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class StudentProgressandPerformanceTracking extends javax.swing.JPanel {
+    private static final Logger logger = LogManager.getLogger(StudentProgressandPerformanceTracking.class);
 
     public StudentProgressandPerformanceTracking(String fName, String lName) {
         initComponents();
@@ -43,11 +46,11 @@ public class StudentProgressandPerformanceTracking extends javax.swing.JPanel {
 
             DefaultComboBoxModel model = new DefaultComboBoxModel(vector);
             jComboBox1.setModel(model);
-//             logger.info("Gender data loaded successfully.");
+//             
 
         } catch (Exception e) {
 //           logger.log(Level.SEVERE, "Error loading gender data: ", e);
-            e.printStackTrace();
+            logger.error("Exception caught", e);
         }
 
     }
@@ -73,7 +76,7 @@ public class StudentProgressandPerformanceTracking extends javax.swing.JPanel {
 //            }
 //
 //        } catch (Exception e) {
-//            e.printStackTrace();
+//            logger.error("Exception caught", e);
 //        }
         try {
             String sortOption = String.valueOf(jComboBox2.getSelectedItem());
@@ -125,7 +128,7 @@ public class StudentProgressandPerformanceTracking extends javax.swing.JPanel {
                 model.addRow(vector);
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Exception caught", e);
         }
     }
 
@@ -165,7 +168,7 @@ public class StudentProgressandPerformanceTracking extends javax.swing.JPanel {
             }
 
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Exception caught", e);
         }
     }
 
@@ -461,7 +464,7 @@ public class StudentProgressandPerformanceTracking extends javax.swing.JPanel {
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Exception caught", e);
             JOptionPane.showMessageDialog(this, "Failed to update assignment.", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_jButton1ActionPerformed
@@ -519,7 +522,7 @@ public class StudentProgressandPerformanceTracking extends javax.swing.JPanel {
                 JOptionPane.showMessageDialog(this, "Assignment added successfully!");
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Exception caught", e);
             JOptionPane.showMessageDialog(this, "Failed to add assignment.", "Error", JOptionPane.ERROR_MESSAGE);
         }
 
