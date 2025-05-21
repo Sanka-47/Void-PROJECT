@@ -6,8 +6,11 @@ import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import model.MySQL2;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class AllCoursesJDialog extends javax.swing.JDialog {
+    private static final Logger logger = LogManager.getLogger(AllCoursesJDialog.class);
 
     private StudentPayment studentPayment;
 

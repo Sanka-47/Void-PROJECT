@@ -1,5 +1,7 @@
 package gui;
 
+
+
 import java.sql.ResultSet;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -16,8 +18,12 @@ import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.data.JRTableModelDataSource;
 import net.sf.jasperreports.view.JasperViewer;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class AllCourses extends javax.swing.JPanel {
+    private static final Logger logger = LogManager.getLogger(AllCourses.class);
+    
 
     private StudentPayment studentPayment;
 
@@ -32,6 +38,7 @@ public class AllCourses extends javax.swing.JPanel {
         renderer.setHorizontalAlignment(SwingConstants.CENTER);
 
         jTable1.setDefaultRenderer(Object.class, renderer);
+    
 
         LoadSubject();
     }
@@ -250,7 +257,7 @@ public class AllCourses extends javax.swing.JPanel {
         try {
             jasperPrint = JasperFillManager.fillReport(path, params, dataSource);
         } catch (JRException e) {
-            e.printStackTrace();
+            
         }
         JasperViewer.viewReport(jasperPrint, false);
     

@@ -24,6 +24,8 @@ import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import model.InvoiceItem;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import model.MySQL2;
 import net.sf.jasperreports.engine.JRException;
@@ -33,6 +35,7 @@ import net.sf.jasperreports.engine.data.JRTableModelDataSource;
 import net.sf.jasperreports.view.JasperViewer;
 
 public class StudentPayment extends javax.swing.JFrame {
+    private static final Logger logger = LogManager.getLogger(StudentPayment.class);
 
     private StudentPayment parent;
 
@@ -45,7 +48,7 @@ public class StudentPayment extends javax.swing.JFrame {
     HashMap<String, InvoiceItem> invoiceItemMap = new HashMap<>();
     HashMap<String, String> paymentMethodMap = new HashMap<>();
 
-//    private static final Logger logger = Logger.getLogger(Signin.class.getName());
+//    
     private static DefaultTableModel model;
 
 //    public void setCustomerName(String name) {
@@ -69,7 +72,7 @@ public class StudentPayment extends javax.swing.JFrame {
 
         } catch (Exception e) {
 //            logger.severe("Error loading payment methods: " + e.getMessage());
-            e.printStackTrace();
+            logger.error("Exception caught", e);
 
         }
     }
@@ -752,7 +755,7 @@ public class StudentPayment extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(this, "Student not found", "Error", JOptionPane.ERROR_MESSAGE);
                 }
             } catch (Exception e) {
-                e.printStackTrace();
+                logger.error("Exception caught", e);
             }
         }
 
@@ -822,7 +825,7 @@ public class StudentPayment extends javax.swing.JFrame {
             try {
                 jasperPrint = JasperFillManager.fillReport(path, params, dataSource);
             } catch (JRException e) {
-                e.printStackTrace();
+                logger.error("Exception caught", e);
             }
             JasperViewer.viewReport(jasperPrint, false);
             Properties props = new Properties();
@@ -919,7 +922,7 @@ public class StudentPayment extends javax.swing.JFrame {
                 }
 
             } catch (Exception e) {
-                e.printStackTrace();
+                logger.error("Exception caught", e);
                 JOptionPane.showMessageDialog(this, "Email Address is not found!", "Error", JOptionPane.ERROR_MESSAGE);
 //            jLabel1.setText("Email Address not found");
 //            jLabel1.setHorizontalAlignment(SwingConstants.LEFT);
@@ -932,7 +935,7 @@ public class StudentPayment extends javax.swing.JFrame {
             generateInvoiceID();
 
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Exception caught", e);
         }
 
     }//GEN-LAST:event_printInvoiceButtonActionPerformed

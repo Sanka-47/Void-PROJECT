@@ -17,12 +17,15 @@ import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import model.MySQL2;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  *
  * @author mrtkb
  */
 public class TutorWallet extends javax.swing.JFrame {
+    private static final Logger logger = LogManager.getLogger(TutorWallet.class);
 
     /**
      * Creates new form withdrawHistory
@@ -101,7 +104,7 @@ public class TutorWallet extends javax.swing.JFrame {
             jTextField1.setText(String.valueOf(TotalAmount));
 
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Exception caught", e);
         }
     }
 
@@ -270,7 +273,7 @@ public class TutorWallet extends javax.swing.JFrame {
             LoadWalletDetails();
 
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Exception caught", e);
         }
 
     }//GEN-LAST:event_jButton1ActionPerformed

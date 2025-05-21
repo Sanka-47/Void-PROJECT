@@ -13,8 +13,11 @@ import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
 import model.MySQL2;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class StudentIntakes extends javax.swing.JPanel {
+    private static final Logger logger = LogManager.getLogger(StudentIntakes.class);
     
     private static HashMap<String, String> statusMap = new HashMap<>();
     
@@ -70,7 +73,7 @@ public class StudentIntakes extends javax.swing.JPanel {
             DefaultComboBoxModel model = new DefaultComboBoxModel(vector);
             jComboBox1.setModel(model);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Exception caught", e);
         }
     }
     
@@ -140,7 +143,7 @@ public class StudentIntakes extends javax.swing.JPanel {
             }
             
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Exception caught", e);
         }
     }
     
@@ -435,7 +438,7 @@ public class StudentIntakes extends javax.swing.JPanel {
             }
             
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Exception caught", e);
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -484,7 +487,7 @@ public class StudentIntakes extends javax.swing.JPanel {
             }
             
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Exception caught", e);
         }
     }//GEN-LAST:event_jButton2ActionPerformed
 

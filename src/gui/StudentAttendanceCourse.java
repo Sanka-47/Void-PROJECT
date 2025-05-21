@@ -11,12 +11,15 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.table.DefaultTableModel;
 import model.MySQL2;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  *
  * @author kalin
  */
 public class StudentAttendanceCourse extends javax.swing.JFrame {
+    private static final Logger logger = LogManager.getLogger(StudentAttendanceCourse.class);
 
     /**
      * Creates new form StudentAttendanceCourse

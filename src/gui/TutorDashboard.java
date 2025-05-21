@@ -13,7 +13,7 @@ import java.sql.ResultSet;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.logging.Level;
-import java.util.logging.Logger;
+
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
@@ -21,15 +21,18 @@ import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import model.MySQL2;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  *
  * @author Rushma
  */
 public class TutorDashboard extends javax.swing.JFrame implements DashboardInterface {
+    private static final Logger logger = LogManager.getLogger(TutorDashboard.class);
 
     private Thread dateThread;
-//    private static final Logger logger = Logger.getLogger(TutorSignIn.class.getName());
+//    
     private int tutorID;
 
     public TutorDashboard(String fName, int tutorID) {
@@ -111,7 +114,7 @@ public class TutorDashboard extends javax.swing.JFrame implements DashboardInter
                 totalAmount += rs.getDouble("amount");
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Exception caught", e);
         }
         return totalAmount;
     }
@@ -129,7 +132,7 @@ public class TutorDashboard extends javax.swing.JFrame implements DashboardInter
                     + "WHERE tutor_id = " + tutorId + " AND withdrawal_status_id = 1";
             MySQL2.executeIUD(updateQuery);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Exception caught", e);
         }
     }
 

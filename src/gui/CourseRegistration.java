@@ -21,8 +21,11 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.table.DefaultTableModel;
 import model.MySQL2;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class CourseRegistration extends javax.swing.JPanel {
+    private static final Logger logger = LogManager.getLogger(CourseRegistration.class);
 
     private static HashMap<String, String> gradeMap = new HashMap<>();
 
@@ -103,7 +106,7 @@ public class CourseRegistration extends javax.swing.JPanel {
             }
 
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Exception caught", e);
         }
     }
 
@@ -125,7 +128,7 @@ public class CourseRegistration extends javax.swing.JPanel {
             }
 
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Exception caught", e);
         }
     }
 
@@ -392,7 +395,7 @@ public class CourseRegistration extends javax.swing.JPanel {
             jButton2.setEnabled(true);
 
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Exception caught", e);
             JOptionPane.showMessageDialog(this, "Failed to update the course.", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_jButton1ActionPerformed
@@ -427,7 +430,7 @@ public class CourseRegistration extends javax.swing.JPanel {
                 JOptionPane.showMessageDialog(this, "Course added successfully!");
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Exception caught", e);
             JOptionPane.showMessageDialog(this, "Failed to add the course.", "Error", JOptionPane.ERROR_MESSAGE);
         }
 
@@ -455,7 +458,7 @@ public class CourseRegistration extends javax.swing.JPanel {
 //
 //            JOptionPane.showMessageDialog(this, "Course status changed to " + (newStatusId.equals("1") ? "Active" : "Inactive") + " successfully!");
 //        } catch (Exception e) {
-//            e.printStackTrace();
+//            logger.error("Exception caught", e);
 //            JOptionPane.showMessageDialog(this, "Failed to change the course status.", "Error", JOptionPane.ERROR_MESSAGE);
 //        }
 
@@ -488,7 +491,7 @@ public class CourseRegistration extends javax.swing.JPanel {
 
             JOptionPane.showMessageDialog(this, "Course successfully deactivated!", "Success", JOptionPane.INFORMATION_MESSAGE);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Exception caught", e);
             JOptionPane.showMessageDialog(this, "Failed to deactivate the course.", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_jButton3ActionPerformed

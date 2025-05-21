@@ -25,8 +25,11 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class TutorScheduleAndCalandar extends javax.swing.JPanel {
+    private static final Logger logger = LogManager.getLogger(TutorScheduleAndCalandar.class);
 
     private DateChooser chDate = new DateChooser();
     private DateChooser sessionChDate = new DateChooser();
@@ -274,7 +277,7 @@ public class TutorScheduleAndCalandar extends javax.swing.JPanel {
             model.fireTableDataChanged(); // Refresh the table data
 
         } catch (Exception e) {
-            e.printStackTrace(); // Print stack trace for debugging if there's an error
+            logger.error("Exception caught", e); // Print stack trace for debugging if there's an error
         }
     }
 
@@ -294,7 +297,7 @@ public class TutorScheduleAndCalandar extends javax.swing.JPanel {
             jTextField1.setText(String.format("%02d", nextSessionId)); // Format to always show two digits
 
         } catch (Exception e) {
-            e.printStackTrace(); // Handle exceptions (e.g., database connection issues)
+            logger.error("Exception caught", e); // Handle exceptions (e.g., database connection issues)
         }
     }
 
@@ -357,7 +360,7 @@ public class TutorScheduleAndCalandar extends javax.swing.JPanel {
             }
 
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Exception caught", e);
         }
 
     }
@@ -397,7 +400,7 @@ public class TutorScheduleAndCalandar extends javax.swing.JPanel {
             }
 
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Exception caught", e);
         }
 
     }
@@ -420,7 +423,7 @@ public class TutorScheduleAndCalandar extends javax.swing.JPanel {
             }
 
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Exception caught", e);
         }
     }
 
@@ -441,7 +444,7 @@ public class TutorScheduleAndCalandar extends javax.swing.JPanel {
             jComboBox3.setModel(new DefaultComboBoxModel<>(vector));
 
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Exception caught", e);
 
         }
     }
@@ -468,7 +471,7 @@ public class TutorScheduleAndCalandar extends javax.swing.JPanel {
             }
 
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Exception caught", e);
         }
     }
 
@@ -965,7 +968,7 @@ public class TutorScheduleAndCalandar extends javax.swing.JPanel {
             loadSessions("", "");
 
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Exception caught", e);
             JOptionPane.showMessageDialog(this, "Failed to update the class. Please try again.", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_jButton2ActionPerformed
@@ -1004,7 +1007,7 @@ public class TutorScheduleAndCalandar extends javax.swing.JPanel {
 //            }
 //
 //        } catch (Exception e) {
-//            e.printStackTrace();
+//            logger.error("Exception caught", e);
 //            JOptionPane.showMessageDialog(this, "An error occurred while canceling the session. Please try again.", "Error", JOptionPane.ERROR_MESSAGE);
 //        }
     }//GEN-LAST:event_jButton10ActionPerformed
@@ -1178,7 +1181,7 @@ public class TutorScheduleAndCalandar extends javax.swing.JPanel {
                 }
 
             } catch (Exception e) {
-                e.printStackTrace();
+                logger.error("Exception caught", e);
             }
         }
 
@@ -1296,7 +1299,7 @@ public class TutorScheduleAndCalandar extends javax.swing.JPanel {
 //                    JOptionPane.showMessageDialog(this, "The tutor's ID does not match the record in the system. Please check the tutor information and try again.", "Warning", JOptionPane.WARNING_MESSAGE);
 //                }
 //            } catch (Exception e) {
-//                e.printStackTrace();
+//                logger.error("Exception caught", e);
 //            }
 //        }
 
@@ -1376,7 +1379,7 @@ public class TutorScheduleAndCalandar extends javax.swing.JPanel {
             jFormattedTextField1.setText(startTime);
             jFormattedTextField2.setText(endTime);
         } catch (ParseException e) {
-            e.printStackTrace(); // Handle the exception if time parsing fails
+            logger.error("Exception caught", e); // Handle the exception if time parsing fails
         }
 
         String hallNumber = String.valueOf(jTable1.getValueAt(row, 7));
@@ -1420,7 +1423,7 @@ public class TutorScheduleAndCalandar extends javax.swing.JPanel {
 //                jComboBox2.addItem(assignedTutorName); // Add the assigned tutor name
 //                jComboBox2.setEnabled(false);         // Disable editing for the tutor combo box
 //            } catch (Exception e) {
-//                e.printStackTrace();
+//                logger.error("Exception caught", e);
 //                JOptionPane.showMessageDialog(this, "Error fetching tutor information!", "Error", JOptionPane.ERROR_MESSAGE);
 //            }
 //        } else {
@@ -1454,7 +1457,7 @@ public class TutorScheduleAndCalandar extends javax.swing.JPanel {
                 jComboBox2.setEnabled(false);          // Enable the tutor JComboBox for visibility
 
             } catch (Exception e) {
-                e.printStackTrace();
+                logger.error("Exception caught", e);
                 JOptionPane.showMessageDialog(this, "Error fetching tutor information!", "Error", JOptionPane.ERROR_MESSAGE);
             }
         } else {

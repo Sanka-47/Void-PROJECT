@@ -11,12 +11,18 @@ import java.util.HashMap;
 import javax.swing.JOptionPane;
 import model.MySQL2;
 import model.Task;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+
 
 /**
  *
  * @author Rushma
  */
 public class TodoList extends javax.swing.JPanel {
+    private static final Logger logger = LogManager.getLogger(TodoList.class);
+    
 
     /**
      * Creates new form TodoList
@@ -44,7 +50,7 @@ public class TodoList extends javax.swing.JPanel {
                 updateTaskList(tutorId);
                 reset();// Refresh the task list
             } catch (Exception e) {
-                e.printStackTrace(); // Handle any exceptions
+                 // Handle any exceptions
             }
         } else {
             JOptionPane.showMessageDialog(this, "Please enter the description to add a task");
@@ -69,7 +75,7 @@ public class TodoList extends javax.swing.JPanel {
                     updateTaskList(tutorId); // Refresh the task list
                 }
             } catch (Exception e) {
-                e.printStackTrace(); // Handle any exceptions
+                 // Handle any exceptions
             }
         }
     }
@@ -100,7 +106,7 @@ public class TodoList extends javax.swing.JPanel {
                     updateTaskList(tutorId);
                 }
             } catch (Exception e) {
-                e.printStackTrace();
+                
             }
         }
     }
@@ -137,7 +143,7 @@ public class TodoList extends javax.swing.JPanel {
             MySQL2.executeIUD(query); // Execute the update query
             updateTaskList(tutorId);  // Refresh the task list
         } catch (Exception e) {
-            e.printStackTrace();
+            
             JOptionPane.showMessageDialog(this, "Error updating task: " + e.getMessage());
         }
     }
@@ -157,7 +163,7 @@ public class TodoList extends javax.swing.JPanel {
                 reset();// Update the JList with task descriptions
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            
         }
     }
     // Helper function to get tasks from the database
@@ -174,7 +180,7 @@ public class TodoList extends javax.swing.JPanel {
                 tasks.add(new Task(taskId, description, isCompleted));
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            
         }
         return tasks;
     }

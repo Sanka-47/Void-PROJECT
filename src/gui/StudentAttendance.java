@@ -14,8 +14,11 @@ import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import model.MySQL2;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class StudentAttendance extends javax.swing.JPanel {
+    private static final Logger logger = LogManager.getLogger(StudentAttendance.class);
 
     private TutorDashboard parent;
 
@@ -114,7 +117,7 @@ public class StudentAttendance extends javax.swing.JPanel {
             }
 
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Exception caught", e);
         }
 
     }

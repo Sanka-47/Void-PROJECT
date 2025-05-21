@@ -5,20 +5,26 @@ import java.sql.ResultSet;
 import java.util.HashMap;
 import java.util.Vector;
 import java.util.logging.Level;
-import java.util.logging.Logger;
+
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
 import model.MySQL2;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+
 
 /**
  *
  * @author sky
  */
 public class SubjectManagement extends javax.swing.JPanel {
+    private static final Logger logger = LogManager.getLogger(SubjectManagement.class);
     
-//    private static final Logger logger = Logger.getLogger(EmployeeSignIn.class.getName());
+    
+//    
 
     private static HashMap<String, String> coursesMap = new HashMap<>();
     
@@ -60,7 +66,7 @@ public class SubjectManagement extends javax.swing.JPanel {
 
         } catch (Exception e) {
 //            logger.log(Level.SEVERE, "Error occurred while loading courses.", e);
-            e.printStackTrace();
+            
         }
 
     }
@@ -93,7 +99,7 @@ public class SubjectManagement extends javax.swing.JPanel {
 
         } catch (Exception e) {
 //            logger.log(Level.SEVERE, "Error occurred while loading subjects.", e);
-            e.printStackTrace();
+            
         }
         
     }
@@ -331,7 +337,7 @@ public class SubjectManagement extends javax.swing.JPanel {
 
         } catch (Exception e) {
 //            logger.log(Level.SEVERE, "Error occurred while registering the subject: " + subject, e);
-            e.printStackTrace();
+            
         }    
             
         }
@@ -414,7 +420,7 @@ public class SubjectManagement extends javax.swing.JPanel {
 
         } catch (Exception e) {
 //            logger.log(Level.SEVERE, "Error occurred while updating the subject with ID: " + id, e);
-            e.printStackTrace();
+            
         }
             }
          }
@@ -449,7 +455,7 @@ public class SubjectManagement extends javax.swing.JPanel {
 
         } catch (Exception e) {
 //            logger.log(Level.SEVERE, "Error occurred while deleting the subject with ID: " + id, e);
-            e.printStackTrace();
+            
         }
          
         }    

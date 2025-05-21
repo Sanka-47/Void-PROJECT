@@ -12,8 +12,11 @@ import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
 import model.MySQL2;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class RequestSession extends javax.swing.JPanel {
+    private static final Logger logger = LogManager.getLogger(RequestSession.class);
 
     private DashboardInterface parent;
 
@@ -79,7 +82,7 @@ public class RequestSession extends javax.swing.JPanel {
             }
 
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Exception caught", e);
         }
 
     }
@@ -103,7 +106,7 @@ public class RequestSession extends javax.swing.JPanel {
             }
 
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Exception caught", e);
         }
     }
 
@@ -122,7 +125,7 @@ public class RequestSession extends javax.swing.JPanel {
             }
 
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Exception caught", e);
 
         }
     }
@@ -437,7 +440,7 @@ public class RequestSession extends javax.swing.JPanel {
             hallNumber.setText("");
             courseField.setText("");
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Exception caught", e);
             JOptionPane.showMessageDialog(this, "An error occurred while adding the class. Please try again.", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_jButton1ActionPerformed
