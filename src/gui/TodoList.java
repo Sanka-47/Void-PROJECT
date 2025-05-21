@@ -14,15 +14,13 @@ import model.Task;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-
-
 /**
  *
  * @author Rushma
  */
 public class TodoList extends javax.swing.JPanel {
+
     private static final Logger logger = LogManager.getLogger(TodoList.class);
-    
 
     /**
      * Creates new form TodoList
@@ -50,7 +48,7 @@ public class TodoList extends javax.swing.JPanel {
                 updateTaskList(tutorId);
                 reset();// Refresh the task list
             } catch (Exception e) {
-                 // Handle any exceptions
+                // Handle any exceptions
             }
         } else {
             JOptionPane.showMessageDialog(this, "Please enter the description to add a task");
@@ -75,7 +73,7 @@ public class TodoList extends javax.swing.JPanel {
                     updateTaskList(tutorId); // Refresh the task list
                 }
             } catch (Exception e) {
-                 // Handle any exceptions
+                // Handle any exceptions
             }
         }
     }
@@ -106,7 +104,7 @@ public class TodoList extends javax.swing.JPanel {
                     updateTaskList(tutorId);
                 }
             } catch (Exception e) {
-                
+
             }
         }
     }
@@ -143,7 +141,7 @@ public class TodoList extends javax.swing.JPanel {
             MySQL2.executeIUD(query); // Execute the update query
             updateTaskList(tutorId);  // Refresh the task list
         } catch (Exception e) {
-            
+
             JOptionPane.showMessageDialog(this, "Error updating task: " + e.getMessage());
         }
     }
@@ -163,7 +161,7 @@ public class TodoList extends javax.swing.JPanel {
                 reset();// Update the JList with task descriptions
             }
         } catch (Exception e) {
-            
+
         }
     }
     // Helper function to get tasks from the database
@@ -180,7 +178,7 @@ public class TodoList extends javax.swing.JPanel {
                 tasks.add(new Task(taskId, description, isCompleted));
             }
         } catch (Exception e) {
-            
+
         }
         return tasks;
     }
@@ -321,16 +319,8 @@ public class TodoList extends javax.swing.JPanel {
             if (tasks != null && selectedIndex < tasks.size()) {
                 Task selectedTask = tasks.get(selectedIndex); // Get the selected task
 
-                if (selectedTask.isCompleted()) {
-                    // If the task is completed, show a message and disable editing
-                    txtTaskInput.setText(""); // Clear the text field
-//                    txtTaskInput.setEnabled(false); // Disable editing
-                    JOptionPane.showMessageDialog(this, "Completed tasks cannot be edited.");
-                } else {
-                    // If the task is not completed, allow editing
-                    txtTaskInput.setText(selectedTask.getDescription()); // Set the description
-                    txtTaskInput.setEnabled(true); // Enable editing
-                }
+                txtTaskInput.setText(selectedTask.getDescription()); // Set the description
+                txtTaskInput.setEnabled(true); // Always allow editing
             }
         }
     }//GEN-LAST:event_jList1MouseClicked
