@@ -15,22 +15,25 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.logging.FileHandler;
 import java.util.logging.Level;
-import java.util.logging.Logger;
+
 import java.util.logging.SimpleFormatter;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class EmployeeDashboard extends javax.swing.JFrame implements DashboardInterface {
+    private static final Logger logger = LogManager.getLogger(EmployeeDashboard.class);
 
     private String fName;
     private String employeeId;
     private String mobile;
     private Thread dateThread;
 
-//    private static final Logger logger = Logger.getLogger(EmployeeSignIn.class.getName());
+//    
 
    public EmployeeDashboard(String fName, String employeeId) {
         initComponents();

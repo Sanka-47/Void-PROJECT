@@ -26,8 +26,11 @@ import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 import model.MySQL2;
 import model.SecurePasswordFacade;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class AddTutor extends javax.swing.JPanel {
+    private static final Logger logger = LogManager.getLogger(AddTutor.class);
 
     private DashboardInterface parent;
     private DateChooser chDate = new DateChooser();
@@ -153,9 +156,9 @@ public class AddTutor extends javax.swing.JPanel {
             }
             jComboBox1.setModel(new DefaultComboBoxModel<>(vector));
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error("Exception caught", e);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Exception caught", e);
         }
 
     }
@@ -172,9 +175,9 @@ public class AddTutor extends javax.swing.JPanel {
             }
             jComboBox2.setModel(new DefaultComboBoxModel<>(vector));
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error("Exception caught", e);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Exception caught", e);
         }
 
     }
@@ -523,11 +526,11 @@ public class AddTutor extends javax.swing.JPanel {
                 }
 
             } catch (SQLException e) {
-                e.printStackTrace();
+                logger.error("Exception caught", e);
             } catch (ParseException e) {
-                e.printStackTrace();
+                logger.error("Exception caught", e);
             } catch (Exception e) {
-                e.printStackTrace();
+                logger.error("Exception caught", e);
             }
 
         }
@@ -616,11 +619,11 @@ public class AddTutor extends javax.swing.JPanel {
                 jButton4.setEnabled(true);
 
             } catch (SQLException e) {
-                e.printStackTrace();
+                logger.error("Exception caught", e);
             } catch (ParseException e) {
-                e.printStackTrace();
+                logger.error("Exception caught", e);
             } catch (Exception e) {
-                e.printStackTrace();
+                logger.error("Exception caught", e);
             }
 
         }
@@ -637,9 +640,9 @@ public class AddTutor extends javax.swing.JPanel {
         try {
             parent.switchPanel(allTutors);
         } catch (NullPointerException e) {
-            e.printStackTrace();
+            logger.error("Exception caught", e);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Exception caught", e);
         }
     }//GEN-LAST:event_jButton4ActionPerformed
 
