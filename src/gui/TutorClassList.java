@@ -18,8 +18,11 @@ import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import model.MySQL2;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class TutorClassList extends javax.swing.JPanel {
+    private static final Logger logger = LogManager.getLogger(TutorClassList.class);
 
     private DateChooser chDate = new DateChooser();
 
@@ -83,9 +86,9 @@ public class TutorClassList extends javax.swing.JPanel {
 
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error("Exception caught", e);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Exception caught", e);
         }
     }
 
@@ -247,7 +250,7 @@ public class TutorClassList extends javax.swing.JPanel {
             }
 
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Exception caught", e);
         }
     }
 
@@ -554,7 +557,7 @@ public class TutorClassList extends javax.swing.JPanel {
                 cancelBtn.setEnabled(false);
                 jTextField2.setText("");
             } catch (Exception e) {
-                e.printStackTrace();
+                logger.error("Exception caught", e);
                 JOptionPane.showMessageDialog(this, "Error while sending cancellation request.");
             }
         } else {
@@ -660,7 +663,7 @@ public class TutorClassList extends javax.swing.JPanel {
 
                     JOptionPane.showMessageDialog(this, "Session marked as completed successfully!");
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    logger.error("Exception caught", e);
                     JOptionPane.showMessageDialog(this, "Error while completing the session.");
                 }
             }

@@ -16,12 +16,15 @@ import java.util.Date;
 import java.util.Vector;
 import javax.swing.table.DefaultTableModel;
 import model.MySQL2;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  *
  * @author Rushma
  */
 public class TutorRequestedSessions extends javax.swing.JPanel {
+    private static final Logger logger = LogManager.getLogger(TutorRequestedSessions.class);
 
     private DateChooser chDate = new DateChooser();
 
@@ -127,7 +130,7 @@ public class TutorRequestedSessions extends javax.swing.JPanel {
                 model.addRow(vector);
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Exception caught", e);
         }
     }
 

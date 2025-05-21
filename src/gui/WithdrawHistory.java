@@ -13,12 +13,15 @@ import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.data.JRTableModelDataSource;
 import net.sf.jasperreports.view.JasperViewer;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  *
  * @author kalin
  */
 public class WithdrawHistory extends javax.swing.JFrame {
+    private static final Logger logger = LogManager.getLogger(WithdrawHistory.class);
 
     /**
      * Creates new form WithdrawHistory
@@ -66,7 +69,7 @@ public class WithdrawHistory extends javax.swing.JFrame {
             jTextField1.setText(String.valueOf(TotalAmount));
 
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Exception caught", e);
         }
     }
 
@@ -183,7 +186,7 @@ public class WithdrawHistory extends javax.swing.JFrame {
         try {
             jasperPrint = JasperFillManager.fillReport(path, params, dataSource);
         } catch (JRException e) {
-            e.printStackTrace();
+            logger.error("Exception caught", e);
         }
         JasperViewer.viewReport(jasperPrint, false);
     }//GEN-LAST:event_jButton1ActionPerformed

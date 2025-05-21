@@ -18,12 +18,18 @@ import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.data.JRTableModelDataSource;
 import net.sf.jasperreports.view.JasperViewer;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+
 
 /**
  *
  * @author kalin
  */
 public class TotalTutorPayment extends javax.swing.JFrame {
+    private static final Logger logger = LogManager.getLogger(TotalTutorPayment.class);
+    
 
     /**
      * Creates new form TotoalTutorPayment
@@ -154,7 +160,7 @@ public class TotalTutorPayment extends javax.swing.JFrame {
         try {
             jasperPrint = JasperFillManager.fillReport(path, params, dataSource);
         } catch (JRException e) {
-            e.printStackTrace();
+            
         }
         JasperViewer.viewReport(jasperPrint, false);
     }//GEN-LAST:event_jButton2ActionPerformed

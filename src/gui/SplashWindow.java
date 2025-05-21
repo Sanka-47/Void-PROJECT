@@ -9,9 +9,12 @@ import java.awt.Toolkit;
 import javax.swing.ImageIcon;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 
 public class SplashWindow extends javax.swing.JFrame {
+    private static final Logger logger = LogManager.getLogger(SplashWindow.class);
     
     private static SplashWindow splashWindow;
     
@@ -36,7 +39,7 @@ public class SplashWindow extends javax.swing.JFrame {
                     try {
                         Thread.sleep(100);
                     } catch (InterruptedException e) {
-                        e.printStackTrace();
+                        logger.error("Exception caught", e);
                     }
                 }
                 

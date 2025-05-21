@@ -16,12 +16,15 @@ import java.util.Vector;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import model.MySQL2;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  *
  * @author Rushma
  */
 public class RequestedSessions extends javax.swing.JPanel {
+    private static final Logger logger = LogManager.getLogger(RequestedSessions.class);
 
     private DateChooser chDate = new DateChooser();
     private String From;
@@ -129,7 +132,7 @@ public class RequestedSessions extends javax.swing.JPanel {
                 model.addRow(vector);
             }
         } catch (Exception e) {
-            e.printStackTrace(); // Log the exception for debugging
+            logger.error("Exception caught", e); // Log the exception for debugging
         }
     }
 
@@ -392,7 +395,7 @@ public class RequestedSessions extends javax.swing.JPanel {
                 // Disable buttons after action
                 rejectbtn.setEnabled(false);
             } catch (Exception e) {
-                e.printStackTrace();
+                logger.error("Exception caught", e);
                 JOptionPane.showMessageDialog(this, "Error while rejecting session.");
             }
         } else {
