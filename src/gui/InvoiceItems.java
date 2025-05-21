@@ -6,8 +6,11 @@ import java.sql.ResultSet;
 import java.util.Vector;
 import javax.swing.table.DefaultTableModel;
 import model.MySQL2;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class InvoiceItems extends javax.swing.JDialog {
+    private static final Logger logger = LogManager.getLogger(InvoiceItems.class);
     
     private DashboardInterface parent;
     

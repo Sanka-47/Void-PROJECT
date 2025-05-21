@@ -16,7 +16,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Vector;
 import java.util.logging.Level;
-import java.util.logging.Logger;
+
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -25,14 +25,17 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 import model.SecurePasswordFacade;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  *
  * @author sky
  */
 public class EmployeeRegistration extends javax.swing.JPanel {
+    private static final Logger logger = LogManager.getLogger(EmployeeRegistration.class);
 
-//        private static final Logger logger = Logger.getLogger(TutorSignIn.class.getName());
+//        
     private DashboardInterface parent;
     private DateChooser chDate = new DateChooser();
     public AllEmployees allEmployees;
@@ -640,7 +643,7 @@ public class EmployeeRegistration extends javax.swing.JPanel {
 
             } catch (Exception e) {
 //            logger.log(Level.SEVERE, "Error occurred during employee update for NIC: " + nic, e);
-                e.printStackTrace();
+                logger.error("Exception caught", e);
             }
 
         }

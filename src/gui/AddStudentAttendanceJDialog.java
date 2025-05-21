@@ -14,8 +14,11 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 import model.MySQL2;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class AddStudentAttendanceJDialog extends javax.swing.JDialog {
+    private static final Logger logger = LogManager.getLogger(AddStudentAttendanceJDialog.class);
 
     private String ID;
 
@@ -104,7 +107,7 @@ public class AddStudentAttendanceJDialog extends javax.swing.JDialog {
             jComboBox1.setModel(model);
 
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Exception caught", e);
         }
     }
 
@@ -128,7 +131,7 @@ public class AddStudentAttendanceJDialog extends javax.swing.JDialog {
             jComboBox2.setModel(model);
 
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Exception caught", e);
         }
     }
 
@@ -150,7 +153,7 @@ public class AddStudentAttendanceJDialog extends javax.swing.JDialog {
             jComboBox3.setModel(model);
 
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Exception caught", e);
         }
     }
 
@@ -348,7 +351,7 @@ public class AddStudentAttendanceJDialog extends javax.swing.JDialog {
                 clearAll();
 
             } catch (Exception e) {
-                e.printStackTrace();
+                logger.error("Exception caught", e);
                 javax.swing.JOptionPane.showMessageDialog(this, "An error occurred: " + e.getMessage(), "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
             }
         }
@@ -389,7 +392,7 @@ public class AddStudentAttendanceJDialog extends javax.swing.JDialog {
                 this.dispose();
 
             } catch (Exception e) {
-                e.printStackTrace();
+                logger.error("Exception caught", e);
                 javax.swing.JOptionPane.showMessageDialog(this, "An error occurred: " + e.getMessage(), "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
             }
         }

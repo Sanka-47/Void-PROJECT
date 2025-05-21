@@ -1,0 +1,14 @@
+May 21, 2025 11:08:55 AM gui.SignIn jButton2ActionPerformed
+INFO: Email found for NIC: 200426312899
+May 21, 2025 11:14:20 AM gui.SignIn jButton1ActionPerformed
+WARNING: Invalid NIC or password for NIC: 200326312899
+May 21, 2025 11:14:30 AM gui.SignIn jButton1ActionPerformed
+WARNING: Invalid NIC format: kalindu47kk@gmail.com
+May 21, 2025 11:14:55 AM gui.SignIn jButton1ActionPerformed
+WARNING: Invalid NIC format: kalindu47kk@gmail.com
+May 21, 2025 11:15:02 AM gui.SignIn jButton1ActionPerformed
+WARNING: Invalid NIC or password for NIC: 200326312899
+May 21, 2025 11:15:16 AM gui.SignIn jButton1ActionPerformed
+WARNING: Invalid NIC or password for NIC: 200326312899
+May 21, 2025 11:15:28 AM gui.SignIn jButton1ActionPerformed
+INFO: Employee Kalindu Koanara successfully logged in
