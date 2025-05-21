@@ -7,19 +7,20 @@ import java.awt.Toolkit;
 import java.io.FileOutputStream;
 import java.io.ObjectOutputStream;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import model.MySQL2;
 
 public class SetupConnection extends javax.swing.JFrame {
-    
+
     String fp;
 
     public SetupConnection() {
         initComponents();
         loadIcon();
     }
-    
+
     private void loadIcon() {
         Image image = Toolkit.getDefaultToolkit().getImage("src//resource//VOID.png");
         this.setIconImage(image);
@@ -174,7 +175,7 @@ public class SetupConnection extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        
+
         MySQL2 db = new MySQL2();
 
         db.ip = jTextField1.getText().trim();
@@ -185,6 +186,30 @@ public class SetupConnection extends javax.swing.JFrame {
         db.dump = jTextField6.getText().trim();
 
         db.path = jTextField7.getText().trim();
+
+        if (db.ip.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "IP Address field is required.");
+            return;
+        } else if (db.port.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Port field is required.");
+            return;
+        } else if (db.dbname.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Database Name field is required.");
+            return;
+        } else if (db.un.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Username field is required.");
+            return;
+        } else if (db.pw.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Password field is required.");
+            return;
+        } else if (db.dump.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "MySQL Dump Path field is required.");
+            return;
+        }
+//        else if (db.path.isEmpty()) {
+//            JOptionPane.showMessageDialog(null, "Backup Path field is required.");
+//            return;
+//        }
 
         try {
 
@@ -215,14 +240,14 @@ public class SetupConnection extends javax.swing.JFrame {
                 fp = filePath.replace("\\", "/");
                 jTextField6.setText(fp);
             }
-            
+
         } catch (Exception e) {
             e.printStackTrace();
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     public static void main(String args[]) throws UnsupportedLookAndFeelException {
-        
+
         UIManager.setLookAndFeel(new FlatLightLaf());
 //        UIManager.put("Button.background", Color.decode("#4E4ACF"));
         UIManager.put("Button.focusedBackground", Color.decode("#6AAAFF"));

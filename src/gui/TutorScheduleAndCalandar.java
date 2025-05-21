@@ -972,41 +972,41 @@ public class TutorScheduleAndCalandar extends javax.swing.JPanel {
 
     private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
 
-//        String sessionID = jTextField1.getText();
-//
-//        if (sessionID.isEmpty()) {
-//            JOptionPane.showMessageDialog(this, "Please enter a session ID to cancel!", "Warning", JOptionPane.WARNING_MESSAGE);
-//            return;
-//        }
-//
-//        int confirm = JOptionPane.showConfirmDialog(this, "Are you sure you want to cancel this session?", "Confirm Cancellation", JOptionPane.YES_NO_OPTION);
-//        if (confirm == JOptionPane.NO_OPTION) {
-//            return;
-//        }
-//
-//        try {
-//            System.out.println("session id" + sessionID);
-//            ResultSet resultSet = MySQL2.executeSearch("SELECT `id` FROM `class` WHERE `id` = '" + sessionID + "'");
-//
-//            if (resultSet.next()) {
-//
-//                MySQL2.executeIUD("UPDATE `class` SET class_status_id = 3 WHERE `id` = '" + sessionID + "'");
-//                System.out.println("something happened but not working");
-//                JOptionPane.showMessageDialog(this, "Session canceled successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
-//                if (rowData != null && !rowData.isEmpty()) {
-//                    MySQL2.executeIUD("UPDATE `request_sessions` SET `approve_status` = 'Approved' WHERE `class_id` = '" + rowData.get(1) + "'");
-//                }
-//                reset();
-//                loadTutorSchedule();
-//
-//            } else {
-//                JOptionPane.showMessageDialog(this, "The session ID does not exist. Please check and try again.", "Error", JOptionPane.ERROR_MESSAGE);
-//            }
-//
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            JOptionPane.showMessageDialog(this, "An error occurred while canceling the session. Please try again.", "Error", JOptionPane.ERROR_MESSAGE);
-//        }
+        String sessionID = jTextField1.getText();
+
+        if (sessionID.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please enter a session ID to cancel!", "Warning", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        int confirm = JOptionPane.showConfirmDialog(this, "Are you sure you want to cancel this session?", "Confirm Cancellation", JOptionPane.YES_NO_OPTION);
+        if (confirm == JOptionPane.NO_OPTION) {
+            return;
+        }
+
+        try {
+            System.out.println("session id" + sessionID);
+            ResultSet resultSet = MySQL2.executeSearch("SELECT `id` FROM `class` WHERE `id` = '" + sessionID + "'");
+
+            if (resultSet.next()) {
+
+                MySQL2.executeIUD("UPDATE `class` SET class_status_id = 3 WHERE `id` = '" + sessionID + "'");
+                System.out.println("something happened but not working");
+                JOptionPane.showMessageDialog(this, "Session canceled successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
+                if (rowData != null && !rowData.isEmpty()) {
+                    MySQL2.executeIUD("UPDATE `request_sessions` SET `approve_status` = 'Approved' WHERE `class_id` = '" + rowData.get(1) + "'");
+                }
+                reset();
+                loadTutorSchedule();
+
+            } else {
+                JOptionPane.showMessageDialog(this, "The session ID does not exist. Please check and try again.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "An error occurred while canceling the session. Please try again.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_jButton10ActionPerformed
 
     private void setPlaceholder(JFormattedTextField textField, String placeholder) {
