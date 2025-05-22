@@ -7,9 +7,13 @@ package gui;
 import java.awt.BorderLayout;
 import java.sql.ResultSet;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Vector;
+import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
@@ -29,6 +33,7 @@ import org.apache.logging.log4j.Logger;
  * @author mrtkb
  */
 public class StudentPerformanceReport extends javax.swing.JPanel {
+
     private static final Logger logger = LogManager.getLogger(StudentPerformanceReport.class);
 
     private TutorDashboard parent;
@@ -221,6 +226,7 @@ public class StudentPerformanceReport extends javax.swing.JPanel {
 
     }//GEN-LAST:event_jButton3ActionPerformed
 
+
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
 
         int row = jTable1.getSelectedRow(); // Selected row
@@ -250,6 +256,8 @@ public class StudentPerformanceReport extends javax.swing.JPanel {
 
             AddStudentPerformanceReportJDialog ASR = new AddStudentPerformanceReportJDialog(parent, true);
 
+            populateStudentNameComboBox(ASR.getjComboBox1());
+            
             ASR.getjLabel7().setText(gradeId);
             ASR.getjTextField1().setText(Grade);
             ASR.getjTextArea1().setText(Comments);

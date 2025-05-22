@@ -94,10 +94,35 @@ public class TutorClassList extends javax.swing.JPanel {
     }
 
     private void loadTable(String from, String to) {
+
+        String placeholder = "Class ID, Class Name, Hall Number, Course Name, Class Status";
+        searchInputField.setText(placeholder);
+        searchInputField.setForeground(Color.GRAY);
+
+        searchInputField.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                if (searchInputField.getText().equals(placeholder)) {
+                    searchInputField.setText("");
+                    searchInputField.setForeground(Color.BLACK);
+                }
+            }
+
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                if (searchInputField.getText().trim().isEmpty()) {
+                    searchInputField.setText(placeholder);
+                    searchInputField.setForeground(Color.GRAY);
+                }
+            }
+        });
+
         String TID = String.valueOf(tutorId);
 
         try {
+
             String searchText = searchInputField.getText().toLowerCase();
+            if (searchText.equals(placeholder.toLowerCase())) {
+                searchText = ""; // Ignore placeholder in search
+            }
 
             String startTime = startTimeInputField.getText();
 
@@ -356,6 +381,11 @@ public class TutorClassList extends javax.swing.JPanel {
         jLabel6.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
         jLabel6.setText("Search");
 
+        searchInputField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                searchInputFieldActionPerformed(evt);
+            }
+        });
         searchInputField.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 searchInputFieldKeyReleased(evt);
@@ -529,6 +559,7 @@ public class TutorClassList extends javax.swing.JPanel {
 
         int selectedRow = jTable1.getSelectedRow();
         if (selectedRow != -1) {
+<<<<<<< ours
 
             if (jTable1.getValueAt(selectedRow, 8).equals("Completed")) {
                 JOptionPane.showMessageDialog(this, "You cannot cancel a completed lesson");
@@ -568,6 +599,51 @@ public class TutorClassList extends javax.swing.JPanel {
                     logger.error("Exception caught", e);
                     JOptionPane.showMessageDialog(this, "Error while sending cancellation request.");
                 }
+=======
+            String classId = (String) jTable1.getValueAt(selectedRow, 0); // Class ID is in column 0
+            String className = (String) jTable1.getValueAt(selectedRow, 1); // Class Name is in column 1
+            String date = (String) jTable1.getValueAt(selectedRow, 2); // Date is in column 2
+            String startTime = (String) jTable1.getValueAt(selectedRow, 3); // Start Time is in column 3
+            String endTime = (String) jTable1.getValueAt(selectedRow, 4); // End Time is in column 4
+            String hallNumber = (String) jTable1.getValueAt(selectedRow, 5); // Hall Number is in column 5
+            String course = (String) jTable1.getValueAt(selectedRow, 7); // Hall Number is in column 5
+            String reason = jTextField2.getText().trim(); // Reason provided in text field
+            int tutorId = this.tutorId; // Replace with the actual tutor's ID from your application
+            // Replace if the Course ID needs to be dynamically set
+
+            try {
+
+                ResultSet rs = MySQL2.executeSearch("SELECT class_status_id FROM class WHERE id = '" + classId + "'");
+                if (rs.next()) {
+                    int statusId = rs.getInt("class_status_id");
+                    if (statusId == 2) {
+                        JOptionPane.showMessageDialog(this, "This session is already completed and cannot be cancelled.");
+                        return;
+                    }
+                }
+
+                // Insert cancellation request into the `request_sessions` table
+//                String query = "INSERT INTO request_sessions (title, date, start_time, end_time, hallnumber, tutor_id, approve_status, reason, courses_id, type) "
+//                        + "VALUES ('" + className + "', '" + date + "', '" + startTime + "', '" + endTime + "', '" + hallNumber + "', '" + tutorId + "', 'Pending', '" + reason + "', " + courseMap.get(course) + ", 'Cancel')";
+//                MySQL2.executeIUD(query);
+                String query = "INSERT INTO request_sessions (class_id, title, date, start_time, end_time, hallnumber, tutor_id, approve_status, reason, courses_id, type) "
+                        + "VALUES ('" + classId + "', '" + className + "', '" + date + "', '" + startTime + "', '" + endTime + "', '" + hallNumber + "', '" + tutorId + "', 'Pending', '" + reason + "', " + courseMap.get(course) + ", 'Cancel')";
+
+                // Set the class status to 'Pending Cancellation' (class_status_id = 5)
+                String updateQuery = "UPDATE class SET class_status_id = 5 WHERE id = '" + classId + "'";
+                MySQL2.executeIUD(updateQuery);
+
+                // Reload table data
+                loadTable("", "");
+                JOptionPane.showMessageDialog(this, "Cancellation request sent to admin successfully!");
+
+                // Disable button and clear text field after action
+                cancelBtn.setEnabled(false);
+                jTextField2.setText("");
+            } catch (Exception e) {
+                logger.error("Exception caught", e);
+                JOptionPane.showMessageDialog(this, "Error while sending cancellation request.");
+>>>>>>> theirs
             }
 
         } else {
@@ -688,6 +764,10 @@ public class TutorClassList extends javax.swing.JPanel {
     private void startTimeInputFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startTimeInputFieldActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_startTimeInputFieldActionPerformed
+
+    private void searchInputFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchInputFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_searchInputFieldActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

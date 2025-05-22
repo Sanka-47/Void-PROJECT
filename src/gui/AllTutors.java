@@ -24,33 +24,60 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class AllTutors extends javax.swing.JPanel {
+
     private static final Logger logger = LogManager.getLogger(AllTutors.class);
 
     private DashboardInterface parent;
 
     private AddTutor updateTutor;
-    
+
     private DateChooser chDate = new DateChooser();
 
     private String From;
     private String To;
 
+    private final String searchPlaceholder = "ID, Name, Qualifications, Mobile, Email, Course, NIC...";
+
     public AllTutors(DashboardInterface parent) {
         this.parent = parent;
         initComponents();
         dateChooser();
-        loadTable("","");
+        loadTable("", "");
         this.updateTutor = new AddTutor(parent);
+<<<<<<< ours
          DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
         renderer.setHorizontalAlignment(SwingConstants.CENTER);
 
         jTable1.setDefaultRenderer(Object.class, renderer);
+=======
+
+        jTextField1.setText(searchPlaceholder);
+        jTextField1.setForeground(Color.GRAY);
+
+        jTextField1.addFocusListener(new java.awt.event.FocusAdapter() {
+            @Override
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                if (jTextField1.getText().equals(searchPlaceholder)) {
+                    jTextField1.setText("");
+                    jTextField1.setForeground(Color.BLACK);
+                }
+            }
+
+            @Override
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                if (jTextField1.getText().isEmpty()) {
+                    jTextField1.setForeground(Color.GRAY);
+                    jTextField1.setText(searchPlaceholder);
+                }
+            }
+        });
+>>>>>>> theirs
     }
 
     private void switchToRegistrationAD() {
         parent.switchPanel(updateTutor);
     }
-    
+
     private void dateChooser() {
         chDate.setTextField(jTextField2);
         chDate.setDateSelectionMode(DateChooser.DateSelectionMode.BETWEEN_DATE_SELECTED);
@@ -65,20 +92,23 @@ public class AllTutors extends javax.swing.JPanel {
                 From = df.format(date.getFromDate());
                 To = df.format(date.getToDate());
                 loadTable(From, To);
-                
+
             }
         });
     }
 
     private void loadTable(String from, String to) {
         try {
-            
+
             String sort = String.valueOf(jComboBox1.getSelectedItem());
-            
+
             String selectDateType = String.valueOf(jComboBox2.getSelectedItem());
-            
+
             String searchText = jTextField1.getText().toLowerCase();
-            
+            if (searchText.equals(searchPlaceholder.toLowerCase())) {
+                searchText = ""; // Ignore searchPlaceholder in search
+            }
+
             String query = "SELECT `tutor`.`id`, `first_name`, `last_name`, `qualification`, `contact_info`, "
                     + "`gender`.`name`, `courses`.`name`, `password`, `nic`, `email`, `dob`, `registration_date` FROM `tutor` "
                     + "INNER JOIN `gender` ON `tutor`.`gender_id` = `gender`.`id` "
@@ -96,7 +126,7 @@ public class AllTutors extends javax.swing.JPanel {
                         + "OR LOWER(`email`) LIKE '%" + searchText + "%') ";
 
             }
-            
+
             if (selectDateType.equals("Date of Birth")) {
                 if (from != null && !from.isEmpty() && to != null && !to.isEmpty()) {
                     if (query.contains("WHERE")) {
@@ -114,7 +144,7 @@ public class AllTutors extends javax.swing.JPanel {
                     }
                 }
             }
-            
+
             if (sort.equals("First Name ASC")) {
                 query += " ORDER BY `tutor`.`first_name` ASC";
             } else if (sort.equals("First Name DESC")) {
@@ -128,7 +158,7 @@ public class AllTutors extends javax.swing.JPanel {
             } else if (sort.equals("ID DESC")) {
                 query += " ORDER BY `tutor`.`id` DESC";
             }
-            
+
             ResultSet resultSet = MySQL2.executeSearch(query);
 
             DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
@@ -155,7 +185,7 @@ public class AllTutors extends javax.swing.JPanel {
             logger.error("Exception caught", e);
         }
     }
-    
+
     private void reset() {
         jComboBox1.setSelectedIndex(0);
         jComboBox2.setSelectedIndex(0);
@@ -163,7 +193,7 @@ public class AllTutors extends javax.swing.JPanel {
         jTextField2.setText("");
         From = "";
         To = "";
-        loadTable("","");
+        loadTable("", "");
     }
 
     @SuppressWarnings("unchecked")
@@ -363,7 +393,7 @@ public class AllTutors extends javax.swing.JPanel {
         String DOB = String.valueOf(jTable1.getValueAt(row, 9));
 
         if (evt.getClickCount() == 2) {
-            
+
             // Disable buttons/fields as needed
             updateTutor.getjTextField3().setEnabled(false);
             updateTutor.getjPasswordField1().setEnabled(false);
@@ -382,7 +412,7 @@ public class AllTutors extends javax.swing.JPanel {
             updateTutor.getjTextField5().setText(Mobile);
             updateTutor.getjTextField6().setText(Email);
             updateTutor.getjTextField7().setText(DOB);
-            
+
 //            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 //
 //            try {
@@ -392,7 +422,6 @@ public class AllTutors extends javax.swing.JPanel {
 //            } catch (Exception e) {
 //                System.out.println("Error converting Object to Date: " + e.getMessage());
 //            }
-
             if (parent != null) {
                 switchToRegistrationAD();
             } else {

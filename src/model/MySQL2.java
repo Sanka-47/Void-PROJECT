@@ -30,7 +30,6 @@ public class MySQL2 implements Serializable {
             Class.forName("com.mysql.cj.jdbc.Driver");
 
             connection = DriverManager.getConnection("jdbc:mysql://" + db.ip + ":" + db.port + "/" + db.dbname, db.un, db.pw);
-//KALINDUprado47
         }
     }
 
