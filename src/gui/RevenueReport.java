@@ -15,6 +15,8 @@ import model.MySQL2;
 import java.time.Month;
 import java.util.Date;
 import java.util.HashMap;
+import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableCellRenderer;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
@@ -36,6 +38,10 @@ public class RevenueReport extends javax.swing.JFrame {
     public RevenueReport() {
         initComponents();
         loadRevenueData();
+         DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
+        renderer.setHorizontalAlignment(SwingConstants.CENTER);
+
+        jTable1.setDefaultRenderer(Object.class, renderer);
     }
 
     // Import the Month enum

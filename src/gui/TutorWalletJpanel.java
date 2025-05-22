@@ -1,19 +1,14 @@
-//author SANKA
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
+ */
 package gui;
 
-import com.formdev.flatlaf.FlatDarkLaf;
-import com.formdev.flatlaf.FlatLightLaf;
-import com.formdev.flatlaf.intellijthemes.FlatArcIJTheme;
-import com.formdev.flatlaf.intellijthemes.FlatCyanLightIJTheme;
-import com.formdev.flatlaf.intellijthemes.FlatSolarizedLightIJTheme;
-import java.awt.Color;
 import java.sql.ResultSet;
 import java.util.Vector;
 import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import model.MySQL2;
@@ -22,10 +17,10 @@ import org.apache.logging.log4j.Logger;
 
 /**
  *
- * @author mrtkb
+ * @author Rushma
  */
-public class TutorWallet extends javax.swing.JFrame {
-    private static final Logger logger = LogManager.getLogger(TutorWallet.class);
+public class TutorWalletJpanel extends javax.swing.JPanel {
+ private static final Logger logger = LogManager.getLogger(TutorWallet.class);
 
     /**
      * Creates new form withdrawHistory
@@ -33,7 +28,7 @@ public class TutorWallet extends javax.swing.JFrame {
     private static double TotalAmount;
     private int tutorId;  // Variable to store tutor ID
 
-    public TutorWallet(int tutorId) {
+    public TutorWalletJpanel(int tutorId) {
         this.tutorId = tutorId; // Store the passed tutorId
         initComponents();
         SwingUtilities.invokeLater(() -> jTextField1.requestFocusInWindow());
@@ -44,7 +39,7 @@ public class TutorWallet extends javax.swing.JFrame {
         jTable1.setDefaultRenderer(Object.class, renderer);
     }
 
-    private TutorWallet() {
+    private TutorWalletJpanel() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -54,11 +49,7 @@ public class TutorWallet extends javax.swing.JFrame {
 //        }
 //        return instance;
 //    }
-    @Override
-    public void dispose() {
-        super.dispose();
-        Object instance = null; // Allow new instance creation once disposed
-    }
+   
 
    public void LoadWalletDetails() {
     try {
@@ -115,7 +106,6 @@ public class TutorWallet extends javax.swing.JFrame {
         logger.error("Exception caught", e);
     }
 }
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -136,7 +126,7 @@ public class TutorWallet extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setPreferredSize(new java.awt.Dimension(1000, 581));
 
         jLabel3.setFont(new java.awt.Font("Century Gothic", 1, 24)); // NOI18N
         jLabel3.setText("My Wallet Details");
@@ -187,7 +177,7 @@ public class TutorWallet extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(426, 426, 426)
                         .addComponent(jLabel1)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(16, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -237,12 +227,12 @@ public class TutorWallet extends javax.swing.JFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(23, 23, 23)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 346, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 351, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+        this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -256,26 +246,23 @@ public class TutorWallet extends javax.swing.JFrame {
                 .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(23, 23, 23))
         );
-
-        pack();
-        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
 
         try {
-            
+
             double amount = Double.parseDouble(jTextField1.getText());
-             // Insert into tutor_withdraw_history
+            // Insert into tutor_withdraw_history
             String insertQuery = "INSERT INTO tutor_withdraw_history (withdraw_date, withdrawal_amount, tutor_id) "
-                    + "VALUES (CURDATE(), " + amount + ", " + tutorId + ")";
+            + "VALUES (CURDATE(), " + amount + ", " + tutorId + ")";
             MySQL2.executeIUD(insertQuery);
-            
+
             MySQL2.executeIUD("UPDATE `wallet` "
-                    + "SET `withdrawal_status_id` = 2, "
-                    + "`date` = NOW() "
-                    + "WHERE `withdrawal_status_id` = 1 "
-                    + "AND `tutor_id` = '" + tutorId + "';");
+                + "SET `withdrawal_status_id` = 2, "
+                + "`date` = NOW() "
+                + "WHERE `withdrawal_status_id` = 1 "
+                + "AND `tutor_id` = '" + tutorId + "';");
 
             JOptionPane.showMessageDialog(this, "Withdrawed Successfully", "Info", JOptionPane.INFORMATION_MESSAGE);
             LoadWalletDetails();
@@ -283,36 +270,12 @@ public class TutorWallet extends javax.swing.JFrame {
         } catch (Exception e) {
             logger.error("Exception caught", e);
         }
-
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         new WithdrawHistory().setVisible(true);
     }//GEN-LAST:event_jButton2ActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) throws UnsupportedLookAndFeelException {
-
-        UIManager.setLookAndFeel(new FlatLightLaf());
-        UIManager.put("Button.background", Color.decode("#4E4ACF"));
-        UIManager.put("Button.focusedBackground", Color.decode("#6AAAFF"));
-        UIManager.put("Button.foreground", Color.decode("#FFFFFF"));
-        UIManager.put("TextField.background", Color.decode("#F5F3FF"));
-        UIManager.put("TextField.foreground", Color.decode("#4D4D4D"));
-        UIManager.put("Panel.background", Color.decode("#EEF1EF"));
-        UIManager.put("Table.background", Color.decode("#FFFFFF"));
-        UIManager.put("Table.foreground", Color.decode("#4D4D4D"));
-        UIManager.put("Table.selectionBackground", Color.decode("#40424E"));
-        UIManager.put("Table.selectionForeground", Color.decode("#FFFFFF"));
-
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new TutorWallet().setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
