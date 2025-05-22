@@ -39,7 +39,7 @@ public class StudentPerformanceReport extends javax.swing.JPanel {
 
     private int tutorID;
 
-    private final String searchPlaceholder = "Search here...";
+    private final String searchPlaceholder = "ID, Grade, Student Name, Assignment name";
 
     public StudentPerformanceReport(int tutorID) {
         initComponents();
@@ -92,8 +92,83 @@ public class StudentPerformanceReport extends javax.swing.JPanel {
     }
 
     private void searchAndSort() {
+//        try {
+//            String keyword = jTextField1.getText().trim().toLowerCase();
+//            String sortOption = (String) jComboBox1.getSelectedItem();
+//
+//            String query = "SELECT `grades`.`id`, `grades`.`grade`, `grades`.`comments`, `student`.`nic`,  `student`.`first_name`, "
+//                    + "`student`.`last_name`, `assignment`.`id`, `assignment`.`title` FROM `grades` "
+//                    + "INNER JOIN `student` ON `grades`.`student_nic` = `student`.`nic` "
+//                    + "INNER JOIN `assignment` ON `grades`.`assignment_id` = `assignment`.`id` "
+//                    + "INNER JOIN `tutor` ON `assignment`.`tutor_id` = `tutor`.`id` "
+//                    + "WHERE `tutor`.`id` = '" + tutorID + "'";
+//
+//            ResultSet rs = MySQL2.executeSearch(query);
+//            List<Vector<String>> rows = new ArrayList<>();
+//
+//            while (rs.next()) {
+//                String id = rs.getString("grades.id");
+//                String grade = rs.getString("grade");
+//                String comments = rs.getString("grades.comments");
+//                String studentName = rs.getString("student.first_name") + " " + rs.getString("student.last_name");
+//                String assignmentTitle = rs.getString("assignment.title");
+//
+//                if (id.toLowerCase().contains(keyword) || grade.toLowerCase().contains(keyword)
+//                        || studentName.toLowerCase().contains(keyword) || assignmentTitle.toLowerCase().contains(keyword)) {
+//                    Vector<String> row = new Vector<>();
+//                    row.add(id);
+//                    row.add(grade);
+//                    row.add(comments);
+//                    row.add(studentName);
+//                    row.add(assignmentTitle);
+//                    rows.add(row);
+//                }
+//            }
+//
+//            // Sort logic
+//            switch (sortOption) {
+//                case "ID ASC":
+//                    rows.sort((a, b) -> Integer.compare(Integer.parseInt(a.get(0)), Integer.parseInt(b.get(0))));
+//                    break;
+//                case "ID DESC":
+//                    rows.sort((a, b) -> Integer.compare(Integer.parseInt(b.get(0)), Integer.parseInt(a.get(0))));
+//                    break;
+//                case "Grade ASC":
+//                    rows.sort((a, b) -> a.get(1).compareToIgnoreCase(b.get(1)));
+//                    break;
+//                case "Grade DESC":
+//                    rows.sort((a, b) -> b.get(1).compareToIgnoreCase(a.get(1)));
+//                    break;
+//                case "Student Name ASC":
+//                    rows.sort((a, b) -> a.get(3).compareToIgnoreCase(b.get(3)));
+//                    break;
+//                case "Student Name DESC":
+//                    rows.sort((a, b) -> b.get(3).compareToIgnoreCase(a.get(3)));
+//                    break;
+//                case "Assignment Name ASC":
+//                    rows.sort((a, b) -> a.get(4).compareToIgnoreCase(b.get(4)));
+//                    break;
+//                case "Assignment Name DESC":
+//                    rows.sort((a, b) -> b.get(4).compareToIgnoreCase(a.get(4)));
+//                    break;
+//            }
+//
+//            // Load to table
+//            DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+//            model.setRowCount(0);
+//            for (Vector<String> row : rows) {
+//                model.addRow(row);
+//            }
+//
+//        } catch (Exception e) {
+//            logger.error("Exception in searchAndSort()", e);
+//        }
         try {
             String keyword = jTextField1.getText().trim().toLowerCase();
+            if (keyword.equals(searchPlaceholder.toLowerCase())) {
+                keyword = ""; // Ignore placeholder during actual search
+            }
+
             String sortOption = (String) jComboBox1.getSelectedItem();
 
             String query = "SELECT `grades`.`id`, `grades`.`grade`, `grades`.`comments`, `student`.`nic`,  `student`.`first_name`, "
@@ -113,8 +188,12 @@ public class StudentPerformanceReport extends javax.swing.JPanel {
                 String studentName = rs.getString("student.first_name") + " " + rs.getString("student.last_name");
                 String assignmentTitle = rs.getString("assignment.title");
 
-                if (id.toLowerCase().contains(keyword) || grade.toLowerCase().contains(keyword)
-                        || studentName.toLowerCase().contains(keyword) || assignmentTitle.toLowerCase().contains(keyword)) {
+                if (keyword.isEmpty()
+                        || id.toLowerCase().contains(keyword)
+                        || grade.toLowerCase().contains(keyword)
+                        || studentName.toLowerCase().contains(keyword)
+                        || assignmentTitle.toLowerCase().contains(keyword)) {
+
                     Vector<String> row = new Vector<>();
                     row.add(id);
                     row.add(grade);
