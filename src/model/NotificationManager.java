@@ -39,5 +39,12 @@ public class NotificationManager {
         return notifications;
     }
 
-   
+    public static void clearAllNotificationsForTutor(int tutorId) {
+        try {
+            String query = "DELETE FROM notifications WHERE tutor_id = " + tutorId;
+            MySQL2.executeIUD(query);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

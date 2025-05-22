@@ -10,9 +10,7 @@ import java.util.HashMap;
 import java.util.Vector;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
-import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
-import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import model.MySQL2;
 import org.apache.logging.log4j.LogManager;
@@ -34,10 +32,6 @@ public class StudentIntakes extends javax.swing.JPanel {
         dateChooser2();
         Iid = "1";
         SwingUtilities.invokeLater(() -> jTextField1.requestFocusInWindow());
-         DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
-        renderer.setHorizontalAlignment(SwingConstants.CENTER);
-
-        jTable1.setDefaultRenderer(Object.class, renderer);
     }
     
     private void dateChooser1() {

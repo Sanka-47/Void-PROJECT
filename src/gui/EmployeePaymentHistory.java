@@ -13,10 +13,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Vector;
 import javax.swing.JOptionPane;
-import javax.swing.SwingConstants;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
-import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import model.MySQL2;
 import net.sf.jasperreports.engine.JRException;
@@ -38,10 +36,6 @@ public class EmployeePaymentHistory extends javax.swing.JPanel {
      * Creates new form EmployeePaymentHistory
      */
     public EmployeePaymentHistory() {
-         DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
-        renderer.setHorizontalAlignment(SwingConstants.CENTER);
-
-        jTable1.setDefaultRenderer(Object.class, renderer);
         initComponents();
         loadEmployeePaymentHistory();
         addSearchFunctionality();

@@ -556,50 +556,13 @@ public class TutorClassList extends javax.swing.JPanel {
 
     private void cancelBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelBtnActionPerformed
         // Check if the text field (jTextField2) is empty
+        if (jTextField2.getText().trim().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please provide a reason for requesting session cancellation.");
+            return; // Exit the method if the text field is empty
+        }
 
         int selectedRow = jTable1.getSelectedRow();
         if (selectedRow != -1) {
-<<<<<<< ours
-
-            if (jTable1.getValueAt(selectedRow, 8).equals("Completed")) {
-                JOptionPane.showMessageDialog(this, "You cannot cancel a completed lesson");
-                return;
-            }else if (jTextField2.getText().trim().isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Please provide a reason for requesting session cancellation.");
-                return; // Exit the method if the text field is empty
-            } else if (jTable1.getValueAt(selectedRow, 8).equals("Cancelled")) {
-                JOptionPane.showMessageDialog(this, "This lesson has already been cancelled by the admin");
-                return;
-            }else {
-                String classId = (String) jTable1.getValueAt(selectedRow, 0); // Class ID is in column 0
-                String className = (String) jTable1.getValueAt(selectedRow, 1); // Class Name is in column 1
-                String date = (String) jTable1.getValueAt(selectedRow, 2); // Date is in column 2
-                String startTime = (String) jTable1.getValueAt(selectedRow, 3); // Start Time is in column 3
-                String endTime = (String) jTable1.getValueAt(selectedRow, 4); // End Time is in column 4
-                String hallNumber = (String) jTable1.getValueAt(selectedRow, 5); // Hall Number is in column 5
-                String course = (String) jTable1.getValueAt(selectedRow, 7); // Hall Number is in column 5
-                String reason = jTextField2.getText().trim(); // Reason provided in text field
-                int tutorId = this.tutorId; // Replace with the actual tutor's ID from your application
-                // Replace if the Course ID needs to be dynamically set
-
-                try {
-                    // Insert cancellation request into the `request_sessions` table
-                    String query = "INSERT INTO request_sessions (title, date, start_time, end_time, hallnumber, tutor_id, approve_status, reason, courses_id, type,class_id) "
-                            + "VALUES ('" + className + "', '" + date + "', '" + startTime + "', '" + endTime + "', '" + hallNumber + "', '" + tutorId + "', 'Pending', '" + reason + "', " + courseMap.get(course) + ", 'Cancel','" + classId + "')";
-                    MySQL2.executeIUD(query);
-                    // Reload table data
-                    loadTable("", "");
-                    JOptionPane.showMessageDialog(this, "Cancellation request sent to admin successfully!");
-
-                    // Disable button and clear text field after action
-                    cancelBtn.setEnabled(false);
-                    jTextField2.setText("");
-                } catch (Exception e) {
-                    System.out.println(e);
-                    logger.error("Exception caught", e);
-                    JOptionPane.showMessageDialog(this, "Error while sending cancellation request.");
-                }
-=======
             String classId = (String) jTable1.getValueAt(selectedRow, 0); // Class ID is in column 0
             String className = (String) jTable1.getValueAt(selectedRow, 1); // Class Name is in column 1
             String date = (String) jTable1.getValueAt(selectedRow, 2); // Date is in column 2
@@ -643,9 +606,7 @@ public class TutorClassList extends javax.swing.JPanel {
             } catch (Exception e) {
                 logger.error("Exception caught", e);
                 JOptionPane.showMessageDialog(this, "Error while sending cancellation request.");
->>>>>>> theirs
             }
-
         } else {
             JOptionPane.showMessageDialog(this, "Please select a session to cancel.");
         }
@@ -744,10 +705,7 @@ public class TutorClassList extends javax.swing.JPanel {
                     MySQL2.executeIUD(query);
                     String formattedDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
                     MySQL2.executeIUD("INSERT INTO `wallet`(`tutor_id`,`class_id`,`withdrawal_status_id`,`date`,`amount`) VALUES ('" + tutorId + "', '" + classId + "', '1', '" + formattedDate + "', '" + amount + "')");
-                    TutorDashboard dashboard = new TutorDashboard();
-                    if (dashboard != null && dashboard.tw != null && dashboard.tw.isVisible()) {
-                        dashboard.tw.LoadWalletDetails();
-                    }
+
                     loadTable("", "");
 
                     JOptionPane.showMessageDialog(this, "Session marked as completed successfully!");
