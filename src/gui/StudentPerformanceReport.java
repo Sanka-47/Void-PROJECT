@@ -1,15 +1,16 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
- */
 package gui;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.sql.ResultSet;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Vector;
+import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
@@ -29,6 +30,7 @@ import org.apache.logging.log4j.Logger;
  * @author mrtkb
  */
 public class StudentPerformanceReport extends javax.swing.JPanel {
+
     private static final Logger logger = LogManager.getLogger(StudentPerformanceReport.class);
 
     private TutorDashboard parent;
@@ -37,8 +39,32 @@ public class StudentPerformanceReport extends javax.swing.JPanel {
 
     private int tutorID;
 
+    private final String searchPlaceholder = "ID, Grade, Student Name, Assignment name";
+
     public StudentPerformanceReport(int tutorID) {
         initComponents();
+
+        jTextField1.setText(searchPlaceholder);
+        jTextField1.setForeground(Color.GRAY);
+
+        jTextField1.addFocusListener(new java.awt.event.FocusAdapter() {
+            @Override
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                if (jTextField1.getText().equals(searchPlaceholder)) {
+                    jTextField1.setText("");
+                    jTextField1.setForeground(Color.BLACK); // Normal input color
+                }
+            }
+
+            @Override
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                if (jTextField1.getText().isEmpty()) {
+                    jTextField1.setForeground(Color.GRAY);
+                    jTextField1.setText(searchPlaceholder);
+                }
+            }
+        });
+
         this.tutorID = tutorID;
         loadTable();
 
@@ -46,6 +72,176 @@ public class StudentPerformanceReport extends javax.swing.JPanel {
         renderer.setHorizontalAlignment(SwingConstants.CENTER);
 
         jTable1.setDefaultRenderer(Object.class, renderer);
+
+        jTextField1.getDocument().addDocumentListener(new javax.swing.event.DocumentListener() {
+            public void changedUpdate(javax.swing.event.DocumentEvent e) {
+                searchAndSort();
+            }
+
+            public void removeUpdate(javax.swing.event.DocumentEvent e) {
+                searchAndSort();
+            }
+
+            public void insertUpdate(javax.swing.event.DocumentEvent e) {
+                searchAndSort();
+            }
+        });
+
+        jComboBox1.addActionListener(e -> searchAndSort());
+
+    }
+
+    private void searchAndSort() {
+//        try {
+//            String keyword = jTextField1.getText().trim().toLowerCase();
+//            String sortOption = (String) jComboBox1.getSelectedItem();
+//
+//            String query = "SELECT `grades`.`id`, `grades`.`grade`, `grades`.`comments`, `student`.`nic`,  `student`.`first_name`, "
+//                    + "`student`.`last_name`, `assignment`.`id`, `assignment`.`title` FROM `grades` "
+//                    + "INNER JOIN `student` ON `grades`.`student_nic` = `student`.`nic` "
+//                    + "INNER JOIN `assignment` ON `grades`.`assignment_id` = `assignment`.`id` "
+//                    + "INNER JOIN `tutor` ON `assignment`.`tutor_id` = `tutor`.`id` "
+//                    + "WHERE `tutor`.`id` = '" + tutorID + "'";
+//
+//            ResultSet rs = MySQL2.executeSearch(query);
+//            List<Vector<String>> rows = new ArrayList<>();
+//
+//            while (rs.next()) {
+//                String id = rs.getString("grades.id");
+//                String grade = rs.getString("grade");
+//                String comments = rs.getString("grades.comments");
+//                String studentName = rs.getString("student.first_name") + " " + rs.getString("student.last_name");
+//                String assignmentTitle = rs.getString("assignment.title");
+//
+//                if (id.toLowerCase().contains(keyword) || grade.toLowerCase().contains(keyword)
+//                        || studentName.toLowerCase().contains(keyword) || assignmentTitle.toLowerCase().contains(keyword)) {
+//                    Vector<String> row = new Vector<>();
+//                    row.add(id);
+//                    row.add(grade);
+//                    row.add(comments);
+//                    row.add(studentName);
+//                    row.add(assignmentTitle);
+//                    rows.add(row);
+//                }
+//            }
+//
+//            // Sort logic
+//            switch (sortOption) {
+//                case "ID ASC":
+//                    rows.sort((a, b) -> Integer.compare(Integer.parseInt(a.get(0)), Integer.parseInt(b.get(0))));
+//                    break;
+//                case "ID DESC":
+//                    rows.sort((a, b) -> Integer.compare(Integer.parseInt(b.get(0)), Integer.parseInt(a.get(0))));
+//                    break;
+//                case "Grade ASC":
+//                    rows.sort((a, b) -> a.get(1).compareToIgnoreCase(b.get(1)));
+//                    break;
+//                case "Grade DESC":
+//                    rows.sort((a, b) -> b.get(1).compareToIgnoreCase(a.get(1)));
+//                    break;
+//                case "Student Name ASC":
+//                    rows.sort((a, b) -> a.get(3).compareToIgnoreCase(b.get(3)));
+//                    break;
+//                case "Student Name DESC":
+//                    rows.sort((a, b) -> b.get(3).compareToIgnoreCase(a.get(3)));
+//                    break;
+//                case "Assignment Name ASC":
+//                    rows.sort((a, b) -> a.get(4).compareToIgnoreCase(b.get(4)));
+//                    break;
+//                case "Assignment Name DESC":
+//                    rows.sort((a, b) -> b.get(4).compareToIgnoreCase(a.get(4)));
+//                    break;
+//            }
+//
+//            // Load to table
+//            DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+//            model.setRowCount(0);
+//            for (Vector<String> row : rows) {
+//                model.addRow(row);
+//            }
+//
+//        } catch (Exception e) {
+//            logger.error("Exception in searchAndSort()", e);
+//        }
+        try {
+            String keyword = jTextField1.getText().trim().toLowerCase();
+            if (keyword.equals(searchPlaceholder.toLowerCase())) {
+                keyword = ""; // Ignore placeholder during actual search
+            }
+
+            String sortOption = (String) jComboBox1.getSelectedItem();
+
+            String query = "SELECT `grades`.`id`, `grades`.`grade`, `grades`.`comments`, `student`.`nic`,  `student`.`first_name`, "
+                    + "`student`.`last_name`, `assignment`.`id`, `assignment`.`title` FROM `grades` "
+                    + "INNER JOIN `student` ON `grades`.`student_nic` = `student`.`nic` "
+                    + "INNER JOIN `assignment` ON `grades`.`assignment_id` = `assignment`.`id` "
+                    + "INNER JOIN `tutor` ON `assignment`.`tutor_id` = `tutor`.`id` "
+                    + "WHERE `tutor`.`id` = '" + tutorID + "'";
+
+            ResultSet rs = MySQL2.executeSearch(query);
+            List<Vector<String>> rows = new ArrayList<>();
+
+            while (rs.next()) {
+                String id = rs.getString("grades.id");
+                String grade = rs.getString("grade");
+                String comments = rs.getString("grades.comments");
+                String studentName = rs.getString("student.first_name") + " " + rs.getString("student.last_name");
+                String assignmentTitle = rs.getString("assignment.title");
+
+                if (keyword.isEmpty()
+                        || id.toLowerCase().contains(keyword)
+                        || grade.toLowerCase().contains(keyword)
+                        || studentName.toLowerCase().contains(keyword)
+                        || assignmentTitle.toLowerCase().contains(keyword)) {
+
+                    Vector<String> row = new Vector<>();
+                    row.add(id);
+                    row.add(grade);
+                    row.add(comments);
+                    row.add(studentName);
+                    row.add(assignmentTitle);
+                    rows.add(row);
+                }
+            }
+
+            // Sort logic
+            switch (sortOption) {
+                case "ID ASC":
+                    rows.sort((a, b) -> Integer.compare(Integer.parseInt(a.get(0)), Integer.parseInt(b.get(0))));
+                    break;
+                case "ID DESC":
+                    rows.sort((a, b) -> Integer.compare(Integer.parseInt(b.get(0)), Integer.parseInt(a.get(0))));
+                    break;
+                case "Grade ASC":
+                    rows.sort((a, b) -> a.get(1).compareToIgnoreCase(b.get(1)));
+                    break;
+                case "Grade DESC":
+                    rows.sort((a, b) -> b.get(1).compareToIgnoreCase(a.get(1)));
+                    break;
+                case "Student Name ASC":
+                    rows.sort((a, b) -> a.get(3).compareToIgnoreCase(b.get(3)));
+                    break;
+                case "Student Name DESC":
+                    rows.sort((a, b) -> b.get(3).compareToIgnoreCase(a.get(3)));
+                    break;
+                case "Assignment Name ASC":
+                    rows.sort((a, b) -> a.get(4).compareToIgnoreCase(b.get(4)));
+                    break;
+                case "Assignment Name DESC":
+                    rows.sort((a, b) -> b.get(4).compareToIgnoreCase(a.get(4)));
+                    break;
+            }
+
+            // Load to table
+            DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+            model.setRowCount(0);
+            for (Vector<String> row : rows) {
+                model.addRow(row);
+            }
+
+        } catch (Exception e) {
+            logger.error("Exception in searchAndSort()", e);
+        }
     }
 
     private void loadTable() {
@@ -79,6 +275,7 @@ public class StudentPerformanceReport extends javax.swing.JPanel {
         } catch (Exception e) {
             logger.error("Exception caught", e);
         }
+
     }
 
     @SuppressWarnings("unchecked")
@@ -92,6 +289,10 @@ public class StudentPerformanceReport extends javax.swing.JPanel {
         jButton3 = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         jButton2 = new javax.swing.JButton();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jTextField1 = new javax.swing.JTextField();
+        jComboBox1 = new javax.swing.JComboBox<>();
 
         jLabel1.setFont(new java.awt.Font("Century Gothic", 1, 28)); // NOI18N
         jLabel1.setText("Student Performance Report");
@@ -149,36 +350,67 @@ public class StudentPerformanceReport extends javax.swing.JPanel {
             }
         });
 
+        jLabel3.setText("Sort by:");
+
+        jLabel4.setText("Search");
+
+        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField1ActionPerformed(evt);
+            }
+        });
+
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "ID ASC", "ID DESC", "Grade ASC", "Grade DESC", "Student Name ASC", "Student Name DESC", "Assignment Name ASC", "Assignment Name DESC" }));
+        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel1)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
                 .addGap(35, 35, 35)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel2)
+                        .addComponent(jLabel3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel4)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 264, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 343, Short.MAX_VALUE)
                         .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 930, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1))
                 .addGap(35, 35, 35))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel1)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(24, Short.MAX_VALUE)
-                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 408, Short.MAX_VALUE)
-                .addGap(20, 20, 20)
+                .addGap(30, 30, 30)
+                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(jLabel4)
+                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 388, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -220,6 +452,7 @@ public class StudentPerformanceReport extends javax.swing.JPanel {
         }
 
     }//GEN-LAST:event_jButton3ActionPerformed
+
 
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
 
@@ -282,14 +515,26 @@ public class StudentPerformanceReport extends javax.swing.JPanel {
         JasperViewer.viewReport(jasperPrint, false);
     }//GEN-LAST:event_jButton2ActionPerformed
 
+    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField1ActionPerformed
+
+    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jComboBox1ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
+    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
+    private javax.swing.JTextField jTextField1;
     // End of variables declaration//GEN-END:variables
 }
