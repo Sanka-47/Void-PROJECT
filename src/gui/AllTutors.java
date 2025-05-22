@@ -12,6 +12,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Vector;
+import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperFillManager;
@@ -39,6 +41,10 @@ public class AllTutors extends javax.swing.JPanel {
         dateChooser();
         loadTable("","");
         this.updateTutor = new AddTutor(parent);
+         DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
+        renderer.setHorizontalAlignment(SwingConstants.CENTER);
+
+        jTable1.setDefaultRenderer(Object.class, renderer);
     }
 
     private void switchToRegistrationAD() {

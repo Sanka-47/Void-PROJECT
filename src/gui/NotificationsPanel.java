@@ -1,7 +1,6 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
 package gui;
 
@@ -25,8 +24,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
-import javax.swing.border.EmptyBorder;
-import javax.swing.border.LineBorder;
 import model.Notification;
 import model.NotificationManager;
 import org.apache.logging.log4j.LogManager;
@@ -36,17 +33,18 @@ import org.apache.logging.log4j.Logger;
  *
  * @author Rushma
  */
-public class Notifications extends javax.swing.JFrame {
-   private static final Logger logger = LogManager.getLogger(Notifications.class);
+public class NotificationsPanel extends javax.swing.JPanel {
+  
+    private static final Logger logger = LogManager.getLogger(Notifications.class);
 
     Map<Integer, NotificationDetails> notificationDetailsMap = new HashMap<>();
 
-    public Notifications(int tutorId) {
+    public NotificationsPanel(int tutorId) {
         initComponents();
         loadNotifications(tutorId); // Pass the tutor ID (example: 1)
     }
 
-    private Notifications() {
+    private NotificationsPanel() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -175,6 +173,7 @@ public class Notifications extends javax.swing.JFrame {
 
         return wrapperPanel;
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -184,11 +183,8 @@ public class Notifications extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jScrollBar1 = new javax.swing.JScrollBar();
         notificationsPanel = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         javax.swing.GroupLayout notificationsPanelLayout = new javax.swing.GroupLayout(notificationsPanel);
         notificationsPanel.setLayout(notificationsPanelLayout);
@@ -201,8 +197,8 @@ public class Notifications extends javax.swing.JFrame {
             .addGap(0, 60, Short.MAX_VALUE)
         );
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+        this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
@@ -210,7 +206,7 @@ public class Notifications extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1099, Short.MAX_VALUE)
                     .addComponent(notificationsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(40, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -218,14 +214,11 @@ public class Notifications extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(notificationsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 625, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 468, Short.MAX_VALUE)
                 .addContainerGap())
         );
-
-        pack();
-        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
-    private NotificationDetails tw;
+private NotificationDetails tw;
 
     /**
      * @param args the command line arguments
@@ -233,12 +226,10 @@ public class Notifications extends javax.swing.JFrame {
     public static void main(String args[]) {
         FlatArcIJTheme.setup();
 
-        java.awt.EventQueue.invokeLater(() -> new Notifications().setVisible(true));
+        java.awt.EventQueue.invokeLater(() -> new NotificationsPanel().setVisible(true));
     }
 
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JScrollBar jScrollBar1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JPanel notificationsPanel;
     // End of variables declaration//GEN-END:variables
