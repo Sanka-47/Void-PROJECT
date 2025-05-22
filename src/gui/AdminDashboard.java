@@ -129,10 +129,6 @@ public class AdminDashboard extends javax.swing.JFrame implements DashboardInter
         jButton17 = new javax.swing.JButton();
         jButton18 = new javax.swing.JButton();
         jButton19 = new javax.swing.JButton();
-        jButton20 = new javax.swing.JButton();
-        jButton21 = new javax.swing.JButton();
-        jButton22 = new javax.swing.JButton();
-        jLabel14 = new javax.swing.JLabel();
         jPanel4 = new CustomColor();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -400,7 +396,7 @@ public class AdminDashboard extends javax.swing.JFrame implements DashboardInter
         jButton16.setBackground(new java.awt.Color(78, 74, 207));
         jButton16.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
         jButton16.setForeground(new java.awt.Color(255, 255, 255));
-        jButton16.setText("Invoice");
+        jButton16.setText("Invoice Reports");
         jButton16.setPreferredSize(new java.awt.Dimension(201, 26));
         jButton16.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -411,7 +407,7 @@ public class AdminDashboard extends javax.swing.JFrame implements DashboardInter
         jButton17.setBackground(new java.awt.Color(78, 74, 207));
         jButton17.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
         jButton17.setForeground(new java.awt.Color(255, 255, 255));
-        jButton17.setText("Student Report");
+        jButton17.setText("Total Monthly Revenue");
         jButton17.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton17ActionPerformed(evt);
@@ -421,7 +417,7 @@ public class AdminDashboard extends javax.swing.JFrame implements DashboardInter
         jButton18.setBackground(new java.awt.Color(78, 74, 207));
         jButton18.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
         jButton18.setForeground(new java.awt.Color(255, 255, 255));
-        jButton18.setText("Student Attendance Report");
+        jButton18.setText("Total Course Revenue");
         jButton18.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton18ActionPerformed(evt);
@@ -431,45 +427,12 @@ public class AdminDashboard extends javax.swing.JFrame implements DashboardInter
         jButton19.setBackground(new java.awt.Color(78, 74, 207));
         jButton19.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
         jButton19.setForeground(new java.awt.Color(255, 255, 255));
-        jButton19.setText("Tutor Attendance Report");
+        jButton19.setText("Monthly Tutor Payment");
         jButton19.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton19jButton4ActionPerformed(evt);
             }
         });
-
-        jButton20.setBackground(new java.awt.Color(78, 74, 207));
-        jButton20.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
-        jButton20.setForeground(new java.awt.Color(255, 255, 255));
-        jButton20.setText("Total Monthly Revenue");
-        jButton20.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton20ActionPerformed(evt);
-            }
-        });
-
-        jButton21.setBackground(new java.awt.Color(78, 74, 207));
-        jButton21.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
-        jButton21.setForeground(new java.awt.Color(255, 255, 255));
-        jButton21.setText("Course Revenue");
-        jButton21.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton21ActionPerformed(evt);
-            }
-        });
-
-        jButton22.setBackground(new java.awt.Color(78, 74, 207));
-        jButton22.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
-        jButton22.setForeground(new java.awt.Color(255, 255, 255));
-        jButton22.setText("Total Tutor Payment");
-        jButton22.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton22ActionPerformed(evt);
-            }
-        });
-
-        jLabel14.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
-        jLabel14.setText("Financial Reports");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -512,19 +475,13 @@ public class AdminDashboard extends javax.swing.JFrame implements DashboardInter
                                     .addComponent(jButton14, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(jButton18, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(jButton19, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jButton21, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jButton22, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jButton20, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(jButton16, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(jButton17, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(jButton15, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                             .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addGap(67, 67, 67)
-                                .addComponent(jLabel14))
-                            .addGroup(jPanel3Layout.createSequentialGroup()
                                 .addGap(45, 45, 45)
                                 .addComponent(jLabel11)))
-                        .addGap(0, 10, Short.MAX_VALUE))
+                        .addGap(0, 26, Short.MAX_VALUE))
                     .addComponent(jLabel9, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -583,15 +540,7 @@ public class AdminDashboard extends javax.swing.JFrame implements DashboardInter
                 .addComponent(jButton18, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(12, 12, 12)
                 .addComponent(jButton19, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(42, 42, 42)
-                .addComponent(jLabel14)
-                .addGap(15, 15, 15)
-                .addComponent(jButton20, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(12, 12, 12)
-                .addComponent(jButton21, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(12, 12, 12)
-                .addComponent(jButton22, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(51, Short.MAX_VALUE))
+                .addContainerGap(256, Short.MAX_VALUE))
         );
 
         jScrollPane2.setViewportView(jPanel3);
@@ -610,7 +559,7 @@ public class AdminDashboard extends javax.swing.JFrame implements DashboardInter
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, 614, Short.MAX_VALUE)
+            .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, 1424, Short.MAX_VALUE)
             .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
@@ -733,21 +682,6 @@ public class AdminDashboard extends javax.swing.JFrame implements DashboardInter
         switchPanel(ttpp);
     }//GEN-LAST:event_jButton19jButton4ActionPerformed
 
-    private void jButton20ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton20ActionPerformed
-        RevenueReport revenueReport = new RevenueReport();
-        revenueReport.setVisible(true);
-    }//GEN-LAST:event_jButton20ActionPerformed
-
-    private void jButton21ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton21ActionPerformed
-        CourseRevenueReport courseRevenueReport = new CourseRevenueReport();
-        courseRevenueReport.setVisible(true);
-    }//GEN-LAST:event_jButton21ActionPerformed
-
-    private void jButton22ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton22ActionPerformed
-        TotalTutorPayment totoalTutorPayment = new TotalTutorPayment();
-        totoalTutorPayment.setVisible(true);
-    }//GEN-LAST:event_jButton22ActionPerformed
-
     public static void main(String args[]) throws UnsupportedLookAndFeelException {
         FlatLightLaf.registerCustomDefaultsSource("style");
         UIManager.setLookAndFeel(new FlatLightLaf());
@@ -787,9 +721,6 @@ public class AdminDashboard extends javax.swing.JFrame implements DashboardInter
     private javax.swing.JButton jButton18;
     private javax.swing.JButton jButton19;
     private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton20;
-    private javax.swing.JButton jButton21;
-    private javax.swing.JButton jButton22;
     private javax.swing.JButton jButton23;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
@@ -803,7 +734,6 @@ public class AdminDashboard extends javax.swing.JFrame implements DashboardInter
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
-    private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
