@@ -547,8 +547,9 @@ public class TutorClassList extends javax.swing.JPanel {
                 String endTime = (String) jTable1.getValueAt(selectedRow, 4); // End Time is in column 4
                 String hallNumber = (String) jTable1.getValueAt(selectedRow, 5); // Hall Number is in column 5
                 String course = (String) jTable1.getValueAt(selectedRow, 7); // Hall Number is in column 5
-                String reason = jTextField2.getText().trim(); 
-                int tutorId = this.tutorId; 
+                String reason = jTextField2.getText().trim(); // Reason provided in text field
+                int tutorId = this.tutorId; // Replace with the actual tutor's ID from your application
+                // Replace if the Course ID needs to be dynamically set
 
                 try {
                     // Insert cancellation request into the `request_sessions` table
