@@ -29,7 +29,7 @@ import model.SecurePasswordFacade;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class AddTutor extends javax.swing.JPanel {
+public class AddTutor extends CustomColor {
     private static final Logger logger = LogManager.getLogger(AddTutor.class);
 
     private DashboardInterface parent;

@@ -666,6 +666,7 @@ public class TutorClassList extends javax.swing.JPanel {
         if (selectedRow != -1) {
             String classId = (String) jTable1.getValueAt(selectedRow, 0); // Session ID
             String sessionDate = (String) jTable1.getValueAt(selectedRow, 2); // Assuming date is in column 2 (format: yyyy-MM-dd)
+            String amount = String.valueOf(jTable1.getValueAt(selectedRow, 6));
 
             // Get today's date
             java.time.LocalDate today = java.time.LocalDate.now();
@@ -686,6 +687,8 @@ public class TutorClassList extends javax.swing.JPanel {
                 try {
                     String query = "UPDATE class SET class_status_id = 2 WHERE id = '" + classId + "'";
                     MySQL2.executeIUD(query);
+                    String formattedDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
+                    MySQL2.executeIUD("INSERT INTO `wallet`(`tutor_id`,`class_id`,`withdrawal_status_id`,`date`,`amount`) VALUES ('" + tutorId + "', '" + classId + "', '1', '" + formattedDate + "', '" + amount + "')");
 
                     loadTable("", "");
 

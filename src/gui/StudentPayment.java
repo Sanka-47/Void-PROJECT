@@ -38,7 +38,7 @@ public class StudentPayment extends javax.swing.JFrame {
     private static final Logger logger = LogManager.getLogger(StudentPayment.class);
 
     private StudentPayment parent;
-
+    private String email;
     private static String code;
     private static int Subject_id;
     private static String description;
@@ -142,6 +142,10 @@ public class StudentPayment extends javax.swing.JFrame {
     //Student NIC
     public JLabel getNICLabel() {
         return studentID;
+    }
+    
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     //stock id
@@ -911,7 +915,7 @@ public class StudentPayment extends javax.swing.JFrame {
                     message.setContent(invoiceHtml.toString(), "text/html; charset=utf-8");
 
                     message.setFrom(new InternetAddress("gayanlmdjayawardana@gmail.com")); // Add my email address
-                    message.addRecipient(Message.RecipientType.TO, new InternetAddress("gayanlmdjayawardana@gmail.com"));
+                    message.addRecipient(Message.RecipientType.TO, new InternetAddress(email));
                     message.saveChanges();
                     Transport transport = session.getTransport("smtp");
                     transport.connect("smtp.gmail.com", "gayanlmdjayawardana@gmail.com", "nprb ztii ypcf opnx"); // Add my email address
