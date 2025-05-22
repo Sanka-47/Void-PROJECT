@@ -981,3 +981,13 @@ java.sql.SQLException: Field 'class_id' doesn't have a default value
 2025-05-22 18:20:15 [AWT-EventQueue-0] INFO  gui.SignIn - Tutor login successful - Name: Sanka Konara, ID: 1
 2025-05-22 18:25:14 [AWT-EventQueue-0] DEBUG gui.SignIn - Attempting login for NIC: 200376548378
 2025-05-22 18:25:15 [AWT-EventQueue-0] INFO  gui.SignIn - Tutor login successful - Name: Sanka Konara, ID: 1
+2025-05-22 21:36:40 [AWT-EventQueue-0] DEBUG gui.SignIn - Attempting login for NIC: 200376548378
+2025-05-22 21:36:49 [AWT-EventQueue-0] INFO  gui.SignIn - Tutor login successful - Name: Sanka Konara, ID: 1
+2025-05-22 21:50:56 [AWT-EventQueue-0] DEBUG gui.SignIn - Attempting login for NIC: 200376548378
+2025-05-22 21:50:58 [AWT-EventQueue-0] INFO  gui.SignIn - Tutor login successful - Name: Sanka Konara, ID: 1
+2025-05-22 21:57:02 [AWT-EventQueue-0] DEBUG gui.SignIn - Attempting login for NIC: 200376548378
+2025-05-22 21:57:04 [AWT-EventQueue-0] INFO  gui.SignIn - Tutor login successful - Name: Sanka Konara, ID: 1
+2025-05-22 22:23:35 [AWT-EventQueue-0] DEBUG gui.SignIn - Attempting login for NIC: 200376548378
+2025-05-22 22:23:37 [AWT-EventQueue-0] INFO  gui.SignIn - Tutor login successful - Name: Sanka Konara, ID: 1
+2025-05-22 22:32:58 [AWT-EventQueue-0] DEBUG gui.SignIn - Attempting login for NIC: 200376548378
+2025-05-22 22:33:00 [AWT-EventQueue-0] INFO  gui.SignIn - Tutor login successful - Name: Sanka Konara, ID: 1
