@@ -1,5 +1,7 @@
 package gui;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import com.toedter.calendar.JDateChooser;
 import java.sql.ResultSet;
 import java.text.SimpleDateFormat;
@@ -7,7 +9,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Vector;
 import java.util.logging.Level;
-import java.util.logging.Logger;
+//import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -18,15 +20,20 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import model.MySQL2;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 
 public class AddAssignmentJDialog extends javax.swing.JDialog {
-
+    private static final Logger logger = LogManager.getLogger(AddAssignmentJDialog.class);
     private int ID;
     private Integer assignmentID = null;
 
 //    private static final Logger logger = Logger.getLogger(TutorSignIn.class.getName());
     public AddAssignmentJDialog(java.awt.Frame parent, boolean modal, int tutorID) {
         super(parent, modal);
+        logger.debug("Entered method: AddAssignmentJDialog");
+        logger.info("Entered method: AddAssignmentJDialog");
         initComponents();
         this.ID = tutorID;
         loadCourses();
@@ -38,25 +45,35 @@ public class AddAssignmentJDialog extends javax.swing.JDialog {
 
     //GUI Label
     public JLabel getjLabel1() {
+        logger.debug("Entered method: getjLabel1");
+        logger.info("Entered method: getjLabel1");
         return jLabel1;
     }
 
     //Title of Assignment
     public JTextField getjTextField1() {
+        logger.debug("Entered method: getjTextField1");
+        logger.info("Entered method: getjTextField1");
         return jTextField1;
     }
 
     //Description
     public JTextArea getjTextArea1() {
+        logger.debug("Entered method: getjTextArea1");
+        logger.info("Entered method: getjTextArea1");
         return jTextArea1;
     }
 
     //Tutor Name
     public JComboBox<String> getjComboBox1() {
+        logger.debug("Entered method: getjComboBox1");
+        logger.info("Entered method: getjComboBox1");
         return jComboBox1;
     }
 
     public void setAssignmentID(int assignmentID) {
+        logger.debug("Entered method: setAssignmentID");
+        logger.info("Entered method: setAssignmentID");
         this.assignmentID = assignmentID;
     }
 //    //Course Name
@@ -66,16 +83,22 @@ public class AddAssignmentJDialog extends javax.swing.JDialog {
     //Due Date
 
     public JDateChooser getjDateChooser1() {
+        logger.debug("Entered method: getjDateChooser1");
+        logger.info("Entered method: getjDateChooser1");
         return jDateChooser1;
     }
 
     //Save
     public JButton getjButton1() {
+        logger.debug("Entered method: getjButton1");
+        logger.info("Entered method: getjButton1");
         return jButton1;
     }
 
     //Update
     public JButton getjButton2() {
+        logger.debug("Entered method: getjButton2");
+        logger.info("Entered method: getjButton2");
         return jButton2;
     }
 
@@ -83,6 +106,8 @@ public class AddAssignmentJDialog extends javax.swing.JDialog {
     private static HashMap<String, String> tutorMap = new HashMap<>();
 
     private void loadCourses() {
+        logger.debug("Entered method: loadCourses");
+        logger.info("Entered method: loadCourses");
 
         try {
 
@@ -143,6 +168,8 @@ public class AddAssignmentJDialog extends javax.swing.JDialog {
 //        }
 //    }
     private void clearAll() {
+        logger.debug("Entered method: clearAll");
+        logger.info("Entered method: clearAll");
         jTextField1.setText("");
         jTextArea1.setText("");
         jComboBox1.setSelectedIndex(0);
@@ -157,6 +184,8 @@ public class AddAssignmentJDialog extends javax.swing.JDialog {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+        logger.debug("Entered method: initComponents");
+        logger.info("Entered method: initComponents");
 
         jLabel2 = new javax.swing.JLabel();
         jTextField1 = new javax.swing.JTextField();
@@ -192,6 +221,8 @@ public class AddAssignmentJDialog extends javax.swing.JDialog {
         jButton1.setText("Save");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
+        logger.debug("Entered method: actionPerformed");
+        logger.info("Entered method: actionPerformed");
                 jButton1ActionPerformed(evt);
             }
         });
@@ -200,6 +231,8 @@ public class AddAssignmentJDialog extends javax.swing.JDialog {
         jButton2.setText("Update");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
+        logger.debug("Entered method: actionPerformed");
+        logger.info("Entered method: actionPerformed");
                 jButton2ActionPerformed(evt);
             }
         });
@@ -211,6 +244,8 @@ public class AddAssignmentJDialog extends javax.swing.JDialog {
         jButton3.setText("Clear All");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
+        logger.debug("Entered method: actionPerformed");
+        logger.info("Entered method: actionPerformed");
                 jButton3ActionPerformed(evt);
             }
         });
@@ -292,6 +327,8 @@ public class AddAssignmentJDialog extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        logger.debug("Entered method: jButton1ActionPerformed");
+        logger.info("Entered method: jButton1ActionPerformed");
 
         // Retrieve values from the UI components
         String title = jTextField1.getText();
@@ -301,12 +338,17 @@ public class AddAssignmentJDialog extends javax.swing.JDialog {
         Date duedate = jDateChooser1.getDate();
 
         if (title.isEmpty()) {
+        logger.warn("Validation check triggered: (title.isEmpty())");
+        logger.warn("User prompted with message: (this, Please select a title!, Warning, JOptionPane.WARNING_MESSAGE);");
             JOptionPane.showMessageDialog(this, "Please select a title!", "Warning", JOptionPane.WARNING_MESSAGE);
         } else if (duedate == null) {
+        logger.warn("User prompted with message: (this, Please enter a date!, Warning, JOptionPane.WARNING_MESSAGE);");
             JOptionPane.showMessageDialog(this, "Please enter a date!", "Warning", JOptionPane.WARNING_MESSAGE);
         } else if (description.isEmpty()) {
+        logger.warn("User prompted with message: (this, Please enter a description!, Warning, JOptionPane.WARNING_MESSAGE);");
             JOptionPane.showMessageDialog(this, "Please enter a description!", "Warning", JOptionPane.WARNING_MESSAGE);
         } else if (courseName.equals("Select")) {
+        logger.warn("User prompted with message: (this, Please select a course!, Warning, JOptionPane.WARNING_MESSAGE);");
             JOptionPane.showMessageDialog(this, "Please select a course!", "Warning", JOptionPane.WARNING_MESSAGE);
         } else {
 
@@ -319,10 +361,12 @@ public class AddAssignmentJDialog extends javax.swing.JDialog {
 
 //                logger.log(Level.INFO, "Tutor ID retrieved: {0}", tutorID);
 //                logger.log(Level.INFO, "Course ID retrieved: {0}", courseID);
+        logger.info("Executing insert query in assignment");
                 MySQL2.executeIUD("INSERT INTO assignment (title, description, tutor_id, courses_id, due_date) "
                         + "VALUES ('" + title + "', '" + description + "', '" + tutorID + "', '" + courseID + "', '" + format.format(duedate) + "')");
 
 //                logger.log(Level.INFO, "Assignment inserted into the database successfully.");
+        logger.warn("User prompted with message: (this, Success!, SUCCESS, JOptionPane.INFORMATION_MESSAGE);");
                 JOptionPane.showMessageDialog(this, "Success!", "SUCCESS", JOptionPane.INFORMATION_MESSAGE);
 
                 clearAll();
@@ -331,12 +375,15 @@ public class AddAssignmentJDialog extends javax.swing.JDialog {
             } catch (Exception e) {
 //                logger.log(Level.SEVERE, "An error occurred while processing the assignment: {0}", e.getMessage());
                 e.printStackTrace();
+        logger.warn("User prompted with message: (this, An error occurred:  + e.getMessage(), Error, JOptionPane.ERROR_MESSAGE);");
                 JOptionPane.showMessageDialog(this, "An error occurred: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             }
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        logger.debug("Entered method: jButton2ActionPerformed");
+        logger.info("Entered method: jButton2ActionPerformed");
 
         // Retrieve values from the UI components
         String title = jTextField1.getText();
@@ -346,16 +393,23 @@ public class AddAssignmentJDialog extends javax.swing.JDialog {
         Date duedate = jDateChooser1.getDate();
 
         if (title.isEmpty()) {
+        logger.warn("Validation check triggered: (title.isEmpty())");
+        logger.warn("User prompted with message: (this, Please select a title!, Warning, JOptionPane.WARNING_MESSAGE);");
             JOptionPane.showMessageDialog(this, "Please select a title!", "Warning", JOptionPane.WARNING_MESSAGE);
         } else if (duedate == null) {
+        logger.warn("User prompted with message: (this, Please enter a date!, Warning, JOptionPane.WARNING_MESSAGE);");
             JOptionPane.showMessageDialog(this, "Please enter a date!", "Warning", JOptionPane.WARNING_MESSAGE);
         } else if (description.isEmpty()) {
+        logger.warn("User prompted with message: (this, Please enter a description!, Warning, JOptionPane.WARNING_MESSAGE);");
             JOptionPane.showMessageDialog(this, "Please enter a description!", "Warning", JOptionPane.WARNING_MESSAGE);
         } else if (courseName.equals("Select")) {
+        logger.warn("User prompted with message: (this, Please select a course!, Warning, JOptionPane.WARNING_MESSAGE);");
             JOptionPane.showMessageDialog(this, "Please select a course!", "Warning", JOptionPane.WARNING_MESSAGE);
         } else {
 
             if (assignmentID == null || assignmentID <= 0) {
+        logger.warn("Validation check triggered: (assignmentID == null || assignmentID <= 0)");
+        logger.warn("User prompted with message: (this, Assignment ID is missing. Cannot update!, Error, JOptionPane.ERROR_MESSAGE);");
                 JOptionPane.showMessageDialog(this, "Assignment ID is missing. Cannot update!", "Error", JOptionPane.ERROR_MESSAGE);
                 return;
             }
@@ -370,6 +424,7 @@ public class AddAssignmentJDialog extends javax.swing.JDialog {
                         + "WHERE id = '" + assignmentID + "'";
 
                 MySQL2.executeIUD(query);
+        logger.warn("User prompted with message: (this, Assignment updated successfully!, SUCCESS, JOptionPane.INFORMATION_MESSAGE);");
                 JOptionPane.showMessageDialog(this, "Assignment updated successfully!", "SUCCESS", JOptionPane.INFORMATION_MESSAGE);
 
                 clearAll();
@@ -377,6 +432,7 @@ public class AddAssignmentJDialog extends javax.swing.JDialog {
 
             } catch (Exception e) {
                 e.printStackTrace();
+        logger.warn("User prompted with message: (this, An error occurred:  + e.getMessage(), Error, JOptionPane.ERROR_MESSAGE);");
                 JOptionPane.showMessageDialog(this, "An error occurred: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             }
 
@@ -384,6 +440,8 @@ public class AddAssignmentJDialog extends javax.swing.JDialog {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        logger.debug("Entered method: jButton3ActionPerformed");
+        logger.info("Entered method: jButton3ActionPerformed");
         clearAll();
     }//GEN-LAST:event_jButton3ActionPerformed
 

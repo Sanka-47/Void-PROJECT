@@ -1,4 +1,15 @@
-2025-05-20 18:37:26 [AWT-EventQueue-0] WARN  gui.SignIn - Invalid NIC format entered: sdasda
-2025-05-20 18:46:49 [AWT-EventQueue-0] WARN  gui.SignIn - Invalid NIC format entered: 2321313132123
-2025-05-21 09:04:28 [AWT-EventQueue-0] WARN  gui.SignIn - Invalid NIC format entered: fewaaefawfewaf
-2025-05-21 09:04:29 [AWT-EventQueue-0] WARN  gui.SignIn - Invalid NIC format entered: fewaaefawfewaf
+2025-05-22 08:16:19 [AWT-EventQueue-0] WARN  gui.SignIn - Invalid NIC format entered: csdasdas
+2025-05-22 08:17:13 [AWT-EventQueue-0] DEBUG gui.AddAssignmentJDialog - Entered method: AddAssignmentJDialog
+2025-05-22 08:17:13 [AWT-EventQueue-0] INFO  gui.AddAssignmentJDialog - Entered method: AddAssignmentJDialog
+2025-05-22 08:17:13 [AWT-EventQueue-0] DEBUG gui.AddAssignmentJDialog - Entered method: initComponents
+2025-05-22 08:17:13 [AWT-EventQueue-0] INFO  gui.AddAssignmentJDialog - Entered method: initComponents
+2025-05-22 08:17:14 [AWT-EventQueue-0] DEBUG gui.AddAssignmentJDialog - Entered method: loadCourses
+2025-05-22 08:17:14 [AWT-EventQueue-0] INFO  gui.AddAssignmentJDialog - Entered method: loadCourses
+2025-05-22 08:17:20 [AWT-EventQueue-0] DEBUG gui.AddAssignmentJDialog - Entered method: actionPerformed
+2025-05-22 08:17:20 [AWT-EventQueue-0] INFO  gui.AddAssignmentJDialog - Entered method: actionPerformed
+2025-05-22 08:17:20 [AWT-EventQueue-0] DEBUG gui.AddAssignmentJDialog - Entered method: jButton1ActionPerformed
+2025-05-22 08:17:20 [AWT-EventQueue-0] INFO  gui.AddAssignmentJDialog - Entered method: jButton1ActionPerformed
+2025-05-22 08:17:20 [AWT-EventQueue-0] INFO  gui.AddAssignmentJDialog - Executing insert query in assignment
+2025-05-22 08:17:20 [AWT-EventQueue-0] WARN  gui.AddAssignmentJDialog - User prompted with message: (this, Success!, SUCCESS, JOptionPane.INFORMATION_MESSAGE);
+2025-05-22 08:17:21 [AWT-EventQueue-0] DEBUG gui.AddAssignmentJDialog - Entered method: clearAll
+2025-05-22 08:17:21 [AWT-EventQueue-0] INFO  gui.AddAssignmentJDialog - Entered method: clearAll
