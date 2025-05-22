@@ -14,11 +14,9 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Vector;
-import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
-import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import model.MySQL2;
 import net.sf.jasperreports.engine.JRException;
@@ -49,10 +47,6 @@ public class InvoiceReport extends javax.swing.JPanel {
         loadStudentInvoicesHistory(); 
         addTableMouseListener();
         addSearchFunctionality();
-         DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
-        renderer.setHorizontalAlignment(SwingConstants.CENTER);
-
-        jTable1.setDefaultRenderer(Object.class, renderer);
     }
 
     public void loadStudentInvoicesHistory() {

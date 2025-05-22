@@ -11,8 +11,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Vector;
-import javax.swing.SwingConstants;
-import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import model.MySQL2;
 import net.sf.jasperreports.engine.JRException;
@@ -44,12 +42,6 @@ public class AllStudents extends javax.swing.JPanel {
         dateChooser();
         loadTable("", "");
         this.updateStudent = new StudentRegistration(parent);
-<<<<<<< ours
-         DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
-        renderer.setHorizontalAlignment(SwingConstants.CENTER);
-
-        jTable1.setDefaultRenderer(Object.class, renderer);
-=======
         
         jTextField1.setText(searchPlaceholder);
         jTextField1.setForeground(Color.GRAY);
@@ -71,7 +63,6 @@ public class AllStudents extends javax.swing.JPanel {
                 }
             }
         });
->>>>>>> theirs
     }
 
     private void switchToRegistration() {
@@ -261,7 +252,6 @@ public class AllStudents extends javax.swing.JPanel {
         jLabel3.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
         jLabel3.setText("Search");
 
-        jTextField1.setText("Search");
         jTextField1.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 jTextField1KeyReleased(evt);

@@ -60,61 +60,53 @@ public class TutorWallet extends javax.swing.JFrame {
         Object instance = null; // Allow new instance creation once disposed
     }
 
-   public void LoadWalletDetails() {
-    try {
-        // Updated query with alias for class.date as class_date
-        ResultSet rs = MySQL2.executeSearch("SELECT "
-                + "wallet.*, "
-                + "tutor.*, "
-                + "class.*, "
-                + "withdrawal_status.*, "
-                + "courses.name AS cm, "
-                + "class.date AS class_date "
-                + "FROM `wallet` "
-                + "INNER JOIN `tutor` ON `wallet`.`tutor_id` = `tutor`.`id` "
-                + "INNER JOIN `class` ON `class`.`id` = `wallet`.`class_id` "
-                + "INNER JOIN `withdrawal_status` ON `withdrawal_status`.`id` = `wallet`.`withdrawal_status_id` "
-                + "INNER JOIN `courses` ON `courses`.`id` = `class`.`courses_id` "
-                + "WHERE `tutor`.`id`='" + tutorId + "' AND `withdrawal_status_id`='1'");
+    private void LoadWalletDetails() {
+        try {
+            // Use the tutorId variable in the query
+            ResultSet rs = MySQL2.executeSearch("SELECT "
+                    + "wallet.*, "
+                    + "tutor.*, "
+                    + "class.*, "
+                    + "withdrawal_status.*, "
+                    + "courses.name AS cm "
+                    + "FROM `wallet` "
+                    + "INNER JOIN `tutor` ON `wallet`.`tutor_id` = `tutor`.`id` "
+                    + "INNER JOIN `class` ON `class`.`id` = `wallet`.`class_id` "
+                    + "INNER JOIN `withdrawal_status` ON `withdrawal_status`.`id` = `wallet`.`withdrawal_status_id` "
+                    + "INNER JOIN `courses` ON `courses`.`id` = `class`.`courses_id` "
+                    + "WHERE `tutor`.`id`='" + tutorId + "' AND `withdrawal_status_id`='1'");
 
-        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-        model.setRowCount(0); // Clear existing rows
-        TotalAmount = 0;
+            DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+            model.setRowCount(0);
+            TotalAmount = 0;
 
-        if (!rs.isBeforeFirst()) { // No data
-            jButton1.setEnabled(false);
-        } else {
-            jButton1.setEnabled(true);
+            if (!rs.isBeforeFirst()) { // Check if the ResultSet is empty
+                jButton1.setEnabled(false);
+            } else {
+                jButton1.setEnabled(true);
+                while (rs.next()) {
+                    Vector<Object> vectorE = new Vector<>();
+                    vectorE.add(rs.getInt("id"));
+                    vectorE.add(rs.getString("cm"));
+                    vectorE.add(rs.getString("start_time"));
+                    vectorE.add(rs.getString("end_time"));
+                    vectorE.add(rs.getString("class.date"));
+                    vectorE.add(rs.getString("amount"));
 
-            int rowCount = 0;  // Debug: count rows fetched
+                    TotalAmount += rs.getDouble("amount");
 
-            while (rs.next()) {
-                rowCount++;
-                Vector<Object> vectorE = new Vector<>();
-                vectorE.add(rs.getInt("id"));
-                vectorE.add(rs.getString("cm"));
-                vectorE.add(rs.getString("start_time"));
-                vectorE.add(rs.getString("end_time"));
-                vectorE.add(rs.getString("class_date"));  // Use alias here!
-                vectorE.add(rs.getString("amount"));
-
-                TotalAmount += rs.getDouble("amount");
-
-                model.addRow(vectorE);
+                    model.addRow(vectorE); // Add row to the table model
+                }
+                jTable1.setModel(model);
             }
 
-            System.out.println("Rows fetched: " + rowCount); // Optional debug print
+            jTextField1.setEnabled(false);
+            jTextField1.setText(String.valueOf(TotalAmount));
 
-            jTable1.setModel(model);
+        } catch (Exception e) {
+            logger.error("Exception caught", e);
         }
-
-        jTextField1.setEnabled(false);
-        jTextField1.setText(String.valueOf(TotalAmount));
-
-    } catch (Exception e) {
-        logger.error("Exception caught", e);
     }
-}
 
     /**
      * This method is called from within the constructor to initialize the form.

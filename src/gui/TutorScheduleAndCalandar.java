@@ -29,7 +29,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class TutorScheduleAndCalandar extends javax.swing.JPanel {
-
     private static final Logger logger = LogManager.getLogger(TutorScheduleAndCalandar.class);
 
     private DateChooser chDate = new DateChooser();
@@ -975,7 +974,7 @@ public class TutorScheduleAndCalandar extends javax.swing.JPanel {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
-
+      
     }//GEN-LAST:event_jButton10ActionPerformed
 
     private void setPlaceholder(JFormattedTextField textField, String placeholder) {
@@ -1017,7 +1016,7 @@ public class TutorScheduleAndCalandar extends javax.swing.JPanel {
         Date currentDate = new Date();
 
         String timeRegex = "^([01]?\\d|2[0-3])\\.\\d{2}$";
-        double amount = Double.parseDouble(price);
+
         // Validation checks
         if (sessionID.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Please enter the Class ID!", "Warning", JOptionPane.WARNING_MESSAGE);
@@ -1044,20 +1043,10 @@ public class TutorScheduleAndCalandar extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(this, "Please enter a Date!", "Warning", JOptionPane.WARNING_MESSAGE);
             return;
 //        } else if (LocalDate.parse(dateString, DateTimeFormatter.ofPattern("yyyy-MM-dd")).isBefore(LocalDate.now())) {
-        } else if (price.isEmpty()) {
+        } 
+
+        else if (price.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Please enter the Amount!", "Warning", JOptionPane.WARNING_MESSAGE);
-            return;
-        } else if (price.isEmpty()) {
-            warn("Please enter the Amount!");
-            return;
-        } else if (!price.matches("^\\d+(\\.\\d{1,2})?$")) {
-            warn("Amount must be a valid positive number (up to 2 decimal places) with no letters or symbols.");
-            return;
-        } else if (amount < 2000) {
-            warn("The minimum allowed amount is 2000.");
-            return;
-        } else if (amount > 10000) {
-            warn("The maximum allowed amount is 10000.");
             return;
         } else {
             try {
@@ -1070,7 +1059,7 @@ public class TutorScheduleAndCalandar extends javax.swing.JPanel {
                 if (parsedDate != null && parsedDate.before(currentDate)) {
                     JOptionPane.showMessageDialog((AdminDashboard) parent, "Please select a future date!", "Warning!", JOptionPane.ERROR_MESSAGE);
                 } else {
-
+                    
                     // Parse the start and end times
                     SimpleDateFormat timeFormat = new SimpleDateFormat("HH.mm");
                     Date startTimeDate = timeFormat.parse(startTime);
@@ -1149,9 +1138,7 @@ public class TutorScheduleAndCalandar extends javax.swing.JPanel {
             }
         }
     }//GEN-LAST:event_jButton8ActionPerformed
-    private void warn(String message) {
-        JOptionPane.showMessageDialog(this, message, "Warning", JOptionPane.WARNING_MESSAGE);
-    }
+
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
 
         jButton8.setEnabled(false);
@@ -1253,6 +1240,7 @@ public class TutorScheduleAndCalandar extends javax.swing.JPanel {
                     assignedTutorName = rs.getString("full_name");
                 }
 
+               
                 jComboBox2.removeAllItems();         // Clear any existing items
                 jComboBox2.addItem(assignedTutorName); // Add the assigned tutor name
                 jComboBox2.setEnabled(false);          // Enable the tutor JComboBox for visibility
