@@ -25,9 +25,12 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class CourseRegistration extends javax.swing.JPanel {
+
     private static final Logger logger = LogManager.getLogger(CourseRegistration.class);
 
     private static HashMap<String, String> gradeMap = new HashMap<>();
+
+    private final String searchPlaceholder = "ID, Course Name, Grade Level, Fees...";
 
     public CourseRegistration() {
         initComponents();
@@ -37,6 +40,48 @@ public class CourseRegistration extends javax.swing.JPanel {
         jButton1.setEnabled(false);
         jButton3.setEnabled(false);
 
+//        jTextField3.setText(searchPlaceholder);
+//        jTextField3.setForeground(Color.GRAY);
+//
+//        jTextField3.addFocusListener(new java.awt.event.FocusAdapter() {
+//            @Override
+//            public void focusGained(java.awt.event.FocusEvent evt) {
+//                if (jTextField3.getText().equals(searchPlaceholder)) {
+//                    jTextField1.setText("");
+//                    jTextField3.setForeground(Color.BLACK);
+//                }
+//            }
+//
+//            @Override
+//            public void focusLost(java.awt.event.FocusEvent evt) {
+//                if (jTextField3.getText().isEmpty()) {
+//                    jTextField3.setForeground(Color.GRAY);
+//                    jTextField3.setText(searchPlaceholder);
+//                }
+//            }
+//        });
+//
+//    }
+        jTextField3.setText(searchPlaceholder);
+        jTextField3.setForeground(Color.GRAY);
+
+        jTextField3.addFocusListener(new java.awt.event.FocusAdapter() {
+            @Override
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                if (jTextField3.getText().equals(searchPlaceholder)) {
+                    jTextField3.setText("");
+                    jTextField3.setForeground(Color.BLACK);
+                }
+            }
+
+            @Override
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                if (jTextField3.getText().isEmpty()) {
+                    jTextField3.setForeground(Color.GRAY);
+                    jTextField3.setText(searchPlaceholder);
+                }
+            }
+        });
     }
 
     private void loadCourseDetails() {
@@ -45,7 +90,11 @@ public class CourseRegistration extends javax.swing.JPanel {
 
             String sort = String.valueOf(jComboBox2.getSelectedItem());
 
+//            String searchText = jTextField3.getText().toLowerCase();
             String searchText = jTextField3.getText().toLowerCase();
+            if (searchText.equals(searchPlaceholder.toLowerCase())) {
+                searchText = ""; // Ignore searchPlaceholder in search
+            }
 
             String query = "SELECT * FROM `courses` "
                     + "INNER JOIN `course_status` ON `courses`.`course_status_id` = `course_status`.`id` ";
@@ -275,7 +324,7 @@ public class CourseRegistration extends javax.swing.JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                    .addGroup(layout.createSequentialGroup()
                         .addGap(19, 19, 19)
                         .addComponent(jLabel1)
                         .addGap(33, 33, 33)
@@ -284,10 +333,10 @@ public class CourseRegistration extends javax.swing.JPanel {
                         .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jButton5)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 155, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 91, Short.MAX_VALUE)
                         .addComponent(jLabel4)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 204, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 274, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

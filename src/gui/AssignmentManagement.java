@@ -31,6 +31,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class AssignmentManagement extends javax.swing.JPanel {
+
     private static final Logger logger = LogManager.getLogger(AssignmentManagement.class);
 
     private TutorDashboard parent;
@@ -44,12 +45,36 @@ public class AssignmentManagement extends javax.swing.JPanel {
     private String course;
     private int tutorId;
 
+    private final String searchPlaceholder = "Search Name...";
+
     public AssignmentManagement(int tutorID) {
         this.tutorId = tutorID;
         initComponents();
+
+        jTextField1.setText(searchPlaceholder);
+        jTextField1.setForeground(Color.GRAY);
+
+        jTextField1.addFocusListener(new java.awt.event.FocusAdapter() {
+            @Override
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                if (jTextField1.getText().equals(searchPlaceholder)) {
+                    jTextField1.setText("");
+                    jTextField1.setForeground(Color.BLACK);
+                }
+            }
+
+            @Override
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                if (jTextField1.getText().isEmpty()) {
+                    jTextField1.setForeground(Color.GRAY);
+                    jTextField1.setText(searchPlaceholder);
+                }
+            }
+        });
+
         dateChooser();
         loadTable("", "");
-        loadTable("", "");
+//        loadTable("", "");
 //        loadCourses();
 
         DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
@@ -82,9 +107,13 @@ public class AssignmentManagement extends javax.swing.JPanel {
     private void loadTable(String from, String to) {
 
         try {
+
             String TID = String.valueOf(tutorId);
             StringBuilder query = new StringBuilder();
             String searchText = jTextField1.getText().toLowerCase();
+            if (searchText.equals(searchPlaceholder.toLowerCase())) {
+                searchText = ""; // Ignore searchPlaceholder in search
+            }
             SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
             boolean hasCondition = false;
 
@@ -267,7 +296,7 @@ public class AssignmentManagement extends javax.swing.JPanel {
         jLabel4.setText("Search");
 
         jLabel7.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
-        jLabel7.setText("Sort By Date");
+        jLabel7.setText("Sort By Due Date");
 
         jButton1.setText("Clear All");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -294,7 +323,7 @@ public class AssignmentManagement extends javax.swing.JPanel {
                         .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 232, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 212, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 181, Short.MAX_VALUE)
                         .addComponent(jLabel7)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -342,25 +371,50 @@ public class AssignmentManagement extends javax.swing.JPanel {
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
 
-        try {
-
-            int option = JOptionPane.showConfirmDialog(this, "Are you sure you want to delete this row?", "Message",
-                    JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE);
-
-            if (option == JOptionPane.YES_OPTION) {
-
-//                MySQL2.executeIUD("DELETE * FROM assignment WHERE assignment.id = '" + assignment + "' ");
-                MySQL2.executeIUD("DELETE FROM assignment WHERE id = '" + assignment + "' ");
-
-            }
-
-            loadTable("", "");
-
-        } catch (Exception e) {
-
-            logger.error("Exception caught", e);
-
+//        try {
+//
+//            int option = JOptionPane.showConfirmDialog(this, "Are you sure you want to delete this row?", "Message",
+//                    JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE);
+//
+//            if (option == JOptionPane.YES_OPTION) {
+//
+////                MySQL2.executeIUD("DELETE * FROM assignment WHERE assignment.id = '" + assignment + "' ");
+//                MySQL2.executeIUD("DELETE FROM assignment WHERE id = '" + assignment + "' ");
+//
+//            }
+//
+//            loadTable("", "");
+//
+//        } catch (Exception e) {
+//
+//            logger.error("Exception caught", e);
+//
+//        }
+         try {
+        if (assignment == null || assignment.trim().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please select a row to delete first.");
+            return;
         }
+
+        int option = JOptionPane.showConfirmDialog(
+            this,
+            "Are you sure you want to delete this row?",
+            "Delete Confirmation",
+            JOptionPane.YES_NO_OPTION,
+            JOptionPane.QUESTION_MESSAGE
+        );
+
+        if (option == JOptionPane.YES_OPTION) {
+            MySQL2.executeIUD("DELETE FROM assignment WHERE id = '" + assignment + "'");
+            loadTable("", ""); // Refresh the table
+            assignment = null; // Clear the selected ID after deletion
+        }
+
+    } catch (Exception e) {
+        logger.error("Exception caught while deleting assignment", e);
+        JOptionPane.showMessageDialog(this, "Error while deleting assignment: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+    }
+        
 
     }//GEN-LAST:event_jButton6ActionPerformed
 
@@ -376,12 +430,74 @@ public class AssignmentManagement extends javax.swing.JPanel {
 
         // Get values from the table
         String idStr = String.valueOf(jTable1.getValueAt(row, 0));
+        assignment = idStr; // stores the selected assignment ID for delete button
         String title = String.valueOf(jTable1.getValueAt(row, 1));
         String description = String.valueOf(jTable1.getValueAt(row, 2));
         String dueDateStr = String.valueOf(jTable1.getValueAt(row, 3));
         String courseName = String.valueOf(jTable1.getValueAt(row, 4));
 
         if (evt.getClickCount() == 2) {
+
+//            // Create dialog and pass tutor ID
+//            AddAssignmentJDialog AAJ = new AddAssignmentJDialog(parent, true, tutorId);
+//
+//            // 👉 Set the assignment ID for updating
+//            try {
+//                int assignmentID = Integer.parseInt(idStr);
+//                AAJ.setAssignmentID(assignmentID);
+//            } catch (NumberFormatException e) {
+//                JOptionPane.showMessageDialog(this, "Invalid assignment ID format.", "Error", JOptionPane.ERROR_MESSAGE);
+//                return;
+//            }
+//
+//            // Update dialog UI with selected data
+//            AAJ.getjLabel1().setText("Update Assignment");
+//            AAJ.getjLabel1().setHorizontalAlignment(SwingConstants.CENTER);
+//            AAJ.getjTextField1().setText(title);
+//            AAJ.getjTextArea1().setText(description);
+//            AAJ.getjComboBox1().setSelectedItem(courseName);
+//            AAJ.getjComboBox1().setEnabled(false);
+//
+//            // Set due date
+//            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+//            try {
+//                Date dueDate = formatter.parse(dueDateStr);
+//                AAJ.getjDateChooser1().setDate(dueDate);
+//            } catch (Exception e) {
+//                System.out.println("Error converting Object to Date: " + e.getMessage());
+//            }
+//
+//            // Enable update, disable save
+//            AAJ.getjButton1().setEnabled(false);
+//            AAJ.getjButton2().setEnabled(true);
+//
+//            // Show the update dialog
+//            AAJ.setVisible(true);
+//
+//            // Reload table after update
+//            loadTable("", "");
+            // Validate due date before allowing update
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+            try {
+                Date dueDate = formatter.parse(dueDateStr);
+                Date today = new Date();
+
+                // Strip time from current date
+                String todayStr = formatter.format(today);
+                today = formatter.parse(todayStr);
+
+                if (dueDate.before(today)) {
+                    JOptionPane.showMessageDialog(this,
+                            "You cannot enter a past due date.\nPlease choose today or a future date.",
+                            "Invalid Date",
+                            JOptionPane.WARNING_MESSAGE);
+                    return;
+                }
+
+            } catch (Exception e) {
+                System.out.println("Error converting Object to Date: " + e.getMessage());
+                return;
+            }
 
             // Create dialog and pass tutor ID
             AddAssignmentJDialog AAJ = new AddAssignmentJDialog(parent, true, tutorId);
@@ -404,10 +520,13 @@ public class AssignmentManagement extends javax.swing.JPanel {
             AAJ.getjComboBox1().setEnabled(false);
 
             // Set due date
-            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
             try {
                 Date dueDate = formatter.parse(dueDateStr);
                 AAJ.getjDateChooser1().setDate(dueDate);
+
+                // Optional: prevent selecting past dates in the dialog
+                AAJ.getjDateChooser1().setMinSelectableDate(new Date());
+
             } catch (Exception e) {
                 System.out.println("Error converting Object to Date: " + e.getMessage());
             }
