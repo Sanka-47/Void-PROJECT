@@ -575,10 +575,26 @@ public class TutorClassList extends javax.swing.JPanel {
             // Replace if the Course ID needs to be dynamically set
 
             try {
+
+                ResultSet rs = MySQL2.executeSearch("SELECT class_status_id FROM class WHERE id = '" + classId + "'");
+                if (rs.next()) {
+                    int statusId = rs.getInt("class_status_id");
+                    if (statusId == 2) {
+                        JOptionPane.showMessageDialog(this, "This session is already completed and cannot be cancelled.");
+                        return;
+                    }
+                }
+
                 // Insert cancellation request into the `request_sessions` table
-                String query = "INSERT INTO request_sessions (title, date, start_time, end_time, hallnumber, tutor_id, approve_status, reason, courses_id, type) "
-                        + "VALUES ('" + className + "', '" + date + "', '" + startTime + "', '" + endTime + "', '" + hallNumber + "', '" + tutorId + "', 'Pending', '" + reason + "', " + courseMap.get(course) + ", 'Cancel')";
-                MySQL2.executeIUD(query);
+//                String query = "INSERT INTO request_sessions (title, date, start_time, end_time, hallnumber, tutor_id, approve_status, reason, courses_id, type) "
+//                        + "VALUES ('" + className + "', '" + date + "', '" + startTime + "', '" + endTime + "', '" + hallNumber + "', '" + tutorId + "', 'Pending', '" + reason + "', " + courseMap.get(course) + ", 'Cancel')";
+//                MySQL2.executeIUD(query);
+                String query = "INSERT INTO request_sessions (class_id, title, date, start_time, end_time, hallnumber, tutor_id, approve_status, reason, courses_id, type) "
+                        + "VALUES ('" + classId + "', '" + className + "', '" + date + "', '" + startTime + "', '" + endTime + "', '" + hallNumber + "', '" + tutorId + "', 'Pending', '" + reason + "', " + courseMap.get(course) + ", 'Cancel')";
+
+                // Set the class status to 'Pending Cancellation' (class_status_id = 5)
+                String updateQuery = "UPDATE class SET class_status_id = 5 WHERE id = '" + classId + "'";
+                MySQL2.executeIUD(updateQuery);
 
                 // Reload table data
                 loadTable("", "");
