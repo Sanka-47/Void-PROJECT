@@ -236,7 +236,7 @@ public class AllStudentsJDialog extends javax.swing.JDialog {
             setInvoice.getStudentNameField().setText(Firstname + " " + LastName);
             //            setInvoice.getjTextField2().setText(LastName);
             //            setInvoice.getjTextField3().setText(Mobile);
-            //            setInvoice.getjTextField4().setText(Email);
+            setInvoice.setEmail(Email);
             //            setInvoice.getjComboBox1().setSelectedItem(Gender);
             setInvoice.getNICLabel().setText(NIC);
             //            setInvoice.getjTextField5().setEnabled(false);
