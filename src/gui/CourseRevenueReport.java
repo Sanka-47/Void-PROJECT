@@ -10,8 +10,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Vector;
-import javax.swing.SwingConstants;
-import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import model.MySQL2;
 import net.sf.jasperreports.engine.JRException;
@@ -35,10 +33,6 @@ public class CourseRevenueReport extends javax.swing.JFrame {
     public CourseRevenueReport() {
         initComponents();
         loadCourseRevenueData();
-         DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
-        renderer.setHorizontalAlignment(SwingConstants.CENTER);
-
-        jTable1.setDefaultRenderer(Object.class, renderer);
     }
 
     private void loadCourseRevenueData() {

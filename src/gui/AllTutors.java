@@ -12,8 +12,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Vector;
-import javax.swing.SwingConstants;
-import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperFillManager;
@@ -24,33 +22,53 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class AllTutors extends javax.swing.JPanel {
+
     private static final Logger logger = LogManager.getLogger(AllTutors.class);
 
     private DashboardInterface parent;
 
     private AddTutor updateTutor;
-    
+
     private DateChooser chDate = new DateChooser();
 
     private String From;
     private String To;
 
+    private final String searchPlaceholder = "ID, Name, Qualifications, Mobile, Email, Course, NIC...";
+
     public AllTutors(DashboardInterface parent) {
         this.parent = parent;
         initComponents();
         dateChooser();
-        loadTable("","");
+        loadTable("", "");
         this.updateTutor = new AddTutor(parent);
-         DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
-        renderer.setHorizontalAlignment(SwingConstants.CENTER);
 
-        jTable1.setDefaultRenderer(Object.class, renderer);
+        jTextField1.setText(searchPlaceholder);
+        jTextField1.setForeground(Color.GRAY);
+
+        jTextField1.addFocusListener(new java.awt.event.FocusAdapter() {
+            @Override
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                if (jTextField1.getText().equals(searchPlaceholder)) {
+                    jTextField1.setText("");
+                    jTextField1.setForeground(Color.BLACK);
+                }
+            }
+
+            @Override
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                if (jTextField1.getText().isEmpty()) {
+                    jTextField1.setForeground(Color.GRAY);
+                    jTextField1.setText(searchPlaceholder);
+                }
+            }
+        });
     }
 
     private void switchToRegistrationAD() {
         parent.switchPanel(updateTutor);
     }
-    
+
     private void dateChooser() {
         chDate.setTextField(jTextField2);
         chDate.setDateSelectionMode(DateChooser.DateSelectionMode.BETWEEN_DATE_SELECTED);
@@ -65,20 +83,23 @@ public class AllTutors extends javax.swing.JPanel {
                 From = df.format(date.getFromDate());
                 To = df.format(date.getToDate());
                 loadTable(From, To);
-                
+
             }
         });
     }
 
     private void loadTable(String from, String to) {
         try {
-            
+
             String sort = String.valueOf(jComboBox1.getSelectedItem());
-            
+
             String selectDateType = String.valueOf(jComboBox2.getSelectedItem());
-            
+
             String searchText = jTextField1.getText().toLowerCase();
-            
+            if (searchText.equals(searchPlaceholder.toLowerCase())) {
+                searchText = ""; // Ignore searchPlaceholder in search
+            }
+
             String query = "SELECT `tutor`.`id`, `first_name`, `last_name`, `qualification`, `contact_info`, "
                     + "`gender`.`name`, `courses`.`name`, `password`, `nic`, `email`, `dob`, `registration_date` FROM `tutor` "
                     + "INNER JOIN `gender` ON `tutor`.`gender_id` = `gender`.`id` "
@@ -96,7 +117,7 @@ public class AllTutors extends javax.swing.JPanel {
                         + "OR LOWER(`email`) LIKE '%" + searchText + "%') ";
 
             }
-            
+
             if (selectDateType.equals("Date of Birth")) {
                 if (from != null && !from.isEmpty() && to != null && !to.isEmpty()) {
                     if (query.contains("WHERE")) {
@@ -114,7 +135,7 @@ public class AllTutors extends javax.swing.JPanel {
                     }
                 }
             }
-            
+
             if (sort.equals("First Name ASC")) {
                 query += " ORDER BY `tutor`.`first_name` ASC";
             } else if (sort.equals("First Name DESC")) {
@@ -128,7 +149,7 @@ public class AllTutors extends javax.swing.JPanel {
             } else if (sort.equals("ID DESC")) {
                 query += " ORDER BY `tutor`.`id` DESC";
             }
-            
+
             ResultSet resultSet = MySQL2.executeSearch(query);
 
             DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
@@ -155,7 +176,7 @@ public class AllTutors extends javax.swing.JPanel {
             logger.error("Exception caught", e);
         }
     }
-    
+
     private void reset() {
         jComboBox1.setSelectedIndex(0);
         jComboBox2.setSelectedIndex(0);
@@ -163,7 +184,7 @@ public class AllTutors extends javax.swing.JPanel {
         jTextField2.setText("");
         From = "";
         To = "";
-        loadTable("","");
+        loadTable("", "");
     }
 
     @SuppressWarnings("unchecked")
@@ -183,6 +204,7 @@ public class AllTutors extends javax.swing.JPanel {
         jLabel5 = new javax.swing.JLabel();
         jTextField2 = new javax.swing.JTextField();
         jButton2 = new javax.swing.JButton();
+        jLabel6 = new javax.swing.JLabel();
 
         jLabel1.setFont(new java.awt.Font("Century Gothic", 1, 24)); // NOI18N
         jLabel1.setText("All Tutors");
@@ -265,6 +287,8 @@ public class AllTutors extends javax.swing.JPanel {
             }
         });
 
+        jLabel6.setText("Double click a row for more info");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -299,7 +323,10 @@ public class AllTutors extends javax.swing.JPanel {
                                 .addComponent(jButton1)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jButton2)))
-                        .addContainerGap())))
+                        .addContainerGap())
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel6)
+                        .addGap(0, 0, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -321,9 +348,11 @@ public class AllTutors extends javax.swing.JPanel {
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabel3)))
-                .addGap(20, 20, 20)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 413, Short.MAX_VALUE)
-                .addContainerGap())
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 366, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel6)
+                .addGap(19, 19, 19))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -363,7 +392,7 @@ public class AllTutors extends javax.swing.JPanel {
         String DOB = String.valueOf(jTable1.getValueAt(row, 9));
 
         if (evt.getClickCount() == 2) {
-            
+
             // Disable buttons/fields as needed
             updateTutor.getjTextField3().setEnabled(false);
             updateTutor.getjPasswordField1().setEnabled(false);
@@ -382,7 +411,7 @@ public class AllTutors extends javax.swing.JPanel {
             updateTutor.getjTextField5().setText(Mobile);
             updateTutor.getjTextField6().setText(Email);
             updateTutor.getjTextField7().setText(DOB);
-            
+
 //            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 //
 //            try {
@@ -392,7 +421,6 @@ public class AllTutors extends javax.swing.JPanel {
 //            } catch (Exception e) {
 //                System.out.println("Error converting Object to Date: " + e.getMessage());
 //            }
-
             if (parent != null) {
                 switchToRegistrationAD();
             } else {
@@ -455,6 +483,7 @@ public class AllTutors extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
     private javax.swing.JTextField jTextField1;

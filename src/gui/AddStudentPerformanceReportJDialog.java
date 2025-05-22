@@ -16,6 +16,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class AddStudentPerformanceReportJDialog extends javax.swing.JDialog {
+
     private static final Logger logger = LogManager.getLogger(AddStudentPerformanceReportJDialog.class);
 
     public AddStudentPerformanceReportJDialog(java.awt.Frame parent, boolean modal) {
@@ -52,12 +53,12 @@ public class AddStudentPerformanceReportJDialog extends javax.swing.JDialog {
     public JComboBox<String> getjComboBox2() {
         return jComboBox2;
     }
-    
+
     //Save
     public JButton getjButton1() {
         return jButton1;
     }
-    
+
     //Update
     public JButton getjButton2() {
         return jButton2;
@@ -75,25 +76,51 @@ public class AddStudentPerformanceReportJDialog extends javax.swing.JDialog {
 
     private void loadStudent() {
 
+//        try {
+//
+//            Vector<String> vector = new Vector<>();
+//            vector.add("Select");
+//
+//            ResultSet resultSet = MySQL2.executeSearch("SELECT * FROM student");
+//
+//            while (resultSet.next()) {
+//                String fullName = resultSet.getString("first_name") + " " + resultSet.getString("last_name");
+//                vector.add(fullName);
+//                studentMap.put(fullName, resultSet.getString("nic"));
+//                // contactMap.put(fullName, resultSet.getString("contact_info"));
+//            }
+//
+//            jComboBox1.setModel(new DefaultComboBoxModel<>(vector));
+//
+//        } catch (Exception e) {
+//            logger.error("Exception caught", e);
+//        }
         try {
-
             Vector<String> vector = new Vector<>();
             vector.add("Select");
+
+            Vector<String> nameList = new Vector<>();
 
             ResultSet resultSet = MySQL2.executeSearch("SELECT * FROM student");
 
             while (resultSet.next()) {
                 String fullName = resultSet.getString("first_name") + " " + resultSet.getString("last_name");
-                vector.add(fullName);
+                nameList.add(fullName);
                 studentMap.put(fullName, resultSet.getString("nic"));
-                // contactMap.put(fullName, resultSet.getString("contact_info"));
             }
+
+            // Sort names in ascending order
+            java.util.Collections.sort(nameList);
+
+            // Add sorted names to the combo box model
+            vector.addAll(nameList);
 
             jComboBox1.setModel(new DefaultComboBoxModel<>(vector));
 
         } catch (Exception e) {
             logger.error("Exception caught", e);
         }
+
     }
 
     private void loadAssignment() {
@@ -344,8 +371,8 @@ public class AddStudentPerformanceReportJDialog extends javax.swing.JDialog {
                 System.out.println("Student NIC :" + studentMap.get(studentName));
                 System.out.println("Assignment ID :" + assignmentMap.get(assignmentName));
 
-                MySQL2.executeIUD("UPDATE grades SET grade = '"+grade+"', comments = '"+comments+"' , student_nic = '"+studentMap.get(studentName)+"'"
-                    + ", assignment_id = '"+assignmentMap.get(assignmentName)+"' WHERE grades.id = '" + reportId + "'");
+                MySQL2.executeIUD("UPDATE grades SET grade = '" + grade + "', comments = '" + comments + "' , student_nic = '" + studentMap.get(studentName) + "'"
+                        + ", assignment_id = '" + assignmentMap.get(assignmentName) + "' WHERE grades.id = '" + reportId + "'");
 
                 JOptionPane.showMessageDialog(this, "Updated successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
                 clearAll();

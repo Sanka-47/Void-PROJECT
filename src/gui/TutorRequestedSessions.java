@@ -14,8 +14,6 @@ import java.sql.ResultSet;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Vector;
-import javax.swing.SwingConstants;
-import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import model.MySQL2;
 import org.apache.logging.log4j.LogManager;
@@ -34,7 +32,6 @@ public class TutorRequestedSessions extends javax.swing.JPanel {
     private String To;
 
     private int tutorsId;
-     
 
     /**
      * Creates new form TutorRequestedSessions
@@ -44,10 +41,6 @@ public class TutorRequestedSessions extends javax.swing.JPanel {
         this.tutorsId = tutorsId;
         dateChooser();
         loadRequestedSessions("", "");
-        DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
-        renderer.setHorizontalAlignment(SwingConstants.CENTER);
-
-        jTable1.setDefaultRenderer(Object.class, renderer);
     }
 
     private void dateChooser() {

@@ -11,8 +11,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Vector;
-import javax.swing.SwingConstants;
-import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import model.MySQL2;
 import net.sf.jasperreports.engine.JRException;
@@ -24,33 +22,53 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class AllStudents extends javax.swing.JPanel {
+
     private static final Logger logger = LogManager.getLogger(AllStudents.class);
 
     private DashboardInterface parent;
 
     private StudentRegistration updateStudent;
-    
+
     private DateChooser chDate = new DateChooser();
 
     private String From;
     private String To;
 
+    private final String searchPlaceholder = "NIC, Name, Mobile, Email...";
+
     public AllStudents(DashboardInterface parent) {
         this.parent = parent;
         initComponents();
         dateChooser();
-        loadTable("","");
+        loadTable("", "");
         this.updateStudent = new StudentRegistration(parent);
-         DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
-        renderer.setHorizontalAlignment(SwingConstants.CENTER);
+        
+        jTextField1.setText(searchPlaceholder);
+        jTextField1.setForeground(Color.GRAY);
 
-        jTable1.setDefaultRenderer(Object.class, renderer);
+        jTextField1.addFocusListener(new java.awt.event.FocusAdapter() {
+            @Override
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                if (jTextField1.getText().equals(searchPlaceholder)) {
+                    jTextField1.setText("");
+                    jTextField1.setForeground(Color.BLACK);
+                }
+            }
+
+            @Override
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                if (jTextField1.getText().isEmpty()) {
+                    jTextField1.setForeground(Color.GRAY);
+                    jTextField1.setText(searchPlaceholder);
+                }
+            }
+        });
     }
 
     private void switchToRegistration() {
         parent.switchPanel(updateStudent);
     }
-    
+
     private void dateChooser() {
         chDate.setTextField(jTextField2);
         chDate.setDateSelectionMode(DateChooser.DateSelectionMode.BETWEEN_DATE_SELECTED);
@@ -73,15 +91,18 @@ public class AllStudents extends javax.swing.JPanel {
         try {
 
             String sort = String.valueOf(jComboBox1.getSelectedItem());
-            
+
             String selectDateType = String.valueOf(jComboBox2.getSelectedItem());
-            
+
             String searchText = jTextField1.getText().toLowerCase();
+            if (searchText.equals(searchPlaceholder.toLowerCase())) {
+                searchText = ""; // Ignore searchPlaceholder in search
+            }
 
             String query = "SELECT `nic`, `first_name`, `last_name`, `dob`, `contact_info`, `registration_date`, `email`, `gender`.`name`, `intake`.`name` FROM `student` "
                     + "INNER JOIN `gender` ON `student`.`gender_id` = `gender`.`id`"
                     + "INNER JOIN `intake` ON `student`.`intake_id` = `intake`.`id`";
-            
+
             if (!searchText.isEmpty()) {
 
                 query += "WHERE (LOWER(`nic`) LIKE '%" + searchText + "%' "
@@ -93,7 +114,7 @@ public class AllStudents extends javax.swing.JPanel {
                         + "OR LOWER(`email`) LIKE '%" + searchText + "%') ";
 
             }
-            
+
             if (selectDateType.equals("Date of Birth")) {
                 if (from != null && !from.isEmpty() && to != null && !to.isEmpty()) {
                     if (query.contains("WHERE")) {
@@ -150,7 +171,7 @@ public class AllStudents extends javax.swing.JPanel {
             logger.error("Exception caught", e);
         }
     }
-    
+
     private void reset() {
         jComboBox1.setSelectedIndex(0);
         jComboBox2.setSelectedIndex(0);
@@ -158,7 +179,7 @@ public class AllStudents extends javax.swing.JPanel {
         jTextField2.setText("");
         From = "";
         To = "";
-        loadTable("","");
+        loadTable("", "");
     }
 
     @SuppressWarnings("unchecked")
@@ -231,7 +252,6 @@ public class AllStudents extends javax.swing.JPanel {
         jLabel3.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
         jLabel3.setText("Search");
 
-        jTextField1.setText("Search");
         jTextField1.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 jTextField1KeyReleased(evt);
@@ -360,7 +380,6 @@ public class AllStudents extends javax.swing.JPanel {
 //            } catch (Exception e) {
 //                System.out.println("Error converting Object to Date: " + e.getMessage());
 //            }
-
             updateStudent.getjButton1().setEnabled(false);
             updateStudent.getjButton2().setEnabled(true);
             updateStudent.getjButton3().setEnabled(true);
@@ -375,7 +394,7 @@ public class AllStudents extends javax.swing.JPanel {
             updateStudent.getjTextField5().setEnabled(false);
             updateStudent.getjTextField6().setText(DOB);
             updateStudent.getjComboBox2().setSelectedItem(Intake);
-            
+
             //            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 //
 //            try {
@@ -385,7 +404,6 @@ public class AllStudents extends javax.swing.JPanel {
 //            } catch (Exception e) {
 //                System.out.println("Error converting Object to Date: " + e.getMessage());
 //            }
-
             if (parent != null) {
                 switchToRegistration();
             } else {

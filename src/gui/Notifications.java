@@ -37,11 +37,15 @@ import org.apache.logging.log4j.Logger;
  * @author Rushma
  */
 public class Notifications extends javax.swing.JFrame {
-   private static final Logger logger = LogManager.getLogger(Notifications.class);
+    
+    private int tutorId;
+
+    private static final Logger logger = LogManager.getLogger(Notifications.class);
 
     Map<Integer, NotificationDetails> notificationDetailsMap = new HashMap<>();
 
     public Notifications(int tutorId) {
+        this.tutorId = tutorId;
         initComponents();
         loadNotifications(tutorId); // Pass the tutor ID (example: 1)
     }
@@ -58,7 +62,6 @@ public class Notifications extends javax.swing.JFrame {
         JPanel mainPanel = new JPanel(new BorderLayout()) {
             @Override
             public Dimension getPreferredSize() {
-                // Make sure panel fills parent width
                 Dimension size = super.getPreferredSize();
                 size.width = getParent() != null ? getParent().getWidth() : size.width;
                 return size;
@@ -66,14 +69,38 @@ public class Notifications extends javax.swing.JFrame {
         };
         mainPanel.setBackground(Color.WHITE);
 
-        // Title panel
-        JPanel titlePanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        // Title panel with Clear All button
+        JPanel titlePanel = new JPanel(new BorderLayout());
         titlePanel.setBackground(Color.WHITE);
-        JLabel titleLabel = new JLabel("Notifications");
-        titleLabel.setFont(new Font("Segoe UI", Font.BOLD, 32));
-        titlePanel.add(titleLabel);
 
-        // Content panel that will stretch full width
+        JLabel titleLabel = new JLabel("Notifications", SwingConstants.CENTER);
+        titleLabel.setFont(new Font("Segoe UI", Font.BOLD, 32));
+        titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        titleLabel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+
+        JButton clearAllButton = new JButton("Clear All");
+        clearAllButton.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+        clearAllButton.setBackground(new Color(244, 67, 54));
+        clearAllButton.setForeground(Color.WHITE);
+        clearAllButton.setFocusPainted(false);
+        clearAllButton.setBorder(BorderFactory.createEmptyBorder(5, 15, 5, 15));
+
+        clearAllButton.addActionListener(e -> {
+            int confirm = JOptionPane.showConfirmDialog(this,
+                    "Are you sure you want to clear all notifications?",
+                    "Confirm Clear All",
+                    JOptionPane.YES_NO_OPTION);
+            if (confirm == JOptionPane.YES_OPTION) {
+                NotificationManager.clearAllNotificationsForTutor(tutorId); // ← Implement this in your manager
+                notificationDetailsMap.clear();
+                loadNotifications(tutorId); // Refresh
+            }
+        });
+
+        titlePanel.add(titleLabel, BorderLayout.CENTER);
+        titlePanel.add(clearAllButton, BorderLayout.EAST);
+
+        // Content panel
         JPanel contentPanel = new JPanel();
         contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.Y_AXIS));
         contentPanel.setBackground(Color.WHITE);
@@ -93,7 +120,7 @@ public class Notifications extends javax.swing.JFrame {
             }
         }
 
-        // Content scroll pane that fills width
+        // Scroll pane for content
         JScrollPane contentScrollPane = new JScrollPane(contentPanel) {
             @Override
             public Dimension getPreferredSize() {
@@ -107,15 +134,32 @@ public class Notifications extends javax.swing.JFrame {
         contentScrollPane.setBorder(null);
         contentScrollPane.getViewport().setBackground(Color.WHITE);
 
+        // Assemble main panel
         mainPanel.add(titlePanel, BorderLayout.NORTH);
         mainPanel.add(contentScrollPane, BorderLayout.CENTER);
 
-        // Configure the main scroll pane
+        // Configure scroll pane
         jScrollPane1.setViewportView(mainPanel);
         jScrollPane1.setBorder(BorderFactory.createLineBorder(new Color(200, 200, 200), 1));
         jScrollPane1.setBackground(Color.WHITE);
         jScrollPane1.getViewport().setBackground(Color.WHITE);
     }
+
+    private void clearAllNotifications() {
+        // Clear visual components
+        jScrollPane1.setViewportView(null);
+
+        // Optionally clear from backend or data model
+        NotificationManager.clearAllNotificationsForTutor(tutorId); // You can implement this
+
+        // Clear local map
+        notificationDetailsMap.clear();
+
+        // Reload to show empty state
+        loadNotifications(1); // Or pass the actual tutorId
+    }
+
+  
 
     private JPanel createNotificationBox(Notification notification) {
         // Wrapper panel that will stretch full width
@@ -175,6 +219,7 @@ public class Notifications extends javax.swing.JFrame {
 
         return wrapperPanel;
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always

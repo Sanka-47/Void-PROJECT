@@ -29,23 +29,18 @@ import org.apache.logging.log4j.Logger;
  * @author Rushma
  */
 public class TutorDashboard extends javax.swing.JFrame implements DashboardInterface {
-
     private static final Logger logger = LogManager.getLogger(TutorDashboard.class);
 
     private Thread dateThread;
 //    
     private int tutorID;
 
-    public TutorDashboard() {
-    }
-    public TutorWallet tw;
-
     public TutorDashboard(String fName, int tutorID) {
         initComponents();
         updateDashboard(tutorID);
         loadDate();
         loadIcon();
-        if (fName.isEmpty()) {
+        if (fName.isEmpty()){
             jButton3.setText("Sanka Konara");
         } else {
             jButton3.setText(fName);
@@ -90,7 +85,7 @@ public class TutorDashboard extends javax.swing.JFrame implements DashboardInter
         dateThread = new Thread(runnable);
         dateThread.start();
     }
-
+    
     private void loadIcon() {
         Image image = Toolkit.getDefaultToolkit().getImage("src//resource//VOID.png");
         this.setIconImage(image);
@@ -164,6 +159,7 @@ public class TutorDashboard extends javax.swing.JFrame implements DashboardInter
         jPanel2 = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
+        jButton4 = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
         jButton6 = new javax.swing.JButton();
         jButton7 = new javax.swing.JButton();
@@ -302,6 +298,14 @@ public class TutorDashboard extends javax.swing.JFrame implements DashboardInter
             }
         });
 
+        jButton4.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
+        jButton4.setText("Rescheduled Sessions");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
+
         jButton5.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
         jButton5.setText("Student Performance Report");
         jButton5.addActionListener(new java.awt.event.ActionListener() {
@@ -382,6 +386,7 @@ public class TutorDashboard extends javax.swing.JFrame implements DashboardInter
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jButton6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jButton7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -406,6 +411,8 @@ public class TutorDashboard extends javax.swing.JFrame implements DashboardInter
                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jButton11, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(27, 27, 27)
@@ -499,6 +506,15 @@ public class TutorDashboard extends javax.swing.JFrame implements DashboardInter
         SwingUtilities.updateComponentTreeUI(jPanel3);
     }//GEN-LAST:event_jButton2ActionPerformed
 
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        jPanel3.removeAll();
+        RescheduleSessions addSession = new RescheduleSessions();
+        jPanel3.add(addSession, BorderLayout.CENTER);
+        updateDashboard(tutorID);
+
+        SwingUtilities.updateComponentTreeUI(jPanel3);
+    }//GEN-LAST:event_jButton4ActionPerformed
+
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         jPanel3.removeAll();
         StudentPerformanceReport addSession = new StudentPerformanceReport(tutorID);
@@ -536,35 +552,38 @@ public class TutorDashboard extends javax.swing.JFrame implements DashboardInter
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
 //        Notifications addSession = new Notifications(tutorID);
 //        addSession.setVisible(true);
-         jPanel3.removeAll();
-        NotificationsPanel addSession = new NotificationsPanel(tutorID);
-        jPanel3.add(addSession, BorderLayout.CENTER);
-        updateDashboard(tutorID);
-        SwingUtilities.updateComponentTreeUI(jPanel3);
+        if (n == null) {
+            // Check if the instance has not been created
+            n = new Notifications(tutorID); // Create a new instance
+        }
+
+        if (!n.isVisible()) {
+            // Check if it's not visible
+            n.setVisible(true); // Make it visible
+        } else {
+            // Bring it to the front if it's already visible
+            n.toFront();
+            n.requestFocus();
+        }
         updateDashboard(tutorID);
     }//GEN-LAST:event_jButton9ActionPerformed
-
+    private TutorWallet tw;
     private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
- jPanel3.removeAll();
-        TutorWalletJpanel addSession = new TutorWalletJpanel(tutorID);
-        jPanel3.add(addSession, BorderLayout.CENTER);
+
+        if (tw == null) {
+            // Check if the instance has not been created
+            tw = new TutorWallet(tutorID); // Create a new instance
+        }
+
+        if (!tw.isVisible()) {
+            // Check if it's not visible
+            tw.setVisible(true); // Make it visible
+        } else {
+            // Bring it to the front if it's already visible
+            tw.toFront();
+            tw.requestFocus();
+        }
         updateDashboard(tutorID);
-        SwingUtilities.updateComponentTreeUI(jPanel3);
-        updateDashboard(tutorID);
-//        if (tw == null) {
-//            // Check if the instance has not been created
-//            tw = new TutorWallet(tutorID); // Create a new instance
-//        }
-//
-//        if (!tw.isVisible()) {
-//            // Check if it's not visible
-//            tw.setVisible(true); // Make it visible
-//        } else {
-//            // Bring it to the front if it's already visible
-//            tw.toFront();
-//            tw.requestFocus();
-//        }
-//        updateDashboard(tutorID);
     }//GEN-LAST:event_jButton10ActionPerformed
 
     private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
@@ -610,6 +629,7 @@ public class TutorDashboard extends javax.swing.JFrame implements DashboardInter
     private javax.swing.JButton jButton11;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
