@@ -32,6 +32,9 @@
           <Dimension value="[1000, 581]"/>
         </Property>
       </Properties>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new CustomColor()"/>
+      </AuxValues>
 
       <Layout>
         <DimensionLayout dim="0">
