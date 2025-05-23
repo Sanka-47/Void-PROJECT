@@ -39,29 +39,6 @@ public class CourseRegistration extends CustomColor {
         SwingUtilities.invokeLater(() -> jTextField1.requestFocusInWindow());
         jButton1.setEnabled(false);
         jButton3.setEnabled(false);
-
-//        jTextField3.setText(searchPlaceholder);
-//        jTextField3.setForeground(Color.GRAY);
-//
-//        jTextField3.addFocusListener(new java.awt.event.FocusAdapter() {
-//            @Override
-//            public void focusGained(java.awt.event.FocusEvent evt) {
-//                if (jTextField3.getText().equals(searchPlaceholder)) {
-//                    jTextField1.setText("");
-//                    jTextField3.setForeground(Color.BLACK);
-//                }
-//            }
-//
-//            @Override
-//            public void focusLost(java.awt.event.FocusEvent evt) {
-//                if (jTextField3.getText().isEmpty()) {
-//                    jTextField3.setForeground(Color.GRAY);
-//                    jTextField3.setText(searchPlaceholder);
-//                }
-//            }
-//        });
-//
-//    }
         jTextField3.setText(searchPlaceholder);
         jTextField3.setForeground(Color.GRAY);
 
@@ -166,15 +143,21 @@ public class CourseRegistration extends CustomColor {
 
             Vector<String> vector = new Vector<>();
             vector.add("Select");
+            vector.add("Level 1");
+            vector.add("Level 2");
+            vector.add("Level 3");
 
-            while (resultSet.next()) {
-                vector.add(resultSet.getString("grade_level"));
-                gradeMap.put(resultSet.getString("grade_level"), resultSet.getString("id"));
-
-                DefaultComboBoxModel model = new DefaultComboBoxModel(vector);
-                jComboBox1.setModel(model);
-
-            }
+//            while (resultSet.next()) {
+//                vector.add(resultSet.getString("grade_level"));
+            gradeMap.put("Select", "Select");
+            gradeMap.put("Level 1", "Level 1");
+            gradeMap.put("Level 2", "Level 2");
+            gradeMap.put("Level 3", "Level 3");
+//
+            DefaultComboBoxModel model = new DefaultComboBoxModel(vector);
+            jComboBox1.setModel(model);
+//
+//            }
 
         } catch (Exception e) {
             logger.error("Exception caught", e);

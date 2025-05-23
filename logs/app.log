@@ -4030,3 +4030,7 @@ java.sql.SQLException: Access denied for user 'root'@'localhost' (using password
 	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109) ~[?:?]
 	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101) ~[?:?]
 	at java.awt.EventDispatchThread.run(EventDispatchThread.java:90) ~[?:?]
+2025-05-24 01:09:18 [AWT-EventQueue-0] DEBUG gui.SignIn - Attempting login for NIC: 200578367378
+2025-05-24 01:09:18 [AWT-EventQueue-0] INFO  gui.SignIn - Employee login successful - Name: Hansaja Basnayaka, ID: 1
+2025-05-24 01:28:08 [AWT-EventQueue-0] DEBUG gui.SignIn - Attempting login for NIC: 200578367378
+2025-05-24 01:28:08 [AWT-EventQueue-0] INFO  gui.SignIn - Employee login successful - Name: Hansaja Basnayaka, ID: 1

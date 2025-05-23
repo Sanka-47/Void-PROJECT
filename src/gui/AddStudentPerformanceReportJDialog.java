@@ -66,8 +66,8 @@ public class AddStudentPerformanceReportJDialog extends javax.swing.JDialog {
         return jButton2;
     }
 
-    private static HashMap<String, String> assignmentMap = new HashMap<>();
-    private static HashMap<String, String> studentMap = new HashMap<>();
+    private HashMap<String, String> assignmentMap = new HashMap<>();
+    private HashMap<String, String> studentMap = new HashMap<>();
 
     private void reportID() {
 
@@ -79,10 +79,9 @@ public class AddStudentPerformanceReportJDialog extends javax.swing.JDialog {
     private void loadStudent() {
 
         try {
+
             Vector<String> vector = new Vector<>();
             vector.add("Select");
-
-            Vector<String> nameList = new Vector<>();
 
             ResultSet resultSet = MySQL2.executeSearch("SELECT `student`.`first_name`, `student`.`last_name`, `student`.`nic` FROM `student` "
                     + "INNER JOIN `student_courses` ON `student`.`nic` = `student_courses`.`student_nic` "
@@ -90,23 +89,18 @@ public class AddStudentPerformanceReportJDialog extends javax.swing.JDialog {
                     + "INNER JOIN `tutor` ON `courses`.`id` = `tutor`.`courses_id` WHERE `tutor`.`id` = '" + tutorID + "'");
 
             while (resultSet.next()) {
-                String fullName = resultSet.getString("first_name") + " " + resultSet.getString("last_name");
-                nameList.add(fullName);
+                String fullName = resultSet.getString("student.first_name") + " " + resultSet.getString("student.last_name");
+                vector.add(fullName);
                 studentMap.put(fullName, resultSet.getString("nic"));
+                // contactMap.put(fullName, resultSet.getString("contact_info"));
             }
 
-            // Sort names in ascending order
-            java.util.Collections.sort(nameList);
-
-            // Add sorted names to the combo box model
-            vector.addAll(nameList);
-
-            jComboBox1.setModel(new DefaultComboBoxModel<>(vector));
+            DefaultComboBoxModel model = new DefaultComboBoxModel(vector);
+            jComboBox1.setModel(model);
 
         } catch (Exception e) {
-            logger.error("Exception caught", e);
+            e.printStackTrace();
         }
-
     }
 
     private void loadAssignment() {
@@ -116,7 +110,7 @@ public class AddStudentPerformanceReportJDialog extends javax.swing.JDialog {
             Vector<String> vector = new Vector<>();
             vector.add("Select");
 
-            ResultSet resultSet = MySQL2.executeSearch("SELECT * FROM assignment");
+            ResultSet resultSet = MySQL2.executeSearch("SELECT `id`, `title` FROM assignment");
 
             while (resultSet.next()) {
                 vector.add(resultSet.getString("title"));
