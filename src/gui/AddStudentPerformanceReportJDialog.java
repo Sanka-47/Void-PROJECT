@@ -16,7 +16,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class AddStudentPerformanceReportJDialog extends javax.swing.JDialog {
-    
+
     private int tutorID;
 
     private static final Logger logger = LogManager.getLogger(AddStudentPerformanceReportJDialog.class);
@@ -79,28 +79,31 @@ public class AddStudentPerformanceReportJDialog extends javax.swing.JDialog {
     private void loadStudent() {
 
         try {
-
             Vector<String> vector = new Vector<>();
             vector.add("Select");
 
-            ResultSet resultSet = MySQL2.executeSearch("SELECT `student`.`first_name`, `student`.`last_name`, `student`.`nic` FROM `student` "
-                    + "INNER JOIN `student_courses` ON `student`.`nic` = `student_courses`.`student_nic` "
-                    + "INNER JOIN `courses` ON `student_courses`.`courses_id` = `courses`.`id` "
-                    + "INNER JOIN `tutor` ON `courses`.`id` = `tutor`.`courses_id` WHERE `tutor`.`id` = '" + tutorID + "'");
+            Vector<String> nameList = new Vector<>();
+
+            ResultSet resultSet = MySQL2.executeSearch("SELECT * FROM student");
 
             while (resultSet.next()) {
-                String fullName = resultSet.getString("student.first_name") + " " + resultSet.getString("student.last_name");
-                vector.add(fullName);
+                String fullName = resultSet.getString("first_name") + " " + resultSet.getString("last_name");
+                nameList.add(fullName);
                 studentMap.put(fullName, resultSet.getString("nic"));
-                // contactMap.put(fullName, resultSet.getString("contact_info"));
             }
 
-            DefaultComboBoxModel model = new DefaultComboBoxModel(vector);
-            jComboBox1.setModel(model);
+            // Sort names in ascending order
+            java.util.Collections.sort(nameList);
+
+            // Add sorted names to the combo box model
+            vector.addAll(nameList);
+
+            jComboBox1.setModel(new DefaultComboBoxModel<>(vector));
 
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Exception caught", e);
         }
+
     }
 
     private void loadAssignment() {
