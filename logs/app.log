@@ -1751,3 +1751,5 @@ java.sql.SQLException: Incorrect integer value: 'null' for column 'courses_id' a
 2025-05-22 21:42:36 [AWT-EventQueue-0] DEBUG gui.AddAssignmentJDialog - Entered method: loadCourses
 2025-05-22 21:42:36 [AWT-EventQueue-0] INFO  gui.AddAssignmentJDialog - Entered method: loadCourses
 
+2025-05-23 13:37:08 [AWT-EventQueue-0] DEBUG gui.SignIn - Attempting login for NIC: 200376548378
+2025-05-23 13:37:11 [AWT-EventQueue-0] INFO  gui.SignIn - Tutor login successful - Name: Sanka Konara, ID: 1
