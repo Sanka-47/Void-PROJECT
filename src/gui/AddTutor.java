@@ -33,14 +33,19 @@ public class AddTutor extends CustomColor {
     private static final Logger logger = LogManager.getLogger(AddTutor.class);
 
     private DashboardInterface parent;
-    private DateChooser chDate = new DateChooser();
+    
+    private DateChooser chDate;
+    private Date date;
 
-    private static HashMap<String, String> courseMap = new HashMap<>();
-    private static HashMap<String, String> genderMap = new HashMap<>();
+    private SimpleDateFormat dateFormat;
+
+    private HashMap<String, String> courseMap;
+    private HashMap<String, String> genderMap;
 
     public AddTutor(DashboardInterface parent) {
         this.parent = parent;
         initComponents();
+        init();
         LoadGender();
         LoadCourses();
         dateChooser();
@@ -48,6 +53,14 @@ public class AddTutor extends CustomColor {
         jButton2.setEnabled(false);
         jButton4.setEnabled(false);
 
+    }
+    
+    private void init() {
+        this.chDate = new DateChooser();
+        this.date = new Date();
+        this.dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        this.courseMap = new HashMap<>();
+        this.genderMap = new HashMap<>();
     }
 
     //First Name
@@ -129,9 +142,9 @@ public class AddTutor extends CustomColor {
         chDate.setLabelCurrentDayVisible(false);
         chDate.setForeground(Color.black);
         chDate.setBackground(Color.white);
-        chDate.setDateFormat(new SimpleDateFormat("yyyy-MM-dd"));
-        chDate.addActionDateChooserListener(new DateChooserAdapter() {
-        });
+        chDate.setDateFormat(dateFormat);
+        chDate.addActionDateChooserListener(new DateChooserAdapter() {});
+        jTextField7.setText(dateFormat.format(date));
     }
 
     void LoadCourses() {
@@ -146,9 +159,6 @@ public class AddTutor extends CustomColor {
                 String courseId = resultSet.getString("id");
                 ResultSet resultSet1 = MySQL2.executeSearch("SELECT courses_id FROM `tutor` WHERE `courses_id` = '" + courseId + "' ");
                 if (!resultSet1.next() && jButton2.isEnabled()) {
-                    vector.add(resultSet.getString("name"));
-                    courseMap.put(resultSet.getString("name"), resultSet.getString("id"));
-                } else {
                     vector.add(resultSet.getString("name"));
                     courseMap.put(resultSet.getString("name"), resultSet.getString("id"));
                 }
@@ -527,10 +537,13 @@ public class AddTutor extends CustomColor {
 
             } catch (SQLException e) {
                 logger.error("Exception caught", e);
+                e.printStackTrace();
             } catch (ParseException e) {
                 logger.error("Exception caught", e);
+                e.printStackTrace();
             } catch (Exception e) {
                 logger.error("Exception caught", e);
+                e.printStackTrace();
             }
 
         }

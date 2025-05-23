@@ -37,15 +37,19 @@ public class EmployeeRegistration extends javax.swing.JPanel {
 
 //        
     private DashboardInterface parent;
-    private DateChooser chDate = new DateChooser();
+    private DateChooser chDate;
+    private Date date;
+
+    private SimpleDateFormat dateFormat;
     public AllEmployees allEmployees;
 
-    public static HashMap<String, Integer> genderMap = new HashMap();
-    public static HashMap<String, Integer> roleMap = new HashMap();
+    private HashMap<String, Integer> genderMap;
+    private HashMap<String, Integer> roleMap;
 
     public EmployeeRegistration(DashboardInterface parent) {
         this.parent = parent;
         initComponents();
+        init();
         loadGender();
         loadRole();
         dateChooser();
@@ -55,8 +59,16 @@ public class EmployeeRegistration extends javax.swing.JPanel {
     }
 
     private void switchToAllEmployees() {
-        AllEmployees allEmployees = new AllEmployees(parent); // Create AllSession panel
+        this.allEmployees = new AllEmployees(parent); // Create AllSession panel
         parent.switchPanel(allEmployees);
+    }
+    
+    private void init() {
+        this.chDate = new DateChooser();
+        this.date = new Date();
+        this.dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        this.genderMap = new HashMap<>();
+        this.roleMap = new HashMap<>();
     }
 
     //First Name
@@ -135,7 +147,7 @@ public class EmployeeRegistration extends javax.swing.JPanel {
         chDate.setForeground(Color.black);
         chDate.setBackground(Color.white);
         chDate.setDateFormat(new SimpleDateFormat("yyyy-MM-dd"));
-
+        
     }
 
     private void loadGender() {
