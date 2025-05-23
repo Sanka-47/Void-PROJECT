@@ -15,7 +15,7 @@ import model.MySQL2;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class StudentProgressandPerformanceTracking extends javax.swing.JPanel {
+public class StudentProgressandPerformanceTracking extends CustomColor {
     private static final Logger logger = LogManager.getLogger(StudentProgressandPerformanceTracking.class);
 
     public StudentProgressandPerformanceTracking(String fName, String lName) {

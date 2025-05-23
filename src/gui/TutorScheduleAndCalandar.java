@@ -28,7 +28,7 @@ import java.util.Date;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class TutorScheduleAndCalandar extends javax.swing.JPanel {
+public class TutorScheduleAndCalandar extends CustomColor {
 
     private static final Logger logger = LogManager.getLogger(TutorScheduleAndCalandar.class);
 

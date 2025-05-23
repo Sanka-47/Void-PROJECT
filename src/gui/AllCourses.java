@@ -21,7 +21,7 @@ import net.sf.jasperreports.view.JasperViewer;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class AllCourses extends javax.swing.JPanel {
+public class AllCourses extends CustomColor {
     private static final Logger logger = LogManager.getLogger(AllCourses.class);
     
 

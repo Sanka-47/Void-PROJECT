@@ -30,7 +30,7 @@ import javax.swing.JLabel;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class AssignmentManagement extends javax.swing.JPanel {
+public class AssignmentManagement extends CustomColor {
 
     private static final Logger logger = LogManager.getLogger(AssignmentManagement.class);
 

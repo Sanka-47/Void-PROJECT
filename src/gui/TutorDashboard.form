@@ -56,6 +56,9 @@
           <Dimension value="[1250, 120]"/>
         </Property>
       </Properties>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new CustomColor()"/>
+      </AuxValues>
 
       <Layout>
         <DimensionLayout dim="0">
@@ -457,6 +460,9 @@
           <Dimension value="[1000, 581]"/>
         </Property>
       </Properties>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new CustomColor()"/>
+      </AuxValues>
 
       <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout"/>
     </Container>

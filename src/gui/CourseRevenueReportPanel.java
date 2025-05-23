@@ -22,7 +22,7 @@ import org.apache.logging.log4j.Logger;
  *
  * @author Rushma
  */
-public class CourseRevenueReportPanel extends javax.swing.JPanel {
+public class CourseRevenueReportPanel extends CustomColor {
     private static final Logger logger = LogManager.getLogger(CourseRevenueReportPanel.class);
 
     /**

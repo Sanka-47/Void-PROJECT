@@ -19,7 +19,7 @@ import org.apache.logging.log4j.Logger;
  *
  * @author Rushma
  */
-public class TutorWalletJpanel extends javax.swing.JPanel {
+public class TutorWalletJpanel extends CustomColor {
  private static final Logger logger = LogManager.getLogger(TutorWallet.class);
 
     /**

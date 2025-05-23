@@ -21,7 +21,7 @@ import model.MySQL2;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class TutorClassList extends javax.swing.JPanel {
+public class TutorClassList extends CustomColor {
 
     private static final Logger logger = LogManager.getLogger(TutorClassList.class);
 

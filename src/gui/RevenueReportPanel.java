@@ -26,7 +26,7 @@ import org.apache.logging.log4j.Logger;
  *
  * @author Rushma
  */
-public class RevenueReportPanel extends javax.swing.JPanel {
+public class RevenueReportPanel extends CustomColor {
     private static final Logger logger = LogManager.getLogger(RevenueReportPanel.class);
 
     /**

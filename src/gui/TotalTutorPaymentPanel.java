@@ -26,7 +26,7 @@ import org.apache.logging.log4j.Logger;
  *
  * @author Rushma
  */
-public class TotalTutorPaymentPanel extends javax.swing.JPanel {
+public class TotalTutorPaymentPanel extends CustomColor {
     private static final Logger logger = LogManager.getLogger(TotalTutorPaymentPanel.class);
     
   /**

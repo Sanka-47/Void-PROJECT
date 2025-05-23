@@ -25,7 +25,7 @@ import org.apache.logging.log4j.Logger;
  *
  * @author Rushma
  */
-public class TutorRequestedSessions extends javax.swing.JPanel {
+public class TutorRequestedSessions extends CustomColor {
     private static final Logger logger = LogManager.getLogger(TutorRequestedSessions.class);
 
     private DateChooser chDate = new DateChooser();

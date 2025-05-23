@@ -4,6 +4,8 @@ package gui;
 import java.awt.Frame;
 import java.sql.ResultSet;
 import java.util.Vector;
+import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import model.MySQL2;
 import org.apache.logging.log4j.LogManager;
@@ -24,6 +26,11 @@ public class InvoiceItems extends javax.swing.JDialog {
         super((Frame) parent, modal);
         initComponents();
         loadInvoiceItems(id);
+        
+        DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
+        renderer.setHorizontalAlignment(SwingConstants.CENTER);
+
+        jTable2.setDefaultRenderer(Object.class, renderer);
     }
     
     private void loadInvoiceItems(String id) {

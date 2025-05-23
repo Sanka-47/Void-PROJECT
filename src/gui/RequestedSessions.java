@@ -25,7 +25,7 @@ import org.apache.logging.log4j.Logger;
  *
  * @author Rushma
  */
-public class RequestedSessions extends javax.swing.JPanel {
+public class RequestedSessions extends CustomColor {
 
     private static final Logger logger = LogManager.getLogger(RequestedSessions.class);
 
