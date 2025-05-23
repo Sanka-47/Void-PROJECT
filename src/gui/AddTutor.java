@@ -30,10 +30,11 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class AddTutor extends CustomColor {
+
     private static final Logger logger = LogManager.getLogger(AddTutor.class);
 
     private DashboardInterface parent;
-    
+
     private DateChooser chDate;
     private Date date;
 
@@ -54,7 +55,7 @@ public class AddTutor extends CustomColor {
         jButton4.setEnabled(false);
 
     }
-    
+
     private void init() {
         this.chDate = new DateChooser();
         this.date = new Date();
@@ -143,7 +144,8 @@ public class AddTutor extends CustomColor {
         chDate.setForeground(Color.black);
         chDate.setBackground(Color.white);
         chDate.setDateFormat(dateFormat);
-        chDate.addActionDateChooserListener(new DateChooserAdapter() {});
+        chDate.addActionDateChooserListener(new DateChooserAdapter() {
+        });
         jTextField7.setText(dateFormat.format(date));
     }
 
@@ -210,7 +212,7 @@ public class AddTutor extends CustomColor {
         jButton1.setEnabled(true);
         jButton2.setEnabled(false);
         jButton4.setEnabled(false);
-        LoadCourses();
+//        LoadCourses();
 
     }
 
@@ -438,7 +440,6 @@ public class AddTutor extends CustomColor {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
         String firstName = jTextField1.getText();
         String lastName = jTextField2.getText();
         String nic = jTextField3.getText();
@@ -449,103 +450,184 @@ public class AddTutor extends CustomColor {
         String password = String.valueOf(jPasswordField1.getPassword());
         String email = jTextField6.getText();
         String dob = jTextField7.getText();
+
+        System.out.println("=== DEBUG: Starting tutor registration ===");
+        System.out.println("FirstName: '" + firstName + "'");
+        System.out.println("LastName: '" + lastName + "'");
+        System.out.println("NIC: '" + nic + "'");
+        System.out.println("Qualification: '" + qualification + "'");
+        System.out.println("Courses: '" + courses + "'");
+        System.out.println("Gender: '" + gender + "'");
+        System.out.println("Mobile: '" + mobile + "'");
+        System.out.println("Email: '" + email + "'");
+        System.out.println("DOB: '" + dob + "'");
+
         Date date = new Date();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd ");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         String fdate = dateFormat.format(date);
 
+// Check empty fields first
         if (firstName.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Please enter your first name!", "Warning", JOptionPane.WARNING_MESSAGE);
+            return;
         } else if (!firstName.matches("^[A-Za-z]+( [A-Za-z]+)?$")) {
             JOptionPane.showMessageDialog(this, "Invalid first name. Only alphabetic characters are allowed, with one space between two names.", "Warning", JOptionPane.WARNING_MESSAGE);
+            return;
         } else if (lastName.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Please enter your last name!", "Warning", JOptionPane.WARNING_MESSAGE);
+            return;
         } else if (!lastName.matches("^[a-zA-Z]+$")) {
-            JOptionPane.showMessageDialog(this, "Please enter only letters!", "Warning", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Please enter only letters for last name!", "Warning", JOptionPane.WARNING_MESSAGE);
+            return;
         } else if (nic.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Please enter your NIC!", "Warning", JOptionPane.WARNING_MESSAGE);
+            return;
         } else if (!nic.matches("^(([5,6,7,8,9]{1})([0-9]{1})([0,1,2,3,5,6,7,8]{1})([0-9]{6})([v|V|x|X]))|(([1,2]{1})([0,9]{1})([0-9]{2})([0,1,2,3,5,6,7,8]{1})([0-9]{7}))")) {
-            JOptionPane.showMessageDialog(this, "Please enter your valid nic number!", "Warning", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Please enter your valid NIC number!", "Warning", JOptionPane.WARNING_MESSAGE);
+            return;
         } else if (qualification.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Please enter your qulification  !", "Warning", JOptionPane.WARNING_MESSAGE);
-        } else if (courses.equals("Select")) {
-            JOptionPane.showMessageDialog(this, "Please enter courses type !", "Warning", JOptionPane.WARNING_MESSAGE);
-        } else if (gender.equals("Select")) {
-            JOptionPane.showMessageDialog(this, "Please enter gender type !", "Warning", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Please enter your qualification!", "Warning", JOptionPane.WARNING_MESSAGE);
+            return;
+        } else if (courses.equals("Select") || courseMap.get(courses) == null) {
+            JOptionPane.showMessageDialog(this, "Please select a valid course!", "Warning", JOptionPane.WARNING_MESSAGE);
+            return;
+        } else if (gender.equals("Select") || genderMap.get(gender) == null) {
+            JOptionPane.showMessageDialog(this, "Please select a valid gender!", "Warning", JOptionPane.WARNING_MESSAGE);
+            return;
         } else if (mobile.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Please enter your mobile number!", "Warning", JOptionPane.WARNING_MESSAGE);
+            return;
         } else if (!mobile.matches("^07[01245678]{1}[0-9]{7}$")) {
-            JOptionPane.showMessageDialog(this, "Please enter a valid number!", "Warning", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Please enter a valid mobile number!", "Warning", JOptionPane.WARNING_MESSAGE);
+            return;
         } else if (password.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Please enter your Password!", "Warning", JOptionPane.WARNING_MESSAGE);
+            return;
         } else if (!password.matches("^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*#?&])[A-Za-z\\d@$!%*#?&]{8,}$")) {
-            JOptionPane.showMessageDialog(this, "Please type a password with a minimum of 8 characters including a number and character !", "Warning", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Please type a password with a minimum of 8 characters including a number and special character!", "Warning", JOptionPane.WARNING_MESSAGE);
+            return;
         } else if (email.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Please Enter Email", "Warning", JOptionPane.WARNING_MESSAGE);
+            return;
         } else if (!email.matches("^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$")) {
             JOptionPane.showMessageDialog(this, "Please Enter Valid Email", "Warning", JOptionPane.WARNING_MESSAGE);
-        } else if (dob == null) {
+            return;
+        } else if (dob.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Please enter the date of birth!", "Warning", JOptionPane.WARNING_MESSAGE);
+            return;
         } else {
+            System.out.println("=== DEBUG: All validations passed ===");
 
             try {
-
                 SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd");
                 Date parsedDate = inputFormat.parse(dob);
-                String formattedDOB = dateFormat.format(parsedDate);
+                String formattedDOB = inputFormat.format(parsedDate);
+
+                System.out.println("DEBUG: Parsed DOB: " + parsedDate);
+                System.out.println("DEBUG: Formatted DOB: " + formattedDOB);
 
                 // Calculate age
                 Calendar dobCal = Calendar.getInstance();
                 dobCal.setTime(parsedDate);
-
                 Calendar today = Calendar.getInstance();
 
                 int age = today.get(Calendar.YEAR) - dobCal.get(Calendar.YEAR);
-                if (parsedDate != null && parsedDate.after(date)) {
-                    JOptionPane.showMessageDialog((Component) parent, "Date of birth cannot be in the future!", "Invalid Date", JOptionPane.ERROR_MESSAGE);
-//                      jTextField6.setText(""); // Clear the invalid date
-                    // Adjust if birthday hasn't occurred this year yet
-                } else if (today.get(Calendar.DAY_OF_YEAR) < dobCal.get(Calendar.DAY_OF_YEAR)) {
-                    age--;
-                } else if (age < 18 || age > 60) {
-                    // Check age limit (e.g., 18 to 60)
-                    JOptionPane.showMessageDialog((Component) parent, "Age must be between 18 and 60 years.", "Invalid Age", JOptionPane.WARNING_MESSAGE);
-                } else {
-                    JOptionPane.showMessageDialog(null, "Age is valid: " + age + " years.");
 
-                    ResultSet resultSet = MySQL2.executeSearch("SELECT * FROM `tutor` WHERE  `nic` = '" + nic + "' AND `contact_info` = '" + mobile + "'");
+                // Adjust if birthday hasn't occurred this year yet
+                if (today.get(Calendar.DAY_OF_YEAR) < dobCal.get(Calendar.DAY_OF_YEAR)) {
+                    age--;
+                }
+
+                System.out.println("DEBUG: Calculated age: " + age);
+
+                if (parsedDate.after(date)) {
+                    JOptionPane.showMessageDialog(this, "Date of birth cannot be in the future!", "Invalid Date", JOptionPane.ERROR_MESSAGE);
+                    return;
+                } else if (age < 18 || age > 60) {
+                    JOptionPane.showMessageDialog(this, "Age must be between 18 and 60 years. Current age: " + age, "Invalid Age", JOptionPane.WARNING_MESSAGE);
+                    return;
+                } else {
+                    System.out.println("DEBUG: Age validation passed. Age: " + age);
+
+                    // Check if maps contain the values
+                    if (genderMap == null || courseMap == null) {
+                        JOptionPane.showMessageDialog(this, "System error: Gender or Course mapping not initialized", "Error", JOptionPane.ERROR_MESSAGE);
+                        return;
+                    }
+
+                    String genderId = genderMap.get(gender);
+                    String courseId = courseMap.get(courses);
+
+                    System.out.println("DEBUG: Gender '" + gender + "' mapped to ID: " + genderId);
+                    System.out.println("DEBUG: Course '" + courses + "' mapped to ID: " + courseId);
+
+                    if (genderId == null) {
+                        JOptionPane.showMessageDialog(this, "Invalid gender selection: " + gender, "Error", JOptionPane.ERROR_MESSAGE);
+                        return;
+                    }
+
+                    if (courseId == null) {
+                        JOptionPane.showMessageDialog(this, "Invalid course selection: " + courses, "Error", JOptionPane.ERROR_MESSAGE);
+                        return;
+                    }
+
+                    System.out.println("DEBUG: Checking for existing tutor...");
+                    ResultSet resultSet = MySQL2.executeSearch("SELECT * FROM `tutor` WHERE `nic` = '" + nic + "' OR `contact_info` = '" + mobile + "' OR `email` = '" + email + "'");
 
                     if (resultSet.next()) {
-                        JOptionPane.showMessageDialog(this, "This user already registered", "Warning", JOptionPane.WARNING_MESSAGE);
+                        JOptionPane.showMessageDialog(this, "This tutor is already registered (NIC, mobile, or email already exists)", "Warning", JOptionPane.WARNING_MESSAGE);
+                        System.out.println("DEBUG: Tutor already exists in database");
+                        return;
                     } else {
+                        System.out.println("DEBUG: Tutor is unique, proceeding with registration...");
 
                         SecurePasswordFacade spf = new SecurePasswordFacade();
+                        String encryptedPassword = spf.encryptToFile(password, 6);
 
-                        MySQL2.executeIUD("INSERT INTO `tutor`(`first_name`,`last_name`,`qualification`,`contact_info`,`email`,`gender_id`,`password`,`nic`,`dob`,`registration_date`,`courses_id`)"
-                                + "VALUES('" + firstName + "','" + lastName + "','" + qualification + "','" + mobile + "','" + email + "','" + genderMap.get(gender) + "','" + spf.encryptToFile(password, 6) + "',"
-                                + "'" + nic + "','" + formattedDOB + "','" + fdate + "','" + courseMap.get(courses) + "')");
-                        JOptionPane.showMessageDialog(this, "Tutor :" + firstName + " " + lastName + " successfully added!", "Warning", JOptionPane.INFORMATION_MESSAGE);
-                        ClearAll();
+                        System.out.println("DEBUG: Password encrypted successfully");
+
+                        String insertQuery = "INSERT INTO `tutor`(`first_name`,`last_name`,`qualification`,`contact_info`,`email`,`gender_id`,`password`,`nic`,`dob`,`registration_date`,`courses_id`)"
+                                + "VALUES('" + firstName + "','" + lastName + "','" + qualification + "','" + mobile + "','" + email + "','" + genderId + "','" + encryptedPassword + "',"
+                                + "'" + nic + "','" + formattedDOB + "','" + fdate + "','" + courseId + "')";
+
+                        System.out.println("DEBUG: Insert query: " + insertQuery);
+
+                        int result = MySQL2.executeIUD(insertQuery);
+
+                        System.out.println("DEBUG: Insert result: " + result);
 
                         spf = null;
 
-                        AllTutors allTutors = new AllTutors(parent);
-                        parent.switchPanel(allTutors);
+                        if (result > 0) {
+                            JOptionPane.showMessageDialog(this, "Tutor " + firstName + " " + lastName + " successfully added!", "Success", JOptionPane.INFORMATION_MESSAGE);
+                            System.out.println("DEBUG: Tutor registration successful!");
+                            ClearAll();
 
+                            AllTutors allTutors = new AllTutors(parent);
+                            parent.switchPanel(allTutors);
+                        } else {
+                            JOptionPane.showMessageDialog(this, "Registration failed. Please try again.", "Error", JOptionPane.ERROR_MESSAGE);
+                            System.out.println("DEBUG: Registration failed - no rows affected");
+                        }
                     }
-
                 }
 
             } catch (SQLException e) {
+                System.out.println("DEBUG: SQL Exception: " + e.getMessage());
+                JOptionPane.showMessageDialog(this, "Database error occurred: " + e.getMessage(), "Database Error", JOptionPane.ERROR_MESSAGE);
                 logger.error("Exception caught", e);
                 e.printStackTrace();
             } catch (ParseException e) {
+                System.out.println("DEBUG: Date parsing error: " + e.getMessage());
+                JOptionPane.showMessageDialog(this, "Invalid date format. Please use yyyy-MM-dd format.", "Date Error", JOptionPane.ERROR_MESSAGE);
                 logger.error("Exception caught", e);
                 e.printStackTrace();
             } catch (Exception e) {
+                System.out.println("DEBUG: General exception: " + e.getMessage());
+                JOptionPane.showMessageDialog(this, "An error occurred during registration: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
                 logger.error("Exception caught", e);
                 e.printStackTrace();
             }
-
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
