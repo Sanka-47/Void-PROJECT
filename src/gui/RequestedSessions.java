@@ -44,7 +44,7 @@ public class RequestedSessions extends javax.swing.JPanel {
         loadRequestedSessions("", "");
         rejectbtn.setEnabled(false);
         confirmBtn.setEnabled(false);
-         DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
+        DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
         renderer.setHorizontalAlignment(SwingConstants.CENTER);
 
         jTable1.setDefaultRenderer(Object.class, renderer);
@@ -57,7 +57,7 @@ public class RequestedSessions extends javax.swing.JPanel {
                 System.out.println("type:" + type);
                 if (type.equals("Cancel")) {
                     confirmBtn.setEnabled(true);
-                }else{
+                } else {
                     confirmBtn.setEnabled(false);
                 }
             }
@@ -106,21 +106,21 @@ public class RequestedSessions extends javax.swing.JPanel {
                 }
             }
             if (sort.equals("Hall Number ASC")) {
-                query += "ORDER BY `hallnumber` ASC ";
+                query += " ORDER BY request_sessions.hallnumber ASC";
             } else if (sort.equals("Hall Number DESC")) {
-                query += "ORDER BY `hallnumber` DESC";
+                query += " ORDER BY request_sessions.hallnumber DESC";
             } else if (sort.equals("Tutor Name ASC")) {
-                query += "ORDER BY `tutor`.`first_name` ASC";
+                query += " ORDER BY tutor.first_name ASC";
             } else if (sort.equals("Tutor Name DESC")) {
-                query += "ORDER BY `tutor`.`first_name` DESC";
+                query += " ORDER BY tutor.first_name DESC";
             } else if (sort.equals("Subject ASC")) {
-                query += "ORDER BY `courses`.`name` ASC";
+                query += " ORDER BY courses.name ASC";
             } else if (sort.equals("Subject DESC")) {
-                query += "ORDER BY `courses`.`name` DESC";
+                query += " ORDER BY courses.name DESC";
             } else if (sort.equals("ID ASC")) {
-                query += "ORDER BY `class`.`id` ASC";
+                query += " ORDER BY request_sessions.id ASC";
             } else if (sort.equals("ID DESC")) {
-                query += "ORDER BY `class`.`id` DESC";
+                query += " ORDER BY request_sessions.id DESC";
             }
 
             ResultSet resultSet = MySQL2.executeSearch(query);
@@ -148,6 +148,7 @@ public class RequestedSessions extends javax.swing.JPanel {
                 model.addRow(vector);
             }
         } catch (Exception e) {
+            System.out.println(e);
             logger.error("Exception caught", e); // Log the exception for debugging
         }
     }
@@ -368,47 +369,59 @@ public class RequestedSessions extends javax.swing.JPanel {
         // Check if the click is a single click
         if (evt.getClickCount() == 1) {
             int selectedRow = jTable1.getSelectedRow();
-                String type = (String) jTable1.getValueAt(selectedRow, 10);
-                System.out.println("type:" + type);
-                if (type.equals("Cancel")) {
-                    confirmBtn.setEnabled(true);
-                }else{
-                    confirmBtn.setEnabled(false);
-                }
+            String type = (String) jTable1.getValueAt(selectedRow, 10);
+            System.out.println("type:" + type);
+            if (type.equals("Cancel")) {
+                confirmBtn.setEnabled(true);
+            } else {
+                confirmBtn.setEnabled(false);
+            }
         }
 
         if (evt.getClickCount() == 2) {
+
             // Get the selected row and column
             int selectedRow = jTable1.getSelectedRow();
             int selectedColumn = jTable1.getSelectedColumn();
 
-            if (selectedRow != -1 && selectedColumn != -1) {
-                // Retrieve the value of the 8th column (index 7)
-                DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-                String column8Value = (String) model.getValueAt(selectedRow, 8);
+            String type = (String) jTable1.getValueAt(selectedRow, 10);
+            System.out.println("type:" + type);
+            if (type.equals("Cancel")) {
+                JOptionPane.showMessageDialog(this,
+                        "This is a cancelleation request. Please select a new session request to scehdule",
+                        "Cancellation",
+                        JOptionPane.WARNING_MESSAGE);
+                return;
+            } else {
+                if (selectedRow != -1 && selectedColumn != -1) {
+                    // Retrieve the value of the 8th column (index 7)
+                    DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+                    String column8Value = (String) model.getValueAt(selectedRow, 8);
 
-                // Check if the 8th column value is "Rejected"
-                if ("Rejected".equalsIgnoreCase(column8Value)) {
-                    JOptionPane.showMessageDialog(this,
-                            "You have rejected this request. You cannot proceed.",
-                            "Request Rejected",
-                            JOptionPane.WARNING_MESSAGE);
-                    return; // Exit the method
+                    // Check if the 8th column value is "Rejected"
+                    if ("Rejected".equalsIgnoreCase(column8Value)) {
+                        JOptionPane.showMessageDialog(this,
+                                "You have rejected this request. You cannot proceed.",
+                                "Request Rejected",
+                                JOptionPane.WARNING_MESSAGE);
+                        return; // Exit the method
+                    }
+
+                    // Get the data from the selected cell
+                    Object cellData = jTable1.getValueAt(selectedRow, selectedColumn);
+
+                    // Retrieve the entire row data
+                    Vector<String> rowData = new Vector<>();
+                    for (int col = 0; col < model.getColumnCount(); col++) {
+                        rowData.add((String) model.getValueAt(selectedRow, col));
+                    }
+
+                    // Switch to the TutorScheduleAndCalandar panel
+                    TutorScheduleAndCalandar tutorPanel = new TutorScheduleAndCalandar(parent, rowData);
+                    parent.switchPanel(tutorPanel);
                 }
-
-                // Get the data from the selected cell
-                Object cellData = jTable1.getValueAt(selectedRow, selectedColumn);
-
-                // Retrieve the entire row data
-                Vector<String> rowData = new Vector<>();
-                for (int col = 0; col < model.getColumnCount(); col++) {
-                    rowData.add((String) model.getValueAt(selectedRow, col));
-                }
-
-                // Switch to the TutorScheduleAndCalandar panel
-                TutorScheduleAndCalandar tutorPanel = new TutorScheduleAndCalandar(parent, rowData);
-                parent.switchPanel(tutorPanel);
             }
+
         }
     }//GEN-LAST:event_jTable1MouseClicked
 
