@@ -643,7 +643,14 @@ public class TutorClassList extends javax.swing.JPanel {
         int selectedRow = jTable1.getSelectedRow();
 
         if (selectedRow != -1) {
-            String classId = (String) jTable1.getValueAt(selectedRow, 0); // Session ID
+            if (jTable1.getValueAt(selectedRow, 8).equals("Completed")) {
+                JOptionPane.showMessageDialog(this, "This lesson has already been completed");
+                return;
+            }else if (jTable1.getValueAt(selectedRow, 8).equals("Cancelled")) {
+                JOptionPane.showMessageDialog(this, "This lesson has already been cancelled by the admin");
+                return;
+            }else{
+                 String classId = (String) jTable1.getValueAt(selectedRow, 0); // Session ID
             String sessionDate = (String) jTable1.getValueAt(selectedRow, 2); // Assuming date is in column 2 (format: yyyy-MM-dd)
             String amount = String.valueOf(jTable1.getValueAt(selectedRow, 6));
 
@@ -680,6 +687,8 @@ public class TutorClassList extends javax.swing.JPanel {
                     JOptionPane.showMessageDialog(this, "Error while completing the session.");
                 }
             }
+            }
+           
         } else {
             JOptionPane.showMessageDialog(this, "Please select a session to mark as completed.");
         }

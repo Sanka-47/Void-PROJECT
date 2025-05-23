@@ -1012,13 +1012,13 @@ public class TutorScheduleAndCalandar extends javax.swing.JPanel {
         String startTime = jFormattedTextField1.getText();
         String endTime = jFormattedTextField2.getText();
         String hallnumber = jTextField3.getText();
-        String price = jFormattedTextField3.getText();
 
         Date currentDate = new Date();
 
         String timeRegex = "^([01]?\\d|2[0-3])\\.\\d{2}$";
-        double amount = Double.parseDouble(price);
-        // Validation checks
+        String price = jFormattedTextField3.getText();
+
+// Check empty fields first
         if (sessionID.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Please enter the Class ID!", "Warning", JOptionPane.WARNING_MESSAGE);
             return;
@@ -1043,21 +1043,21 @@ public class TutorScheduleAndCalandar extends javax.swing.JPanel {
         } else if (dateString.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Please enter a Date!", "Warning", JOptionPane.WARNING_MESSAGE);
             return;
-//        } else if (LocalDate.parse(dateString, DateTimeFormatter.ofPattern("yyyy-MM-dd")).isBefore(LocalDate.now())) {
         } else if (price.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Please enter the Amount!", "Warning", JOptionPane.WARNING_MESSAGE);
             return;
-        } else if (price.isEmpty()) {
-            warn("Please enter the Amount!");
-            return;
         } else if (!price.matches("^\\d+(\\.\\d{1,2})?$")) {
-            warn("Amount must be a valid positive number (up to 2 decimal places) with no letters or symbols.");
+            JOptionPane.showMessageDialog(this, "Amount must be a valid positive number (up to 2 decimal places) with no letters or symbols.", "Warning", JOptionPane.WARNING_MESSAGE);
             return;
-        } else if (amount < 2000) {
-            warn("The minimum allowed amount is 2000.");
+        }
+
+        double amount = Double.parseDouble(price); // Now safe to parse
+
+        if (amount < 2000) {
+            JOptionPane.showMessageDialog(this, "The minimum allowed amount is 2000.", "Warning", JOptionPane.WARNING_MESSAGE);
             return;
         } else if (amount > 10000) {
-            warn("The maximum allowed amount is 10000.");
+            JOptionPane.showMessageDialog(this, "The maximum allowed amount is 10000.", "Warning", JOptionPane.WARNING_MESSAGE);
             return;
         } else {
             try {
@@ -1145,6 +1145,7 @@ public class TutorScheduleAndCalandar extends javax.swing.JPanel {
                 }
 
             } catch (Exception e) {
+                System.out.println(e);
                 logger.error("Exception caught", e);
             }
         }
