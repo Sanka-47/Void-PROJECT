@@ -86,6 +86,7 @@ public class AllTutors extends javax.swing.JPanel {
 
             }
         });
+        jTextField2.setText("");
     }
 
     private void loadTable(String from, String to) {

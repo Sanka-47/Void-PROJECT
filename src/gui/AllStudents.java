@@ -85,6 +85,7 @@ public class AllStudents extends javax.swing.JPanel {
                 loadTable(From, To);
             }
         });
+        jTextField2.setText("");
     }
 
     private void loadTable(String from, String to) {

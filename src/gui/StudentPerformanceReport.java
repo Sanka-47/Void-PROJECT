@@ -256,7 +256,7 @@ public class StudentPerformanceReport extends javax.swing.JPanel {
 
             AddStudentPerformanceReportJDialog ASR = new AddStudentPerformanceReportJDialog(parent, true);
 
-            populateStudentNameComboBox(ASR.getjComboBox1());
+            ASR.getjComboBox1();
             
             ASR.getjLabel7().setText(gradeId);
             ASR.getjTextField1().setText(Grade);

@@ -28,7 +28,7 @@ public class CourseRegistration extends javax.swing.JPanel {
 
     private static final Logger logger = LogManager.getLogger(CourseRegistration.class);
 
-    private static HashMap<String, String> gradeMap = new HashMap<>();
+    private HashMap<String, String> gradeMap = new HashMap<>();
 
     private final String searchPlaceholder = "ID, Course Name, Grade Level, Fees...";
 
@@ -166,15 +166,22 @@ public class CourseRegistration extends javax.swing.JPanel {
 
             Vector<String> vector = new Vector<>();
             vector.add("Select");
+            vector.add("Level 1");
+            vector.add("Level 2");
+            vector.add("Level 3");
 
-            while (resultSet.next()) {
-                vector.add(resultSet.getString("grade_level"));
-                gradeMap.put(resultSet.getString("grade_level"), resultSet.getString("id"));
+//            while (resultSet.next()) {
+//                vector.add(resultSet.getString("grade_level"));
+//                gradeMap.put(resultSet.getString("grade_level"), resultSet.getString("id"));
+                gradeMap.put("Select", "Select");
+                gradeMap.put("Level 1", "Level 1");
+                gradeMap.put("Level 2", "Level 2");
+                gradeMap.put("Level 3", "Level 3");
 
                 DefaultComboBoxModel model = new DefaultComboBoxModel(vector);
                 jComboBox1.setModel(model);
 
-            }
+//            }
 
         } catch (Exception e) {
             logger.error("Exception caught", e);
@@ -455,7 +462,7 @@ public class CourseRegistration extends javax.swing.JPanel {
             String courseName = jTextField1.getText();
 //            Double fee = Double.parseDouble(jTextField2.getText());
             String fee = String.valueOf(jTextField2.getText());
-            String grade = String.valueOf(jComboBox1.getSelectedItem());
+            String grade= String.valueOf(jComboBox1.getSelectedItem());
             String description = jTextField4.getText();
 
             if (courseName.isEmpty()) {
@@ -469,10 +476,10 @@ public class CourseRegistration extends javax.swing.JPanel {
                 return;
             } else {
 
-                String gradeId = gradeMap.get(grade);
+                String gradeName = gradeMap.get(grade);
 
                 MySQL2.executeIUD("INSERT INTO `courses`(`name`, `grade_level`, `fee`,`course_description`,`course_status_id`) VALUES ('"
-                        + courseName + "', '" + gradeId + "', '" + fee + "','" + description + "',0)");
+                        + courseName + "', '" + gradeName + "', '" + fee + "','" + description + "',0)");
 
                 loadCourseDetails();
                 reset();

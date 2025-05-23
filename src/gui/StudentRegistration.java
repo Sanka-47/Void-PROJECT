@@ -28,11 +28,9 @@ import model.MySQL2;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-
-
 public class StudentRegistration extends javax.swing.JPanel {
+
     private static final Logger logger = LogManager.getLogger(StudentRegistration.class);
-    
 
 //    
     private DashboardInterface parent;
@@ -132,12 +130,12 @@ public class StudentRegistration extends javax.swing.JPanel {
     private void dateChooser() {
         chDate.setTextField(jTextField6);
         chDate.setDateSelectionMode(DateChooser.DateSelectionMode.SINGLE_DATE_SELECTED);
-        chDate.setLabelCurrentDayVisible(false);
+        chDate.setLabelCurrentDayVisible(true);
         chDate.setForeground(Color.black);
         chDate.setBackground(Color.white);
-        chDate.setDateFormat(new SimpleDateFormat("yyyy-MM-dd"));
-        chDate.addActionDateChooserListener(new DateChooserAdapter() {
-        });
+        chDate.setDateFormat(dateFormat);
+        chDate.addActionDateChooserListener(new DateChooserAdapter() {});
+        jTextField6.setText(dateFormat.format(date));
     }
 
     private void loadGender() {
@@ -165,9 +163,9 @@ public class StudentRegistration extends javax.swing.JPanel {
 //            logger.log(Level.INFO, "Genders successfully loaded into the combo box.");
         } catch (SQLException e) {
 //            logger.log(Level.SEVERE, "An error occurred while loading genders.", e);
-            
+            e.printStackTrace();
         } catch (Exception e) {
-            
+            e.printStackTrace();
         }
 
     }
@@ -178,7 +176,7 @@ public class StudentRegistration extends javax.swing.JPanel {
 
             String query = "SELECT `id`, `name` FROM `intake` ";
 
-            if (!jButton3.isEnabled()) {
+            if (jButton1.isEnabled()) {
                 query += "WHERE `start_date` <= '" + dateFormat.format(date) + "' AND "
                         + "`end_date` >= '" + dateFormat.format(date) + "' AND `intake_status_id` = '1' ";
             }
@@ -197,9 +195,9 @@ public class StudentRegistration extends javax.swing.JPanel {
             jComboBox2.setModel(model);
 
         } catch (SQLException e) {
-            
+            e.printStackTrace();
         } catch (Exception e) {
-            
+            e.printStackTrace();
         }
     }
 
@@ -531,9 +529,9 @@ public class StudentRegistration extends javax.swing.JPanel {
 //                      logger.log(Level.INFO, "Formatted date of birth: {0}", formattedDOB);
                         MySQL2.executeIUD("INSERT INTO `student`(`nic`, `first_name`, `last_name`, `dob`, `contact_info`, `registration_date`, `email`, `gender_id`, `intake_id`) "
                                 + "VALUES ('" + NIC + "', '" + FirstName + "', '" + LastName + "', '" + formattedDOB + "', '" + Mobile + "', '" + fdate + "', '" + Email + "', '" + gender.get(Gender) + "', '" + intakeMap.get(Intake) + "')");
-
-                        JOptionPane.showMessageDialog(this, "Account Created Successfully", "Info", JOptionPane.INFORMATION_MESSAGE);
                         reset();
+                        JOptionPane.showMessageDialog(this, "Account Created Successfully", "Info", JOptionPane.INFORMATION_MESSAGE);
+                        
                         AllStudents allStudents = new AllStudents(parent);
                         parent.switchPanel(allStudents);
 //                                logger.log(Level.INFO, "New student registered successfully with NIC: {0}", NIC);
@@ -543,15 +541,15 @@ public class StudentRegistration extends javax.swing.JPanel {
 
             } catch (NullPointerException e) {
                 // Handle invalid date format
-                
+                e.printStackTrace();
             } catch (ParseException e) {
                 // Handle invalid date format
-                
+                e.printStackTrace();
             } catch (SQLException e) {
-                
+                e.printStackTrace();
             } catch (Exception e) {
 //                logger.log(Level.SEVERE, "Error during student registration", e);
-                
+                e.printStackTrace();
             }
 
         }
@@ -628,11 +626,11 @@ public class StudentRegistration extends javax.swing.JPanel {
 
 //                logger.log(Level.SEVERE, "Error during student update for NIC: " + NIC, e);
             } catch (SQLException e) {
-                
+
             } catch (ParseException e) {
-                
+
             } catch (Exception e) {
-                
+
             }
         }
     }//GEN-LAST:event_jButton3ActionPerformed
@@ -642,9 +640,9 @@ public class StudentRegistration extends javax.swing.JPanel {
         try {
             parent.switchPanel(allStudents);
         } catch (NullPointerException e) {
-            
+
         } catch (Exception e) {
-            
+
         }
     }//GEN-LAST:event_jButton4ActionPerformed
 
