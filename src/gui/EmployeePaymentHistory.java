@@ -32,17 +32,19 @@ import org.apache.logging.log4j.Logger;
  * @author Rushma
  */
 public class EmployeePaymentHistory extends CustomColor {
+
     private static final Logger logger = LogManager.getLogger(EmployeePaymentHistory.class);
 
     /**
      * Creates new form EmployeePaymentHistory
      */
     public EmployeePaymentHistory() {
-         DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
+        initComponents();
+        DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
         renderer.setHorizontalAlignment(SwingConstants.CENTER);
 
         jTable1.setDefaultRenderer(Object.class, renderer);
-        initComponents();
+
         loadEmployeePaymentHistory();
         addSearchFunctionality();
 
@@ -72,7 +74,7 @@ public class EmployeePaymentHistory extends CustomColor {
                     + "JOIN employee e ON eph.employee_id = e.id";
 
             ResultSet rs = MySQL2.executeSearch(query);
-            
+
             DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
             model.setRowCount(0);
 
@@ -124,7 +126,7 @@ public class EmployeePaymentHistory extends CustomColor {
                     + "LOWER(e.last_name) LIKE '%" + searchText + "%'";
 
             ResultSet rs = MySQL2.executeSearch(query);
-            
+
             DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
             model.setRowCount(0);
 
@@ -137,7 +139,7 @@ public class EmployeePaymentHistory extends CustomColor {
 
                 model.addRow(vector);
             }
-            
+
         } catch (Exception e) {
             logger.error("Exception caught", e);
         }
@@ -263,9 +265,9 @@ public class EmployeePaymentHistory extends CustomColor {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         //view or print report
         String path = "src//reports//EmployeePaymentHistory.jasper";
-        
+
         String dateTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
-        
+
         HashMap<String, Object> params = new HashMap<>();
         params.put("Parameter1", dateTime);
 
