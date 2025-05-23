@@ -422,7 +422,7 @@ public class StudentPerformanceReport extends CustomColor {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
 
-        AddStudentPerformanceReportJDialog ASR = new AddStudentPerformanceReportJDialog(parent, true);
+        AddStudentPerformanceReportJDialog ASR = new AddStudentPerformanceReportJDialog(parent, true, tutorID);
         ASR.setVisible(true);
         loadTable();
     }//GEN-LAST:event_jButton1ActionPerformed
@@ -481,7 +481,7 @@ public class StudentPerformanceReport extends CustomColor {
 
         if (evt.getClickCount() == 2) {
 
-            AddStudentPerformanceReportJDialog ASR = new AddStudentPerformanceReportJDialog(parent, true);
+            AddStudentPerformanceReportJDialog ASR = new AddStudentPerformanceReportJDialog(parent, true, tutorID);
 
             ASR.getjLabel7().setText(gradeId);
             ASR.getjTextField1().setText(Grade);

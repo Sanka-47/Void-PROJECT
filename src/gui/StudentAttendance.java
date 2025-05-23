@@ -299,21 +299,21 @@ public class StudentAttendance extends CustomColor {
             ASA.setID(Id);
             SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 
-            try {
-                Date dateofBirth = formatter.parse((Date));
-                ASA.getjDateChooser1().setDate(dateofBirth);
-                ASA.getjDateChooser1().setEnabled(false);
-                System.out.println("Converted Date: " + dateofBirth);
-            } catch (Exception e) {
-                System.out.println("Error converting Object to Date: " + e.getMessage());
-            }
+//            try {
+//                Date dateofBirth = formatter.parse((Date));
+//                ASA.getjDateChooser1().setDate(dateofBirth);
+//                ASA.getjDateChooser1().setEnabled(false);
+//                System.out.println("Converted Date: " + dateofBirth);
+//            } catch (Exception e) {
+//                System.out.println("Error converting Object to Date: " + e.getMessage());
+//            }
 
             ASA.getjComboBox1().setSelectedItem(Status);
             ASA.getjComboBox2().setSelectedItem(StudentName);
             ASA.getjComboBox2().setEnabled(false);
             ASA.getjComboBox3().setSelectedItem(ClassName);
             ASA.getjComboBox3().setEnabled(false);
-
+            ASA.getjTextField1().setText(Date);
             ASA.getjButton1().setEnabled(false);
             ASA.getjButton2().setEnabled(true);
 

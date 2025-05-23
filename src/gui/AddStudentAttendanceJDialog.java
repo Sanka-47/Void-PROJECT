@@ -46,6 +46,7 @@ public class AddStudentAttendanceJDialog extends javax.swing.JDialog {
         loadClass();
         jButton2.setEnabled(false);
         SwingUtilities.invokeLater(() -> jComboBox1.requestFocusInWindow());
+        jTextField1.setEnabled(false);
     }
 
 //    //Attendance ID
@@ -68,8 +69,8 @@ public class AddStudentAttendanceJDialog extends javax.swing.JDialog {
     }
 
     //Due Date
-    public JDateChooser getjDateChooser1() {
-        return jDateChooser1;
+    public JTextField getjTextField1() {
+        return jTextField1;
     }
 
     //Save
@@ -118,7 +119,10 @@ public class AddStudentAttendanceJDialog extends javax.swing.JDialog {
             Vector<String> vector = new Vector<>();
             vector.add("Select");
 
-            ResultSet resultSet = MySQL2.executeSearch("SELECT * FROM `student`");
+            ResultSet resultSet = MySQL2.executeSearch("SELECT `student`.`first_name`, `student`.`last_name`, `student`.`nic` FROM `student` "
+                    + "INNER JOIN `student_courses` ON `student`.`nic` = `student_courses`.`student_nic` "
+                    + "INNER JOIN `courses` ON `student_courses`.`courses_id` = `courses`.`id` "
+                    + "INNER JOIN `tutor` ON `courses`.`id` = `tutor`.`courses_id` WHERE `tutor`.`id` = '" + tutorID + "'");
 
             while (resultSet.next()) {
                 String fullName = resultSet.getString("student.first_name") + " " + resultSet.getString("student.last_name");
@@ -131,7 +135,7 @@ public class AddStudentAttendanceJDialog extends javax.swing.JDialog {
             jComboBox2.setModel(model);
 
         } catch (Exception e) {
-            logger.error("Exception caught", e);
+            e.printStackTrace();
         }
     }
 
@@ -142,11 +146,12 @@ public class AddStudentAttendanceJDialog extends javax.swing.JDialog {
             Vector<String> vector = new Vector<>();
             vector.add("Select");
 
-            ResultSet resultSet = MySQL2.executeSearch("SELECT `id`, `name` FROM `class` WHERE `tutor_id` = '" + tutorID + "'");
+            ResultSet resultSet = MySQL2.executeSearch("SELECT `id`, `name`, `date` FROM `class` WHERE `tutor_id` = '" + tutorID + "'");
 
             while (resultSet.next()) {
                 vector.add(resultSet.getString("name"));
                 classMap.put(resultSet.getString("name"), resultSet.getString("id"));
+                jTextField1.setText(resultSet.getString("date"));
             }
 
             DefaultComboBoxModel model = new DefaultComboBoxModel(vector);
@@ -161,12 +166,11 @@ public class AddStudentAttendanceJDialog extends javax.swing.JDialog {
         jComboBox1.setSelectedIndex(0);
         jComboBox2.setSelectedIndex(0);
         jComboBox3.setSelectedIndex(0);
-        jDateChooser1.setDate(null);
 
         jComboBox1.setEnabled(true);
         jComboBox2.setEnabled(true);
         jComboBox3.setEnabled(true);
-        jDateChooser1.setEnabled(true);
+        jTextField1.setEnabled(false);
         jButton1.setEnabled(true);
         jButton2.setEnabled(false);
     }
@@ -177,7 +181,6 @@ public class AddStudentAttendanceJDialog extends javax.swing.JDialog {
 
         jLabel6 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jDateChooser1 = new com.toedter.calendar.JDateChooser();
         jLabel4 = new javax.swing.JLabel();
         jComboBox1 = new javax.swing.JComboBox<>();
         jLabel5 = new javax.swing.JLabel();
@@ -187,6 +190,7 @@ public class AddStudentAttendanceJDialog extends javax.swing.JDialog {
         jLabel1 = new javax.swing.JLabel();
         jComboBox3 = new javax.swing.JComboBox<>();
         jButton3 = new javax.swing.JButton();
+        jTextField1 = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -271,11 +275,11 @@ public class AddStudentAttendanceJDialog extends javax.swing.JDialog {
                         .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jDateChooser1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(8, 8, 8)
                         .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jComboBox3, 0, 132, Short.MAX_VALUE)
+                    .addComponent(jTextField1))
                 .addGap(0, 55, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -284,12 +288,11 @@ public class AddStudentAttendanceJDialog extends javax.swing.JDialog {
                 .addGap(44, 44, 44)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 56, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel6)
-                        .addComponent(jLabel2)
-                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jDateChooser1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel6)
+                    .addComponent(jLabel2)
+                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(36, 36, 36)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
@@ -314,11 +317,11 @@ public class AddStudentAttendanceJDialog extends javax.swing.JDialog {
         String Status = String.valueOf(jComboBox1.getSelectedItem());
         String StudentName = String.valueOf(jComboBox2.getSelectedItem());
         String ClassName = String.valueOf(jComboBox3.getSelectedItem());
-        Date duedate = jDateChooser1.getDate();
+        String duedate = jTextField1.getText();
 
         if (Status.equals("Select")) {
             JOptionPane.showMessageDialog(this, "Please select a Status!", "Warning", JOptionPane.WARNING_MESSAGE);
-        } else if (duedate == null) {
+        } else if (duedate.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Please enter a date!", "Warning", JOptionPane.WARNING_MESSAGE);
         } else if (StudentName.equals("Select")) {
             JOptionPane.showMessageDialog(this, "Please select a student!", "Warning", JOptionPane.WARNING_MESSAGE);
@@ -363,11 +366,11 @@ public class AddStudentAttendanceJDialog extends javax.swing.JDialog {
         String Status = String.valueOf(jComboBox1.getSelectedItem());
         String StudentName = String.valueOf(jComboBox2.getSelectedItem());
         String ClassName = String.valueOf(jComboBox3.getSelectedItem());
-        Date duedate = jDateChooser1.getDate();
+        String duedate = jTextField1.getText();
 
         if (Status.equals("Select")) {
             JOptionPane.showMessageDialog(this, "Please select a Status!", "Warning", JOptionPane.WARNING_MESSAGE);
-        } else if (duedate == null) {
+        } else if (duedate.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Please enter a date!", "Warning", JOptionPane.WARNING_MESSAGE);
         } else if (StudentName.equals("Select")) {
             JOptionPane.showMessageDialog(this, "Please select a student!", "Warning", JOptionPane.WARNING_MESSAGE);
@@ -451,11 +454,11 @@ public class AddStudentAttendanceJDialog extends javax.swing.JDialog {
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JComboBox<String> jComboBox3;
-    private com.toedter.calendar.JDateChooser jDateChooser1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JTextField jTextField1;
     // End of variables declaration//GEN-END:variables
 }
