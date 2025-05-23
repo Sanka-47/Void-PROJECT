@@ -31,7 +31,7 @@ import org.apache.logging.log4j.Logger;
  *
  * @author Rushma
  */
-public class EmployeePaymentHistory extends javax.swing.JPanel {
+public class EmployeePaymentHistory extends CustomColor {
     private static final Logger logger = LogManager.getLogger(EmployeePaymentHistory.class);
 
     /**

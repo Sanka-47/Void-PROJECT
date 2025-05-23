@@ -19,7 +19,7 @@ import model.MySQL2;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class StudentIntakes extends javax.swing.JPanel {
+public class StudentIntakes extends CustomColor {
 
     private static final Logger logger = LogManager.getLogger(StudentIntakes.class);
 

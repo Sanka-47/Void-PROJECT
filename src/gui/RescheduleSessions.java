@@ -17,7 +17,7 @@ import model.MySQL2;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class RescheduleSessions extends javax.swing.JPanel {
+public class RescheduleSessions extends CustomColor {
     private static final Logger logger = LogManager.getLogger(RescheduleSessions.class);
 
     private DateChooser chDate = new DateChooser();

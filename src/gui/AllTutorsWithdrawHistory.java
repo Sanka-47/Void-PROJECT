@@ -30,7 +30,7 @@ import org.apache.logging.log4j.Logger;
  *
  * @author Rushma
  */
-public class AllTutorsWithdrawHistory extends javax.swing.JPanel {
+public class AllTutorsWithdrawHistory extends CustomColor {
     private static final Logger logger = LogManager.getLogger(AllTutorsWithdrawHistory.class);
 
     /**

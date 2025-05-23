@@ -33,7 +33,7 @@ import org.apache.logging.log4j.Logger;
  *
  * @author Rushma
  */
-public class NotificationsPanel extends javax.swing.JPanel {
+public class NotificationsPanel extends CustomColor {
   
     private static final Logger logger = LogManager.getLogger(Notifications.class);
 

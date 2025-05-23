@@ -15,7 +15,7 @@ import org.apache.logging.log4j.Logger;
  *
  * @author sky
  */
-public class TutorProfile extends javax.swing.JPanel {
+public class TutorProfile extends CustomColor {
     private static final Logger logger = LogManager.getLogger(TutorProfile.class);
 
     private int tutorID;

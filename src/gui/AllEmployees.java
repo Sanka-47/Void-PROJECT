@@ -21,7 +21,7 @@ import net.sf.jasperreports.view.JasperViewer;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class AllEmployees extends javax.swing.JPanel {
+public class AllEmployees extends CustomColor {
     private static final Logger logger = LogManager.getLogger(AllEmployees.class);
 
     private DashboardInterface parent;

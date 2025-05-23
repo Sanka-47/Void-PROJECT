@@ -18,7 +18,7 @@ import org.apache.logging.log4j.Logger;
  *
  * @author Rushma
  */
-public class TodoList extends javax.swing.JPanel {
+public class TodoList extends CustomColor {
 
     private static final Logger logger = LogManager.getLogger(TodoList.class);
 

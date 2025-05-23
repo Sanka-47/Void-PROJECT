@@ -33,7 +33,7 @@ import org.apache.logging.log4j.Logger;
  *
  * @author Rushma
  */
-public class InvoiceReport extends javax.swing.JPanel {
+public class InvoiceReport extends CustomColor {
     private static final Logger logger = LogManager.getLogger(InvoiceReport.class);
     
     

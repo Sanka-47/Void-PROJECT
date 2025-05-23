@@ -29,7 +29,7 @@ import org.apache.logging.log4j.Logger;
  *
  * @author mrtkb
  */
-public class StudentPerformanceReport extends javax.swing.JPanel {
+public class StudentPerformanceReport extends CustomColor {
 
     private static final Logger logger = LogManager.getLogger(StudentPerformanceReport.class);
 
