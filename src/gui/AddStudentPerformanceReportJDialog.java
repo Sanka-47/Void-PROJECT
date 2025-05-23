@@ -16,10 +16,12 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class AddStudentPerformanceReportJDialog extends javax.swing.JDialog {
+    
+    private int tutorID;
 
     private static final Logger logger = LogManager.getLogger(AddStudentPerformanceReportJDialog.class);
 
-    public AddStudentPerformanceReportJDialog(java.awt.Frame parent, boolean modal) {
+    public AddStudentPerformanceReportJDialog(java.awt.Frame parent, boolean modal, int tutorID) {
         super(parent, modal);
         initComponents();
         reportID();
@@ -76,32 +78,16 @@ public class AddStudentPerformanceReportJDialog extends javax.swing.JDialog {
 
     private void loadStudent() {
 
-//        try {
-//
-//            Vector<String> vector = new Vector<>();
-//            vector.add("Select");
-//
-//            ResultSet resultSet = MySQL2.executeSearch("SELECT * FROM student");
-//
-//            while (resultSet.next()) {
-//                String fullName = resultSet.getString("first_name") + " " + resultSet.getString("last_name");
-//                vector.add(fullName);
-//                studentMap.put(fullName, resultSet.getString("nic"));
-//                // contactMap.put(fullName, resultSet.getString("contact_info"));
-//            }
-//
-//            jComboBox1.setModel(new DefaultComboBoxModel<>(vector));
-//
-//        } catch (Exception e) {
-//            logger.error("Exception caught", e);
-//        }
         try {
             Vector<String> vector = new Vector<>();
             vector.add("Select");
 
             Vector<String> nameList = new Vector<>();
 
-            ResultSet resultSet = MySQL2.executeSearch("SELECT * FROM student");
+            ResultSet resultSet = MySQL2.executeSearch("SELECT `student`.`first_name`, `student`.`last_name`, `student`.`nic` FROM `student` "
+                    + "INNER JOIN `student_courses` ON `student`.`nic` = `student_courses`.`student_nic` "
+                    + "INNER JOIN `courses` ON `student_courses`.`courses_id` = `courses`.`id` "
+                    + "INNER JOIN `tutor` ON `courses`.`id` = `tutor`.`courses_id` WHERE `tutor`.`id` = '" + tutorID + "'");
 
             while (resultSet.next()) {
                 String fullName = resultSet.getString("first_name") + " " + resultSet.getString("last_name");
