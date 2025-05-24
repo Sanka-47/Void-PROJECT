@@ -469,31 +469,7 @@ public class CourseRegistration extends CustomColor {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-//
-//        int selectedRow = jTable1.getSelectedRow();
-//        if (selectedRow == -1) {
-//            JOptionPane.showMessageDialog(this, "Please select a course to Activate/Deactivate.", "Warning", JOptionPane.WARNING_MESSAGE);
-//            return;
-//        }
-//
-//        String courseId = jTable1.getValueAt(selectedRow, 0).toString();
-//        String currentStatus = jTable1.getValueAt(selectedRow, 4).toString();
-//
-//        try {
-//
-//            String newStatusId = currentStatus.equals("active") ? "0" : "1";
-//
-//            MySQL2.executeIUD("UPDATE `courses` SET `course_status_id`='" + newStatusId + "' WHERE `id`='" + courseId + "'");
-//
-//            loadCourseDetails();
-//            reset();
-//
-//            JOptionPane.showMessageDialog(this, "Course status changed to " + (newStatusId.equals("1") ? "Active" : "Inactive") + " successfully!");
-//        } catch (Exception e) {
-//            logger.error("Exception caught", e);
-//            JOptionPane.showMessageDialog(this, "Failed to change the course status.", "Error", JOptionPane.ERROR_MESSAGE);
-//        }
-
+        
         int selectedRow = jTable1.getSelectedRow();
 
         if (selectedRow == -1) {
@@ -501,27 +477,22 @@ public class CourseRegistration extends CustomColor {
             return;
         }
 
-        String courseId = jTable1.getValueAt(selectedRow, 0).toString();
-        String currentStatus = jTable1.getValueAt(selectedRow, 5).toString().trim(); // Trim spaces
-
-        // Debugging output to check the actual stored value
-        System.out.println("Debug: Current Status Retrieved -> '" + currentStatus + "'");
-
-        // Adjust condition based on the actual table value
-        if (currentStatus.equalsIgnoreCase("Inactive") || currentStatus.equals("0")) {
-            JOptionPane.showMessageDialog(this, "The course is already deactivated.", "Info", JOptionPane.INFORMATION_MESSAGE);
-            return; // No changes needed
-        }
+        String courseId = String.valueOf(jTable1.getValueAt(selectedRow, 0));
+        String currentStatus = String.valueOf(jTable1.getValueAt(selectedRow, 5));
 
         try {
-            // Change status to "Inactive"
-            MySQL2.executeIUD("UPDATE `courses` SET `course_status_id`='0' WHERE `id`='" + courseId + "'");
+            if (currentStatus.equals("0")) {
 
-            // Refresh table data and reset fields
-            loadCourseDetails();
-            reset();
+                JOptionPane.showMessageDialog(this, "The course is already deactivated.", "Info", JOptionPane.INFORMATION_MESSAGE);
+            } else {
 
-            JOptionPane.showMessageDialog(this, "Course successfully deactivated!", "Success", JOptionPane.INFORMATION_MESSAGE);
+                MySQL2.executeIUD("UPDATE `courses` SET `course_status_id` = '1' WHERE `id`='" + courseId + "'");
+                loadCourseDetails();
+                reset();
+                System.out.println("Deactivated");
+                JOptionPane.showMessageDialog(this, "Course successfully deactivated!", "Success", JOptionPane.INFORMATION_MESSAGE);
+
+            }
         } catch (Exception e) {
             logger.error("Exception caught", e);
             JOptionPane.showMessageDialog(this, "Failed to deactivate the course.", "Error", JOptionPane.ERROR_MESSAGE);

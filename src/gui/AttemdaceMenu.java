@@ -226,8 +226,8 @@ public class AttemdaceMenu extends javax.swing.JFrame implements Runnable, Threa
 
         if (result != null) {
             try {
-                ResultSet rs = MySQL2.executeSearch("SELECT * FROM `student_courses` INNER JOIN  `class` ON "
-                        + "`student_courses`.`course_id` = `class`.`courses_id` WHERE `student_nic`= '" + result.getText() + "'");
+                 ResultSet rs = MySQL2.executeSearch("SELECT * FROM `student_courses` INNER JOIN  `class` ON "
+                        + "`student_courses`.`courses_id` = `class`.`courses_id` WHERE `student_nic`= '" + result.getText() + "'");
 
                 if (rs.next()) {
                     LocalDate today = LocalDate.now();
