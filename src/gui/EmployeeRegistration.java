@@ -541,9 +541,11 @@ public class EmployeeRegistration extends CustomColor {
                         spf = null;
 
                         if (result > 0) {
-                            JOptionPane.showMessageDialog(this, "Employee registration success!", "Confirmation", JOptionPane.INFORMATION_MESSAGE);
-//                    logger.log(Level.INFO, "Employee registered successfully with NIC: {0}", nic);
                             clearAll();
+                            JOptionPane.showMessageDialog(this, "Employee registration success!", "Confirmation", JOptionPane.INFORMATION_MESSAGE);
+                            AllEmployees allEmployees = new AllEmployees(parent);
+                            parent.switchPanel(allEmployees);
+//                    logger.log(Level.INFO, "Employee registered successfully with NIC: {0}", nic);
                         }
 
                     }
