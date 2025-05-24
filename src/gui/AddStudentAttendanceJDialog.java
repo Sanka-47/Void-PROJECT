@@ -35,6 +35,7 @@ public class AddStudentAttendanceJDialog extends javax.swing.JDialog {
     private HashMap<String, String> statusMap;
     private HashMap<String, String> classMap;
     private HashMap<String, String> studentMap;
+    private HashMap<String, String> classDateMap;
 
     public AddStudentAttendanceJDialog(java.awt.Frame parent, boolean modal, int tutorID) {
         super(parent, modal);
@@ -87,6 +88,7 @@ public class AddStudentAttendanceJDialog extends javax.swing.JDialog {
         this.statusMap = new HashMap<>();
         this.classMap = new HashMap<>();
         this.studentMap = new HashMap<>();
+        this.classDateMap = new HashMap<>();
     }
 
     private void loadStatus() {
@@ -119,10 +121,10 @@ public class AddStudentAttendanceJDialog extends javax.swing.JDialog {
             Vector<String> vector = new Vector<>();
             vector.add("Select");
 
-            ResultSet resultSet = MySQL2.executeSearch("SELECT `student`.`first_name`, `student`.`last_name`, `student`.`nic` FROM `student` "
-                    + "INNER JOIN `student_courses` ON `student`.`nic` = `student_courses`.`student_nic` "
-                    + "INNER JOIN `courses` ON `student_courses`.`courses_id` = `courses`.`id` "
-                    + "INNER JOIN `tutor` ON `courses`.`id` = `tutor`.`courses_id` WHERE `tutor`.`id` = '" + tutorID + "'");
+            ResultSet resultSet = MySQL2.executeSearch("SELECT student.first_name, student.last_name, student.nic FROM student "
+                    + "INNER JOIN student_courses ON student.nic = student_courses.student_nic "
+                    + "INNER JOIN courses ON student_courses.courses_id = courses.id "
+                    + "INNER JOIN tutor ON courses.id = tutor.courses_id WHERE tutor.id = '" + tutorID + "'");
 
             while (resultSet.next()) {
                 String fullName = resultSet.getString("student.first_name") + " " + resultSet.getString("student.last_name");
@@ -140,25 +142,27 @@ public class AddStudentAttendanceJDialog extends javax.swing.JDialog {
     }
 
     private void loadClass() {
-
         try {
-
             Vector<String> vector = new Vector<>();
             vector.add("Select");
 
-            ResultSet resultSet = MySQL2.executeSearch("SELECT `id`, `name`, `date` FROM `class` WHERE `tutor_id` = '" + tutorID + "'");
+            ResultSet resultSet = MySQL2.executeSearch("SELECT id, name, date FROM class WHERE tutor_id = '" + tutorID + "'");
 
             while (resultSet.next()) {
-                vector.add(resultSet.getString("name"));
-                classMap.put(resultSet.getString("name"), resultSet.getString("id"));
-                jTextField1.setText(resultSet.getString("date"));
+                String className = resultSet.getString("name");
+                String classId = resultSet.getString("id");
+                String classDate = resultSet.getString("date");
+
+                vector.add(className);
+                classMap.put(className, classId);
+                classDateMap.put(className, classDate);
             }
 
-            DefaultComboBoxModel model = new DefaultComboBoxModel(vector);
+            DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>(vector);
             jComboBox3.setModel(model);
 
         } catch (Exception e) {
-            logger.error("Exception caught", e);
+            logger.error("Exception caught while loading classes", e);
         }
     }
 
@@ -230,6 +234,11 @@ public class AddStudentAttendanceJDialog extends javax.swing.JDialog {
         jLabel1.setText("Add Student Attendance");
 
         jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBox3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox3ActionPerformed(evt);
+            }
+        });
 
         jButton3.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
         jButton3.setText("Clear All");
@@ -404,6 +413,16 @@ public class AddStudentAttendanceJDialog extends javax.swing.JDialog {
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         clearAll();
     }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jComboBox3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox3ActionPerformed
+        String selectedClass = String.valueOf(jComboBox3.getSelectedItem());
+        if (selectedClass != null && !selectedClass.equals("Select")) {
+            String classDate = classDateMap.get(selectedClass);
+            jTextField1.setText(classDate);
+        } else {
+            jTextField1.setText("");
+        }
+    }//GEN-LAST:event_jComboBox3ActionPerformed
 
     /**
      * @param args the command line arguments

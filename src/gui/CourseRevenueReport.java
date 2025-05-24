@@ -34,11 +34,11 @@ public class CourseRevenueReport extends javax.swing.JFrame {
      */
     public CourseRevenueReport() {
         initComponents();
-        loadCourseRevenueData();
-         DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
+        DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
         renderer.setHorizontalAlignment(SwingConstants.CENTER);
-
         jTable1.setDefaultRenderer(Object.class, renderer);
+        loadCourseRevenueData();
+        
     }
 
     private void loadCourseRevenueData() {

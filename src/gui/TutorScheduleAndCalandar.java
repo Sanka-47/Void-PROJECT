@@ -975,7 +975,26 @@ public class TutorScheduleAndCalandar extends CustomColor {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
+    String sessionID = jTextField1.getText();
 
+        if (sessionID.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please select a class to cancel!", "Warning", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        try {
+            // Update the class status to "Pending Cancellation" (assuming class_status_id = 5)
+            MySQL2.executeIUD("UPDATE class SET class_status_id = 3 WHERE id = '" + sessionID + "'");
+
+            JOptionPane.showMessageDialog(this, "Class marked as Pending Cancellation successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
+
+            reset();
+            loadSessions("", "");
+
+        } catch (Exception e) {
+            logger.error("Exception while cancelling session", e);
+            JOptionPane.showMessageDialog(this, "Failed to cancel the session. Please try again.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_jButton10ActionPerformed
 
     private void setPlaceholder(JFormattedTextField textField, String placeholder) {
