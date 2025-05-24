@@ -26,10 +26,10 @@ public class RequestSession extends CustomColor {
     private String fName;
     private String lName;
 
-    private static HashMap<String, String> subjectMap = new HashMap<>();
-    private static HashMap<String, String> courseMap = new HashMap<>();
-    private static HashMap<String, String> tutorMap = new HashMap<>();
-    private static HashMap<String, String> statusMap = new HashMap<>();
+    private HashMap<String, String> subjectMap = new HashMap<>();
+    private HashMap<String, String> courseMap = new HashMap<>();
+    private HashMap<String, String> tutorMap = new HashMap<>();
+    private HashMap<String, String> statusMap = new HashMap<>();
 
     public RequestSession(DashboardInterface parent, int TutorID) {
         this.parent = parent;
@@ -46,6 +46,7 @@ public class RequestSession extends CustomColor {
         SwingUtilities.invokeLater(() -> courseField.requestFocusInWindow());
     }
 
+   
     private void loadTutorSchedule() {
 
         try {
@@ -112,7 +113,6 @@ public class RequestSession extends CustomColor {
             logger.error("Exception caught", e);
         }
     }
-
     private void loadStatus() {
 
         try {
@@ -287,10 +287,10 @@ public class RequestSession extends CustomColor {
                 .addGap(19, 19, 19)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel2)
-                        .addGap(25, 25, 25)
+                        .addGap(24, 24, 24)
                         .addComponent(jLabel3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(courseField, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -328,7 +328,7 @@ public class RequestSession extends CustomColor {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-         // Retrieve values from the UI components
+        // Retrieve values from the UI components
         String Title = title.getText();
         String Course = courseField.getText();
         Date SessionDate = jDateChooser1.getDate();
@@ -443,7 +443,7 @@ public class RequestSession extends CustomColor {
             hallNumber.setText("");
             courseField.setText("");
         } catch (Exception e) {
-           e.printStackTrace();
+            System.out.println(e);
             logger.error("Exception caught", e);
             JOptionPane.showMessageDialog(this, "An error occurred while adding the class. Please try again.", "Error", JOptionPane.ERROR_MESSAGE);
         }

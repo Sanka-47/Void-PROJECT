@@ -139,7 +139,7 @@ public class CourseRegistration extends CustomColor {
     private void loadGrades() {
 
         try {
-            ResultSet resultSet = MySQL2.executeSearch("SELECT * FROM `courses`");
+//            ResultSet resultSet = MySQL2.executeSearch("SELECT * FROM `courses`");
 
             Vector<String> vector = new Vector<>();
             vector.add("Select");

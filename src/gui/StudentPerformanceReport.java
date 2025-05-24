@@ -398,10 +398,10 @@ public class StudentPerformanceReport extends CustomColor {
         }
 
         String gradeId = String.valueOf(jTable1.getValueAt(row, 0));
-        String Grade = String.valueOf(jTable1.getValueAt(row, 1));
-        String Comments = String.valueOf(jTable1.getValueAt(row, 2));
-        String StudentName = String.valueOf(jTable1.getValueAt(row, 3));
-        String AssignmentName = String.valueOf(jTable1.getValueAt(row, 4));
+        String grade = String.valueOf(jTable1.getValueAt(row, 1));
+        String comments = String.valueOf(jTable1.getValueAt(row, 2));
+        String studentName = String.valueOf(jTable1.getValueAt(row, 3));
+        String assignmentName = String.valueOf(jTable1.getValueAt(row, 4));
 //        String Email = String.valueOf(jTable1.getValueAt(row, 6));
 //        String Gender = String.valueOf(jTable1.getValueAt(row, 7));
 
@@ -414,10 +414,10 @@ public class StudentPerformanceReport extends CustomColor {
             AddStudentPerformanceReportJDialog ASR = new AddStudentPerformanceReportJDialog(parent, true, tutorID);
 
             ASR.getjLabel7().setText(gradeId);
-            ASR.getjTextField1().setText(Grade);
-            ASR.getjTextArea1().setText(Comments);
-            ASR.getjComboBox1().setSelectedItem(StudentName);
-            ASR.getjComboBox2().setSelectedItem(AssignmentName);
+            ASR.getjComboBox1().setSelectedItem(grade);
+            ASR.getjTextArea1().setText(comments);
+            ASR.getjComboBox2().setSelectedItem(studentName);
+            ASR.getjComboBox3().setSelectedItem(assignmentName);
 
             ASR.getjButton1().setEnabled(false);
             ASR.getjButton2().setEnabled(true);

@@ -16,7 +16,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class AddStudentPerformanceReportJDialog extends javax.swing.JDialog {
-
+    
     private int tutorID;
 
     private static final Logger logger = LogManager.getLogger(AddStudentPerformanceReportJDialog.class);
@@ -24,11 +24,12 @@ public class AddStudentPerformanceReportJDialog extends javax.swing.JDialog {
     public AddStudentPerformanceReportJDialog(java.awt.Frame parent, boolean modal, int tutorID) {
         super(parent, modal);
         initComponents();
+        this.tutorID = tutorID;
         reportID();
         loadStudent();
         loadAssignment();
         jButton2.setEnabled(false);
-        SwingUtilities.invokeLater(() -> jTextField1.requestFocusInWindow());
+        SwingUtilities.invokeLater(() -> jComboBox2.requestFocusInWindow());
     }
 
     //Grade
@@ -37,8 +38,8 @@ public class AddStudentPerformanceReportJDialog extends javax.swing.JDialog {
     }
 
     //Grade
-    public JTextField getjTextField1() {
-        return jTextField1;
+    public JComboBox<String> getjComboBox1() {
+        return jComboBox1;
     }
 
     //Comments
@@ -47,13 +48,13 @@ public class AddStudentPerformanceReportJDialog extends javax.swing.JDialog {
     }
 
     //Student Name
-    public JComboBox<String> getjComboBox1() {
-        return jComboBox1;
+    public JComboBox<String> getjComboBox2() {
+        return jComboBox2;
     }
 
     //Assignment Title
-    public JComboBox<String> getjComboBox2() {
-        return jComboBox2;
+    public JComboBox<String> getjComboBox3() {
+        return jComboBox3;
     }
 
     //Save
@@ -79,31 +80,28 @@ public class AddStudentPerformanceReportJDialog extends javax.swing.JDialog {
     private void loadStudent() {
 
         try {
+
             Vector<String> vector = new Vector<>();
             vector.add("Select");
 
-            Vector<String> nameList = new Vector<>();
-
-            ResultSet resultSet = MySQL2.executeSearch("SELECT * FROM student");
+            ResultSet resultSet = MySQL2.executeSearch("SELECT `student`.`first_name`, `student`.`last_name`, `student`.`nic` FROM `student` "
+                    + "INNER JOIN `student_courses` ON `student`.`nic` = `student_courses`.`student_nic` "
+                    + "INNER JOIN `courses` ON `student_courses`.`courses_id` = `courses`.`id` "
+                    + "INNER JOIN `tutor` ON `courses`.`id` = `tutor`.`courses_id` WHERE `tutor`.`id` = '" + tutorID + "'");
 
             while (resultSet.next()) {
-                String fullName = resultSet.getString("first_name") + " " + resultSet.getString("last_name");
-                nameList.add(fullName);
+                String fullName = resultSet.getString("student.first_name") + " " + resultSet.getString("student.last_name");
+                vector.add(fullName);
                 studentMap.put(fullName, resultSet.getString("nic"));
+                // contactMap.put(fullName, resultSet.getString("contact_info"));
             }
 
-            // Sort names in ascending order
-            java.util.Collections.sort(nameList);
-
-            // Add sorted names to the combo box model
-            vector.addAll(nameList);
-
-            jComboBox1.setModel(new DefaultComboBoxModel<>(vector));
+            DefaultComboBoxModel model = new DefaultComboBoxModel(vector);
+            jComboBox2.setModel(model);
 
         } catch (Exception e) {
-            logger.error("Exception caught", e);
+            e.printStackTrace();
         }
-
     }
 
     private void loadAssignment() {
@@ -120,7 +118,7 @@ public class AddStudentPerformanceReportJDialog extends javax.swing.JDialog {
                 assignmentMap.put(resultSet.getString("title"), resultSet.getString("id"));
             }
 
-            jComboBox2.setModel(new DefaultComboBoxModel<>(vector));
+            jComboBox3.setModel(new DefaultComboBoxModel<>(vector));
 
         } catch (Exception e) {
             logger.error("Exception caught", e);
@@ -128,11 +126,11 @@ public class AddStudentPerformanceReportJDialog extends javax.swing.JDialog {
     }
 
     private void clearAll() {
-        jTextField1.setText("");
-        jTextArea1.setText("");
         jComboBox1.setSelectedIndex(0);
+        jTextArea1.setText("");
         jComboBox2.setSelectedIndex(0);
-        jTextField1.setEditable(true);
+        jComboBox3.setSelectedIndex(0);
+        jComboBox1.setEditable(true);
         jButton1.setEnabled(true);
         jButton2.setEnabled(false);
         reportID();
@@ -144,19 +142,19 @@ public class AddStudentPerformanceReportJDialog extends javax.swing.JDialog {
 
         jLabel1 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
-        jLabel5 = new javax.swing.JLabel();
         jComboBox2 = new javax.swing.JComboBox<>();
+        jLabel5 = new javax.swing.JLabel();
+        jComboBox3 = new javax.swing.JComboBox<>();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
+        jComboBox1 = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -178,12 +176,12 @@ public class AddStudentPerformanceReportJDialog extends javax.swing.JDialog {
         jLabel4.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
         jLabel4.setText("Student Name");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         jLabel5.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
         jLabel5.setText("Assignment Name");
 
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         jButton1.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
         jButton1.setText("Save");
@@ -213,6 +211,8 @@ public class AddStudentPerformanceReportJDialog extends javax.swing.JDialog {
         jTextArea1.setRows(5);
         jScrollPane1.setViewportView(jTextArea1);
 
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "A", "B", "C", "D", "E", "F" }));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -229,20 +229,20 @@ public class AddStudentPerformanceReportJDialog extends javax.swing.JDialog {
                     .addComponent(jLabel6))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(55, 55, 55)
                         .addComponent(jLabel5)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jScrollPane1))
-                .addGap(0, 54, Short.MAX_VALUE))
+                .addGap(0, 45, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
                 .addGap(86, 86, 86)
                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -259,25 +259,25 @@ public class AddStudentPerformanceReportJDialog extends javax.swing.JDialog {
                 .addComponent(jLabel1)
                 .addGap(50, 50, 50)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel6)
                     .addComponent(jLabel2)
-                    .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(72, 72, 72)
                         .addComponent(jLabel3))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(37, 37, 37)
+                        .addGap(42, 42, 42)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(42, 42, 42)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel4)
-                            .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel5)
-                            .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(111, 111, 111)
@@ -296,10 +296,10 @@ public class AddStudentPerformanceReportJDialog extends javax.swing.JDialog {
 
         // Retrieve values from the UI components
         String reportId = jLabel7.getText();
-        String grade = jTextField1.getText();
+        String grade = String.valueOf(jComboBox1.getSelectedItem());
         String comments = jTextArea1.getText();
-        String studentName = String.valueOf(jComboBox1.getSelectedItem());
-        String assignmentName = String.valueOf(jComboBox2.getSelectedItem());
+        String studentName = String.valueOf(jComboBox2.getSelectedItem());
+        String assignmentName = String.valueOf(jComboBox3.getSelectedItem());
 
         if (grade.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Please select a grade!", "Warning", JOptionPane.WARNING_MESSAGE);
@@ -334,10 +334,10 @@ public class AddStudentPerformanceReportJDialog extends javax.swing.JDialog {
 
         // Retrieve values from the UI components
         String reportId = jLabel7.getText();
-        String grade = jTextField1.getText();
+        String grade = String.valueOf(jComboBox1.getSelectedItem());
         String comments = jTextArea1.getText();
-        String studentName = String.valueOf(jComboBox1.getSelectedItem());
-        String assignmentName = String.valueOf(jComboBox2.getSelectedItem());
+        String studentName = String.valueOf(jComboBox2.getSelectedItem());
+        String assignmentName = String.valueOf(jComboBox3.getSelectedItem());
 
         if (grade.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Please select a grade!", "Warning", JOptionPane.WARNING_MESSAGE);
@@ -420,6 +420,7 @@ public class AddStudentPerformanceReportJDialog extends javax.swing.JDialog {
     private javax.swing.JButton jButton3;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JComboBox<String> jComboBox2;
+    private javax.swing.JComboBox<String> jComboBox3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -429,6 +430,5 @@ public class AddStudentPerformanceReportJDialog extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JTextField jTextField1;
     // End of variables declaration//GEN-END:variables
 }
