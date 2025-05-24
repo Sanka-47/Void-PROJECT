@@ -46,7 +46,6 @@ public class RequestSession extends CustomColor {
         SwingUtilities.invokeLater(() -> courseField.requestFocusInWindow());
     }
 
-   
     private void loadTutorSchedule() {
 
         try {
@@ -113,6 +112,7 @@ public class RequestSession extends CustomColor {
             logger.error("Exception caught", e);
         }
     }
+
     private void loadStatus() {
 
         try {
@@ -328,7 +328,7 @@ public class RequestSession extends CustomColor {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // Retrieve values from the UI components
+         // Retrieve values from the UI components
         String Title = title.getText();
         String Course = courseField.getText();
         Date SessionDate = jDateChooser1.getDate();
@@ -443,7 +443,7 @@ public class RequestSession extends CustomColor {
             hallNumber.setText("");
             courseField.setText("");
         } catch (Exception e) {
-            System.out.println(e);
+           e.printStackTrace();
             logger.error("Exception caught", e);
             JOptionPane.showMessageDialog(this, "An error occurred while adding the class. Please try again.", "Error", JOptionPane.ERROR_MESSAGE);
         }
