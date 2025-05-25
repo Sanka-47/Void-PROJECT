@@ -4816,3 +4816,54 @@ java.sql.SQLException: Access denied for user 'root'@'localhost' (using password
 2025-05-24 14:47:56 [AWT-EventQueue-0] WARN  gui.SignIn - Login failed - Invalid credentials for NIC: 200283674386
 2025-05-24 14:48:09 [AWT-EventQueue-0] DEBUG gui.SignIn - Attempting login for NIC: 200283674386
 2025-05-24 14:48:09 [AWT-EventQueue-0] INFO  gui.SignIn - Tutor login successful - Name: Kavishka Jayawardana, ID: 3
+2025-05-25 11:48:59 [AWT-EventQueue-0] DEBUG gui.AddAssignmentJDialog - Entered method: AddAssignmentJDialog
+2025-05-25 11:48:59 [AWT-EventQueue-0] INFO  gui.AddAssignmentJDialog - Entered method: AddAssignmentJDialog
+2025-05-25 11:48:59 [AWT-EventQueue-0] DEBUG gui.AddAssignmentJDialog - Entered method: loadCourses
+2025-05-25 11:48:59 [AWT-EventQueue-0] INFO  gui.AddAssignmentJDialog - Entered method: loadCourses
+2025-05-25 11:53:35 [AWT-EventQueue-0] DEBUG gui.AddAssignmentJDialog - Entered method: AddAssignmentJDialog
+2025-05-25 11:53:35 [AWT-EventQueue-0] INFO  gui.AddAssignmentJDialog - Entered method: AddAssignmentJDialog
+2025-05-25 11:53:35 [AWT-EventQueue-0] DEBUG gui.AddAssignmentJDialog - Entered method: loadCourses
+2025-05-25 11:53:35 [AWT-EventQueue-0] INFO  gui.AddAssignmentJDialog - Entered method: loadCourses
+2025-05-25 11:56:25 [AWT-EventQueue-0] DEBUG gui.AddAssignmentJDialog - Entered method: jButton1ActionPerformed
+2025-05-25 11:56:25 [AWT-EventQueue-0] INFO  gui.AddAssignmentJDialog - Entered method: jButton1ActionPerformed
+2025-05-25 11:56:25 [AWT-EventQueue-0] INFO  gui.AddAssignmentJDialog - Executing insert query in assignment
+2025-05-25 11:56:25 [AWT-EventQueue-0] WARN  gui.AddAssignmentJDialog - User prompted with message: (this, Success!, SUCCESS, JOptionPane.INFORMATION_MESSAGE);
+2025-05-25 11:56:26 [AWT-EventQueue-0] DEBUG gui.AddAssignmentJDialog - Entered method: clearAll
+2025-05-25 11:56:26 [AWT-EventQueue-0] INFO  gui.AddAssignmentJDialog - Entered method: clearAll
+2025-05-25 11:56:41 [AWT-EventQueue-0] DEBUG gui.AddAssignmentJDialog - Entered method: AddAssignmentJDialog
+2025-05-25 11:56:41 [AWT-EventQueue-0] INFO  gui.AddAssignmentJDialog - Entered method: AddAssignmentJDialog
+2025-05-25 11:56:41 [AWT-EventQueue-0] DEBUG gui.AddAssignmentJDialog - Entered method: loadCourses
+2025-05-25 11:56:41 [AWT-EventQueue-0] INFO  gui.AddAssignmentJDialog - Entered method: loadCourses
+2025-05-25 11:56:41 [AWT-EventQueue-0] DEBUG gui.AddAssignmentJDialog - Entered method: setAssignmentID
+2025-05-25 11:56:41 [AWT-EventQueue-0] INFO  gui.AddAssignmentJDialog - Entered method: setAssignmentID
+2025-05-25 11:56:41 [AWT-EventQueue-0] DEBUG gui.AddAssignmentJDialog - Entered method: getjLabel1
+2025-05-25 11:56:41 [AWT-EventQueue-0] INFO  gui.AddAssignmentJDialog - Entered method: getjLabel1
+2025-05-25 11:56:41 [AWT-EventQueue-0] DEBUG gui.AddAssignmentJDialog - Entered method: getjLabel1
+2025-05-25 11:56:41 [AWT-EventQueue-0] INFO  gui.AddAssignmentJDialog - Entered method: getjLabel1
+2025-05-25 11:56:41 [AWT-EventQueue-0] DEBUG gui.AddAssignmentJDialog - Entered method: getjTextField1
+2025-05-25 11:56:41 [AWT-EventQueue-0] INFO  gui.AddAssignmentJDialog - Entered method: getjTextField1
+2025-05-25 11:56:41 [AWT-EventQueue-0] DEBUG gui.AddAssignmentJDialog - Entered method: getjTextArea1
+2025-05-25 11:56:41 [AWT-EventQueue-0] INFO  gui.AddAssignmentJDialog - Entered method: getjTextArea1
+2025-05-25 11:56:41 [AWT-EventQueue-0] DEBUG gui.AddAssignmentJDialog - Entered method: getjComboBox1
+2025-05-25 11:56:41 [AWT-EventQueue-0] INFO  gui.AddAssignmentJDialog - Entered method: getjComboBox1
+2025-05-25 11:56:41 [AWT-EventQueue-0] DEBUG gui.AddAssignmentJDialog - Entered method: getjComboBox1
+2025-05-25 11:56:41 [AWT-EventQueue-0] INFO  gui.AddAssignmentJDialog - Entered method: getjComboBox1
+2025-05-25 11:56:41 [AWT-EventQueue-0] DEBUG gui.AddAssignmentJDialog - Entered method: getjDateChooser1
+2025-05-25 11:56:41 [AWT-EventQueue-0] INFO  gui.AddAssignmentJDialog - Entered method: getjDateChooser1
+2025-05-25 11:56:41 [AWT-EventQueue-0] DEBUG gui.AddAssignmentJDialog - Entered method: getjDateChooser1
+2025-05-25 11:56:41 [AWT-EventQueue-0] INFO  gui.AddAssignmentJDialog - Entered method: getjDateChooser1
+2025-05-25 11:56:41 [AWT-EventQueue-0] DEBUG gui.AddAssignmentJDialog - Entered method: getjButton1
+2025-05-25 11:56:41 [AWT-EventQueue-0] INFO  gui.AddAssignmentJDialog - Entered method: getjButton1
+2025-05-25 11:56:41 [AWT-EventQueue-0] DEBUG gui.AddAssignmentJDialog - Entered method: getjButton2
+2025-05-25 11:56:41 [AWT-EventQueue-0] INFO  gui.AddAssignmentJDialog - Entered method: getjButton2
+2025-05-25 11:56:56 [AWT-EventQueue-0] DEBUG gui.AddAssignmentJDialog - Entered method: jButton2ActionPerformed
+2025-05-25 11:56:56 [AWT-EventQueue-0] INFO  gui.AddAssignmentJDialog - Entered method: jButton2ActionPerformed
+2025-05-25 11:56:56 [AWT-EventQueue-0] WARN  gui.AddAssignmentJDialog - User prompted with message: (this, Assignment updated successfully!, SUCCESS, JOptionPane.INFORMATION_MESSAGE);
+2025-05-25 11:56:57 [AWT-EventQueue-0] DEBUG gui.AddAssignmentJDialog - Entered method: clearAll
+2025-05-25 11:56:57 [AWT-EventQueue-0] INFO  gui.AddAssignmentJDialog - Entered method: clearAll
+2025-05-25 12:20:33 [AWT-EventQueue-0] DEBUG gui.SignIn - Attempting login for NIC: 200376548378
+2025-05-25 12:20:34 [AWT-EventQueue-0] INFO  gui.SignIn - Tutor login successful - Name: Sanka Konara, ID: 1
+2025-05-25 12:44:45 [AWT-EventQueue-0] DEBUG gui.SignIn - Attempting login for NIC: 200376548378
+2025-05-25 12:44:46 [AWT-EventQueue-0] INFO  gui.SignIn - Tutor login successful - Name: Sanka Konara, ID: 1
+2025-05-25 13:42:38 [AWT-EventQueue-0] DEBUG gui.SignIn - Attempting login for NIC: 200283674386
+2025-05-25 13:42:38 [AWT-EventQueue-0] INFO  gui.SignIn - Tutor login successful - Name: Kavishka Jayawardana, ID: 3

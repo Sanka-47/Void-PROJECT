@@ -131,6 +131,7 @@ public class AddStudentPerformanceReportJDialog extends javax.swing.JDialog {
         jComboBox2.setSelectedIndex(0);
         jComboBox3.setSelectedIndex(0);
         jComboBox1.setEditable(true);
+        jComboBox2.setEnabled(true);
         jButton1.setEnabled(true);
         jButton2.setEnabled(false);
         reportID();
