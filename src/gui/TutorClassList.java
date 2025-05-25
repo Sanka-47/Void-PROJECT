@@ -301,7 +301,9 @@ public class TutorClassList extends CustomColor {
         jLabel1.setFont(new java.awt.Font("Century Gothic", 1, 28)); // NOI18N
         jLabel1.setText("Tutor Class List");
 
+        cancelBtn.setBackground(new java.awt.Color(78, 74, 207));
         cancelBtn.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
+        cancelBtn.setForeground(new java.awt.Color(255, 255, 255));
         cancelBtn.setText("Cancel Session");
         cancelBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -309,7 +311,9 @@ public class TutorClassList extends CustomColor {
             }
         });
 
+        jButton1.setBackground(new java.awt.Color(78, 74, 207));
         jButton1.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
+        jButton1.setForeground(new java.awt.Color(255, 255, 255));
         jButton1.setText("Request New Session");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -415,7 +419,9 @@ public class TutorClassList extends CustomColor {
             }
         });
 
+        jButton3.setBackground(new java.awt.Color(78, 74, 207));
         jButton3.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
+        jButton3.setForeground(new java.awt.Color(255, 255, 255));
         jButton3.setText("Complete Session");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

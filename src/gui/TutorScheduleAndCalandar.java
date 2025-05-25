@@ -1087,7 +1087,7 @@ public class TutorScheduleAndCalandar extends CustomColor {
                 System.out.println(formattedDate);
 
                 if (parsedDate != null && parsedDate.before(currentDate)) {
-                    JOptionPane.showMessageDialog((AdminDashboard) parent, "Please select a future date!", "Warning!", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(this, "Please select a future date!", "Warning!", JOptionPane.ERROR_MESSAGE);
                 } else {
 
                     // Parse the start and end times

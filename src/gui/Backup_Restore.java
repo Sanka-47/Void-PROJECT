@@ -92,10 +92,8 @@ public class Backup_Restore extends javax.swing.JFrame {
         try {
             JFileChooser fileChooser = new JFileChooser();
 
-            // Set to select directories only
             fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 
-            // Optional: Disable the "All Files" filter
             fileChooser.setAcceptAllFileFilterUsed(false);
 
             int showOpenDialog = fileChooser.showOpenDialog(this);
