@@ -401,6 +401,7 @@ public class AllTutors extends CustomColor {
             updateTutor.getjTextField4().setText(Qualification);
             updateTutor.getjComboBox1().setSelectedItem(Course);
             updateTutor.getjComboBox2().setSelectedItem(Gender);
+            updateTutor.getjComboBox2().setEnabled(false);
             updateTutor.getjTextField5().setText(Mobile);
             updateTutor.getjTextField6().setText(Email);
             updateTutor.getjTextField7().setText(DOB);

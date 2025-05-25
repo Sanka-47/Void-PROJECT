@@ -4806,3 +4806,13 @@ java.sql.SQLException: Access denied for user 'root'@'localhost' (using password
 	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109) ~[?:?]
 	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101) ~[?:?]
 	at java.awt.EventDispatchThread.run(EventDispatchThread.java:90) ~[?:?]
+2025-05-24 14:02:27 [AWT-EventQueue-0] DEBUG gui.SignIn - Attempting login for NIC: 200283674386
+2025-05-24 14:02:27 [AWT-EventQueue-0] INFO  gui.SignIn - Tutor login successful - Name: Kavishka Jayawardana, ID: 3
+2025-05-24 14:05:13 [AWT-EventQueue-0] DEBUG gui.SignIn - Attempting login for NIC: 200283674386
+2025-05-24 14:05:13 [AWT-EventQueue-0] INFO  gui.SignIn - Tutor login successful - Name: Kavishka Jayawardana, ID: 3
+2025-05-24 14:46:55 [AWT-EventQueue-0] DEBUG gui.SignIn - Attempting login for NIC: 200283674386
+2025-05-24 14:46:55 [AWT-EventQueue-0] INFO  gui.SignIn - Tutor login successful - Name: Kavishka Jayawardana, ID: 3
+2025-05-24 14:47:55 [AWT-EventQueue-0] DEBUG gui.SignIn - Attempting login for NIC: 200283674386
+2025-05-24 14:47:56 [AWT-EventQueue-0] WARN  gui.SignIn - Login failed - Invalid credentials for NIC: 200283674386
+2025-05-24 14:48:09 [AWT-EventQueue-0] DEBUG gui.SignIn - Attempting login for NIC: 200283674386
+2025-05-24 14:48:09 [AWT-EventQueue-0] INFO  gui.SignIn - Tutor login successful - Name: Kavishka Jayawardana, ID: 3

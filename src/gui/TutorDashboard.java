@@ -284,7 +284,9 @@ public class TutorDashboard extends javax.swing.JFrame implements DashboardInter
 
         jPanel2.setPreferredSize(new java.awt.Dimension(250, 581));
 
+        jButton1.setBackground(new java.awt.Color(78, 74, 207));
         jButton1.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
+        jButton1.setForeground(new java.awt.Color(255, 255, 255));
         jButton1.setText("Class List");
         jButton1.setPreferredSize(new java.awt.Dimension(201, 26));
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -293,7 +295,9 @@ public class TutorDashboard extends javax.swing.JFrame implements DashboardInter
             }
         });
 
+        jButton2.setBackground(new java.awt.Color(78, 74, 207));
         jButton2.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
+        jButton2.setForeground(new java.awt.Color(255, 255, 255));
         jButton2.setText("Assignment Management");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -301,7 +305,9 @@ public class TutorDashboard extends javax.swing.JFrame implements DashboardInter
             }
         });
 
+        jButton5.setBackground(new java.awt.Color(78, 74, 207));
         jButton5.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
+        jButton5.setForeground(new java.awt.Color(255, 255, 255));
         jButton5.setText("Student Performance Report");
         jButton5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -309,7 +315,9 @@ public class TutorDashboard extends javax.swing.JFrame implements DashboardInter
             }
         });
 
+        jButton6.setBackground(new java.awt.Color(78, 74, 207));
         jButton6.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
+        jButton6.setForeground(new java.awt.Color(255, 255, 255));
         jButton6.setText("Student Attendance");
         jButton6.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -317,7 +325,9 @@ public class TutorDashboard extends javax.swing.JFrame implements DashboardInter
             }
         });
 
+        jButton8.setBackground(new java.awt.Color(78, 74, 207));
         jButton8.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
+        jButton8.setForeground(new java.awt.Color(255, 255, 255));
         jButton8.setText("To-Do List");
         jButton8.setPreferredSize(new java.awt.Dimension(201, 26));
         jButton8.addActionListener(new java.awt.event.ActionListener() {
@@ -326,7 +336,9 @@ public class TutorDashboard extends javax.swing.JFrame implements DashboardInter
             }
         });
 
+        jButton9.setBackground(new java.awt.Color(78, 74, 207));
         jButton9.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
+        jButton9.setForeground(new java.awt.Color(255, 255, 255));
         jButton9.setText("Notifications");
         jButton9.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -334,7 +346,9 @@ public class TutorDashboard extends javax.swing.JFrame implements DashboardInter
             }
         });
 
+        jButton10.setBackground(new java.awt.Color(78, 74, 207));
         jButton10.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
+        jButton10.setForeground(new java.awt.Color(255, 255, 255));
         jButton10.setText("Wallet");
         jButton10.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -351,7 +365,9 @@ public class TutorDashboard extends javax.swing.JFrame implements DashboardInter
         jLabel10.setFont(new java.awt.Font("Century Gothic", 1, 16)); // NOI18N
         jLabel10.setText("My Students");
 
+        jButton11.setBackground(new java.awt.Color(78, 74, 207));
         jButton11.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
+        jButton11.setForeground(new java.awt.Color(255, 255, 255));
         jButton11.setText("Requested Sessions");
         jButton11.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -565,9 +581,9 @@ public class TutorDashboard extends javax.swing.JFrame implements DashboardInter
 
     public static void main(String args[]) throws UnsupportedLookAndFeelException {
         UIManager.setLookAndFeel(new FlatLightLaf());
-        UIManager.put("Button.background", Color.decode("#4E4ACF"));
+//        UIManager.put("Button.background", Color.decode("#4E4ACF"));
         UIManager.put("Button.focusedBackground", Color.decode("#6AAAFF"));
-        UIManager.put("Button.foreground", Color.decode("#FFFFFF"));
+//        UIManager.put("Button.foreground", Color.decode("#FFFFFF"));
         UIManager.put("TextField.background", Color.decode("#F5F3FF"));
         UIManager.put("TextField.foreground", Color.decode("#4D4D4D"));
         UIManager.put("Panel.background", Color.decode("#EEF1EF"));

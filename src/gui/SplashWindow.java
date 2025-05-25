@@ -104,8 +104,9 @@ public class SplashWindow extends javax.swing.JFrame {
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 360, 210, -1));
 
-        jProgressBar1.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
-        jProgressBar1.setForeground(new java.awt.Color(153, 153, 255));
+        jProgressBar1.setBackground(new java.awt.Color(255, 255, 255));
+        jProgressBar1.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
+        jProgressBar1.setForeground(new java.awt.Color(78, 74, 207));
         jProgressBar1.setStringPainted(true);
         getContentPane().add(jProgressBar1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 400, 400, 30));
 
