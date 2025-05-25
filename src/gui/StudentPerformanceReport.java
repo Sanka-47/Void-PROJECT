@@ -273,7 +273,7 @@ public class StudentPerformanceReport extends CustomColor {
             }
         });
 
-        jLabel2.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
+        jLabel2.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
         jLabel2.setText("Double click relevant row to 'Update' the row");
 
         jButton2.setBackground(new java.awt.Color(78, 74, 207));
@@ -326,7 +326,7 @@ public class StudentPerformanceReport extends CustomColor {
                         .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 264, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 343, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 344, Short.MAX_VALUE)
                         .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -429,6 +429,7 @@ public class StudentPerformanceReport extends CustomColor {
 
             ASR.getjButton1().setEnabled(false);
             ASR.getjButton2().setEnabled(true);
+            ASR.getjComboBox2().setEnabled(false);
 
             ASR.setVisible(true);
             loadTable();

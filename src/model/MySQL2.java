@@ -16,7 +16,7 @@ public class MySQL2 implements Serializable {
     public String dbname;
 
     public String dump;
-    public String path;
+    public String imp;
 
     private static Connection connection;
 

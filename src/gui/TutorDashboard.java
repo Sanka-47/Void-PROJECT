@@ -202,7 +202,9 @@ public class TutorDashboard extends javax.swing.JFrame implements DashboardInter
         amountLabel.setFont(new java.awt.Font("Century Gothic", 1, 16)); // NOI18N
         amountLabel.setText("0");
 
+        withdrawBtn.setBackground(new java.awt.Color(78, 74, 207));
         withdrawBtn.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
+        withdrawBtn.setForeground(new java.awt.Color(255, 255, 255));
         withdrawBtn.setText("Withdraw");
         withdrawBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -214,6 +216,8 @@ public class TutorDashboard extends javax.swing.JFrame implements DashboardInter
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resource/VOID.png"))); // NOI18N
         jLabel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(51, 51, 255)));
 
+        jButton3.setBackground(new java.awt.Color(78, 74, 207));
+        jButton3.setForeground(new java.awt.Color(255, 255, 255));
         jButton3.setText("jButton3");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
