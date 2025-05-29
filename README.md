@@ -1,2 +1,1 @@
- fully functional institute management system using 
-
+ fully functional institute management system build uisng 
