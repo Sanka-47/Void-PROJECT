@@ -1,2 +1,2 @@
- fully functional institute management system build using ja. vg
+ fully functional institute management system uild using ja. vg
 
