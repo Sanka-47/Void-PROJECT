@@ -1,1 +1,2 @@
- fully functional institute management system build uisng 
+ fully functional institute management system build uisng java swing 
+
