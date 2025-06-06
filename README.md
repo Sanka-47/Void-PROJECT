@@ -1,4 +1,4 @@
- fully functional institute management system build uisng java swing  fsfdsfsfsdfsf  dsf sf 
+ fully functional institute management system build uisng java swing  fsfdsfsfsdfs
   
 
 
